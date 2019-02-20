@@ -9,6 +9,9 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {}
