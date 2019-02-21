@@ -1,28 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-    <link rel="stylesheet" type="text/css" href="bootstrap-4.2.1-dist/css/bootstrap.css">
+    <!-- Bootstrap -->
+    <!--<link rel="stylesheet" type="text/css" href="bootstrap-4.2.1-dist/css/bootstrap.css">-->
+
+    <!-- jQuery -->
     <link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" type="text/css" href="css/lib/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/MarkerCluster.Default.css">
+
+    <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
-    <title>Hello World</title>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <title>Defibrillator Hunter</title>
 
 </head>
 
-<body>
+<body onresize="onResize()" onload="onLoad()"> <!--onload="onLoad()"-->
 
-<h1 id="title">A title</h1>
+<div id="page">
 
-<p id="p"></p>
+    <!-- Main page -->
+    <div id="main-page" class="ui-content">
+
+        <!-- Map -->
+        <div id="map"></div>
+
+        <button id="btn-insert">INSERT</button>
+
+    </div>
+
+</div>
 
 
-<script type="text/javascript" src="bootstrap-4.2.1-dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
+<!-- Cordova -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+<!-- Bootstrap -->
+<!--<script type="text/javascript" src="bootstrap-4.2.1-dist/js/bootstrap.js"></script>-->
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="js/lib/jquery.mobile-1.4.5.js"></script>
+
+<!-- Leaflet -->
+<script type="text/javascript" src="js/lib/leaflet.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
+
+<!-- Pouch db-->
+<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
+
+<!-- i18next -->
+<script type="text/javascript" src="js/lib/i18next.min.js"></script>
+
+<!-- Fingerprint -->
+<script type="text/javascript" src="js/lib/fingerprint.js"></script>
+
+<!-- Main JS -->
+<script type="text/javascript" src="js/ln.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>
