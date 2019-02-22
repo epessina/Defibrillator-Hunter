@@ -13,12 +13,16 @@
     "osmNoInternet": "OpenStreetMap cannot be displayed due to no Internet connection."
   },
   "popup": {
-    "id": "id",
-    "location": "location",
-    "comment": "comment"
+    "id": "id: ",
+    "location": "location: ",
+    "comment": "comment: "
   },
   "basemaps": {
     "osm": "OpenStreetMap",
     "bing": "Bing Aerial"
+  },
+  "overlays": {
+    "userMarkers": "Your markers",
+    "otherMarkers": "Other users' markers"
   }
 }

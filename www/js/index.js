@@ -10,6 +10,11 @@ const POSITION_MARKER_ICON = L.icon({
     popupAnchor: [0, -85]
 });
 
+const USER_DEFIBRILLATOR_ICON = L.icon({
+    iconUrl  : "www/css/lib/images/user-marker-icon.png",
+    shadowUrl: "www/css/lib/images/marker-shadow.png"
+});
+
 let isMobile,
     isApp;
 
@@ -23,14 +28,15 @@ let $btnLegend = $("#btn-legend"),
     $osm       = $("#osm"),
     $bing      = $("#bing"),
     legendWidth,
-    legendHeight;
+    legendHeight,
+    controlLayers;
 
 let osm,
     bing;
 
 let $btnInsert = $("#btn-insert");
 
-let currLatLong = [0, 0], //ToDO change
+let currLatLong = [0, 0],
     defaultZoom = 3;
 
 let positionMarker;
@@ -40,12 +46,21 @@ let locationWatcher,
 
 let uuid;
 
-let defibrillators = [],
-    defMarkersAll;
+let userDefibrillators  = [],
+    otherDefibrillators = [],
+    userMarkers         = [],
+    otherMarkers        = [],
+    allMarkersLayer,
+    userMarkersLayer,
+    otherMarkersLayer;
 
 let networkState,
     localDb,
     remoteDB;
+
+
+let baseMaps,
+    overlayMaps = {};
 
 
 // Callback function
@@ -116,10 +131,10 @@ function renderMap() {
     map = L.map("map");
     map.setView(currLatLong, defaultZoom);
 
-    L.DomEvent.disableClickPropagation(L.DomUtil.get("btn-legend"));
-    L.DomEvent.disableScrollPropagation(L.DomUtil.get("btn-legend"));
-    L.DomEvent.disableClickPropagation(L.DomUtil.get("legend"));
-    L.DomEvent.disableScrollPropagation(L.DomUtil.get("legend"));
+    // L.DomEvent.disableClickPropagation(L.DomUtil.get("btn-legend"));
+    // L.DomEvent.disableScrollPropagation(L.DomUtil.get("btn-legend"));
+    // L.DomEvent.disableClickPropagation(L.DomUtil.get("legend"));
+    // L.DomEvent.disableScrollPropagation(L.DomUtil.get("legend"));
 
     positionMarker = L.marker(
         currLatLong,
@@ -147,33 +162,41 @@ function renderMap() {
         {type: "AerialWithLabels"}
     );
 
+    baseMaps = {
+        "Open Street Map": osm,
+        "Bing Aerial"    : bing
+    };
+
     osm.addTo(map);
     positionMarker.addTo(map);
 
-    $btnLegend.on("vclick", function () {
-        $legend.toggle();
+    controlLayers = L.control.layers(baseMaps, overlayMaps);
+    controlLayers.addTo(map);
 
-        legendWidth  = $legend.width();
-        legendHeight = $legend.height();
+    // $btnLegend.on("vclick", function () {
+    //     $legend.toggle();
+    //
+    //     legendWidth  = $legend.width();
+    //     legendHeight = $legend.height();
+    //
+    //     adjustLegend();
+    // });
 
-        adjustLegend();
-    });
+    // $osm.click(function () {
+    //     if (networkState === Connection.NONE || navigator.onLine === false) {
+    //         showAlert("messages.osmNoInternet");
+    //     } else {
+    //         switchMapLayers(bing, osm)
+    //     }
+    // });
 
-    $osm.click(function () {
-        if (networkState === Connection.NONE || navigator.onLine === false) {
-            showAlert("messages.osmNoInternet");
-        } else {
-            switchMapLayers(bing, osm)
-        }
-    });
-
-    $bing.click(function () {
-        if (networkState === Connection.NONE || navigator.onLine === false) {
-            showAlert("messages.bingNoInternet");
-        } else {
-            switchMapLayers(osm, bing)
-        }
-    });
+    // $bing.click(function () {
+    //     if (networkState === Connection.NONE || navigator.onLine === false) {
+    //         showAlert("messages.bingNoInternet");
+    //     } else {
+    //         switchMapLayers(osm, bing)
+    //     }
+    // });
 }
 
 function switchMapLayers(toRemove, toAdd) {
@@ -233,10 +256,13 @@ function insertDefibrillator(comment, img) {
                     showAlert("messages.generalError");
                     console.log(err);
                 } else {
+                    displayNewDefibrillator(defibrillator);
                     showAlert("messages.contributionSuccess");
                 }
             });
         } else {
+            displayNewDefibrillator(defibrillator);
+
             if (networkState === Connection.NONE || navigator.onLine === false) {
                 showAlert("messages.contributionSuccessNoInternet")
             } else {
@@ -255,8 +281,6 @@ function insertDefibrillator(comment, img) {
             })
         }
     });
-
-    // ToDO show new marker
 }
 
 function retrieveDefibrillators() {
@@ -269,20 +293,28 @@ function retrieveDefibrillators() {
                 showAlert("messages.generalError");
                 console.log(err);
             } else {
-                defibrillators = [];
+                otherDefibrillators = [];
+                userDefibrillators  = [];
 
                 doc.rows.forEach(function (row) {
+
                     if (row.doc.location != null) {
                         let defibrillator = {
                             id      : row.doc._id,
+                            user    : row.doc.user,
                             location: row.doc.location,
                             comment : row.doc.comment
                         };
-                        defibrillators.push(defibrillator);
+
+                        if (defibrillator.user === uuid) {
+                            userDefibrillators.push(defibrillator);
+                        } else {
+                            otherDefibrillators.push(defibrillator);
+                        }
                     }
                 });
 
-                defMarkersAll = displayDefibrillators();
+                allMarkersLayer = displayDefibrillators();
             }
         })
     }
@@ -290,11 +322,35 @@ function retrieveDefibrillators() {
 
 function displayDefibrillators() {
 
-    let markers = L.markerClusterGroup();
+    let allMarkersLayer = L.markerClusterGroup();
 
-    for (let i = 0; i < defibrillators.length; i++) {
+    userMarkers  = [];
+    otherMarkers = [];
 
-        let def    = defibrillators[i];
+    for (let i = 0; i < userDefibrillators.length; i++) {
+
+        let def    = userDefibrillators[i];
+        let marker = L.marker(def.location, {icon: USER_DEFIBRILLATOR_ICON});
+
+        let popup = L.popup();
+
+        popup.setContent(
+            "<p><b>" + i18n.t("popup.id") + "</b>" + def.id + "</p>" +
+            "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
+            "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>" +
+            "<br>" +
+            "<button id='" + def.id + "' class='btn-popup'>Cancel</button>" // ToDo i18n
+        );
+
+        marker.bindPopup(popup);
+
+        userMarkers.push(marker);
+        // allMarkersLayer.addLayer(marker);
+    }
+
+    for (let i = 0; i < otherDefibrillators.length; i++) {
+
+        let def    = otherDefibrillators[i];
         let marker = L.marker(def.location);
 
         let popup =
@@ -303,12 +359,48 @@ function displayDefibrillators() {
                 "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
         marker.bindPopup(popup);
 
-        markers.addLayer(marker);
+        otherMarkers.push(marker);
     }
 
-    map.addLayer(markers);
-    return markers;
+    userMarkersLayer  = L.featureGroup.subGroup(allMarkersLayer, userMarkers);
+    otherMarkersLayer = L.featureGroup.subGroup(allMarkersLayer, otherMarkers);
+
+    // map.addLayer(allMarkersLayer);
+    // controlLayers.addOverlay(allMarkersLayer, "Markers");
+
+    allMarkersLayer.addTo(map);
+    userMarkersLayer.addTo(map);
+    otherMarkersLayer.addTo(map);
+
+    controlLayers.addOverlay(userMarkersLayer, i18n.t("overlays.userMarkers")); // ToDO icons
+    controlLayers.addOverlay(otherMarkersLayer, i18n.t("overlays.otherMarkers"));
+
+    return allMarkersLayer;
 }
+
+function displayNewDefibrillator(def) {
+
+    let marker = L.marker(def.location, {icon: USER_DEFIBRILLATOR_ICON});
+
+    let popup =
+            "<p><b>" + i18n.t("popup.id") + "</b>" + def.id + "</p>" +
+            "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
+            "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
+    marker.bindPopup(popup);
+
+    userMarkers.push(marker);
+
+    userMarkersLayer.addLayer(marker);
+
+}
+
+// $(".btn-popup").on("vclick", function () {
+//    console.log(this.id + " clicked");
+// });
+
+$(".btn-popup").click(function () { // ToDO Not working!
+   console.log("Clicked");
+});
 
 function getUserPosition() {
 
