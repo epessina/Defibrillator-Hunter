@@ -12,6 +12,11 @@ body {
     line-height: 1.2;
 }
 
+input[type="radio"] {
+    margin: 2px;
+    vertical-align: middle;
+}
+
 #start-page,
 #main-page {
     display: none;
@@ -27,6 +32,45 @@ body {
 #map {
     width: 100%;
     position: relative;
+}
+
+#btn-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 0;
+    border: 3px solid rgb(51, 136, 204);
+    line-height: 0.5;
+    z-index: 1010;
+    cursor: pointer;
+}
+
+#btn-legend:hover {
+    border: 3px solid rgb(41, 108, 163);
+}
+
+#legend {
+    position: absolute;
+    color: #555;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: none;
+    padding: 3px;
+    top: 48px;
+    right: 10px;
+    text-shadow: none;
+    z-index: 1000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: auto;
+}
+
+.legend-label {
+    padding: 0 5px;
+}
+
+.legend-radio-label {
+    display: inline !important;
 }
 
 #btn-insert {

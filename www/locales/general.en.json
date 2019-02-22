@@ -1,3 +1,24 @@
 {
-
+  "messages": {
+    "ok": "OK",
+    "generalError": "Error!",
+    "noInternet": "The contributions cannot be displayed due to no Internet connection.",
+    "positionMarkerPopup": "If it's not your current location, please drag the marker to the correct one.",
+    "pcGPSError": "GPS error! Please drag the marker to set your current location.",
+    "mobileGPSError": "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
+    "localStorageError": "This browser does not support local storage.",
+    "contributionSuccess": "Thank you for your contribution!",
+    "contributionSuccessNoInternet": "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
+    "bingNoInternet": "Bing Aerial cannot be displayed due to no Internet connection.",
+    "osmNoInternet": "OpenStreetMap cannot be displayed due to no Internet connection."
+  },
+  "popup": {
+    "id": "id",
+    "location": "location",
+    "comment": "comment"
+  },
+  "basemaps": {
+    "osm": "OpenStreetMap",
+    "bing": "Bing Aerial"
+  }
 }
