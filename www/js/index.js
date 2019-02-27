@@ -4,15 +4,20 @@ const LOCAL_DB_NAME = "dh_local_db";
 const REMOTE_DB_URL = "http://localhost:5984/dh_points";
 
 const POSITION_MARKER_ICON = L.icon({
-    iconUrl    : "www/img/markerBlue.png",
+    iconUrl    : "www/img/position-marker-icon.png",
     iconSize   : [54, 85],
     iconAnchor : [27, 97],
     popupAnchor: [0, -85]
 });
 
 const USER_DEFIBRILLATOR_ICON = L.icon({
-    iconUrl  : "www/css/lib/images/user-marker-icon.png",
-    shadowUrl: "www/css/lib/images/marker-shadow.png"
+    iconUrl  : "www/img/user-marker-icon.png",
+    shadowUrl: "www/img/marker-shadow.png"
+});
+
+const OTHER_DEFIBRILLATOR_ICON = L.icon({
+    iconUrl  : "www/img/marker-icon.png",
+    shadowUrl: "www/img/marker-shadow.png"
 });
 
 let isMobile,
@@ -20,21 +25,23 @@ let isMobile,
 
 let $mainPage = $("#main-page");
 
-let $map = $("#map"),
-    map;
+let $menuButton    = $("#nav-button"),
+    $menuWrapper   = $("#nav-wrapper"),
+    $menuOverlay   = $("#nav-overlay"),
+    isMenuOpen     = false,
+    isMenuDisabled = false;
 
-let $btnLegend = $("#btn-legend"),
-    $legend    = $("#legend"),
-    $osm       = $("#osm"),
-    $bing      = $("#bing"),
-    legendWidth,
-    legendHeight,
+let $map = $("#map"),
+    map,
     controlLayers;
 
 let osm,
     bing;
 
-let $btnInsert = $("#btn-insert");
+let $btnInsert = $("#btn-insert"),
+    modalComment,
+    modalAccessibility,
+    modalPhoto;
 
 let currLatLong = [0, 0],
     defaultZoom = 3;
@@ -62,11 +69,6 @@ let networkState,
 let baseMaps,
     overlayMaps = {};
 
-
-// Callback function
-// $(function () {
-//     init();
-// });
 
 /**
  * Called when the DOM is loaded. It attaches a "deviceready" event listener to the document that signals when Cordova's
@@ -112,6 +114,9 @@ function init() {
     $mainPage.show();
     $("body").css("overflow-y", "hidden");
 
+    initMenu();
+    initDefibrillatorModals();
+
     onResize();
 
     renderMap();
@@ -120,8 +125,116 @@ function init() {
 
     handleDb();
 
+}
+
+function initMenu() {
+
+    $menuWrapper.click(function (e) {
+        e.stopPropagation();
+    });
+
+    $menuButton.click(function (e) {
+        e.stopPropagation();
+
+        if (!isMenuOpen)
+            openMenu();
+        else
+            closeMenu();
+    });
+
+    document.addEventListener('click', closeMenu);
+
     $btnInsert.click(function () {
-        insertDefibrillator("A test comment", "the image");
+
+        closeMenu();
+        isMenuDisabled = true;
+
+        modalComment.open();
+
+    });
+}
+
+function openMenu() {
+    isMenuOpen = true;
+
+    $menuButton.html("-");
+    $menuOverlay.addClass("on-overlay");
+    $menuWrapper.addClass("nav-open");
+}
+
+function closeMenu() {
+    isMenuOpen = false;
+
+    $menuButton.html("+");
+    $menuOverlay.removeClass("on-overlay");
+    $menuWrapper.removeClass("nav-open");
+}
+
+function initDefibrillatorModals() {
+
+    let modalOptions = {
+        minWidth    : 500,
+        minHeight   : 324,
+        position    : {x: "center", y: "center"},
+        closeOnEsc  : false,
+        closeOnClick: false,
+        closeButton : "box",
+        overlay     : false,
+        animation   : {open: "move:right", close: "move:left"},
+        fade        : false,
+        ignoreDelay : true,
+        onClose     : function () {
+            isMenuDisabled = false;
+        }
+    };
+
+    modalComment       = new jBox('Modal', modalOptions).setContent($("#modal-comment-content"));
+    $("#modal-text-area").prop("placeholder", i18n.t("modals.placeholder"));
+    modalAccessibility = new jBox('Modal', modalOptions).setContent($("#modal-accessibility-content"));
+    modalPhoto         = new jBox('Modal', modalOptions).setContent($("#modal-photo-content"));
+
+
+    // ToDo on definitive close clear inputs (maybe ask)
+
+    $("#modal-comment-btn-cancel").click(function () {
+
+        modalComment.close();
+
+    });
+
+    $("#modal-comment-btn-next").click(function () {
+
+        modalAccessibility.open();
+        modalComment.close();
+
+    });
+
+    $("#modal-accessibility-btn-back").click(function () {
+
+        modalAccessibility.close();
+        modalComment.open();
+
+    });
+
+    $("#modal-accessibility-btn-next").click(function () {
+
+        modalPhoto.open();
+        modalAccessibility.close();
+
+    });
+
+    $("#modal-photo-btn-back").click(function () {
+
+        modalPhoto.close();
+        modalAccessibility.open();
+
+    });
+
+    $("#modal-photo-btn-next").click(function () {
+
+        modalPhoto.close();
+        insertDefibrillator();
+
     });
 
 }
@@ -173,50 +286,12 @@ function renderMap() {
     controlLayers = L.control.layers(baseMaps, overlayMaps);
     controlLayers.addTo(map);
 
-    // $btnLegend.on("vclick", function () {
-    //     $legend.toggle();
-    //
-    //     legendWidth  = $legend.width();
-    //     legendHeight = $legend.height();
-    //
-    //     adjustLegend();
-    // });
-
-    // $osm.click(function () {
-    //     if (networkState === Connection.NONE || navigator.onLine === false) {
-    //         showAlert("messages.osmNoInternet");
-    //     } else {
-    //         switchMapLayers(bing, osm)
-    //     }
-    // });
-
-    // $bing.click(function () {
-    //     if (networkState === Connection.NONE || navigator.onLine === false) {
-    //         showAlert("messages.bingNoInternet");
-    //     } else {
-    //         switchMapLayers(osm, bing)
-    //     }
-    // });
-}
-
-function switchMapLayers(toRemove, toAdd) {
-
-    if (map.hasLayer(toRemove))
-        map.removeLayer(toRemove);
-
-    if (!map.hasLayer(toAdd))
-        map.addLayer(toAdd);
 }
 
 function adjustLegend() {
 
-    if (legendHeight + 108 > $map.height()) {
-        $legend.css("height", ($map.height - 108) + "px");
-        $legend.css("width", (legendWidth + 10) + "px");
-    } else {
-        $legend.css("height", "auto");
-        $legend.css("width", "auto");
-    }
+    // ToDo
+
 }
 
 function handleDb() { //ToDo handle connection errors
@@ -227,20 +302,26 @@ function handleDb() { //ToDo handle connection errors
     retrieveDefibrillators();
 }
 
-function insertDefibrillator(comment, img) {
+function insertDefibrillator() {
 
     let timeStamp     = new Date().toISOString();
+    let comment       = $("#modal-text-area").val();
+    let accessibility = $("#modal-range").val();
+
+    console.log(comment + ", " + accessibility);
+
     let defibrillator = {
-        _id         : timeStamp,
-        user        : uuid,
-        location    : currLatLong,
-        lang        : ln.language,
-        timestamp   : timeStamp,
-        comment     : comment,
-        _attachments: {
+        _id          : timeStamp,
+        user         : uuid,
+        location     : currLatLong,
+        lang         : ln.language,
+        timestamp    : timeStamp,
+        accessibility: accessibility,
+        comment      : comment,
+        _attachments : {
             "image": {
                 content_type: "image\/jpeg",
-                data        : img
+                data        : ""
             }
         }
     };
@@ -256,11 +337,13 @@ function insertDefibrillator(comment, img) {
                     showAlert("messages.generalError");
                     console.log(err);
                 } else {
+                    userDefibrillators.push(defibrillator);
                     displayNewDefibrillator(defibrillator);
                     showAlert("messages.contributionSuccess");
                 }
             });
         } else {
+            userDefibrillators.push(defibrillator);
             displayNewDefibrillator(defibrillator);
 
             if (networkState === Connection.NONE || navigator.onLine === false) {
@@ -283,6 +366,41 @@ function insertDefibrillator(comment, img) {
     });
 }
 
+function cancelDefibrillator(id, markerId) {
+
+    navigator.notification.confirm(
+        i18n.t("messages.confirmCancellation"),
+        onConfirm,
+        "Defibrillator Hunter",
+        [i18n.t("messages.yes"), i18n.t("messages.no")]
+    );
+
+    function onConfirm(btnIndex) {
+
+        if (btnIndex === 1) {
+
+            remoteDB.get(id).then(function (doc) {
+                return remoteDB.remove(doc);
+            }).then(function () {
+                let newUserMarkers = [];
+
+                userMarkers.forEach(function (marker) {
+                    if (marker._id === markerId) {
+                        userMarkersLayer.removeLayer(marker);
+                    } else {
+                        newUserMarkers.push(marker);
+                    }
+                });
+
+                userMarkers = newUserMarkers;
+            }).catch(function (err) {
+                showAlert("messages.cancelError");
+                console.log(err);
+            })
+        }
+    }
+}
+
 function retrieveDefibrillators() {
 
     if (networkState === Connection.NONE || navigator.onLine === false) {
@@ -300,10 +418,11 @@ function retrieveDefibrillators() {
 
                     if (row.doc.location != null) {
                         let defibrillator = {
-                            id      : row.doc._id,
-                            user    : row.doc.user,
-                            location: row.doc.location,
-                            comment : row.doc.comment
+                            _id          : row.doc._id,
+                            user         : row.doc.user,
+                            location     : row.doc.location,
+                            accessibility: row.doc.accessibility,
+                            comment      : row.doc.comment
                         };
 
                         if (defibrillator.user === uuid) {
@@ -327,37 +446,22 @@ function displayDefibrillators() {
     userMarkers  = [];
     otherMarkers = [];
 
+    // User's markers
     for (let i = 0; i < userDefibrillators.length; i++) {
-
-        let def    = userDefibrillators[i];
-        let marker = L.marker(def.location, {icon: USER_DEFIBRILLATOR_ICON});
-
-        let popup = L.popup();
-
-        popup.setContent(
-            "<p><b>" + i18n.t("popup.id") + "</b>" + def.id + "</p>" +
-            "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
-            "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>" +
-            "<br>" +
-            "<button id='" + def.id + "' class='btn-popup'>Cancel</button>" // ToDo i18n
-        );
-
-        marker.bindPopup(popup);
-
-        userMarkers.push(marker);
-        // allMarkersLayer.addLayer(marker);
+        createUserMarker(userDefibrillators[i]);
     }
 
+    // Other users' markers
     for (let i = 0; i < otherDefibrillators.length; i++) {
 
-        let def    = otherDefibrillators[i];
-        let marker = L.marker(def.location);
+        let def = otherDefibrillators[i];
 
-        let popup =
-                "<p><b>" + i18n.t("popup.id") + "</b>" + def.id + "</p>" +
-                "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
-                "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
-        marker.bindPopup(popup);
+        let marker = L.marker(def.location, {
+            icon     : OTHER_DEFIBRILLATOR_ICON,
+            draggable: false
+        });
+
+        marker.bindPopup(createMarkerPopup(def));
 
         otherMarkers.push(marker);
     }
@@ -365,42 +469,67 @@ function displayDefibrillators() {
     userMarkersLayer  = L.featureGroup.subGroup(allMarkersLayer, userMarkers);
     otherMarkersLayer = L.featureGroup.subGroup(allMarkersLayer, otherMarkers);
 
-    // map.addLayer(allMarkersLayer);
-    // controlLayers.addOverlay(allMarkersLayer, "Markers");
-
     allMarkersLayer.addTo(map);
     userMarkersLayer.addTo(map);
     otherMarkersLayer.addTo(map);
 
-    controlLayers.addOverlay(userMarkersLayer, i18n.t("overlays.userMarkers")); // ToDO icons
-    controlLayers.addOverlay(otherMarkersLayer, i18n.t("overlays.otherMarkers"));
+    controlLayers.addOverlay(userMarkersLayer,
+        "<img src='../img/user-marker-icon.png' height='24' alt=''>  " + i18n.t("overlays.userMarkers")); // ToDo Fix
+    controlLayers.addOverlay(otherMarkersLayer,
+        "<img src='../img/marker-icon.png' height='24' alt=''>  " + i18n.t("overlays.otherMarkers"));
 
     return allMarkersLayer;
 }
 
-function displayNewDefibrillator(def) {
+function createUserMarker(def) {
 
-    let marker = L.marker(def.location, {icon: USER_DEFIBRILLATOR_ICON});
+    let markerId;
 
-    let popup =
-            "<p><b>" + i18n.t("popup.id") + "</b>" + def.id + "</p>" +
-            "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
-            "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
+    if (userMarkers.length < 1) {
+        markerId = 0;
+    } else {
+        markerId = userMarkers[userMarkers.length - 1]._id + 1;
+    }
+
+    let marker = L.marker(def.location, {
+        icon     : USER_DEFIBRILLATOR_ICON,
+        draggable: false
+    });
+    marker._id = markerId;
+
+    let popup = L.popup();
+
+    popup.setContent(
+        createMarkerPopup(def) +
+        "<br>" +
+        "<button id='" + def._id + "'" +
+        "        class='btn-popup' " +
+        "        onclick='cancelDefibrillator(this.id" + ", " + markerId + ")'>" +
+        i18n.t("messages.btnCancel") +
+        "</button>"
+    );
+
     marker.bindPopup(popup);
 
     userMarkers.push(marker);
 
-    userMarkersLayer.addLayer(marker);
+    return marker;
+}
+
+function createMarkerPopup(def) {
+
+    return "<p><b>" + i18n.t("popup.id") + "</b>" + def._id + "</p>" +
+        "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
+        "<p><b>" + i18n.t("popup.accessibility") + "</b>" + def.accessibility + "</p>" +
+        "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
 
 }
 
-// $(".btn-popup").on("vclick", function () {
-//    console.log(this.id + " clicked");
-// });
+function displayNewDefibrillator(def) {
 
-$(".btn-popup").click(function () { // ToDO Not working!
-   console.log("Clicked");
-});
+    let marker = createUserMarker(def);
+    userMarkersLayer.addLayer(marker);
+}
 
 function getUserPosition() {
 
@@ -439,7 +568,6 @@ function showAlert(msg) {
         "Defibrillator Hunter",
         i18n.t("messages.ok")
     );
-
 }
 
 

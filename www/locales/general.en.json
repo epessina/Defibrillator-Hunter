@@ -1,6 +1,8 @@
 {
   "messages": {
     "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
     "generalError": "Error!",
     "noInternet": "The contributions cannot be displayed due to no Internet connection.",
     "positionMarkerPopup": "If it's not your current location, please drag the marker to the correct one.",
@@ -10,11 +12,16 @@
     "contributionSuccess": "Thank you for your contribution!",
     "contributionSuccessNoInternet": "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
     "bingNoInternet": "Bing Aerial cannot be displayed due to no Internet connection.",
-    "osmNoInternet": "OpenStreetMap cannot be displayed due to no Internet connection."
+    "osmNoInternet": "OpenStreetMap cannot be displayed due to no Internet connection.",
+    "confirmCancellation": "Are you sure you want to delete this defibrillator?",
+    "cancelError": "An error occurred while deleting the defibrillator.",
+    "cancelSuccess": "Defibrillator successfully deleted!",
+    "btnCancel": "Cancel"
   },
   "popup": {
     "id": "id: ",
     "location": "location: ",
+    "accessibility": "accessibility: ",
     "comment": "comment: "
   },
   "basemaps": {
@@ -24,5 +31,14 @@
   "overlays": {
     "userMarkers": "Your markers",
     "otherMarkers": "Other users' markers"
+  },
+  "modals": {
+    "cancel": "cancel",
+    "next": "next",
+    "back": "back",
+    "titleComment": "Insert a comment",
+    "placeholder": "Max 250 characters...",
+    "titleAccessibility": "Accessibility",
+    "titlePhoto": "Photo"
   }
 }

@@ -1,0 +1,25 @@
+- Gestire iOS
+
+- Sistemare il marker della posizione:
+    - troppo grande
+    - impreciso
+    - deve trovare la posizione più velocemente (magari aggiungere un caricamento)
+    - se lo sposto prima che trovi la posizione deve rimanere fermo dove l'ho messo
+    - deve esserci la possibilità di riportalo dove sono io
+
+- Caricamento delle foto
+    - ajax?
+
+- Sistema di registrazione utente
+    - Node.js?
+
+- Sistemare menu
+    - si vede poco il bottone su sfondo bianco
+    - il bottone è troppo piccolo per telefono
+    - aggiungere un tooltip per le varie icone
+
+- Finire modals
+
+- Sistemare tutti gli alert
+
+- Fare lingua italiana

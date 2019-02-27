@@ -1,87 +1,178 @@
-* {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    font-family: 'Nunito', sans-serif !important;
-}
-
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    line-height: 1.2;
-}
-
-input[type="radio"] {
-    margin: 2px;
-    vertical-align: middle;
-}
-
 #start-page,
 #main-page {
     display: none;
-    padding: 0;
-    margin: 0;
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .ui-content {
     overflow-y: hidden;
 }
 
+
+/*
+* MAP
+*/
+
 #map {
-    width: 100%;
     position: relative;
-}
-
-#btn-legend {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 0;
-    border: 3px solid rgb(51, 136, 204);
-    line-height: 0.5;
-    z-index: 1010;
-    cursor: pointer;
-}
-
-#btn-legend:hover {
-    border: 3px solid rgb(41, 108, 163);
-}
-
-#legend {
-    position: absolute;
-    color: #555;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: none;
-    padding: 3px;
-    top: 48px;
-    right: 10px;
-    text-shadow: none;
-    z-index: 1000;
-    overflow-y: auto;
-    overflow-x: hidden;
-    cursor: auto;
-}
-
-.legend-label {
-    padding: 0 5px;
-}
-
-.legend-radio-label {
-    display: inline !important;
-}
-
-#btn-insert {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    width: auto;
-    z-index: 999;
-    border: 1px solid black;
+    width: 100%;
 }
 
 .leaflet-control-attribution.leaflet-control {
     display: none;
+}
+
+
+/*
+* MODALS
+*/
+
+.jBox-closeButton path {
+    fill: black;
+}
+
+.jBox-closeButton-box .jBox-closeButton {
+    top: -13px;
+    right: -0px;
+}
+
+
+/*Progress bar */
+.modal-progress-container {
+    width: 75%;
+    margin: 1em auto 1.5em auto;
+}
+
+.modal-progress {
+    overflow: hidden;
+    counter-reset: step;
+    padding: 0;
+}
+
+.modal-progress li {
+    position: relative;
+    z-index: 10000;
+    float: left;
+    width: 33.33%;
+    text-align: center
+}
+
+.modal-progress li:before {
+    line-height: 30px;
+    z-index: 10000;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 10px auto;
+    content: counter(step);
+    counter-increment: step;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.modal-progress li:after {
+    position: absolute;
+    z-index: -1;
+    top: 15px;
+    left: -35%;
+    width: 100%;
+    height: 1px;
+    content: "";
+    background-color: #ddd;
+}
+
+.modal-progress li:first-child:after {
+    content: none;
+}
+
+.modal-progress li.modal-progress-active:before {
+    border-color: green;
+}
+
+.modal-progress li.modal-progress-active + li:after {
+    background-color: green;
+}
+
+
+/* Title */
+.modal-title {
+    margin-bottom: 1.5em;
+    text-align: center;
+}
+
+
+/* Core elements */
+#modal-text-area {
+    width: 100%;
+    margin-bottom: 1.5em;
+    padding: 0.7em;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #CCC;
+}
+
+#modal-range {
+    width: 100%;
+}
+
+
+/* Buttons */
+.modal-btn {
+    font-size: 17px;
+    font-weight: bold;
+    position: relative;
+    height: 2.6em;
+    cursor: pointer;
+    color: #fbfbfb;
+    border: none;
+    border-radius: 5px;
+    background: -moz-linear-gradient(top, #4db6ac 0%, #00897b 100%);
+    background: -webkit-linear-gradient(top, #4db6ac 0%, #00897b 100%);
+    background: linear-gradient(to bottom, #4db6ac 0%, #00897b 100%);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);
+}
+
+.modal-btn-left {
+    float: left;
+    width: 45% !important;
+    padding-right: 25px;
+    text-align: right;
+}
+
+.modal-btn-right {
+    float: right;
+    width: 45% !important;
+    padding-left: 25px;
+    text-align: left;
+}
+
+.modal-btn-left:before,
+.modal-btn-right:after {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    content: "";
+    opacity: 0.6;
+    border-top: 20px solid #00695c;
+    border-bottom: 23px solid #00695c;
+}
+
+.modal-btn-left:before {
+    left: 0;
+    border-right: 16px solid transparent;
+    border-left: 40px solid #00695c;
+    border-radius: 5px 0 0 5px;
+}
+
+
+.modal-btn-right:after {
+    right: 0;
+    border-right: 40px solid #00695c;
+    border-left: 16px solid transparent;
+    border-radius: 0 5px 5px 0;
 }

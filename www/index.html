@@ -6,11 +6,20 @@
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
+    <!-- Normalizer -->
+    <link rel="stylesheet" type="text/css" href="css/lib/normalize.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="css/lib/fontawesome.css">
+
     <!-- Bootstrap -->
     <!--<link rel="stylesheet" type="text/css" href="bootstrap-4.2.1-dist/css/bootstrap.css">-->
 
     <!-- jQuery -->
-    <link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">-->
+
+    <!-- jBox -->
+    <link rel="stylesheet" type="text/css" href="css/lib/jBox.min.css">
 
     <!-- Leaflet -->
     <link rel="stylesheet" type="text/css" href="css/lib/leaflet.css">
@@ -18,10 +27,14 @@
     <link rel="stylesheet" type="text/css" href="css/lib/MarkerCluster.Default.css">
 
     <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+
+    <!-- Modernizer -->
+    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
 
     <title>Defibrillator Hunter</title>
 
@@ -35,53 +48,124 @@
     <div id="main-page" class="ui-content">
 
         <!-- Map -->
-        <div id="map">
+        <div id="map"></div>
 
-            <!-- Legend -->
-            <!--<div id="btn-legend">-->
+        <!-- Navigation menu -->
+        <nav class="nav">
 
-            <!--<img src="img/layers.png" alt="Map layers"/>-->
+            <button id="nav-button" class="nav-button">+</button>
 
-            <!--</div>-->
+            <div id="nav-wrapper" class="nav-wrapper">
 
-            <!--<div id="legend">-->
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i></a></li>
+                    <li><a id="btn-insert"><i class="fas fa-plus"></i></a></li>
+                    <li><a href="#"><i class="far fa-question-circle"></i></a></li>
+                </ul>
 
-            <!--<form>-->
+            </div>
 
-            <!--<input id="osm"-->
-            <!--type="radio"-->
-            <!--name="basemap"-->
-            <!--data-role="none"-->
-            <!--checked>-->
+            <div id="nav-overlay" class="nav-overlay"></div>
 
-            <!--<label class="legend-label legend-radio-label"-->
-            <!--for="osm"-->
-            <!--data-i18n="basemaps.osm">-->
-            <!--OpenStreetMap-->
-            <!--</label>-->
-
-            <!--<br>-->
-
-            <!--<input id="bing"-->
-            <!--type="radio"-->
-            <!--name="basemap"-->
-            <!--data-role="none">-->
-
-            <!--<label class="legend-label legend-radio-label"-->
-            <!--for="bing"-->
-            <!--data-i18n="basemaps.bing">-->
-            <!--Bing Aerial-->
-            <!--</label>-->
-
-            <!--</form>-->
-
-            <!--</div>-->
-
-        </div>
-
-        <button id="btn-insert">INSERT</button>
+        </nav>
 
     </div>
+
+</div>
+
+
+<!--
+    Content for the modals
+    They MUST be in display: none
+-->
+
+<!-- Comment modal -->
+<div style="display: none" id="modal-comment-content">
+
+    <div class="modal-progress-container">
+
+        <ul class="modal-progress">
+
+            <li class="modal-progress-active"></li>
+            <li></li>
+            <li></li>
+
+        </ul>
+
+    </div>
+
+    <div class="modal-title">
+        <h2 data-i18n="modals.titleComment">Insert a comment</h2>
+    </div>
+
+    <label>
+        <textarea id="modal-text-area"
+                  rows="5"
+                  data-autogrow="false"
+                  maxlength="250"></textarea>
+    </label>
+
+
+    <button id="modal-comment-btn-cancel" class="modal-btn modal-btn-left" data-i18n="modals.cancel">Cancel</button>
+    <button id="modal-comment-btn-next" class="modal-btn modal-btn-right" data-i18n="modals.next">Next</button>
+
+</div>
+
+<!-- Accessibility modal -->
+<div style="display: none" id="modal-accessibility-content">
+
+    <div class="modal-progress-container">
+
+        <ul class="modal-progress">
+
+            <li class="modal-progress-active"></li>
+            <li class="modal-progress-active"></li>
+            <li></li>
+
+        </ul>
+
+    </div>
+
+    <div class="modal-title">
+        <h2 data-i18n="modals.titleAccessibility">Accessibility</h2>
+    </div>
+
+    <label>
+        <input id="modal-range"
+               type="range"
+               min="1"
+               max="10"
+               step="1"
+               value="5"
+               data-enhanced="false"/>
+    </label>
+
+    <button id="modal-accessibility-btn-back" class="modal-btn modal-btn-left" data-i18n="modals.back">Back</button>
+    <button id="modal-accessibility-btn-next" class="modal-btn modal-btn-right" data-i18n="modals.next">Next</button>
+
+</div>
+
+<!-- Photo modal -->
+<div style="display: none" id="modal-photo-content">
+
+    <div class="modal-progress-container">
+
+        <ul class="modal-progress">
+
+            <li class="modal-progress-active"></li>
+            <li class="modal-progress-active"></li>
+            <li class="modal-progress-active"></li>
+
+        </ul>
+
+    </div>
+
+    <div class="modal-title">
+        <h2 data-i18n="modals.titlePhoto">Upload a photo</h2>
+    </div>
+
+    <button id="modal-photo-btn-back" class="modal-btn modal-btn-left" data-i18n="modals.back">Back</button>
+    <button id="modal-photo-btn-next" class="modal-btn modal-btn-right" data-i18n="modals.next">Next</button>
 
 </div>
 
@@ -94,7 +178,10 @@
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="js/lib/jquery.mobile-1.4.5.js"></script>
+<!--<script type="text/javascript" src="js/lib/jquery.mobile-1.4.5.js"></script>-->
+
+<!-- jBox -->
+<script type="text/javascript" src="js/lib/jBox.min.js"></script>
 
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script>
