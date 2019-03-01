@@ -1,25 +1,57 @@
-- Gestire iOS
+- Gestire iOS:
+    - mandare mail
 
 - Sistemare il marker della posizione:
     - troppo grande
     - impreciso
     - deve trovare la posizione più velocemente (magari aggiungere un caricamento)
+    - zoom sulla posizione
     - se lo sposto prima che trovi la posizione deve rimanere fermo dove l'ho messo
     - deve esserci la possibilità di riportalo dove sono io
 
-- Caricamento delle foto
-    - ajax?
-
-- Sistema di registrazione utente
-    - Node.js?
+- Sistema di registrazione utente (?)
 
 - Sistemare menu
     - si vede poco il bottone su sfondo bianco
     - il bottone è troppo piccolo per telefono
     - aggiungere un tooltip per le varie icone
 
-- Finire modals
+- Sistemare inserimento defibirllatori:
+    - UID
+    - X
+    - Y
+    - time stamp
+    - Categoria luogo (indoor/outdoor)
+          - Esercizio commerciale
+          - Azienda
+          - Edificio residenziale
+          - Luogo pubblico
+          - Sport facility
+          - Stazione trasporti
+              - NOTE: nome luogo (e.g. Carrefour)
+              - NOTE: descrizione posizione (e.g. teca di fianco all’ascensore)
+    - Altezza sopra livello della strada (piano)
+    - Accessibilità temporale (week-days, week-end, day time, night time; dettaglio)
+    - Accessibilità spaziale (barriere tra la strada e il DAE -> punteggio, descrizione)
+    - Proprietà (suggerimento a seconda della categoria luogo)
+    - Presenza persona di riferimento (e.g. commesso in esercizio commerciale)
+    - NOTE aggiuntive (e.g. tipo di installazione [teca, colonnina], marca)
+    - Foto
 
-- Sistemare tutti gli alert
+- Sistemare gli alert
 
 - Fare lingua italiana
+
+- Guardare postGIS
+
+- Chiedere dati utenti:
+    - età range
+    - sesso
+    - occupazione
+    - istruzione
+
+- Modificare i tuoi defibrillatori
+
+- Aggiungere un commento ai defibrillatori degli altri
+
+- Inserire defibrillatore in open street map

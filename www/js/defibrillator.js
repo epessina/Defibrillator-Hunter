@@ -1,0 +1,78 @@
+"use strict";
+
+/**
+ * uuid: String
+ * userID: String
+ * timestamp: String
+ * lang: String
+ * position: [Float, Float]
+ * location: {
+ *     type: (INDOOR | OUTDOOR),
+ *     subtype: (COMMERCIAL_ACTIVITY | COMPANY | RESIDENTIAL_BUILDING | PUBLIC_PLACE | SPORT_FACILITY | TRANSPORT_STATION),
+ *     comments: String
+ * },
+ * floor: Int,
+ * temporalAccessibility: {
+ *     days: (WEEKDAYS | WEEKEND),
+ *     time: (DAY_TIME | NIGHT_TIME),
+ *     details: ??
+ * },
+ * spatialAccessibility: {
+ *     score: Int,
+ *     description: String
+ * },
+ * ownership: String,
+ * contactPerson: Boolean,
+ * notes: String,
+ *  _attachments: {
+ *      "image": {
+ *          content_type: "image\/jpeg",
+ *          data: Data
+ *      }
+ *  }
+ *
+ */
+
+class Defibrillator {
+
+    constructor(userID, lang, position, location, floor, temporalAccessibility, spatialAccessibility, ownership,
+                contactPerson, notes, photo) {
+
+        this.uuid                  = Defibrillator.generateUUID();
+        this.userID                = userID;
+        this.timeStamp             = new Date().toISOString();
+        this.lang                  = lang;
+        this.position              = position;
+        this.location              = location;
+        this.floor                 = floor;
+        this.temporalAccessibility = temporalAccessibility;
+        this.spatialAccessibility  = spatialAccessibility;
+        this.ownership             = ownership;
+        this.contactPerson         = contactPerson;
+        this.notes                 = notes;
+        this._attachments          = {
+            "image": {
+                content_type: "image\/jpeg",
+                data        : photo
+            }
+        }
+
+    }
+
+    // Uses the cryptographically secure random number generator
+    static generateUUID() {
+
+        let array = new Uint32Array(8);
+        let uuid  = '';
+
+        window.crypto.getRandomValues(array);
+
+        for (let i = 0; i < array.length; i++) {
+            uuid += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4)
+        }
+
+        return uuid
+    }
+
+}
+

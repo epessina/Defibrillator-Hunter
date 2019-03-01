@@ -3,21 +3,24 @@
 const LOCAL_DB_NAME = "dh_local_db";
 const REMOTE_DB_URL = "http://localhost:5984/dh_points";
 
+// ToDO change for cordova
 const POSITION_MARKER_ICON = L.icon({
-    iconUrl    : "www/img/position-marker-icon.png",
+    iconUrl    : "img/position-marker-icon.png", // add "www" in front
     iconSize   : [54, 85],
     iconAnchor : [27, 97],
     popupAnchor: [0, -85]
 });
 
+// ToDO change for cordova
 const USER_DEFIBRILLATOR_ICON = L.icon({
-    iconUrl  : "www/img/user-marker-icon.png",
-    shadowUrl: "www/img/marker-shadow.png"
+    iconUrl  : "img/user-marker-icon.png", // add "www" in front
+    shadowUrl: "img/marker-shadow.png" // add "www" in front
 });
 
+// ToDO change for cordova
 const OTHER_DEFIBRILLATOR_ICON = L.icon({
-    iconUrl  : "www/img/marker-icon.png",
-    shadowUrl: "www/img/marker-shadow.png"
+    iconUrl  : "img/marker-icon.png", // add "www" in front
+    shadowUrl: "img/marker-shadow.png" // add "www" in front
 });
 
 let isMobile,
@@ -69,47 +72,35 @@ let networkState,
 let baseMaps,
     overlayMaps = {};
 
-
-/**
- * Called when the DOM is loaded. It attaches a "deviceready" event listener to the document that signals when Cordova's
- * device APIs have loaded and are ready to access.
- *
- * When the event is fired, it calls the function _initialize_.
- */
+// ToDO change for cordova
 function onLoad() {
-    document.addEventListener("deviceready", initialize, false);
+    // document.addEventListener("deviceready", initialize, false);
+    initialize();
 }
 
-/**
- * Called when Cordova's device APIs have loaded. It calls the _init_ function of the variable **ln** declared in
- * _ln.js_.
- */
 function initialize() {
     ln.init();
 }
 
-/**
- * Called when the window is resized.
- */
 function onResize() {
     console.log("onResize() called");
 
-    $map.height($(window).height() - $map.offset().top);
-    adjustLegend();
-    // adjustGuidelinesList();
+    $map.height($(window).height());
 }
 
+// ToDO change for cordova
 function init() {
 
-    isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
+    // isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    // isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
 
     // Find the unique identifier of the user
-    uuid = device.uuid;
-    if (uuid === null)
-        uuid = new Fingerprint().get().toString() + "-PC";
+    uuid = new Fingerprint().get().toString() + "-PC";
+    // uuid = device.uuid;
+    // if (uuid === null)
+    //     uuid = new Fingerprint().get().toString() + "-PC";
 
-    networkState = navigator.connection.type;
+    // networkState = navigator.connection.type;
 
     $mainPage.show();
     $("body").css("overflow-y", "hidden");
@@ -121,9 +112,11 @@ function init() {
 
     renderMap();
 
-    locationWatcher = setInterval(getUserPosition, 4000);
+    // locationWatcher = setInterval(getUserPosition, 4000);
 
     handleDb();
+
+    handleModals();
 
 }
 
@@ -188,7 +181,7 @@ function initDefibrillatorModals() {
         }
     };
 
-    modalComment       = new jBox('Modal', modalOptions).setContent($("#modal-comment-content"));
+    modalComment = new jBox('Modal', modalOptions).setContent($("#modal-comment-content"));
     $("#modal-text-area").prop("placeholder", i18n.t("modals.placeholder"));
     modalAccessibility = new jBox('Modal', modalOptions).setContent($("#modal-accessibility-content"));
     modalPhoto         = new jBox('Modal', modalOptions).setContent($("#modal-photo-content"));
@@ -244,11 +237,6 @@ function renderMap() {
     map = L.map("map");
     map.setView(currLatLong, defaultZoom);
 
-    // L.DomEvent.disableClickPropagation(L.DomUtil.get("btn-legend"));
-    // L.DomEvent.disableScrollPropagation(L.DomUtil.get("btn-legend"));
-    // L.DomEvent.disableClickPropagation(L.DomUtil.get("legend"));
-    // L.DomEvent.disableScrollPropagation(L.DomUtil.get("legend"));
-
     positionMarker = L.marker(
         currLatLong,
         {icon: POSITION_MARKER_ICON, draggable: true}
@@ -262,6 +250,7 @@ function renderMap() {
         console.log(currLatLong);
     });
 
+    // ToDo add connection check
     osm = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
@@ -270,11 +259,13 @@ function renderMap() {
         }
     );
 
+    // ToDo add connection check
     bing = new L.tileLayer.bing(
         "AqSfYcbsnUwaN_5NvJfoNgNnsBfo1lYuRUKsiVdS5wQP3gMX6x8xuzrjZkWMcJQ1",
         {type: "AerialWithLabels"}
     );
 
+    // ToDO i18n
     baseMaps = {
         "Open Street Map": osm,
         "Bing Aerial"    : bing
@@ -288,18 +279,46 @@ function renderMap() {
 
 }
 
-function adjustLegend() {
+function handleDb() {
 
-    // ToDo
-
-}
-
-function handleDb() { //ToDo handle connection errors
-
+    //ToDo handle connection errors
     localDb  = new PouchDB(LOCAL_DB_NAME);
     remoteDB = new PouchDB(REMOTE_DB_URL);
 
     retrieveDefibrillators();
+}
+
+function handleModals() {
+
+    let $locationModal      = $("#location-modal"),
+        $locationModalClose = $("#location-modal-close"),
+        $locationModalNext  = $("#location-modal-next");
+
+    let $accessibilityModal      = $("#accessibility-modal"),
+        $accessibilityModalClose = $("#accessibility-modal-close"),
+        $accessibilityModalNext  = $("#accessibility-modal-next");
+
+    $locationModal.modal("show");
+
+    $locationModalClose.click(() => $locationModal.removeClass("d-block"));
+
+    $locationModalNext.click(() => switchModals($locationModal, $accessibilityModal));
+
+    function switchModals(m1, m2) {
+        m1.removeClass("fade").modal("hide");
+        m2.modal("show").addClass("fade");
+    }
+
+    $("input[name='locationSubtypeOptions']").change(() => {
+        if ($("#radio-other").is(":checked")) {
+            $("#other-specification").prop("disabled", false);
+        } else {
+            $("#other-specification").prop("disabled", true);
+        }
+    });
+
+    //  var radioValue = $("input[name='gender']:checked").val();
+
 }
 
 function insertDefibrillator() {
@@ -307,8 +326,6 @@ function insertDefibrillator() {
     let timeStamp     = new Date().toISOString();
     let comment       = $("#modal-text-area").val();
     let accessibility = $("#modal-range").val();
-
-    console.log(comment + ", " + accessibility);
 
     let defibrillator = {
         _id          : timeStamp,
@@ -401,9 +418,11 @@ function cancelDefibrillator(id, markerId) {
     }
 }
 
+// ToDO change for cordova
 function retrieveDefibrillators() {
 
-    if (networkState === Connection.NONE || navigator.onLine === false) {
+    // if (networkState === Connection.NONE || navigator.onLine === false) {
+    if (false) {
         showAlert("messages.noInternet");
     } else {
         remoteDB.allDocs({include_docs: true}, function (err, doc) {
@@ -560,14 +579,17 @@ function getUserPosition() {
     );
 }
 
+// ToDO change for cordova
 function showAlert(msg) {
 
-    navigator.notification.alert(
-        i18n.t(msg),
-        null,
-        "Defibrillator Hunter",
-        i18n.t("messages.ok")
-    );
+    // navigator.notification.alert(
+    //     i18n.t(msg),
+    //     null,
+    //     "Defibrillator Hunter",
+    //     i18n.t("messages.ok")
+    // );
+
+    alert(i18n.t(msg));
 }
 
 

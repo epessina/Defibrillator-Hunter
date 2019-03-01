@@ -29,150 +29,167 @@
 * MODALS
 */
 
-.jBox-closeButton path {
-    fill: black;
+.modal-body {
+    font-size: 13pt;
 }
 
-.jBox-closeButton-box .jBox-closeButton {
-    top: -13px;
-    right: -0px;
+.radio-group {
+    margin-bottom: 2rem;
 }
 
-
-/*Progress bar */
-.modal-progress-container {
-    width: 75%;
-    margin: 1em auto 1.5em auto;
+.modal-body p {
+    font-size: 15pt;
 }
 
-.modal-progress {
-    overflow: hidden;
-    counter-reset: step;
-    padding: 0;
-}
-
-.modal-progress li {
-    position: relative;
-    z-index: 10000;
-    float: left;
-    width: 33.33%;
-    text-align: center
-}
-
-.modal-progress li:before {
-    line-height: 30px;
-    z-index: 10000;
-    display: block;
-    width: 30px;
-    height: 30px;
-    margin: 0 auto 10px auto;
-    content: counter(step);
-    counter-increment: step;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    background-color: white;
-}
-
-.modal-progress li:after {
-    position: absolute;
-    z-index: -1;
-    top: 15px;
-    left: -35%;
-    width: 100%;
-    height: 1px;
-    content: "";
-    background-color: #ddd;
-}
-
-.modal-progress li:first-child:after {
-    content: none;
-}
-
-.modal-progress li.modal-progress-active:before {
-    border-color: green;
-}
-
-.modal-progress li.modal-progress-active + li:after {
-    background-color: green;
+.location-subtype .form-check {
+    margin-bottom: 0.7em;
 }
 
 
-/* Title */
-.modal-title {
-    margin-bottom: 1.5em;
-    text-align: center;
-}
+/*.jBox-closeButton path {*/
+/*fill: black;*/
+/*}*/
+
+/*.jBox-closeButton-box .jBox-closeButton {*/
+/*top: -13px;*/
+/*right: -0px;*/
+/*}*/
 
 
-/* Core elements */
-#modal-text-area {
-    width: 100%;
-    margin-bottom: 1.5em;
-    padding: 0.7em;
-    border-radius: 5px;
-    box-shadow: 1px 1px 5px #CCC;
-}
+/*!*Progress bar *!*/
+/*.modal-progress-container {*/
+/*width: 75%;*/
+/*margin: 1em auto 1.5em auto;*/
+/*}*/
 
-#modal-range {
-    width: 100%;
-}
+/*.modal-progress {*/
+/*overflow: hidden;*/
+/*counter-reset: step;*/
+/*padding: 0;*/
+/*}*/
 
+/*.modal-progress li {*/
+/*position: relative;*/
+/*z-index: 10000;*/
+/*float: left;*/
+/*width: 33.33%;*/
+/*text-align: center*/
+/*}*/
 
-/* Buttons */
-.modal-btn {
-    font-size: 17px;
-    font-weight: bold;
-    position: relative;
-    height: 2.6em;
-    cursor: pointer;
-    color: #fbfbfb;
-    border: none;
-    border-radius: 5px;
-    background: -moz-linear-gradient(top, #4db6ac 0%, #00897b 100%);
-    background: -webkit-linear-gradient(top, #4db6ac 0%, #00897b 100%);
-    background: linear-gradient(to bottom, #4db6ac 0%, #00897b 100%);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);
-}
+/*.modal-progress li:before {*/
+/*line-height: 30px;*/
+/*z-index: 10000;*/
+/*display: block;*/
+/*width: 30px;*/
+/*height: 30px;*/
+/*margin: 0 auto 10px auto;*/
+/*content: counter(step);*/
+/*counter-increment: step;*/
+/*text-align: center;*/
+/*border: 1px solid #ddd;*/
+/*border-radius: 50%;*/
+/*background-color: white;*/
+/*}*/
 
-.modal-btn-left {
-    float: left;
-    width: 45% !important;
-    padding-right: 25px;
-    text-align: right;
-}
+/*.modal-progress li:after {*/
+/*position: absolute;*/
+/*z-index: -1;*/
+/*top: 15px;*/
+/*left: -35%;*/
+/*width: 100%;*/
+/*height: 1px;*/
+/*content: "";*/
+/*background-color: #ddd;*/
+/*}*/
 
-.modal-btn-right {
-    float: right;
-    width: 45% !important;
-    padding-left: 25px;
-    text-align: left;
-}
+/*.modal-progress li:first-child:after {*/
+/*content: none;*/
+/*}*/
 
-.modal-btn-left:before,
-.modal-btn-right:after {
-    position: absolute;
-    top: 0;
-    display: block;
-    width: 0;
-    height: 0;
-    content: "";
-    opacity: 0.6;
-    border-top: 20px solid #00695c;
-    border-bottom: 23px solid #00695c;
-}
+/*.modal-progress li.modal-progress-active:before {*/
+/*border-color: green;*/
+/*}*/
 
-.modal-btn-left:before {
-    left: 0;
-    border-right: 16px solid transparent;
-    border-left: 40px solid #00695c;
-    border-radius: 5px 0 0 5px;
-}
+/*.modal-progress li.modal-progress-active + li:after {*/
+/*background-color: green;*/
+/*}*/
 
 
-.modal-btn-right:after {
-    right: 0;
-    border-right: 40px solid #00695c;
-    border-left: 16px solid transparent;
-    border-radius: 0 5px 5px 0;
-}
+/*!* Title *!*/
+/*.modal-title {*/
+/*margin-bottom: 1.5em;*/
+/*text-align: center;*/
+/*}*/
+
+
+/*!* Core elements *!*/
+/*#modal-text-area {*/
+/*width: 100%;*/
+/*margin-bottom: 1.5em;*/
+/*padding: 0.7em;*/
+/*border-radius: 5px;*/
+/*box-shadow: 1px 1px 5px #CCC;*/
+/*}*/
+
+/*#modal-range {*/
+/*width: 100%;*/
+/*}*/
+
+
+/*!* Buttons *!*/
+/*.modal-btn {*/
+/*font-size: 17px;*/
+/*font-weight: bold;*/
+/*position: relative;*/
+/*height: 2.6em;*/
+/*cursor: pointer;*/
+/*color: #fbfbfb;*/
+/*border: none;*/
+/*border-radius: 5px;*/
+/*background: -moz-linear-gradient(top, #4db6ac 0%, #00897b 100%);*/
+/*background: -webkit-linear-gradient(top, #4db6ac 0%, #00897b 100%);*/
+/*background: linear-gradient(to bottom, #4db6ac 0%, #00897b 100%);*/
+/*text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);*/
+/*}*/
+
+/*.modal-btn-left {*/
+/*float: left;*/
+/*width: 45% !important;*/
+/*padding-right: 25px;*/
+/*text-align: right;*/
+/*}*/
+
+/*.modal-btn-right {*/
+/*float: right;*/
+/*width: 45% !important;*/
+/*padding-left: 25px;*/
+/*text-align: left;*/
+/*}*/
+
+/*.modal-btn-left:before,*/
+/*.modal-btn-right:after {*/
+/*position: absolute;*/
+/*top: 0;*/
+/*display: block;*/
+/*width: 0;*/
+/*height: 0;*/
+/*content: "";*/
+/*opacity: 0.6;*/
+/*border-top: 20px solid #00695c;*/
+/*border-bottom: 23px solid #00695c;*/
+/*}*/
+
+/*.modal-btn-left:before {*/
+/*left: 0;*/
+/*border-right: 16px solid transparent;*/
+/*border-left: 40px solid #00695c;*/
+/*border-radius: 5px 0 0 5px;*/
+/*}*/
+
+
+/*.modal-btn-right:after {*/
+/*right: 0;*/
+/*border-right: 40px solid #00695c;*/
+/*border-left: 16px solid transparent;*/
+/*border-radius: 0 5px 5px 0;*/
+/*}*/

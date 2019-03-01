@@ -6,14 +6,14 @@
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
+    <!-- Font Awesome -->
+    <script src="js/lib/fontawesome-all.min.js" data-auto-replace-svg="nest"></script>
+
     <!-- Normalizer -->
     <link rel="stylesheet" type="text/css" href="css/lib/normalize.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" type="text/css" href="css/lib/fontawesome.css">
-
     <!-- Bootstrap -->
-    <!--<link rel="stylesheet" type="text/css" href="bootstrap-4.2.1-dist/css/bootstrap.css">-->
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.2.1-dist/css/bootstrap.css">
 
     <!-- jQuery -->
     <!--<link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">-->
@@ -41,6 +41,216 @@
 </head>
 
 <body onresize="onResize()" onload="onLoad()">
+
+
+<!-- Bootstrap modals -->
+
+<div id="location-modal" class="modal fade">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">Location category</h5>
+
+                <button class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p>Is the defibrillator located <b>indoor</b> or <b>outdoor</b>?</p>
+
+                <div class="radio-group form-check form-check-inline">
+
+                    <input id="radio-indoor"
+                           class="form-check-input"
+                           type="radio"
+                           name="locationTypeOptions"
+                           checked>
+                    <label class="form-check-label" for="radio-indoor">Indoor</label>
+
+                </div>
+
+                <div class="form-check form-check-inline">
+
+                    <input id="radio-outdoor"
+                           class="form-check-input"
+                           type="radio"
+                           name="locationTypeOptions">
+                    <label class="form-check-label" for="radio-outdoor">Outdoor</label>
+
+                </div>
+
+                <p>How would you <b>classify</b> the location of the defibrillator?</p>
+
+                <div class="row location-subtype">
+
+                    <div class="col">
+
+                        <div class="form-check">
+
+                            <input id="radio-commercial-activity"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions"
+                                   checked>
+                            <label class="form-check-label" for="radio-commercial-activity">Commercial activity</label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input id="radio-company"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-company">Company</label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input id="radio-residential-building"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-residential-building">
+                                Residential building
+                            </label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input id="radio-public-place"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-public-place">Public place</label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col">
+
+                        <div class="form-check">
+
+                            <input id="radio-sport-facility"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-sport-facility">Sport facility</label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input id="radio-transport-station"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-transport-station">Transport station</label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input id="radio-other"
+                                   class="form-check-input"
+                                   type="radio"
+                                   name="locationSubtypeOptions">
+                            <label class="form-check-label" for="radio-other">Other:</label>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <input id="other-specification"
+                                   class="form-control"
+                                   placeholder="Specify..."
+                                   type="text"
+                                   maxlength="50"
+                                   contenteditable="false"
+                                   disabled>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p>
+                    Can you provide some more information?
+                    (e.g., the name of the location, a description of the position...)
+                </p>
+
+                <div class="form-group">
+
+                    <textarea id="location-notes"
+                              class="form-control"
+                              placeholder="Max 500 characters..."
+                              maxlength="500"
+                              rows="4"></textarea>
+                    <label for="location-notes"></label>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="location-modal-close" class="btn btn-secondary">Back</button>
+                <button id="location-modal-next" class="btn btn-primary">Next</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="accessibility-modal" class="modal">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">Accessibility</h5>
+
+                <button class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p>Modal body text goes here.</p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="accessibility-modal-back" class="btn btn-secondary">Close</button>
+                <button id="accessibility-modal-next" class="btn btn-primary">Next</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <div id="page">
 
@@ -164,6 +374,12 @@
         <h2 data-i18n="modals.titlePhoto">Upload a photo</h2>
     </div>
 
+    <div>
+        <input type="file"
+               accept="image/png, image/jpeg"
+               id="modal-photo-input">
+    </div>
+
     <button id="modal-photo-btn-back" class="modal-btn modal-btn-left" data-i18n="modals.back">Back</button>
     <button id="modal-photo-btn-next" class="modal-btn modal-btn-right" data-i18n="modals.next">Next</button>
 
@@ -173,12 +389,12 @@
 <!-- Cordova -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
-<!-- Bootstrap -->
-<!--<script type="text/javascript" src="bootstrap-4.2.1-dist/js/bootstrap.js"></script>-->
-
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
 <!--<script type="text/javascript" src="js/lib/jquery.mobile-1.4.5.js"></script>-->
+
+<!-- Bootstrap -->
+<script type="text/javascript" src="bootstrap-4.2.1-dist/js/bootstrap.js"></script>
 
 <!-- jBox -->
 <script type="text/javascript" src="js/lib/jBox.min.js"></script>
@@ -201,6 +417,8 @@
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/enums.js"></script>
+<script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

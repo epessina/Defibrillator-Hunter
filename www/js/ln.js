@@ -22,18 +22,22 @@ let ln = {
     },
 
     getLanguage: function () {
-        navigator.globalization.getLocaleName(
-            function (lang) {
-                ln.language = lang.value.substring(0, 2);
-                i18n.setLng(ln.language, function () {
-                    $("body").i18n();
-                });
-                init();
-            },
-            function (error) {
-                console.log(error);
-            }
-        );
+        // navigator.globalization.getLocaleName(
+        //     function (lang) {
+        //         ln.language = lang.value.substring(0, 2);
+        //         i18n.setLng(ln.language, function () {
+        //             $("body").i18n();
+        //         });
+        //         init();
+        //     },
+        //     function (error) {
+        //         console.log(error);
+        //     }
+        // );
+        i18n.setLng("en-US", function () {
+            $("body").i18n();
+        });
+        init();
     }
 
 };

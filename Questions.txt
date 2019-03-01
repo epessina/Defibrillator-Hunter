@@ -1,0 +1,2 @@
+- Si posso scegliere più categorie?
+- Posso inserire un campo "altro" tra le categorie?
