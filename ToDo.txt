@@ -42,7 +42,7 @@
 
 - Fare lingua italiana
 
-- Guardare postGIS
+- Controllare aggiunta offline
 
 - Chiedere dati utenti:
     - età range

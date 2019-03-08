@@ -8,14 +8,22 @@
  * position: [Float, Float]
  * location: {
  *     type: (INDOOR | OUTDOOR),
- *     subtype: (COMMERCIAL_ACTIVITY | COMPANY | RESIDENTIAL_BUILDING | PUBLIC_PLACE | SPORT_FACILITY | TRANSPORT_STATION),
- *     comments: String
+ *     subtype: (COMMERCIAL_ACTIVITY | COMPANY | RESIDENTIAL_BUILDING | PUBLIC_PLACE | SPORT_FACILITY |
+ *               TRANSPORT_STATION | OTHER),
+ *     otherSpecification: String,
+ *     floor: Int,
+ *     notes: String
  * },
- * floor: Int,
  * temporalAccessibility: {
- *     days: (WEEKDAYS | WEEKEND),
- *     time: (DAY_TIME | NIGHT_TIME),
- *     details: ??
+ *     days: (ALWAYS | WEEKDAYS | WEEKEND | NEVER),
+ *     time: (ALWAYS | DAY_TIME | NIGHT_TIME | NEVER),
+ *     details: {
+ *         monday: {
+ *             from: String
+ *             to: String
+ *         },
+ *         ...
+ *     }
  * },
  * spatialAccessibility: {
  *     score: Int,

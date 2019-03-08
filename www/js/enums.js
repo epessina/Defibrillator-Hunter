@@ -16,13 +16,17 @@ const LOCATION_SUBTYPE = Object.freeze({
 });
 
 const DAY_TYPE = Object.freeze({
+    ALWAYS  : "always",
     WEEKDAYS: "weekdays",
-    WEEKEND : "weekend"
+    WEEKEND : "weekend",
+    NEVER   : "never"
 });
 
 const DAY_TIME = Object.freeze({
+    ALWAYS    : "always",
     DAY_TIME  : "day time",
-    NIGHT_TIME: "night time"
+    NIGHT_TIME: "night time",
+    NEVER     : "never"
 });
 
 
