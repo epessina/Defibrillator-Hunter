@@ -2,7 +2,6 @@
     position: relative;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    list-style: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
 
@@ -54,17 +53,16 @@ a {
     z-index: 11;
     bottom: -1.95em;
     left: 50%;
-    width: 3.5em !important;
+    width: 3.5em;
     height: 3.5em;
     margin-left: -1.75em;
     padding-bottom: 1.5em;
     cursor: pointer;
     text-align: center;
-    color: #00897b !important;
+    color: #00897b;
     border: none;
-    border-radius: 50% !important;
-    background: none;
-    background-color: #fff !important;
+    border-radius: 50%;
+    background-color: #fff;
 }
 
 .nav-button:hover,
@@ -308,4 +306,8 @@ a {
         width: 3em;
         height: 3em;
     }
+}
+
+#btn-insert {
+    cursor: pointer;
 }

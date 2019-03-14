@@ -1,5 +1,0 @@
-- Si posso scegliere più categorie?
-- Posso inserire un campo "altro" tra le categorie?
-- "Proprietà (suggerimento a seconda della categoria luogo)"? -> elenco possibili proprietari
-- Nelle note aggiunteve, lasciare campo libero o chiedere specificatamente la
-  marca e il tipo di installazione (nel caso elenco)?

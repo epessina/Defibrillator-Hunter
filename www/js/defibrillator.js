@@ -31,7 +31,7 @@
  * },
  * ownership: String,
  * contactPerson: Boolean,
- * notes: String,
+ * otherNotes: String,
  *  _attachments: {
  *      "image": {
  *          content_type: "image\/jpeg",
@@ -46,7 +46,7 @@ class Defibrillator {
     constructor(userID, lang, position, location, floor, temporalAccessibility, spatialAccessibility, ownership,
                 contactPerson, notes, photo) {
 
-        this.uuid                  = Defibrillator.generateUUID();
+        this._id                   = Defibrillator.generateUUID();
         this.userID                = userID;
         this.timeStamp             = new Date().toISOString();
         this.lang                  = lang;

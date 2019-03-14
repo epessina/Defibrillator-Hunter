@@ -29,7 +29,6 @@
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Modernizer -->
     <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
@@ -46,7 +45,11 @@
     <div id="main-page" class="ui-content">
 
         <!-- Map -->
-        <div id="map"></div>
+        <div id="map">
+
+            <div class="coordinates"></div>
+
+        </div>
 
         <!-- Navigation menu -->
         <nav class="nav">
@@ -57,13 +60,13 @@
 
                 <ul>
                     <li class="active">
-                        <a href="#"><i class="material-icons">home</i></a>
+                        <a href="#"><i class="fas fa-home"></i></a>
                     </li>
                     <li>
-                        <a id="btn-insert"><i class="material-icons">add_circle</i></a>
+                        <a id="btn-insert"><i class="fas fa-plus"></i></a>
                     </li>
                     <li>
-                        <a href="#"><i class="material-icons">info</i></a>
+                        <a href="#"><i class="fas fa-info"></i></a>
                     </li>
                 </ul>
 
@@ -78,7 +81,172 @@
 </div>
 
 
-<!-- Modals -->
+<!-- User modal -->
+
+<div id="user-modal" class="modal fade" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Register</p>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p>Please, insert the following information:</p>
+
+                <!-- Age -->
+                <div class="row user-modal-selector mt-4">
+
+                    <div class="col">
+
+                        <label for="age-select">Age</label>
+
+                    </div>
+
+                    <div class="col">
+
+                        <select id="age-select">
+                            <option selected disabled>-</option>
+                            <option value="<15">&#60; 15</option>
+                            <option value="15-22">15 - 22</option>
+                            <option value="23-30">23 - 30</option>
+                            <option value="31-40">31 - 40</option>
+                            <option value="41-55">41 - 55</option>
+                            <option value=">55">&#62; 55</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- Gender -->
+                <div class="row user-modal-selector">
+
+                    <div class="col">
+
+                        <label for="gender-select">Gender</label>
+
+                    </div>
+
+                    <div class="col">
+
+                        <select id="gender-select">
+                            <option selected disabled>-</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="undefined">Prefer not to say</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- Education -->
+                <div class="row user-modal-selector">
+
+                    <div class="col">
+
+                        <label for="education-select">Level of education</label>
+
+                    </div>
+
+                    <div class="col">
+
+                        <select id="education-select">
+                            <option selected disabled>-</option>
+                            <option value="high school">High School</option>
+                            <option value="bachelor's degree">Bachelor's degree</option>
+                            <option value="master's degree">Master's degree</option>
+                            <option value="phd">PHD</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- Work status -->
+                <div class="row user-modal-selector">
+
+                    <div class="col">
+
+                        <label for="work-select">Work status</label>
+
+                    </div>
+
+                    <div class="col">
+
+                        <select id="work-select">
+                            <option selected disabled>-</option>
+                            <option value="student">Student</option>
+                            <option value="employed">Employed</option>
+                            <option value="unemployed">Unemployed</option>
+                            <option value="retired">Retired</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- Terms -->
+                <div class="terms mt-5">
+
+                    <p>
+                        By registering you accept the
+                        <span id="terms-link"
+                              data-toggle="popover"
+                              data-placement="bottom">
+                            terms and conditions</span>.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="user-modal-register" class="btn btn-modal-full">
+                    Register<i class="fas fa-check ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Terms & Condition list -->
+<div id="popover-terms-content" style="display: none;">
+
+    <ul class="terms-list">
+        <li>
+            You should be at least 18 years old to use the application.
+        </li>
+        <li>
+            The information you provide, including the photos, will be used for scientific purposes and may be made
+            publicly available.
+        </li>
+        <li>
+            Any form of data manipulation is not allowed.
+        </li>
+        <li>
+            Politecnico di Milano shall not be held responsible for any damage, injury, loss or expense of any kind.
+        </li>
+    </ul>
+
+
+</div>
+
+
+<!-- Defibrillators modals -->
 
 <div id="location-modal" class="modal fade" tabindex="-1">
 
@@ -1111,9 +1279,20 @@
 
                 </div>
 
-                <div class="modal-question">
+                <!-- Notes -->
+                <div>
 
+                    <p>
+                        Do you want to give us some <b>more information</b>?
+                        <br>
+                        (e.g. installation type, brand...)
+                    </p>
 
+                    <textarea id="other-notes"
+                              class="form-control"
+                              placeholder="Max 500 characters..."
+                              maxlength="500"
+                              rows="4"></textarea>
 
                 </div>
 
@@ -1136,12 +1315,72 @@
 
 </div>
 
+<div id="photo-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Insert a photo</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="photo-wrapper">
+
+                    <input id="photo-input"
+                           type="file"
+                           accept=".png, .jpg, .jpeg">
+
+                    <label for="photo-input">
+                        <i class="fas fa-camera photo-icon"></i>
+                        <br>
+                        <b>Choose a file</b>
+                    </label>
+
+                </div>
+
+                <div class="photo-upload-content">
+
+                    <img class="photo-upload-preview" src="#" alt="Your image">
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="photo-modal-back" class="btn btn-modal-outline">
+                    <i class="fas fa-angle-left mr-3"></i>Back
+                </button>
+                <button id="photo-modal-done" class="btn btn-modal-full" disabled>
+                    Done<i class="fas fa-check ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <!-- Cordova -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+
+<!-- Popper -->
+<script type="text/javascript" src="js/lib/popper.min.js"></script>
 
 <!-- Bootstrap -->
 <script type="text/javascript" src="bootstrap-4.2.1-dist/js/bootstrap.js"></script>
@@ -1168,7 +1407,9 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
 <script type="text/javascript" src="js/enums.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
 <script type="text/javascript" src="js/defibrillator.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>
