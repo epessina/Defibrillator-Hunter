@@ -28,3 +28,6 @@
 
 
 - Inserire defibrillatore in open street map
+
+
+- Check prefissi CSS

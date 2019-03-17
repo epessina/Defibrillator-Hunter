@@ -17,20 +17,22 @@ let map,
 let osm,
     bing;
 
-let currLatLong = [0, 0],
-    defaultZoom = 3;
+let currLatLong = [45.601155, 8.924647],
+    defaultZoom = 12;
+
 
 function initMap() {
 
     map = L.map("map");
+
+    if (isApp)
+        initAppMapUI();
+
+
     map.setView(currLatLong, defaultZoom);
 
     // Map events
     map.on("dragend", () => disableLocationWatcher());
-
-    // map.on("zoomend", () => {
-    //     console.log("Zoom " + map.getZoom());
-    // });
 
     map.on("mousemove", (e) => $(".coordinates").html(e.latlng.lat + ", " + e.latlng.lng));
 
@@ -40,6 +42,28 @@ function initMap() {
     });
 
     map.on("locationerror", () => console.log("Location error"));
+
+
+    initLayers();
+    // initPositionControl();
+    // initPositionMarker();
+
+
+}
+
+function initAppMapUI() {
+
+    // Hide the default controls of leaflet
+    $(".leaflet-control-container").hide();
+
+    $("#map-new-defibrillator").click(function () {
+        console.log("New defibrillator clicked");
+    });
+
+
+}
+
+function initLayers() {
 
     // Add basemaps ToDo connection check
     osm = L.tileLayer(
@@ -63,7 +87,9 @@ function initMap() {
     osm.addTo(map);
     controlLayers = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-    initPositionControl();
+}
+
+function initPositionMarker() {
 
     positionMarker = L.marker(
         currLatLong,
@@ -111,7 +137,6 @@ function initPositionControl() {
     }).dblclick(e => e.stopPropagation());
 
 }
-
 
 function enableLocationWatcher() {
 

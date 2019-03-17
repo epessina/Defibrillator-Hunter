@@ -4,6 +4,9 @@ const LOCAL_DB         = "dh_local_db";
 const REMOTE_USERS_DB  = "http://localhost:5984/dh_users";
 const REMOTE_POINTS_DB = "http://localhost:5984/dh_points";
 
+let isMobile = true,
+    isApp    = true;
+
 let DefibrillatorIcon = L.Icon.extend({
     options: {
         iconSize   : [31, 42],
@@ -16,8 +19,6 @@ let DefibrillatorIcon = L.Icon.extend({
 let userDefibrillatorIcon  = new DefibrillatorIcon({iconUrl: "img/user-def-icon.png"}),
     otherDefibrillatorIcon = new DefibrillatorIcon({iconUrl: "img/other-def-icon.png"});
 
-let isMobile,
-    isApp;
 
 let $mainPage = $("#main-page");
 
@@ -69,8 +70,6 @@ function onResume() {
 
 
 function onResize() {
-    console.log("onResize() called");
-
     $("#map").height($(window).height());
 }
 
@@ -78,10 +77,9 @@ function onResize() {
 // ToDO change for cordova
 function init() {
 
-    isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
+    // isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    // isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
 
-    // Find the unique identifier of the user
     uuid = new Fingerprint().get().toString() + "-PC";
     // uuid = device.uuid;
     // if (uuid === null)
@@ -89,20 +87,21 @@ function init() {
 
     // networkState = navigator.connection.type;
 
-    $mainPage.show();
     $("body").css("overflow-y", "hidden");
+    onResize();
 
     // handleUserModal();
 
-    initMenu();
+    // initMenu();
 
-    onResize();
 
     initMap();
 
     // locationWatcher = setInterval(getUserPosition, 4000);
 
     handleDb();
+
+    initDefibrillatorInsert();
 
 }
 
@@ -442,6 +441,75 @@ function handleModals() {
 }
 
 
+function initDefibrillatorInsert() {
+
+    let $mainPage       = $("#insert-defibrillator-main"),
+        $dialogLocation = $("#dialog-location");
+
+    // Global values
+    let locationCategory = "none",
+        visualReference  = "";
+
+
+    // Main page
+
+    $("#new-defibrillator-close").click(() => console.log("Close new defibrillator"));
+    $("#new-defibrillator-done").click(() => console.log("Add new defibrillator"));
+
+
+    // Location category dialog
+
+    let $locationSelect = $("#location-select");
+
+    $("#location-category-request").click(() => {
+        switchFullscreenDialogs($mainPage, $dialogLocation);
+
+        // When the dialog open the values of the fields must be set to the selected once, to avoid having different
+        // values if the user closes the dialog having made some changes
+
+        $locationSelect.get(0).selectedIndex = $locationSelect.find("option[value=" + locationCategory + "]").index();
+        changeLocationSelectLabel();
+
+        $("#location-reference").val(visualReference);
+    });
+
+    $locationSelect.change(() => changeLocationSelectLabel());
+
+    $("#location-close").click(() => switchFullscreenDialogs($dialogLocation, $mainPage));
+
+    $("#location-done").click(() => {
+
+        locationCategory = $("#location-select").val();
+
+        if (locationCategory === "none") {
+            console.log("Category none");
+            return;
+        }
+
+        visualReference = $("#location-reference").val();
+        switchFullscreenDialogs($dialogLocation, $mainPage);
+    });
+
+
+    // Utility functions
+
+    function switchFullscreenDialogs(toHide, toShow) {
+        toShow.show();
+        toHide.hide();
+    }
+
+    function changeLocationSelectLabel() {
+        let label = $("[for='location-select']").find(".label-description");
+
+        if ($locationSelect.val() === "none")
+            label.html("Select a category");
+        else
+            label.html($locationSelect.find("option:selected").text());
+    }
+
+}
+
+
 function insertDefibrillator() {
 
     let timeStamp     = new Date().toISOString();
@@ -677,6 +745,7 @@ function displayNewDefibrillator(def) {
     userMarkersLayer.addLayer(marker);
 }
 
+
 function getUserPosition() {
 
     navigator.geolocation.getCurrentPosition(
@@ -705,6 +774,7 @@ function getUserPosition() {
         {timeout: 3000, enableHighAccuracy: true}
     );
 }
+
 
 // ToDO change for cordova
 function showAlert(msg) {
