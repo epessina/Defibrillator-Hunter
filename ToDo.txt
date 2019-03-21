@@ -31,3 +31,9 @@
 
 
 - Check prefissi CSS
+
+
+- Aggiungere tag edit-config (vedi camera-plugin)
+
+
+- Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)

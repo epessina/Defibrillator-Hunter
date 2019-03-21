@@ -26,6 +26,7 @@
     <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
@@ -40,510 +41,277 @@
 
 <body onresize="onResize()" onload="onLoad()">
 
-<div id="page">
+<!-- Main page -->
+<div id="main-page" class="ui-content">
 
-    <!-- Main page -->
-    <div id="main-page" class="ui-content">
+    <!-- Map -->
+    <div id="map">
 
-        <!-- Map -->
-        <div id="map">
+        <div class="custom-container map-container">
 
-            <div class="custom-container map-container">
+            <div id="map-control-hint" class="map-control map-fab"></div>
 
-                <div id="map-control-hint" class="map-control map-fab"></div>
+            <div id="map-control-layers" class="map-control map-fab"></div>
 
-                <div id="map-control-layers" class="map-control map-fab"></div>
+            <div id="map-control-gps" class="map-control map-fab"></div>
 
-                <div id="map-control-gps" class="map-control map-fab"></div>
+            <div id="map-new-defibrillator" class="map-control map-fab">
+                <p>NEW DEFIBRILLATOR</p>
+            </div>
 
-                <div id="map-new-defibrillator" class="map-control map-fab">
-                    <p>NEW DEFIBRILLATOR</p>
+        </div>
+
+    </div>
+
+    <div id="insert-defibrillator">
+
+        <!-- Opaque overlay -->
+        <div style="display: none" id="opaque-overlay"></div>
+
+        <!-- Main screen -->
+        <div style="display: none" id="insert-defibrillator-main">
+
+            <div class="top-bar">
+
+                <div class="top-bar-left-icon">
+                    <i id="new-defibrillator-close" class="material-icons">close</i>
+                </div>
+
+                <div class="top-bar-title">
+                    New defibrillator
+                </div>
+
+                <div class="top-bar-right-icon">
+                    <i id="new-defibrillator-done" class="material-icons">done</i>
+                </div>
+
+            </div>
+
+            <div class="custom-container requests-container">
+
+                <!-- Location category -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">terrain</i></div>
+
+                    <div id="location-category-request" class="request-content">
+
+                        <p class="request-name">Location category</p>
+
+                        <p id="location-text" class="request-text">Add a category</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Floor -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">arrow_upward</i></div>
+
+                    <div id="floor-request" class="request-content">
+
+                        <p class="request-name">Height</p>
+
+                        <p id="floor-text" class="request-text">Specify the floor</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!--Temporal accessibility -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">schedule</i></div>
+
+                    <div id="temporal-accessibility-request" class="request-content">
+
+                        <p class="request-name">Temporal accessibility</p>
+
+                        <p id="temporal-text" class="request-text">Specify the temporal accessibility</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Ease of recovery -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">accessibility_new</i></div>
+
+                    <div id="recovery-request" class="request-content">
+
+                        <p class="request-name">Ease of recovery</p>
+
+                        <p id="recovery-text" class="request-text">Specify the ease of recovery</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Signage -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">warning</i></div>
+
+                    <div id="signage-request" class="request-content">
+
+                        <p class="request-name">Signage</p>
+
+                        <p id="signage-text" class="request-text">Evaluate the signage</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Notes -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">notes</i></div>
+
+                    <div id="notes-request" class="request-content">
+
+                        <p class="request-name">Additional notes</p>
+
+                        <p id="notes-text" class="request-text">Add additional notes</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Presence -->
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">favorite</i></div>
+
+                    <div id="presence-request" class="request-content">
+
+                        <p class="request-name">Presence of the defibrillator</p>
+
+                        <p id="presence-text" class="request-text">Confirm the presence</p>
+
+                    </div>
+
+                    <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+                </div>
+
+                <!-- Photo -->
+                <div id="photo-request" class="button flex-btn full-width-btn outline-btn">
+
+                    <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+
+                    <div class="btn-text">Add a photo</div>
+
                 </div>
 
             </div>
 
         </div>
 
-        <div id="insert-defibrillator">
+        <!-- Location category -->
+        <div style="display: none" id="dialog-location" class="full-screen-dialog">
 
-            <!-- Opaque overlay -->
-            <div id="opaque-overlay"></div>
+            <div class="top-bar">
 
-            <!-- Main screen -->
-            <div id="insert-defibrillator-main">
-
-                <div class="top-bar">
-
-                    <div class="top-bar-left-icon">
-                        <i id="new-defibrillator-close" class="material-icons">close</i>
-                    </div>
-
-                    <div class="top-bar-title">
-                        New defibrillator
-                    </div>
-
-                    <div class="top-bar-right-icon">
-                        <i id="new-defibrillator-done" class="material-icons">done</i>
-                    </div>
-
+                <div class="top-bar-left-icon">
+                    <i id="location-close" class="material-icons">close</i>
                 </div>
 
-                <div class="custom-container requests-container">
+                <div class="top-bar-title">
+                    Location category
+                </div>
 
-                    <!-- Location category -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">terrain</i>
-                        </div>
-
-                        <div id="location-category-request" class="request-content">
-
-                            <p class="request-name">Location category</p>
-
-                            <p class="request-text">Add a category</p>
-
-                        </div>
-
-                        <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
-
-                    </div>
-
-                    <!-- Floor -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">arrow_upward</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Height
-                            </p>
-
-                            <p class="request-text">
-                                Add the floor
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-
-                    </div>
-
-                    <!--Temporal accessibility -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">schedule</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Temporal accessibility
-                            </p>
-
-                            <p class="request-text">
-                                Specify the temporal accessibility
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-
-                    </div>
-
-                    <!-- Ease of recovery -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">accessibility_new</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Ease of recovery
-                            </p>
-
-                            <p class="request-text">
-                                Specify the ease of recovery
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-                    </div>
-
-                    <!-- Signage -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">warning</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Signage
-                            </p>
-
-                            <p class="request-text">
-                                Evaluate the signage
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-                    </div>
-
-                    <!-- Notes -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">notes</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Additional notes
-                            </p>
-
-                            <p class="request-text">
-                                Add additional notes
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-                    </div>
-
-                    <!-- Defibrillator -->
-                    <div class="request">
-
-                        <div class="request-icon-left">
-                            <i class="material-icons">favorite</i>
-                        </div>
-
-                        <div class="request-content">
-
-                            <p class="request-name">
-                                Presence of the defibrillator
-                            </p>
-
-                            <p class="request-text">
-                                Confirm the presence of the defibrillator
-                            </p>
-
-                        </div>
-
-                        <div class="request-icon-right">
-                            <i class="material-icons">error_outline</i>
-                        </div>
-
-                    </div>
-
-                    <!-- Photo -->
-                    <button class="photo-btn">
-                        <span><i class="material-icons">add_a_photo</i>Add a photo</span>
-                    </button>
-
+                <div class="top-bar-right-icon">
+                    <i id="location-done" class="material-icons">done</i>
                 </div>
 
             </div>
 
-            <!-- Location category -->
-            <div style="display: none" id="dialog-location">
+            <div class="custom-container">
 
-                <div class="top-bar">
+                <p>Where is the defibrillator located?</p>
 
-                    <div class="top-bar-left-icon">
-                        <i id="location-close" class="material-icons">close</i>
-                    </div>
+                <div class="custom-selector-box">
 
-                    <div class="top-bar-title">
-                        Location category
-                    </div>
-
-                    <div class="top-bar-right-icon">
-                        <i id="location-done" class="material-icons">done</i>
-                    </div>
-
-                </div>
-
-                <div class="custom-container">
-
-                    <p>Where is the defibrillator located?</p>
-
-                    <div class="location-select-box">
-
-                        <label for="location-select" class="label location-select">
+                    <label for="location-select" class="label custom-selector">
                         <span class="label-description">
                             Select a category
                         </span>
-                            <span class="label-icon">
+                        <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
-                        </label>
+                    </label>
 
-                        <select id="location-select" class="select">
-                            <option value="none" style="display: none"></option>
-                            <option value="o1">Option 1</option>
-                            <option value="o2">Option 2</option>
-                            <option value="o3">Option 3</option>
-                        </select>
+                    <select id="location-select" class="select">
+                        <option value="none" style="display: none"></option>
+                        <option value="o1">Option 1</option>
+                        <option value="o2">Option 2</option>
+                        <option value="o3">Option 3</option>
+                    </select>
 
-                    </div>
+                </div>
 
-                    <p>
-                        Specify a visual reference
-                        <br>
-                        (e.g. a church or a clearly visible building)
+                <p>
+                    Specify a visual reference
+                    <br>
+                    (e.g. a church or a clearly visible building)
+                </p>
+
+                <textarea id="location-reference"
+                          class="custom-textarea"
+                          rows="5"
+                          placeholder="The defibrillator is near a..."
+                          maxlength="250"></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- Floor -->
+        <div style="display: none" id="dialog-floor" class="dialog-wrapper">
+
+            <div class="dialog">
+
+                <div class="dialog-container">
+
+                    <p class="dialog-text">
+                        At which floor is the defibrillator located with respect to the street?
                     </p>
 
-                    <textarea id="location-reference"
-                              rows="5"
-                              placeholder="The defibrillator is near a..."
-                              maxlength="250"></textarea>
-                    <label for="location-reference"></label>
+                    <div class="counter-wrapper">
 
-                </div>
-
-            </div>
-
-            <!-- Floor -->
-
-            <!-- Temporal accessibility -->
-            <div style="display: none" class="dialog-wrapper">
-
-                <div class="dialog">
-
-                    <div class="dialog-container">
-
-                        <p class="dialog-text">
-                            When is it possible to access the defibrillator?
-                        </p>
-
-                        <div>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="temporalAccessibility"
-                                       value="H24"
-                                       checked>
-                                <span>24 hours a day</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="temporalAccessibility"
-                                       value="PART_TIME">
-                                <span>Part time</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="temporalAccessibility"
-                                       value="UNKNOWN">
-                                <span>Not specified</span>
-                            </label>
-
+                        <div id="floor-counter-add" class="counter-icon">
+                            <i class="material-icons">add</i>
                         </div>
 
-                    </div>
+                        <div id="floor-counter-value" class="counter-display">0</div>
 
-                    <div class="dialog-footer">
-
-                        <div class="text-button">CANCEL</div>
-
-                        <div class="text-button">OK</div>
+                        <div id="floor-counter-sub" class="counter-icon">
+                            <i class="material-icons">remove</i>
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+                <div class="dialog-footer">
 
-            <!-- Ease of recovery -->
-            <div style="display: none" class="dialog-wrapper">
+                    <div id="floor-cancel" class="text-button">CANCEL</div>
 
-                <div class="dialog">
-
-                    <div class="dialog-container">
-
-                        <p class="dialog-text">
-                            Evaluate the ease of recovery of the defibrillator
-                        </p>
-
-                        <div>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="recovery"
-                                       value="IMMEDIATE"
-                                       checked>
-                                <span>Immediate</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="recovery"
-                                       value="FAST">
-                                <span>Fast</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="recovery"
-                                       value="AVERAGE">
-                                <span>Average</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="recovery"
-                                       value="SLOW">
-                                <span>Slow</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="recovery"
-                                       value="VERY_SLOW">
-                                <span>Very slow</span>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="dialog-footer">
-
-                        <div class="text-button">CANCEL</div>
-
-                        <div class="text-button">OK</div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Signage -->
-            <div style="display: none" class="dialog-wrapper">
-
-                <div class="dialog">
-
-                    <div class="dialog-container">
-
-                        <p class="dialog-text">
-                            Evaluate the signage presence
-                        </p>
-
-                        <div>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="signage"
-                                       value="GREAT"
-                                       checked>
-                                <span>Great</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="signage"
-                                       value="VISIBLE">
-                                <span>Visible</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="signage"
-                                       value="HARD_TO_SE">
-                                <span>Hand to see</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="signage"
-                                       value="ABSENT">
-                                <span>Absent</span>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="dialog-footer">
-
-                        <div class="text-button">CANCEL</div>
-
-                        <div class="text-button">OK</div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Presence -->
-            <div style="display: none" class="dialog-wrapper">
-
-                <div class="dialog">
-
-                    <div class="dialog-container">
-
-                        <p class="dialog-text">
-                            Is the defibrillator in the display?
-                        </p>
-
-                        <div>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="presence"
-                                       value="YES"
-                                       checked>
-                                <span>Yes</span>
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio"
-                                       name="presence"
-                                       value="NO">
-                                <span>No</span>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="dialog-footer">
-
-                        <div class="text-button">CANCEL</div>
-
-                        <div class="text-button">OK</div>
-
-                    </div>
+                    <div id="floor-ok" class="text-button">OK</div>
 
                 </div>
 
@@ -551,32 +319,362 @@
 
         </div>
 
-        <!-- Navigation menu -->
-        <!--<nav class="nav">-->
+        <!-- Temporal accessibility -->
+        <div style="display: none" id="dialog-temporal-accessibility" class="dialog-wrapper">
 
-        <!--<button id="nav-button" class="nav-button">+</button>-->
+            <div class="dialog">
 
-        <!--<div id="nav-wrapper" class="nav-wrapper">-->
+                <div class="dialog-container">
 
-        <!--<ul>-->
-        <!--<li class="active">-->
-        <!--<a href="#"><i class="fas fa-home"></i></a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a id="btn-insert"><i class="fas fa-plus"></i></a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="#"><i class="fas fa-info"></i></a>-->
-        <!--</li>-->
-        <!--</ul>-->
+                    <p class="dialog-text">
+                        When is it possible to access the defibrillator?
+                    </p>
 
-        <!--</div>-->
+                    <div>
 
-        <!--<div id="nav-overlay" class="nav-overlay"></div>-->
+                        <label class="radio">
+                            <input type="radio"
+                                   name="temporalAccessibility"
+                                   value="24 hours a day"
+                                   checked>
+                            <span>24 hours a day</span>
+                        </label>
 
-        <!--</nav>-->
+                        <label class="radio">
+                            <input type="radio"
+                                   name="temporalAccessibility"
+                                   value="Part time">
+                            <span>Part time</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="temporalAccessibility"
+                                   value="Not specified">
+                            <span>Not specified</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="dialog-footer">
+
+                    <div id="temporal-cancel" class="text-button">CANCEL</div>
+
+                    <div id="temporal-ok" class="text-button">OK</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Ease of recovery -->
+        <div style="display: none" id="dialog-recovery" class="dialog-wrapper">
+
+            <div class="dialog">
+
+                <div class="dialog-container">
+
+                    <p class="dialog-text">
+                        Evaluate the ease of recovery of the defibrillator
+                    </p>
+
+                    <div>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="recovery"
+                                   value="Immediate"
+                                   checked>
+                            <span>Immediate</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="recovery"
+                                   value="Fast">
+                            <span>Fast</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="recovery"
+                                   value="Average">
+                            <span>Average</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="recovery"
+                                   value="Slow">
+                            <span>Slow</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="recovery"
+                                   value="Very slow">
+                            <span>Very slow</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="dialog-footer">
+
+                    <div id="recovery-cancel" class="text-button">CANCEL</div>
+
+                    <div id="recovery-ok" class="text-button">OK</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Signage -->
+        <div style="display: none" id="dialog-signage" class="dialog-wrapper">
+
+            <div class="dialog">
+
+                <div class="dialog-container">
+
+                    <p class="dialog-text">
+                        Evaluate the signage presence
+                    </p>
+
+                    <div>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="signage"
+                                   value="Great"
+                                   checked>
+                            <span>Great</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="signage"
+                                   value="Visible">
+                            <span>Visible</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="signage"
+                                   value="Hard to see">
+                            <span>Hard to see</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="signage"
+                                   value="Absent">
+                            <span>Absent</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="dialog-footer">
+
+                    <div id="signage-cancel" class="text-button">CANCEL</div>
+
+                    <div id="signage-ok" class="text-button">OK</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Notes -->
+        <div style="display: none" id="dialog-notes" class="full-screen-dialog">
+
+            <div class="top-bar">
+
+                <div class="top-bar-left-icon">
+                    <i id="notes-close" class="material-icons">close</i>
+                </div>
+
+                <div class="top-bar-title">
+                    Additional notes
+                </div>
+
+                <div class="top-bar-right-icon">
+                    <i id="notes-done" class="material-icons">done</i>
+                </div>
+
+            </div>
+
+            <div class="custom-container">
+
+                <p>
+                    Brand of the defibrillator
+                    <br>
+                    <span class="dialog-subtext">(leave empty if not visible)</span>
+                </p>
+
+                <textarea id="brand"
+                          class="custom-textarea"
+                          rows="1"
+                          placeholder="Specify the brand..."
+                          maxlength="50"></textarea>
+
+                <p>Additional notes</p>
+
+                <textarea id="notes"
+                          class="custom-textarea"
+                          rows="10"
+                          placeholder="Max 500 characters..."
+                          maxlength="500"></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- Presence -->
+        <div style="display: none" id="dialog-presence" class="dialog-wrapper">
+
+            <div class="dialog">
+
+                <div class="dialog-container">
+
+                    <p class="dialog-text">
+                        Is the defibrillator in the display?
+                    </p>
+
+                    <div>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="presence"
+                                   value="Yes"
+                                   checked>
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio"
+                                   name="presence"
+                                   value="No">
+                            <span>No</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="dialog-footer">
+
+                    <div id="presence-cancel" class="text-button">CANCEL</div>
+
+                    <div id="presence-ok" class="text-button">OK</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Photo -->
+        <div id="dialog-photo" class="full-screen-dialog">
+
+            <div class="top-bar">
+
+                <div class="top-bar-left-icon">
+                    <i id="photo-close" class="material-icons">close</i>
+                </div>
+
+                <div class="top-bar-title">
+                    Add a photo
+                </div>
+
+                <div class="top-bar-right-icon">
+                    <i id="photo-done" class="material-icons">done</i>
+                </div>
+
+            </div>
+
+            <div style="display: none" id="photo-cancel-btn" class="photo-cancel-wrapper">
+
+                <div class="photo-cancel">
+
+                    <i class="material-icons">cancel</i>
+
+                </div>
+
+            </div>
+
+            <div class="custom-container">
+
+                <div id="photo-preview-wrapper" class="photo-preview-wrapper">
+
+                    <img id="def-photo-preview"
+                         class="photo-preview"
+                         src="img/img-placeholder-200.png"
+                         alt="Your image">
+
+                </div>
+
+                <div id="btn-camera" class="button flex-btn full-width-btn full-btn">
+
+                    <div class="icon-before"><i class="material-icons">photo_camera</i></div>
+
+                    <div class="btn-text">Take a picture</div>
+
+                </div>
+
+                <div class="photo-or">- or -</div>
+
+                <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
+
+                    <div class="icon-before"><i class="material-icons">folder</i></div>
+
+                    <div class="btn-text">Choose from the gallery</div>
+
+                </div>
+
+                <input id="tmp-photo-input"
+                       type="file"
+                       accept=".png, .jpg, .jpeg">
+
+            </div>
+
+        </div>
 
     </div>
+
+
+    <!-- Navigation menu -->
+    <!--<nav class="nav">-->
+
+    <!--<button id="nav-button" class="nav-button">+</button>-->
+
+    <!--<div id="nav-wrapper" class="nav-wrapper">-->
+
+    <!--<ul>-->
+    <!--<li class="active">-->
+    <!--<a href="#"><i class="fas fa-home"></i></a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a id="btn-insert"><i class="fas fa-plus"></i></a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="#"><i class="fas fa-info"></i></a>-->
+    <!--</li>-->
+    <!--</ul>-->
+
+    <!--</div>-->
+
+    <!--<div id="nav-overlay" class="nav-overlay"></div>-->
+
+    <!--</nav>-->
 
 </div>
 
