@@ -48,7 +48,6 @@ function initMap() {
     // initPositionControl();
     // initPositionMarker();
 
-
 }
 
 function initAppMapUI() {

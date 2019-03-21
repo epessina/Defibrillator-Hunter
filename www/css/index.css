@@ -1,7 +1,7 @@
 :root {
-    --fab-size: 52px;
-    --teal-500: #009688;
-    --text-color: #454F63;
+    --fab-size   : 52px;
+    --teal-500   : #009688;
+    --text-color : #454F63;
 }
 
 
@@ -10,275 +10,94 @@
 */
 
 #map {
-    position: relative;
-    display: none;
-    width: 100%;
+    position : relative;
+    width    : 100%;
 }
 
 .leaflet-control-attribution.leaflet-control {
-    display: none;
+    display : none;
 }
 
 .map-container {
-    z-index: 1000;
+    z-index : 1000;
 }
 
 .map-control {
-    position: absolute;
-    cursor: pointer;
+    position : absolute;
+    cursor   : pointer;
 }
 
 .map-fab {
-    width: var(--fab-size);
-    height: var(--fab-size);
-    border-radius: 20%;
-    background: white;
-    -moz-box-shadow: 0 12px 16px 0 rgba(69, 91, 99, 0.3);
-    -webkit-box-shadow: 0 12px 16px 0 rgba(69, 91, 99, 0.3);
-    box-shadow: 0 12px 16px 0 rgba(69, 91, 99, 0.3);
+    width              : var(--fab-size);
+    height             : var(--fab-size);
+    border-radius      : 20%;
+    background         : white;
+    -moz-box-shadow    : 0 12px 16px 0 rgba(69, 91, 99, 0.3);
+    -webkit-box-shadow : 0 12px 16px 0 rgba(69, 91, 99, 0.3);
+    box-shadow         : 0 12px 16px 0 rgba(69, 91, 99, 0.3);
 }
 
 #map-control-hint {
-    top: 16px;
-    left: 0;
+    top  : 16px;
+    left : 0;
 }
 
 #map-control-layers {
-    top: 16px;
-    right: 0;
+    top   : 16px;
+    right : 0;
 }
 
 #map-control-gps {
-    top: 80px; /* 16 + 12 + 52 */
-    right: 0;
+    top   : 80px; /* 16 + 12 + 52 */
+    right : 0;
 }
 
 #map-new-defibrillator {
-    right: 0;
-    bottom: 16px;
-    left: 0;
-    width: 70%;
-    height: 48px;
-    margin: 0 auto;
-    text-align: center;
-    color: white;
-    border-radius: 12px;
-    background: var(--teal-500);
+    right         : 0;
+    bottom        : 16px;
+    left          : 0;
+    width         : 70%;
+    height        : 48px;
+    margin        : 0 auto;
+    text-align    : center;
+    color         : white;
+    border-radius : 12px;
+    background    : var(--teal-500);
 }
 
 #map-new-defibrillator p {
-    font-size: 15px;
-    font-weight: 700;
-    position: relative;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-
-/*********************************************************************************************************************/
-
-
-/*
-* MODALS
-*/
-
-.modal-content {
-    border: 0;
-    -webkit-border-radius: .125rem;
-    border-radius: .125rem;
-    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-}
-
-.modal-header {
-    border: 0;
-    -webkit-border-top-left-radius: .125rem;
-    border-top-left-radius: .125rem;
-    -webkit-border-top-right-radius: .125rem;
-    border-top-right-radius: .125rem;
-    background-color: #00897b;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-}
-
-.modal-heading {
-    font-size: 1.7rem;
-    font-weight: 700;
-    margin: 0;
-    padding: .3rem;
-    color: #fff;
-}
-
-.modal-header .close {
-    opacity: 1;
-}
-
-.modal-body {
-    font-size: 14pt;
-    padding: 1.5rem;
-    color: #616161;
-}
-
-.modal-body p {
-    font-size: 15pt;
-}
-
-.modal-question {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgb(218, 218, 218);
-}
-
-.modal-question .form-check {
-    margin-bottom: 0.7em;
-}
-
-.form-control:focus {
-    border-color: #26a69a;
-    box-shadow: 0 0 0 0.2rem rgba(0, 89, 77, 0.35);
-}
-
-
-.slider.slider-horizontal {
-    width: 80%;
-    margin-left: 9%;
-}
-
-.slider-handle {
-    background-color: #00796b;
-    background-image: -webkit-linear-gradient(top, #00796b 0, #00897b 100%);
-    background-image: -o-linear-gradient(top, #00796b 0, #00897b 100%);
-    background-image: linear-gradient(to bottom, #00796b 0, #00897b 100%);
-}
-
-.slider-tick.in-selection {
-    background-image: -webkit-linear-gradient(top, #4db6ac 0, #26a69a 100%);
-    background-image: -o-linear-gradient(top, #4db6ac 0, #26a69a 100%);
-    background-image: linear-gradient(to bottom, #4db6ac 0, #26a69a 100%);
-}
-
-.slider-selection.tick-slider-selection {
-    background-image: -webkit-linear-gradient(top, #4db6ac 0, #26a69a 100%);
-    background-image: -o-linear-gradient(top, #4db6ac 0, #26a69a 100%);
-    background-image: linear-gradient(to bottom, #4db6ac 0, #26a69a 100%);
-}
-
-
-/* Photo */
-
-.photo-wrapper {
-    font-size: 1.25rem;
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.photo-icon {
-    font-size: 4rem;
-    color: #92b0b3;
-}
-
-#photo-input {
-    position: absolute;
-    z-index: -1;
-    overflow: hidden;
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-}
-
-#photo-input + label {
-    cursor: pointer;
-}
-
-.photo-upload-content {
-    display: none;
-    text-align: center;
-}
-
-.photo-upload-preview {
-    max-width: 200px;
-    max-height: 200px;
-    margin: auto;
-    padding: 20px;
-}
-
-
-/* Footer */
-
-.modal-footer .btn {
-    font-size: 1rem;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    margin: .375rem;
-    padding: .6rem 2.14rem;
-    cursor: pointer;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-    white-space: normal;
-    text-transform: uppercase;
-    word-wrap: break-word;
-    color: #fff;
-    border: 0;
-    -webkit-border-radius: .125rem;
-    border-radius: .125rem;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.modal-footer .btn:hover {
-    outline: 0;
-    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-}
-
-.modal-footer .btn-modal-outline {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    color: #26a69a !important;
-    border: 2px solid #26a69a !important;
-    background-color: transparent !important;
-}
-
-.modal-footer .btn-modal-full {
-    color: white;
-    background-color: #26a69a !important;
+    font-size         : 15px;
+    font-weight       : 700;
+    position          : relative;
+    top               : 50%;
+    -ms-transform     : translateY(-50%);
+    -webkit-transform : translateY(-50%);
+    transform         : translateY(-50%);
 }
 
 
 .coordinates {
-    position: absolute;
-    z-index: 1000;
-    bottom: 0;
-    left: 0;
-    color: #000;
-    background: white;
+    position   : absolute;
+    z-index    : 1000;
+    bottom     : 0;
+    left       : 0;
+    color      : #000000;
+    background : white;
 }
 
 .leaflet-control-position {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    background: white;
+    width         : 40px;
+    height        : 40px;
+    text-align    : center;
+    border        : 2px solid rgba(0, 0, 0, 0.2);
+    border-radius : 2px;
+    background    : white;
 }
 
 .leaflet-control-position i {
-    font-size: 25px;
+    font-size : 25px;
 }
 
 .blue {
-    color: blue;
+    color : blue;
 }

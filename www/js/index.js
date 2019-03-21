@@ -19,9 +19,6 @@ let DefibrillatorIcon = L.Icon.extend({
 let userDefibrillatorIcon  = new DefibrillatorIcon({iconUrl: "img/user-def-icon.png"}),
     otherDefibrillatorIcon = new DefibrillatorIcon({iconUrl: "img/other-def-icon.png"});
 
-
-let $mainPage = $("#main-page");
-
 let $menuButton  = $("#nav-button"),
     $menuWrapper = $("#nav-wrapper"),
     $menuOverlay = $("#nav-overlay"),

@@ -41,12 +41,6 @@ $photo-preview-size : 200px;
 
 // CONTENT
 
-#main-page {
-  width      : 100%;
-  height     : 100%;
-  overflow-y : hidden;
-}
-
 .custom-container {
   margin : 0 $container-margin;
   width  : calc-container-size($container-margin);
