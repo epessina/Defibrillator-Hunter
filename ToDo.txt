@@ -4,15 +4,12 @@
 - Regestrazione utenti
 	
 
-- Marker posizione:
-	- marker troppo grande
-    - gestire localizzazione
-
-
-- Rivedere menu
+- Marker posizione
 
 
 - Sistemare inserimento defibirllatori:
+    - resettare a chiusura
+    - visualizzare foto grande
 
 
 - Cancellare e modificare i tuoi defibrillatori
@@ -28,6 +25,9 @@
 
 
 - Inserire defibrillatore in open street map
+
+
+- Controllare performance con blob foto
 
 
 - Check prefissi CSS

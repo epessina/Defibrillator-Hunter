@@ -149,60 +149,6 @@ function closeMenu() {
 }
 
 
-function handleUserModal() {
-
-    let $userModal = $("#user-modal");
-
-    $userModal.modal({
-        backdrop: "static",
-        keyboard: false
-    }).modal("show");
-
-    $("#terms-link").popover({
-        html   : true,
-        content: $("#popover-terms-content").html()
-    });
-
-    $("#user-modal-register").click(() => {
-
-        $userModal.modal("hide");
-
-        let user = new User(
-            uuid,
-            ln.language,
-            $("#age-select").val(),
-            $("#gender-select").val(),
-            $("#education-select").val(),
-            $("#work-select").val()
-        );
-
-        usersDB.get(uuid).then(function (doc) {
-
-            console.log("User found, updating...");
-            user.setRev(doc._rev);
-
-        }).catch(function (err) {
-
-            if (err.name === "not_found")
-                console.log("User not found, inserting...");
-            else
-                throw err;
-
-        }).then(function () {
-
-            usersDB.put(user, function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("Success");
-                }
-            });
-        });
-    });
-
-}
-
-
 function handleDb() {
 
     //ToDo handle connection errors
@@ -469,7 +415,24 @@ function initDefibrillatorInsert() {
     // Main page
 
     $("#new-defibrillator-close").click(() => console.log("Close new defibrillator"));
-    $("#new-defibrillator-done").click(() => console.log("Add new defibrillator"));
+
+    $("#new-defibrillator-done").click(() => {
+
+        let defibrillator = {
+            locationCategory     : locationCategory,
+            visualReference      : visualReference,
+            floor                : floor,
+            temporalAccessibility: temporalAccessibility,
+            recovery             : recovery,
+            signage              : signage,
+            brand                : brand,
+            notes                : notes,
+            presence             : presence,
+            photo                : photo
+        };
+
+        console.log(defibrillator)
+    });
 
 
     // Location category
@@ -676,13 +639,25 @@ function initDefibrillatorInsert() {
 
     // Photo
 
+    let $btnCancelPhoto = $("#photo-cancel-btn");
+
+    let newPhoto      = "";
+    let btnCancelTop  = 0,
+        btnCancelLeft = 0;
+
     $("#photo-request").click(() => {
+
+        newPhoto = "";
+        previewPhoto(photo);
+
+        if (photo !== "")
+            $btnCancelPhoto.css("left", btnCancelLeft).css("top", btnCancelTop).show();
 
         switchFullscreenDialogs($mainPage, $dialogPhoto);
 
     });
 
-    
+    // ToDO delete
     $("#tmp-photo-input").change(() => {
 
         let file   = $("#tmp-photo-input")[0].files[0];
@@ -699,7 +674,6 @@ function initDefibrillatorInsert() {
             getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
         }
     });
-
 
     $("#btn-camera").click(() => {
         getPicture(Camera.PictureSourceType.CAMERA);
@@ -728,6 +702,8 @@ function initDefibrillatorInsert() {
 
         console.log("Picture success");
 
+        newPhoto = data;
+
         let img    = new Image();
         img.src    = "data:image/jpeg;base64," + data;
         img.onload = () => {
@@ -748,11 +724,9 @@ function initDefibrillatorInsert() {
                 }
             }
 
-            let $photoPreviewWrapper = $("#photo-preview-wrapper"),
-                $photoPreview        = $("#def-photo-preview"),
-                $btnCancelPhoto      = $("#photo-cancel-btn");
+            let $photoPreviewWrapper = $("#photo-preview-wrapper");
 
-            $photoPreview.attr("src", "data:image/jpeg;base64," + data);
+            previewPhoto(data);
 
             let top = parseInt($(".top-bar").first().css("height")) +
                 parseInt($photoPreviewWrapper.css("margin-top")) +
@@ -774,18 +748,35 @@ function initDefibrillatorInsert() {
         console.log("Picture error: " + error)
     }
 
-    $("#photo-cancel-btn").click(() => {
+    $btnCancelPhoto.click(() => {
+
+        newPhoto = "";
 
         $("#photo-cancel-btn").hide();
-        $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
+        previewPhoto(newPhoto);
 
     });
 
-    $("#photo-close").click(() => switchFullscreenDialogs($dialogPhoto, $mainPage));
+    $("#photo-close").click(() => {
+
+        newPhoto = "";
+        switchFullscreenDialogs($dialogPhoto, $mainPage)
+
+    });
 
     $("#photo-done").click(() => {
 
-        switchFullscreenDialogs($dialogPhoto, $mainPage)
+        photo         = newPhoto;
+        newPhoto      = "";
+        btnCancelTop  = parseInt($btnCancelPhoto.css("top"));
+        btnCancelLeft = parseInt($btnCancelPhoto.css("left"));
+
+        if (photo === "")
+            $("#photo-text").html("Add a photo");
+        else
+            $("#photo-text").html("Edit your photo");
+
+        switchFullscreenDialogs($dialogPhoto, $mainPage);
 
     });
 
@@ -816,6 +807,15 @@ function initDefibrillatorInsert() {
             label.html("Select a category");
         else
             label.html($locationSelect.find("option:selected").text());
+    }
+
+    function previewPhoto(photo) {
+
+        if (photo === "")
+            $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
+
+        else
+            $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
     }
 
 }

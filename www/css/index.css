@@ -257,32 +257,6 @@
 }
 
 
-/* User modal */
-
-.user-modal-selector {
-    margin-bottom: .7rem;
-}
-
-#terms-link {
-    cursor: pointer;
-    text-decoration: none;
-    color: #26a69a;
-}
-
-#terms-link:hover {
-    text-decoration: underline;
-}
-
-.terms-list {
-    margin-bottom: 0;
-    padding-inline-start: 25px;
-}
-
-.terms-list li {
-    margin-bottom: .2rem;
-}
-
-
 .coordinates {
     position: absolute;
     z-index: 1000;
