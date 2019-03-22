@@ -55,7 +55,9 @@ function initAppMapUI() {
     $(".leaflet-control-container").hide();
 
     $("#map-new-defibrillator").click(function () {
-        console.log("New defibrillator clicked");
+        initDefibrillatorInsert();
+        $("#map").hide();
+        $("#insert-defibrillator").show();
     });
 
 

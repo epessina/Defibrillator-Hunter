@@ -30,12 +30,6 @@
 - Controllare performance con blob foto
 
 
-- Check prefissi CSS
-- @extend
-- font family
-- @include google fonts
-
-
 - Aggiungere tag edit-config (vedi camera-plugin)
 
 

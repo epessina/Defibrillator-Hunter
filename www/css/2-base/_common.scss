@@ -11,13 +11,14 @@ body {
 }
 
 body {
-  font-family : "Roboto", sans-serif;
+  font-family : system-ui;
   font-size   : 16px;
   font-weight : 400;
   line-height : 1.2;
   overflow-y  : hidden;
   margin      : 0;
   padding     : 0;
+  color       : $color-text;
 }
 
 a, button {
@@ -30,4 +31,13 @@ button:focus {
 
 a {
   text-decoration : none;
+}
+
+p {
+  margin : 0;
+}
+
+.custom-container {
+  margin : 0 $container-margin;
+  width  : container-size();
 }

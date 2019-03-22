@@ -13,10 +13,8 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="css/app.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Modernizer -->
@@ -57,7 +55,7 @@
 <div style="display: none" id="insert-defibrillator">
 
     <!-- Opaque overlay -->
-    <div style="display: none" id="opaque-overlay"></div>
+    <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
 
     <!-- Main screen -->
     <div id="insert-defibrillator-main">
@@ -508,7 +506,7 @@
             <p>
                 Brand of the defibrillator
                 <br>
-                <span class="dialog-subtext">(leave empty if not visible)</span>
+                (leave empty if not visible)
             </p>
 
             <textarea id="brand"

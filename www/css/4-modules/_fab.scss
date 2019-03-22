@@ -1,6 +1,5 @@
 /* FLOATING ACTION BUTTON */
 
-$fab-radius : 50px;
 
 %fab-base {
   width         : $fab-size;
@@ -8,7 +7,7 @@ $fab-radius : 50px;
   border-radius : $fab-radius;
   background    : $color-teal-500;
   color         : #FFFFFF;
-  box-shadow    : 0 12px 16px 0 $color-shadow;
+  box-shadow    : 0 12px 16px 0 rgba(69, 91, 99, 0.3);
   cursor        : pointer;
   @include flex-center;
 

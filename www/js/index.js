@@ -81,7 +81,6 @@ function init() {
     onResize();
     initMap();
     handleDb();
-    initDefibrillatorInsert();
 
     // locationWatcher = setInterval(getUserPosition, 4000);
 }
@@ -352,7 +351,10 @@ function initDefibrillatorInsert() {
 
     // Main page
 
-    $("#new-defibrillator-close").click(() => console.log("Close new defibrillator"));
+    $("#new-defibrillator-close").click(() => {
+        $("#insert-defibrillator").hide();
+        $("#map").show();
+    });
 
     $("#new-defibrillator-done").click(() => {
 

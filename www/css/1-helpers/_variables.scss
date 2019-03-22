@@ -1,50 +1,34 @@
-$colors : (
-        teal-500 : #009688,
-        text-color :#000000
-);
+// VARIABLES
 
-$font-sizes : (
-        title : 20px,
-        body : 16px,
-        body-small : 14px
-);
-
+// COLORS
 $color-teal-500 : #009688;
-$color-shadow : rgba(69, 91, 99, 0.3);
+$color-text : #000000;
 
+
+// FONT SIZES
+$font-title : 20px;
 $font-body : 16px;
+$font-body-small : 14px;
 
 
-$fab-size : 52px;
-
-
-$border-radius : 5px;
-
+// CONTAINER
 $container-margin : 16px;
+@function container-size() {
+  @return calc(100% - #{$container-margin} * 2)
+}
 
-$dialog-width : 280px;
+// FAB
+$fab-size : 52px;
+$fab-radius : 50px;
 
+
+// ICONS
 $icon-area : 48px;
 $icon-size : 24px;
 $icon-padding : 12px;
 
+
+// TOP BAR
 $top-bar-height : 56px;
 $top-bar-icon-area : 52px;
 $top-bar-icon-margin : 4px;
-
-$photo-preview-size : 200px;
-
-
-// FUNCTIONS
-
-@function color($color) {
-  @return map-get($colors, $color)
-}
-
-@function font-size($size) {
-  @return map-get($font-sizes, $size)
-}
-
-@function calc-container-size($margin) {
-  @return calc(100% - #{$margin} * 2)
-}
