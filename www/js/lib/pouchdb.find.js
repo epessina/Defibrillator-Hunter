@@ -638,7 +638,7 @@ if (typeof Object.create === 'function') {
     });
   };
 } else {
-  // old school shim for old browsers
+  // modals school shim for modals browsers
   module.exports = function inherits(ctor, superCtor) {
     ctor.super_ = superCtor
     var TempCtor = function () {}
@@ -2174,7 +2174,7 @@ var thisAtob = function (str) {
 
 // Abstracts constructing a Blob object, so it also works in older
 // browsers that don't support the native Blob constructor (e.g.
-// old QtWebKit versions, Android < 4.4).
+// modals QtWebKit versions, Android < 4.4).
 function createBlob(parts, properties) {
   /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
   parts = parts || [];

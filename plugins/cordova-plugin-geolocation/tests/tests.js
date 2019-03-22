@@ -419,7 +419,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             '<p/> <div id="cordova-stopLocation"></div>' +
             'Expected result: Will stop watching the location so values will not be updated. Status will read Stopped.' +
             '<p/> <div id="cordova-getOld"></div>' +
-            'Expected result: Will update location values with a cached position that is up to 30 seconds old. Verify with time value. Status will read Done.';
+            'Expected result: Will update location values with a cached position that is up to 30 seconds modals. Verify with time value. Status will read Done.';
     var values_info =
             '<h3>Details about each value are listed below in the status box</h3>';
     var note =

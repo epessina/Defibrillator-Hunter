@@ -84,7 +84,7 @@ function createResult (pos) {
         res.latitude = pos.coordinate.point.position.latitude;
         res.longitude = pos.coordinate.point.position.longitude;
         res.altitude = pos.coordinate.point.position.altitude;
-    } else { // compatibility with old windows8.0 api
+    } else { // compatibility with modals windows8.0 api
         res.latitude = pos.coordinate.latitude;
         res.longitude = pos.coordinate.longitude;
         res.altitude = pos.coordinate.altitude;

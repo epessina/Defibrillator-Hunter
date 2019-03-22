@@ -1,0 +1,1298 @@
+<!-- Defibrillators modals -->
+
+<div id="location-modal" class="modal fade" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Location</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Type -->
+                <div class="modal-question">
+
+                    <p>Is the defibrillator located <b>indoor</b> or <b>outdoor</b>?</p>
+
+                    <div class="radio-group form-check form-check-inline">
+
+                        <input id="radio-indoor"
+                               class="form-check-input"
+                               type="radio"
+                               name="locationTypeOptions"
+                               value="INDOOR"
+                               checked>
+                        <label class="form-check-label" for="radio-indoor">Indoor</label>
+
+                    </div>
+
+                    <div class="form-check form-check-inline">
+
+                        <input id="radio-outdoor"
+                               class="form-check-input"
+                               type="radio"
+                               name="locationTypeOptions"
+                               value="OUTDOOR">
+                        <label class="form-check-label" for="radio-outdoor">Outdoor</label>
+
+                    </div>
+
+                </div>
+
+                <!-- Subtype -->
+                <div class="modal-question">
+
+                    <p>How would you <b>classify</b> the location of the defibrillator?</p>
+
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="radio-commercial-activity"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="COMMERCIAL_ACTIVITY"
+                                       checked>
+                                <label class="form-check-label" for="radio-commercial-activity">Commercial
+                                    activity</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-company"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="COMPANY">
+                                <label class="form-check-label" for="radio-company">Company</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-residential-building"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="RESIDENTIAL_BUILDING">
+                                <label class="form-check-label" for="radio-residential-building">
+                                    Residential building
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="radio-public-place"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="PUBLIC_PLACE">
+                                <label class="form-check-label" for="radio-public-place">Public place</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-sport-facility"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="SPORT_FACILITY">
+                                <label class="form-check-label" for="radio-sport-facility">Sport facility</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-transport-station"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="locationSubtypeOptions"
+                                       value="TRANSPORT_STATION">
+                                <label class="form-check-label" for="radio-transport-station">Transport station</label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Floor -->
+                <div class="modal-question">
+
+                    <p>At which <b>floor</b> is the defibrillator located?</p>
+
+                    <label>
+                        <input id="location-floor"
+                               type="number"
+                               value="0"
+                               min="-4"
+                               max="7"
+                               step="1"/>
+                    </label>
+
+                </div>
+
+                <!-- Information -->
+                <div>
+
+                    <p>
+                        Can you provide some <b>more information</b>?
+                        <br>
+                        (e.g., the name of the location, a description of the position...)
+                    </p>
+
+                    <textarea id="location-notes"
+                              class="form-control"
+                              placeholder="Max 500 characters..."
+                              maxlength="500"
+                              rows="4"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="location-modal-close" class="btn btn-modal-outline">
+                    <i class="fas fa-times mr-3"></i>Close
+                </button>
+                <button id="location-modal-next" class="btn btn-modal-full">
+                    Next<i class="fas fa-angle-right ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="temp-accessibility-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Temporal accessibility</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <!-- General time -->
+                <div class="modal-question">
+
+                    <p><b>When</b> is the defibrillator accessible?</p>
+
+                    <div class="row">
+
+                        <div class="col">
+
+                            <p>Days of the week</p>
+
+                            <div class="form-check">
+
+                                <input id="radio-days-always"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityDayType"
+                                       value="ALWAYS"
+                                       checked>
+                                <label class="form-check-label" for="radio-days-always">Always</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-days-weekdays"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityDayType"
+                                       value="WEEKDAYS">
+                                <label class="form-check-label" for="radio-days-weekdays">Weekdays</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-days-weekend"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityDayType"
+                                       value="WEEKEND">
+                                <label class="form-check-label" for="radio-days-weekend">Weekend</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-days-never"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityDayType"
+                                       value="NEVER">
+                                <label class="form-check-label" for="radio-days-never">Never</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            <p>Time of the day</p>
+
+                            <div class="form-check">
+
+                                <input id="radio-time-always"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityTime"
+                                       value="ALWAYS"
+                                       checked>
+                                <label class="form-check-label" for="radio-time-always">Always</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-time-daytime"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityTime"
+                                       value="DAY_TIME">
+                                <label class="form-check-label" for="radio-time-daytime">Day time</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-time-nighttime"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityTime"
+                                       value="NIGHT_TIME">
+                                <label class="form-check-label" for="radio-time-nighttime">Night time</label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input id="radio-time-never"
+                                       class="form-check-input"
+                                       type="radio"
+                                       name="accessibilityTime"
+                                       value="NEVER">
+                                <label class="form-check-label" for="radio-time-never">Never</label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Specific days -->
+                <div id="specific-days">
+
+                    <p>Could you give us some <b>more precise</b> information?</p>
+
+                    <!-- Monday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-monday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="monday">
+                                <label class="form-check-label" for="check-monday">Monday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="mon-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="mon-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Tuesday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-tuesday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="tuesday">
+
+                                <label class="form-check-label" for="check-tuesday">Tuesday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="tue-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="tue-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Wednesday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-wednesday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="wednesday">
+
+                                <label class="form-check-label" for="check-wednesday">Wednesday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="wed-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="wed-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Thursday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-thursday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="thursday">
+
+                                <label class="form-check-label" for="check-thursday">Thursday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="thu-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="thu-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Friday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-friday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="friday">
+
+                                <label class="form-check-label" for="check-friday">Friday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="fri-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="fri-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Saturday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-saturday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="saturday">
+
+                                <label class="form-check-label" for="check-saturday">Saturday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="sat-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="sat-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Sunday -->
+                    <div class="row">
+
+                        <div class="col">
+
+                            <div class="form-check">
+
+                                <input id="check-sunday"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       value="sunday">
+
+                                <label class="form-check-label" for="check-sunday">Sunday</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            From <label>
+                            <select id="sun-from" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label> to <label>
+                            <select id="sun-to" disabled>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                            </select>
+                        </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="temp-accessibility-modal-back" class="btn btn-modal-outline">
+                    <i class="fas fa-angle-left mr-3"></i>Back
+                </button>
+                <button id="temp-accessibility-modal-next" class="btn btn-modal-full">
+                    Next<i class="fas fa-angle-right ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="spa-accessibility-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Spacial accessibility</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Slider -->
+                <div class="modal-question">
+
+                    <p>
+                        How would you evaluate the <b>spacial accessibility</b> of the defibrillator?
+                        <br>
+                        (i.e. presence of barriers between the street and the defibrillator)
+                    </p>
+
+                    <label for="spa-accessibility-range"></label>
+                    <input id="spa-accessibility-range" type="text"/>
+
+                </div>
+
+                <!-- Details -->
+                <div>
+
+                    <p>Can you provide some <b>details</b>?</p>
+
+                    <textarea id="spa-accessibility-details"
+                              class="form-control"
+                              placeholder="Max 500 characters..."
+                              maxlength="500"
+                              rows="4"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="spa-accessibility-modal-back" class="btn btn-modal-outline">
+                    <i class="fas fa-angle-left mr-3"></i>Back
+                </button>
+                <button id="spa-accessibility-modal-next" class="btn btn-modal-full">
+                    Next<i class="fas fa-angle-right ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="other-info-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Other information</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Contact person -->
+                <div class="modal-question">
+
+                    <p>Is there a <b>contact person</b>?</p>
+
+                    <div class="radio-group form-check form-check-inline">
+
+                        <input id="radio-contact-person-yes"
+                               class="form-check-input"
+                               type="radio"
+                               name="contactPerson"
+                               value="yes">
+                        <label class="form-check-label" for="radio-contact-person-yes">Yes</label>
+
+                    </div>
+
+                    <div class="form-check form-check-inline">
+
+                        <input id="radio-contact-person-no"
+                               class="form-check-input"
+                               type="radio"
+                               name="contactPerson"
+                               value="no"
+                               checked>
+                        <label class="form-check-label" for="radio-contact-person-no">No</label>
+
+                    </div>
+
+                </div>
+
+                <!-- Notes -->
+                <div>
+
+                    <p>
+                        Do you want to give us some <b>more information</b>?
+                        <br>
+                        (e.g. installation type, brand...)
+                    </p>
+
+                    <textarea id="other-notes"
+                              class="form-control"
+                              placeholder="Max 500 characters..."
+                              maxlength="500"
+                              rows="4"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="other-info-modal-back" class="btn btn-modal-outline">
+                    <i class="fas fa-angle-left mr-3"></i>Back
+                </button>
+                <button id="other-info-modal-next" class="btn btn-modal-full">
+                    Next<i class="fas fa-angle-right ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="photo-modal" class="modal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <p class="modal-heading">Insert a photo</p>
+
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="photo-wrapper">
+
+                    <input id="photo-input"
+                           type="file"
+                           accept=".png, .jpg, .jpeg">
+
+                    <label for="photo-input">
+                        <i class="fas fa-camera photo-icon"></i>
+                        <br>
+                        <b>Choose a file</b>
+                    </label>
+
+                </div>
+
+                <div class="photo-upload-content">
+
+                    <img class="photo-upload-preview" src="#" alt="Your image">
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="photo-modal-back" class="btn btn-modal-outline">
+                    <i class="fas fa-angle-left mr-3"></i>Back
+                </button>
+                <button id="photo-modal-done" class="btn btn-modal-full" disabled>
+                    Done<i class="fas fa-check ml-3"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+.modal-content {
+    border: 0;
+    -webkit-border-radius: .125rem;
+    border-radius: .125rem;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+}
+
+.modal-header {
+    border: 0;
+    -webkit-border-top-left-radius: .125rem;
+    border-top-left-radius: .125rem;
+    -webkit-border-top-right-radius: .125rem;
+    border-top-right-radius: .125rem;
+    background-color: #00897b;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.modal-heading {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0;
+    padding: .3rem;
+    color: #fff;
+}
+
+.modal-header .close {
+    opacity: 1;
+}
+
+.modal-body {
+    font-size: 14pt;
+    padding: 1.5rem;
+    color: #616161;
+}
+
+.modal-body p {
+    font-size: 15pt;
+}
+
+.modal-question {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.modal-question .form-check {
+    margin-bottom: 0.7em;
+}
+
+.form-control:focus {
+    border-color: #26a69a;
+    box-shadow: 0 0 0 0.2rem rgba(0, 89, 77, 0.35);
+}
+
+
+.slider.slider-horizontal {
+    width: 80%;
+    margin-left: 9%;
+}
+
+.slider-handle {
+    background-color: #00796b;
+    background-image: -webkit-linear-gradient(top, #00796b 0, #00897b 100%);
+    background-image: -o-linear-gradient(top, #00796b 0, #00897b 100%);
+    background-image: linear-gradient(to bottom, #00796b 0, #00897b 100%);
+}
+
+.slider-tick.in-selection {
+    background-image: -webkit-linear-gradient(top, #4db6ac 0, #26a69a 100%);
+    background-image: -o-linear-gradient(top, #4db6ac 0, #26a69a 100%);
+    background-image: linear-gradient(to bottom, #4db6ac 0, #26a69a 100%);
+}
+
+.slider-selection.tick-slider-selection {
+    background-image: -webkit-linear-gradient(top, #4db6ac 0, #26a69a 100%);
+    background-image: -o-linear-gradient(top, #4db6ac 0, #26a69a 100%);
+    background-image: linear-gradient(to bottom, #4db6ac 0, #26a69a 100%);
+}
+
+
+/* Photo */
+
+.photo-wrapper {
+    font-size: 1.25rem;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.photo-icon {
+    font-size: 4rem;
+    color: #92b0b3;
+}
+
+#photo-input {
+    position: absolute;
+    z-index: -1;
+    overflow: hidden;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+}
+
+#photo-input + label {
+    cursor: pointer;
+}
+
+.photo-upload-content {
+    display: none;
+    text-align: center;
+}
+
+.photo-upload-preview {
+    max-width: 200px;
+    max-height: 200px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* Footer */
+
+.modal-footer .btn {
+    font-size: 1rem;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    margin: .375rem;
+    padding: .6rem 2.14rem;
+    cursor: pointer;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    white-space: normal;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    color: #fff;
+    border: 0;
+    -webkit-border-radius: .125rem;
+    border-radius: .125rem;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.modal-footer .btn:hover {
+    outline: 0;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+}
+
+.modal-footer .btn-modal-outline {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    color: #26a69a !important;
+    border: 2px solid #26a69a !important;
+    background-color: transparent !important;
+}
+
+.modal-footer .btn-modal-full {
+    color: white;
+    background-color: #26a69a !important;
+}

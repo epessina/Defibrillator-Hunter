@@ -1,7 +1,8 @@
 "use strict";
 
+// ToDo add "www" for Cordova
 const positionMarkerIcon = L.icon({
-    iconUrl    : "img/user-position-marker.png", // ToDo add "www" in front
+    iconUrl    : "img/user-position-marker.png",
     iconSize   : [47, 71],
     iconAnchor : [23, 71],
     popupAnchor: [0, -72]
@@ -28,7 +29,6 @@ function initMap() {
     if (isApp)
         initAppMapUI();
 
-
     map.setView(currLatLong, defaultZoom);
 
     // Map events
@@ -47,7 +47,6 @@ function initMap() {
     initLayers();
     // initPositionControl();
     // initPositionMarker();
-
 }
 
 function initAppMapUI() {

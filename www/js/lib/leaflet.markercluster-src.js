@@ -1239,7 +1239,7 @@ L.MarkerClusterGroup.include({
 					fg.removeLayer(c);
 					c._recursivelyAddChildrenToMap(null, newZoomLevel, bounds);
 				} else {
-					//Fade out old cluster
+					//Fade out modals cluster
 					c.clusterHide();
 					c._recursivelyAddChildrenToMap(startPos, newZoomLevel, bounds);
 				}
@@ -1273,7 +1273,7 @@ L.MarkerClusterGroup.include({
 
 			this._ignoreMove = false;
 
-			//Remove the old clusters and close the zoom animation
+			//Remove the modals clusters and close the zoom animation
 			this._enqueue(function () {
 				//update the positions of the just added clusters/markers
 				this._topClusterLevel._recursively(bounds, previousZoomLevel, minZoom, function (c) {

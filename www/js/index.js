@@ -19,12 +19,6 @@ let DefibrillatorIcon = L.Icon.extend({
 let userDefibrillatorIcon  = new DefibrillatorIcon({iconUrl: "img/user-def-icon.png"}),
     otherDefibrillatorIcon = new DefibrillatorIcon({iconUrl: "img/other-def-icon.png"});
 
-let $menuButton  = $("#nav-button"),
-    $menuWrapper = $("#nav-wrapper"),
-    $menuOverlay = $("#nav-overlay"),
-    isMenuOpen   = false,
-    $btnInsert   = $("#btn-insert");
-
 let uuid;
 
 let userDefibrillators  = [],
@@ -84,65 +78,12 @@ function init() {
 
     // networkState = navigator.connection.type;
 
-    $("body").css("overflow-y", "hidden");
     onResize();
-
-    // handleUserModal();
-
-    // initMenu();
-
-
     initMap();
-
-    // locationWatcher = setInterval(getUserPosition, 4000);
-
     handleDb();
-
     initDefibrillatorInsert();
 
-}
-
-
-function initMenu() {
-
-    $menuWrapper.click(function (e) {
-        e.stopPropagation();
-    });
-
-    $menuButton.click(function (e) {
-        e.stopPropagation();
-
-        if (!isMenuOpen)
-            openMenu();
-        else
-            closeMenu();
-    });
-
-    document.addEventListener("click", closeMenu);
-
-    $btnInsert.click(function () {
-
-        closeMenu();
-        handleModals();
-    });
-}
-
-
-function openMenu() {
-    isMenuOpen = true;
-
-    $menuButton.html("-");
-    $menuOverlay.addClass("on-overlay");
-    $menuWrapper.addClass("nav-open");
-}
-
-
-function closeMenu() {
-    isMenuOpen = false;
-
-    $menuButton.html("+");
-    $menuOverlay.removeClass("on-overlay");
-    $menuWrapper.removeClass("nav-open");
+    // locationWatcher = setInterval(getUserPosition, 4000);
 }
 
 

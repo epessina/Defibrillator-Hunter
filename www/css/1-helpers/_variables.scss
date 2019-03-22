@@ -1,0 +1,50 @@
+$colors : (
+        teal-500 : #009688,
+        text-color :#000000
+);
+
+$font-sizes : (
+        title : 20px,
+        body : 16px,
+        body-small : 14px
+);
+
+$color-teal-500 : #009688;
+$color-shadow : rgba(69, 91, 99, 0.3);
+
+$font-body : 16px;
+
+
+$fab-size : 52px;
+
+
+$border-radius : 5px;
+
+$container-margin : 16px;
+
+$dialog-width : 280px;
+
+$icon-area : 48px;
+$icon-size : 24px;
+$icon-padding : 12px;
+
+$top-bar-height : 56px;
+$top-bar-icon-area : 52px;
+$top-bar-icon-margin : 4px;
+
+$photo-preview-size : 200px;
+
+
+// FUNCTIONS
+
+@function color($color) {
+  @return map-get($colors, $color)
+}
+
+@function font-size($size) {
+  @return map-get($font-sizes, $size)
+}
+
+@function calc-container-size($margin) {
+  @return calc(100% - #{$margin} * 2)
+}
