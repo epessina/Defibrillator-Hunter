@@ -8,8 +8,9 @@
 
   /* MAIN PAGE */
   #insert-defibrillator-main {
-    width  : 100%;
-    height : 100%;
+    width   : 100%;
+    height  : 100%;
+    z-index : $z-insert-main;
 
     .requests-container {
       @include flex-display(column);
@@ -24,19 +25,11 @@
           @include flex-static-size($icon-size);
         }
 
-        .request-icon-right {
-          @include flex-static-size($icon-area);
-
-          i {
-            padding : $icon-padding;
-          }
-
-        }
-
         .request-content {
           @include font(500, $font-body);
           @include vendor("flex", "1");
           padding-left  : 6px;
+          margin-right  : 16px;
           cursor        : pointer;
           border-bottom : 1px solid #C5C5C5;
 
@@ -47,7 +40,7 @@
           .request-text {
             font-size     : $font-body-small;
             margin-bottom : 3px;
-            color         : $color-teal-500;
+            color         : $color-main;
           }
 
         }
@@ -65,11 +58,15 @@
   /* PHOTO DIALOG */
   #dialog-photo {
 
+    .custom-container {
+      margin-top : $top-bar-height;
+    }
+
     .photo-cancel-wrapper {
       width    : $icon-area;
       height   : $icon-area;
       padding  : $icon-padding;
-      z-index  : 2;
+      z-index  : $z-photo-cancel;
       position : absolute;
       cursor   : pointer;
 
@@ -84,7 +81,7 @@
     .photo-preview-wrapper {
       width  : 100%;
       height : 200px;
-      margin : 40px 0;
+      margin : 0 0 40px 0;
       @include flex-center;
 
       .photo-preview {

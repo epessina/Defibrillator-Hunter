@@ -27,7 +27,7 @@
 <body onresize="onResize()" onload="onLoad()">
 
 <!-- Map -->
-<div id="map">
+<div style="display: none" id="map">
 
     <div class="custom-container map-container">
 
@@ -52,10 +52,12 @@
 </div>
 
 <!-- Insert defibrillator -->
-<div style="display: none" id="insert-defibrillator">
+<div id="insert-defibrillator">
+
 
     <!-- Opaque overlay -->
     <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
+
 
     <!-- Main screen -->
     <div id="insert-defibrillator-main">
@@ -66,7 +68,7 @@
                 <i id="new-defibrillator-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
                 New defibrillator
             </div>
 
@@ -85,13 +87,12 @@
 
                 <div id="location-category-request" class="request-content">
 
-                    <p class="request-name">Location category</p>
+                    <p class="request-name" data-i18n="insert.locationCategory.name">Location category</p>
 
-                    <p id="location-text" class="request-text">Add a category</p>
+                    <p id="location-text" class="request-text"
+                       data-i18n="insert.locationCategory.defaultText">Add a category</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -102,13 +103,11 @@
 
                 <div id="floor-request" class="request-content">
 
-                    <p class="request-name">Height</p>
+                    <p class="request-name" data-i18n="insert.floor.name">Height</p>
 
-                    <p id="floor-text" class="request-text">Specify the floor</p>
+                    <p id="floor-text" class="request-text" data-i18n="insert.floor.defaultText">Specify the floor</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -119,13 +118,12 @@
 
                 <div id="temporal-accessibility-request" class="request-content">
 
-                    <p class="request-name">Temporal accessibility</p>
+                    <p class="request-name" data-i18n="insert.tempAccessibility.name">Temporal accessibility</p>
 
-                    <p id="temporal-text" class="request-text">Specify the temporal accessibility</p>
+                    <p id="temporal-text" class="request-text"
+                       data-i18n="insert.tempAccessibility.defaultText">Specify the temporal accessibility</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -136,13 +134,12 @@
 
                 <div id="recovery-request" class="request-content">
 
-                    <p class="request-name">Ease of recovery</p>
+                    <p class="request-name" data-i18n="insert.recovery.name">Ease of recovery</p>
 
-                    <p id="recovery-text" class="request-text">Specify the ease of recovery</p>
+                    <p id="recovery-text" class="request-text"
+                       data-i18n="insert.recovery.defaultText">Evaluate the ease of recovery</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -153,13 +150,12 @@
 
                 <div id="signage-request" class="request-content">
 
-                    <p class="request-name">Signage</p>
+                    <p class="request-name" data-i18n="insert.signage.name">Signage</p>
 
-                    <p id="signage-text" class="request-text">Evaluate the signage</p>
+                    <p id="signage-text" class="request-text"
+                       data-i18n="insert.signage.defaultText">Evaluate the signage</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -170,13 +166,12 @@
 
                 <div id="notes-request" class="request-content">
 
-                    <p class="request-name">Additional notes</p>
+                    <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
 
-                    <p id="notes-text" class="request-text">Add additional notes</p>
+                    <p id="notes-text" class="request-text"
+                       data-i18n="insert.notes.defaultText">Add additional notes</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -187,13 +182,12 @@
 
                 <div id="presence-request" class="request-content">
 
-                    <p class="request-name">Presence of the defibrillator</p>
+                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
 
-                    <p id="presence-text" class="request-text">Confirm the presence</p>
+                    <p id="presence-text" class="request-text"
+                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -202,13 +196,14 @@
 
                 <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
 
-                <div id="photo-text" class="btn-text">Add a photo</div>
+                <div id="photo-text" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Location category -->
     <div style="display: none" id="dialog-location" class="full-screen-dialog">
@@ -219,7 +214,8 @@
                 <i id="location-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
+            <div class="top-bar-title"
+                 data-i18n="insert.locationCategory.topBarTitle">
                 Location category
             </div>
 
@@ -231,43 +227,127 @@
 
         <div class="custom-container">
 
-            <p>Where is the defibrillator located?</p>
+            <p class="first-p"
+               data-i18n="insert.locationCategory.questionCategory">
+                Where is the defibrillator located?
+            </p>
 
             <div class="custom-selector-box">
 
                 <label for="location-select" class="label custom-selector">
-                        <span class="label-description">
-                            Select a category
-                        </span>
+
+                    <span class="label-description"
+                          data-i18n="insert.locationCategory.defaultLabel">
+                        Select a category
+                    </span>
+
                     <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
+
                 </label>
 
                 <select id="location-select" class="select">
+
                     <option value="none" style="display: none"></option>
-                    <option value="o1">Option 1</option>
-                    <option value="o2">Option 2</option>
-                    <option value="o3">Option 3</option>
+
+                    <option value="commercialActivity"
+                            data-i18n="insert.locationCategory.enum.commercialActivity">
+                        Commercial activity
+                    </option>
+
+                    <option value="residentialBuilding"
+                            data-i18n="insert.locationCategory.enum.residentialBuilding">
+                        Residential building
+                    </option>
+
+                    <option value="publicPlace"
+                            data-i18n="insert.locationCategory.enum.publicPlace">
+                        Public place
+                    </option>
+
+                    <option value="sportsCentre"
+                            data-i18n="insert.locationCategory.enum.sportsCentre">
+                        Sports centre
+                    </option>
+
+                    <option value="transportStation"
+                            data-i18n="insert.locationCategory.enum.transportStation">
+                        Transport station
+                    </option>
+
+                    <option value="educationalEstablishment"
+                            data-i18n="insert.locationCategory.enum.educationalEstablishment">
+                        Educational establishment
+                    </option>
+
+                    <option value="schoolGym"
+                            data-i18n="insert.locationCategory.enum.schoolGym">
+                        School gym
+                    </option>
+
+                    <option value="drugstore"
+                            data-i18n="insert.locationCategory.enum.drugstore">
+                        Drugstore
+                    </option>
+
+                    <option value="street"
+                            data-i18n="insert.locationCategory.enum.street">
+                        Street
+                    </option>
+
+                    <option value="medicalPracticeClinic"
+                            data-i18n="insert.locationCategory.enum.medicalPracticeClinic">
+                        Medical practice / Clinic
+                    </option>
+
+                    <option value="churchOratorio"
+                            data-i18n="insert.locationCategory.enum.churchOratorio">
+                        Church / Oratorio
+                    </option>
+
+                    <option value="shelter"
+                            data-i18n="insert.locationCategory.enum.shelter">
+                        Shelter
+                    </option>
+
+                    <option value="nursingHomeHospice"
+                            data-i18n="insert.locationCategory.enum.nursingHomeHospice">
+                        Nursing home / Hospice
+                    </option>
+
+                    <option value="other"
+                            data-i18n="insert.locationCategory.enum.other">
+                        Other
+                    </option>
+
                 </select>
 
             </div>
 
             <p>
-                Specify a visual reference
+                <span data-i18n="insert.locationCategory.visualReference">
+                    Specify a visual reference
+                </span>
+
                 <br>
-                (e.g. a church or a clearly visible building)
+
+                <span data-i18n="insert.locationCategory.visualReferenceSecond">
+                    (e.g. a church or a clearly visible building)
+                </span>
             </p>
 
+            <label for="location-reference"></label>
             <textarea id="location-reference"
                       class="custom-textarea"
                       rows="5"
-                      placeholder="The defibrillator is near a..."
+                      data-i18n="[placeholder]insert.locationCategory.visualReferencePlaceholder"
                       maxlength="250"></textarea>
 
         </div>
 
     </div>
+
 
     <!-- Floor -->
     <div style="display: none" id="dialog-floor" class="dialog-wrapper">
@@ -276,20 +356,21 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
+                <p class="dialog-text"
+                   data-i18n="insert.floor.questionFloor">
                     At which floor is the defibrillator located with respect to the street?
                 </p>
 
                 <div class="counter-wrapper">
 
-                    <div id="floor-counter-add" class="counter-icon">
-                        <i class="material-icons">add</i>
+                    <div id="floor-counter-sub" class="counter-icon">
+                        <i class="material-icons">remove</i>
                     </div>
 
                     <div id="floor-counter-value" class="counter-display">0</div>
 
-                    <div id="floor-counter-sub" class="counter-icon">
-                        <i class="material-icons">remove</i>
+                    <div id="floor-counter-add" class="counter-icon">
+                        <i class="material-icons">add</i>
                     </div>
 
                 </div>
@@ -298,15 +379,24 @@
 
             <div class="dialog-footer">
 
-                <div id="floor-cancel" class="text-button">CANCEL</div>
+                <div id="floor-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="floor-ok" class="text-button">OK</div>
+                <div id="floor-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Temporal accessibility -->
     <div style="display: none" id="dialog-temporal-accessibility" class="dialog-wrapper">
@@ -315,32 +405,42 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
+                <p class="dialog-text"
+                   data-i18n="insert.tempAccessibility.questionTempAccessibility">
                     When is it possible to access the defibrillator?
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="temporalAccessibility"
-                               value="24 hours a day"
+                               value="h24"
                                checked>
-                        <span>24 hours a day</span>
+
+                        <span data-i18n="insert.tempAccessibility.enum.h24">24 hours a day</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="temporalAccessibility"
-                               value="Part time">
-                        <span>Part time</span>
+                               value="partTime">
+
+                        <span data-i18n="insert.tempAccessibility.enum.partTime">Part time</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="temporalAccessibility"
-                               value="Not specified">
-                        <span>Not specified</span>
+                               value="notSpecified">
+
+                        <span data-i18n="insert.tempAccessibility.enum.notSpecified">Not specified</span>
+
                     </label>
 
                 </div>
@@ -349,15 +449,24 @@
 
             <div class="dialog-footer">
 
-                <div id="temporal-cancel" class="text-button">CANCEL</div>
+                <div id="temporal-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="temporal-ok" class="text-button">OK</div>
+                <div id="temporal-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Ease of recovery -->
     <div style="display: none" id="dialog-recovery" class="dialog-wrapper">
@@ -366,46 +475,62 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
+                <p class="dialog-text"
+                   data-i18n="insert.recovery.questionRecovery">
                     Evaluate the ease of recovery of the defibrillator
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="recovery"
-                               value="Immediate"
+                               value="immediate"
                                checked>
-                        <span>Immediate</span>
+
+                        <span data-i18n="insert.recovery.enum.immediate">Immediate</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="recovery"
-                               value="Fast">
-                        <span>Fast</span>
+                               value="fast">
+
+                        <span data-i18n="insert.recovery.enum.fast">Fast</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="recovery"
-                               value="Average">
-                        <span>Average</span>
+                               value="average">
+
+                        <span data-i18n="insert.recovery.enum.average">Average</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="recovery"
-                               value="Slow">
-                        <span>Slow</span>
+                               value="slow">
+
+                        <span data-i18n="insert.recovery.enum.slow">Slow</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="recovery"
-                               value="Very slow">
-                        <span>Very slow</span>
+                               value="verySlow">
+
+                        <span data-i18n="insert.recovery.enum.verySlow">Very slow</span>
+
                     </label>
 
                 </div>
@@ -414,15 +539,24 @@
 
             <div class="dialog-footer">
 
-                <div id="recovery-cancel" class="text-button">CANCEL</div>
+                <div id="recovery-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="recovery-ok" class="text-button">OK</div>
+                <div id="recovery-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Signage -->
     <div style="display: none" id="dialog-signage" class="dialog-wrapper">
@@ -431,39 +565,52 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
+                <p class="dialog-text"
+                   data-i18n="insert.signage.questionSignage">
                     Evaluate the signage presence
                 </p>
 
                 <div>
 
+
                     <label class="radio">
                         <input type="radio"
                                name="signage"
-                               value="Great"
+                               value="great"
                                checked>
-                        <span>Great</span>
+
+                        <span data-i18n="insert.signage.enum.great">Great</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="signage"
-                               value="Visible">
-                        <span>Visible</span>
+                               value="visible">
+
+                        <span data-i18n="insert.signage.enum.visible">Visible</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="signage"
-                               value="Hard to see">
-                        <span>Hard to see</span>
+                               value="hardToSee">
+
+                        <span data-i18n="insert.signage.enum.hardToSee">Hard to see</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="signage"
-                               value="Absent">
-                        <span>Absent</span>
+                               value="absent">
+
+                        <span data-i18n="insert.signage.enum.absent">Absent</span>
+
                     </label>
 
                 </div>
@@ -472,15 +619,24 @@
 
             <div class="dialog-footer">
 
-                <div id="signage-cancel" class="text-button">CANCEL</div>
+                <div id="signage-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="signage-ok" class="text-button">OK</div>
+                <div id="signage-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Notes -->
     <div style="display: none" id="dialog-notes" class="full-screen-dialog">
@@ -491,7 +647,8 @@
                 <i id="notes-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
+            <div class="top-bar-title"
+                 data-i18n="insert.notes.topBarTitle">
                 Additional notes
             </div>
 
@@ -503,29 +660,34 @@
 
         <div class="custom-container">
 
-            <p>
-                Brand of the defibrillator
+            <p class="first-p">
+                <span data-i18n="insert.notes.questionBrand">Brand of the defibrillator</span>
+
                 <br>
-                (leave empty if not visible)
+
+                <span data-i18n="insert.notes.questionBrandSecond">(leave empty if not visible)</span>
             </p>
 
+            <label for="brand"></label>
             <textarea id="brand"
                       class="custom-textarea"
                       rows="1"
-                      placeholder="Specify the brand..."
+                      data-i18n="[placeholder]insert.notes.brandPlaceholder"
                       maxlength="50"></textarea>
 
-            <p>Additional notes</p>
+            <p data-i18n="insert.notes.questionNotes">Additional notes</p>
 
+            <label for="notes"></label>
             <textarea id="notes"
                       class="custom-textarea"
                       rows="10"
-                      placeholder="Max 500 characters..."
+                      data-i18n="[placeholder]insert.notes.notesPlaceholder"
                       maxlength="500"></textarea>
 
         </div>
 
     </div>
+
 
     <!-- Presence -->
     <div style="display: none" id="dialog-presence" class="dialog-wrapper">
@@ -534,25 +696,32 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
+                <p class="dialog-text"
+                   data-i18n="insert.presence.questionPresence">
                     Is the defibrillator in the display?
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="presence"
-                               value="Yes"
+                               value="yes"
                                checked>
-                        <span>Yes</span>
+
+                        <span data-i18n="insert.presence.enum.yes">Yes</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="presence"
-                               value="No">
-                        <span>No</span>
+                               value="no">
+
+                        <span  data-i18n="insert.presence.enum.no">No</span>
+
                     </label>
 
                 </div>
@@ -561,15 +730,24 @@
 
             <div class="dialog-footer">
 
-                <div id="presence-cancel" class="text-button">CANCEL</div>
+                <div id="presence-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="presence-ok" class="text-button">OK</div>
+                <div id="presence-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Photo -->
     <div style="display: none" id="dialog-photo" class="full-screen-dialog">
@@ -580,7 +758,8 @@
                 <i id="photo-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
+            <div class="top-bar-title"
+                 data-i18n="insert.photo.topBarTitle">
                 Add a photo
             </div>
 
@@ -600,7 +779,7 @@
 
         </div>
 
-        <div class="custom-container">
+        <div id="photo-dialog-container" class="custom-container">
 
             <div id="photo-preview-wrapper" class="photo-preview-wrapper">
 
@@ -615,17 +794,26 @@
 
                 <div class="icon-before"><i class="material-icons">photo_camera</i></div>
 
-                <div class="btn-text">Take a picture</div>
+                <div class="btn-text"
+                     data-i18n="insert.photo.cameraBtn">
+                    Take a picture
+                </div>
 
             </div>
 
-            <div class="photo-or">- or -</div>
+            <div class="photo-or"
+                 data-i18n="insert.photo.or">
+                - or -
+            </div>
 
             <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
 
                 <div class="icon-before"><i class="material-icons">folder</i></div>
 
-                <div class="btn-text">Choose from the gallery</div>
+                <div class="btn-text"
+                     data-i18n="insert.photo.galleryBtn">
+                    Choose from the gallery
+                </div>
 
             </div>
 
@@ -636,6 +824,7 @@
         </div>
 
     </div>
+
 
 </div>
 
@@ -665,9 +854,9 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
 <script type="text/javascript" src="js/enums.js"></script>
-<script type="text/javascript" src="js/user.js"></script>
 <script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

@@ -1296,3 +1296,230 @@
     color: white;
     background-color: #26a69a !important;
 }
+
+
+
+function handleModals() {
+
+    let defibrillatorData = {};
+
+    let $locationModal          = $("#location-modal"),
+        $tempAccessibilityModal = $("#temp-accessibility-modal"),
+        $spaAccessibilityModal  = $("#spa-accessibility-modal"),
+        $otherInfoModal         = $("#other-info-modal"),
+        $photoModal             = $("#photo-modal");
+
+    let photo;
+
+
+    $locationModal.modal("show");
+    initTemporalAccessibilityModal();
+    initSpacialAccessibilityModal();
+    initPhotoModal();
+
+
+    function initTemporalAccessibilityModal() {
+
+        $("#check-monday").change(function () {
+            $("#mon-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#mon-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-tuesday").change(function () {
+            $("#tue-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#tue-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-wednesday").change(function () {
+            $("#wed-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#wed-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-thursday").change(function () {
+            $("#thu-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#thu-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-friday").change(function () {
+            $("#fri-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#fri-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-saturday").change(function () {
+            $("#sat-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#sat-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+        $("#check-sunday").change(function () {
+            $("#sun-from").prop("disabled", function (i, v) {
+                return !v;
+            });
+            $("#sun-to").prop("disabled", function (i, v) {
+                return !v;
+            });
+        });
+
+    }
+
+    function initSpacialAccessibilityModal() {
+
+        $("#spa-accessibility-range").slider({
+            ticks            : [10, 20, 30, 40, 50, 60, 70, 80, 90],
+            ticks_labels     : ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%"],
+            ticks_snap_bounds: 50,
+            value            : 50
+        });
+
+    }
+
+    function initPhotoModal() {
+
+        $("#photo-input").change(() => {
+
+            let file   = $("#photo-input")[0].files[0];
+            let reader = new FileReader();
+
+            if (file)
+                reader.readAsDataURL(file); // Calls onload
+
+            reader.onload = function (event) {
+
+                let type    = file.type;
+                let dataURL = event.target.result;
+
+                $(".photo-upload-preview").attr("src", dataURL);
+                $(".photo-upload-content").show();
+
+                photo = {
+                    content_type: type,
+                    data        : dataURL.substr(dataURL.indexOf(",") + 1)
+                };
+
+                $("#photo-modal-done").prop("disabled", false);
+            }
+        });
+    }
+
+    // Close location modal
+    $("#location-modal-close").click(() => $locationModal.removeClass("d-block"));
+
+    // Location -> Temporal Accessibility
+    $("#location-modal-next").click(() => {
+
+        switchModals($locationModal, $tempAccessibilityModal);
+
+        defibrillatorData.location = {
+            type   : LOCATION_TYPE[$("input[name='locationTypeOptions']:checked").val()],
+            subType: LOCATION_SUBTYPE[$("input[name='locationSubtypeOptions']:checked").val()],
+            floor  : $("#location-floor").val(),
+            notes  : $("#location-notes").val() // ToDo parse
+        };
+
+    });
+
+    // Temporal Accessibility -> Location
+    $("#temp-accessibility-modal-back").click(() => switchModals($tempAccessibilityModal, $locationModal));
+
+    // Temporal Accessibility -> Spacial Accessibility
+    $("#temp-accessibility-modal-next").click(() => {
+
+        switchModals($tempAccessibilityModal, $spaAccessibilityModal);
+
+        let temporalAccessibility = {
+            dayType: DAY_TYPE[$("input[name='accessibilityDayType']:checked").val()],
+            dayTime: DAY_TIME[$("input[name='accessibilityTime']:checked").val()]
+        };
+
+        let details = {};
+
+        $("#specific-days :checkbox").each(function () {
+            if (this.checked) {
+
+                let day    = $(this).val();
+                let fromId = "#" + day.substring(0, 3) + "-from";
+                let toId   = "#" + day.substring(0, 3) + "-to";
+
+                details[day] = {
+                    from: $(fromId).val(),
+                    to  : $(toId).val()
+                };
+            }
+        });
+
+        temporalAccessibility.details = details;
+
+        defibrillatorData.temporalAccessibility = temporalAccessibility;
+    });
+
+    // Spacial Accessibility -> Temporal Accessibility
+    $("#spa-accessibility-modal-back").click(() => switchModals($spaAccessibilityModal, $tempAccessibilityModal));
+
+    // Spacial Accessibility -> Other Info
+    $("#spa-accessibility-modal-next").click(() => {
+
+        switchModals($spaAccessibilityModal, $otherInfoModal);
+
+        defibrillatorData.spacialAccessibility = {
+            score  : $("#spa-accessibility-range").val(),
+            details: $("#spa-accessibility-details").val()
+        };
+    });
+
+    // Other Info -> Spacial Accessibility
+    $("#other-info-modal-back").click(() => switchModals($otherInfoModal, $spaAccessibilityModal));
+
+    // Other Info -> Photo
+    $("#other-info-modal-next").click(() => {
+
+        switchModals($otherInfoModal, $photoModal);
+
+        defibrillatorData.ownership     = "??"; // ToDo ask for ownership
+        defibrillatorData.contactPerson = $("input[name='contactPerson']:checked").val() === "yes";
+        defibrillatorData.otherNotes    = $("#other-notes").val();
+    });
+
+    // Photo -> Other Info
+    $("#photo-modal-back").click(() => switchModals($photoModal, $otherInfoModal));
+
+    // Photo -> Done
+    $("#photo-modal-done").click(() => {
+
+        defibrillatorData._attachments = {
+            "photo": photo
+        };
+
+        $photoModal.removeClass("fade").modal("hide");
+
+        console.log(defibrillatorData);
+    });
+
+
+    function switchModals(toHide, toShow) {
+        toHide.removeClass("fade").modal("hide");
+        toShow.modal("show").addClass("fade");
+    }
+}

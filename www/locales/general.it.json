@@ -41,22 +41,15 @@
     "titleAccessibility" : "Accessibility",
     "titlePhoto" : "Photo"
   },
-  "dialogs" : {
-    "btnCancel" : "CANCEL",
-    "btnOk" : "OK"
-  },
   "insert" : {
     "mainScreen" : {
       "topBarTitle" : "New defibrillator"
     },
     "locationCategory" : {
-      "topBarTitle" : "Location category",
       "name" : "Location category",
       "defaultText" : "Add a category",
-      "questionCategory" : "Where is the defibrillator located?",
-      "defaultLabel" : "Select a category",
       "enum" : {
-        "commercialActivity" : "Commercial activity",
+        "commercialActivity" : "Attività commerciale",
         "residentialBuilding" : "Residential building",
         "publicPlace" : "Public place",
         "sportsCentre" : "Sports centre",
@@ -65,81 +58,39 @@
         "schoolGym" : "School gym",
         "drugstore" : "Drugstore",
         "street" : "Street",
-        "medicalPracticeClinic" : "Medical practice / Clinic",
-        "churchOratorio" : "Church / Oratorio",
+        "medicalPracticeClinic" : "Medical practice/Clinic",
+        "churchOratorio" : "Church/Oratorio",
         "shelter" : "Shelter",
-        "nursingHomeHospice" : "Nursing home / Hospice",
+        "nursingHomeHospice" : "Nursing home/Hospice",
         "other" : "Other"
-      },
-      "visualReference" : "Specify a visual reference",
-      "visualReferenceSecond" : "(e.g. a church or a clearly visible building)",
-      "visualReferencePlaceholder" : "The defibrillator is near a..."
+      }
     },
     "floor" : {
       "name" : "Height",
-      "defaultText" : "Specify the floor",
-      "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
+      "defaultText" : "Specify the floor"
     },
     "tempAccessibility" : {
       "name" : "Temporal accessibility",
-      "defaultText" : "Specify the temporal accessibility",
-      "questionTempAccessibility" : "When is it possible to access the defibrillator?",
-      "enum" : {
-        "h24" : "24 hours a day",
-        "partTime" : "Part time",
-        "notSpecified" : "Not specified"
-      }
+      "defaultText" : "Specify the temporal accessibility"
     },
     "recovery" : {
       "name" : "Ease of recovery",
-      "defaultText" : "Evaluate the ease of recovery",
-      "questionRecovery" : "Evaluate the ease of recovery of the defibrillator",
-      "enum" : {
-        "immediate" : "Immediate",
-        "fast" : "Fast",
-        "average" : "Average",
-        "slow" : "Slow",
-        "verySlow" : "Very slow"
-      }
+      "defaultText" : "Evaluate the ease of recovery"
     },
     "signage" : {
       "name" : "Signage",
-      "defaultText" : "Evaluate the signage",
-      "questionSignage" : "Evaluate the signage presence",
-      "enum" : {
-        "great" : "Great",
-        "visible" : "Visible",
-        "hardToSee" : "Hard to see",
-        "absent" : "Absent"
-      }
+      "defaultText" : "Evaluate the signage"
     },
     "notes" : {
       "name" : "Additional notes",
-      "defaultText" : "Add additional notes",
-      "editText" : "Edit your additional notes",
-      "topBarTitle" : "Additional notes",
-      "questionBrand" : "Brand of the defibrillator",
-      "questionBrandSecond" : "(leave empty if not visible)",
-      "brandPlaceholder" : "Specify the brand...",
-      "questionNotes" : "Additional notes",
-      "notesPlaceholder" : "Max 500 characters..."
+      "defaultText" : "Add additional notes"
     },
     "presence" : {
       "name" : "Presence of the defibrillator",
-      "defaultText" : "Confirm the presence",
-      "questionPresence" : "Is the defibrillator in the display?",
-      "enum" : {
-        "yes" : "Yes",
-        "no" : "No"
-      }
+      "defaultText" : "Confirm the presence"
     },
     "photo" : {
-      "name" : "Add a photo",
-      "editText" : "Edit your photo",
-      "topBarTitle" : "Add a photo",
-      "cameraBtn": "Take a picture",
-      "or": "- or -",
-      "galleryBtn": "Choose from the gallery"
+      "name" : "Add a photo"
     }
   }
 }

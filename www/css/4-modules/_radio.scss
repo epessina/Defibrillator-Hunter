@@ -10,7 +10,7 @@
     display : none;
 
     & + span {
-      line-height  : 25px;
+      line-height  : 1.2;
       position     : relative;
       display      : block;
       height       : 22px;
@@ -45,7 +45,7 @@
 
       &:before {
         @include vendor("transform", "scale(1.04)");
-        background : $color-teal-500;
+        background : $color-main;
       }
 
       &:after {

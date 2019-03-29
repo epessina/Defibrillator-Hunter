@@ -1,7 +1,8 @@
 // VARIABLES
 
 // COLORS
-$color-teal-500 : #009688;
+$color-main : #009688;
+$color-main-dark : #00796B;
 $color-text : #000000;
 
 
@@ -9,6 +10,16 @@ $color-text : #000000;
 $font-title : 20px;
 $font-body : 16px;
 $font-body-small : 14px;
+
+
+// Z-INDEXES
+$z-map-container : 1000;
+$z-insert-main : 0;
+$z-top-bar : 1;
+$z-opaque-overlay : 4;
+$z-full-dialog : 3;
+$z-dialog : 5;
+$z-photo-cancel : 4;
 
 
 // CONTAINER

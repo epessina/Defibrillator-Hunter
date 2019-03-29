@@ -1,33 +1,33 @@
 "use strict";
 
-const LOCATION_TYPE = Object.freeze({
-    INDOOR : "indoor",
-    OUTDOOR: "outdoor"
+
+const LOCATION_CATEGORY = Object.freeze({
+    COMMERCIAL_ACTIVITY      : "s",
+    COMPANY                  : "Company",
+    RESIDENTIAL_BUILDING     : "Residential building",
+    PUBLIC_PLACE             : "Public place",
+    SPORTS_CENTRE            : "Sports centre",
+    TRANSPORT_STATION        : "Transport station",
+    EDUCATIONAL_ESTABLISHMENT: "Educational establishment",
+    SCHOOL_GYM               : "School gym",
+    DRUGSTORE                : "Drugstore",
+    STREET                   : "Street",
+    MEDICAL_PRACTICE_CLINIC  : "Medical practice/Clinic",
+    CHURCH_ORATORIO          : "Church/Oratorio",
+    SHELTER                  : "Shelter",
+    NURSING_HOME_HOSPICE     : "Nursing home/Hospice",
+    OTHER                    : "other"
 });
 
-const LOCATION_SUBTYPE = Object.freeze({
-    COMMERCIAL_ACTIVITY : "commercial activity",
-    COMPANY             : "company",
-    RESIDENTIAL_BUILDING: "residential building",
-    PUBLIC_PLACE        : "public place",
-    SPORT_FACILITY      : "sport facility",
-    TRANSPORT_STATION   : "transport station",
-    OTHER               : "other"
+const TEMPORAL_ACCESSIBILITY = Object.freeze({
+    H24          : "24",
+    PART_TIME    : "part",
+    NOT_SPECIFIED: "n"
 });
 
-const DAY_TYPE = Object.freeze({
-    ALWAYS  : "always",
-    WEEKDAYS: "weekdays",
-    WEEKEND : "weekend",
-    NEVER   : "never"
-});
 
-const DAY_TIME = Object.freeze({
-    ALWAYS    : "always",
-    DAY_TIME  : "day time",
-    NIGHT_TIME: "night time",
-    NEVER     : "never"
-});
+
+// DAY_TYPE[$("input[name='accessibilityDayType']:checked").val()]
 
 
 

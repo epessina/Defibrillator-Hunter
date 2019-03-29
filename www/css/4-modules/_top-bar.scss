@@ -2,10 +2,12 @@
 
 .top-bar {
   width      : 100%;
-  z-index    : 1;
+  position   : fixed;
+  top        : 0;
+  z-index    : $z-top-bar;
   @include flex-center;
   height     : $top-bar-height;
-  background : $color-teal-500;
+  background : $color-main-dark;
   box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.3);
   color      : #FFFFFF;
 
@@ -29,6 +31,10 @@
     @include font(500, $font-title);
     @include vendor("flex", "1");
     text-align : center;
+  }
+
+  & + .custom-container {
+    margin-top : $top-bar-height;
   }
 
 }
