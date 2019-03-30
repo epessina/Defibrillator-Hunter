@@ -36,11 +36,6 @@
 - Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)
 
 
-- Controllare scritte sotto le richieste con i18n (enum)
-
-
-- Extended fab (container 100% e poi il fab grande come il contenuto)
-
 - Sistemare allineamento verticale label select location category (flex)
 
 

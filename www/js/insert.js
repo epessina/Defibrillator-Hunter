@@ -55,25 +55,13 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
-        let defibrillator = {
-            locationCategory     : locationCategory,
-            visualReference      : visualReference,
-            floor                : floor,
-            temporalAccessibility: temporalAccessibility,
-            recovery             : recovery,
-            signage              : signage,
-            brand                : brand,
-            notes                : notes,
-            presence             : presence,
-            photo                : photo
-        };
-
-        console.log(defibrillator);
+        let defibrillator = new Defibrillator();
+        defibrillator.insertDefibrillator();
 
         // $("#insert-defibrillator").hide();
         // $("#map").show();
 
-        // resetFields();
+        resetFields();
 
     });
 

@@ -45,6 +45,9 @@
     "btnCancel" : "CANCEL",
     "btnOk" : "OK"
   },
+  "map": {
+    "fabText": "New defibrillator"
+  },
   "insert" : {
     "mainScreen" : {
       "topBarTitle" : "New defibrillator"

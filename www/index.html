@@ -27,32 +27,31 @@
 <body onresize="onResize()" onload="onLoad()">
 
 <!-- Map -->
-<div style="display: none" id="map">
+<div id="map">
 
-    <div class="custom-container map-container">
+    <div id="map-control-hint" class="map-control map-control-left map-control-top-1 fab">
+        <i class="material-icons fab-icon">help_outline</i>
+    </div>
 
-        <div id="map-control-hint" class="map-control fab">
-            <i class="material-icons fab-icon">help_outline</i>
-        </div>
+    <div id="map-control-layers" class="map-control map-control-right map-control-top-1 fab">
+        <i class="material-icons fab-icon">layers</i>
+    </div>
 
-        <div id="map-control-layers" class="map-control fab">
-            <i class="material-icons fab-icon">layers</i>
-        </div>
+    <div id="map-control-gps" class="map-control map-control-right map-control-top-2 fab">
+        <i class="material-icons fab-icon">gps_fixed</i>
+    </div>
 
-        <div id="map-control-gps" class="map-control fab">
-            <i class="material-icons fab-icon">gps_fixed</i>
-        </div>
+    <div id="map-new-defibrillator" class="map-control map-control-center map-control-bottom fab-extended">
 
-        <div id="map-new-defibrillator" class="map-control fab-extended">
-            <p class="fab-extended-text">NEW DEFIBRILLATOR</p>
-        </div>
+        <p class="fab-extended-text" data-i18n="map.fabText">New defibrillator</p>
 
     </div>
 
 </div>
 
+
 <!-- Insert defibrillator -->
-<div id="insert-defibrillator">
+<div style="display: none" id="insert-defibrillator">
 
 
     <!-- Opaque overlay -->
@@ -720,7 +719,7 @@
                                name="presence"
                                value="no">
 
-                        <span  data-i18n="insert.presence.enum.no">No</span>
+                        <span data-i18n="insert.presence.enum.no">No</span>
 
                     </label>
 
@@ -847,9 +846,6 @@
 
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
-
-<!-- Fingerprint -->
-<script type="text/javascript" src="js/lib/fingerprint.js"></script>
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>

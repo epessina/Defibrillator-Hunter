@@ -18,8 +18,6 @@ let DefibrillatorIcon = L.Icon.extend({
 let userDefibrillatorIcon  = new DefibrillatorIcon({iconUrl: "img/user-def-icon.png"}),
     otherDefibrillatorIcon = new DefibrillatorIcon({iconUrl: "img/other-def-icon.png"});
 
-let uuid;
-
 let userDefibrillators  = [],
     otherDefibrillators = [],
     userMarkers         = [],
@@ -30,7 +28,6 @@ let userDefibrillators  = [],
 
 let networkState,
     localDb,
-    usersDB,
     pointsDB;
 
 
@@ -70,106 +67,24 @@ function init() {
     // isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     // isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
 
-    uuid = new Fingerprint().get().toString() + "-PC";
-    // uuid = device.uuid;
-    // if (uuid === null)
-    //     uuid = new Fingerprint().get().toString() + "-PC";
-
     // networkState = navigator.connection.type;
 
     onResize();
     initMap();
-    // handleDb();
+    // initDb();
 
     initInsert();
 
-    // locationWatcher = setInterval(getUserPosition, 4000);
 }
 
 
-function handleDb() {
+//ToDo handle connection errors
+function initDb() {
 
-    //ToDo handle connection errors
-    localDb = new PouchDB(LOCAL_DB);
-
+    localDb  = new PouchDB(LOCAL_DB);
     pointsDB = new PouchDB(REMOTE_POINTS_DB);
 
-    pointsDB.allDocs({include_docs: true}, function (err, doc) {
-        if (err) {
-            console.log(err);
-        } else {
-            doc.rows.forEach(function (row) {
-
-                console.log(row);
-            })
-        }
-    })
-
-
     // retrieveDefibrillators();
-}
-
-
-function insertDefibrillator() {
-
-    let timeStamp     = new Date().toISOString();
-    let comment       = $("#modal-text-area").val();
-    let accessibility = $("#modal-range").val();
-
-    let defibrillator = {
-        _id          : timeStamp,
-        user         : uuid,
-        location     : currLatLong,
-        lang         : ln.language,
-        timestamp    : timeStamp,
-        accessibility: accessibility,
-        comment      : comment,
-        _attachments : {
-            "image": {
-                content_type: "image\/jpeg",
-                data        : ""
-            }
-        }
-    };
-
-    // Insert the data in the local database
-    localDb.put(defibrillator, function (err) {
-        if (err) {
-            showAlert("messages.localStorageError");
-
-            // If an error occurs, insert the data in the remote database
-            pointsDB.put(defibrillator, function (err) {
-                if (err) {
-                    showAlert("messages.generalError");
-                    console.log(err);
-                } else {
-                    userDefibrillators.push(defibrillator);
-                    displayNewDefibrillator(defibrillator);
-                    showAlert("messages.contributionSuccess");
-                }
-            });
-        } else {
-            userDefibrillators.push(defibrillator);
-            displayNewDefibrillator(defibrillator);
-
-            if (networkState === Connection.NONE || navigator.onLine === false) {
-                showAlert("messages.contributionSuccessNoInternet")
-            } else {
-                showAlert("messages.contributionSuccess")
-            }
-
-            // Replicate the data of the local database in the remote database
-            localDb.replicate.to(pointsDB, {retry: true}).on("complete", function () {
-
-                // Destroy the local database and create an empty new one
-                localDb.destroy().then(function () {
-                    localDb = new PouchDB(LOCAL_DB);
-                });
-            }).on("error", function (err) {
-                console.log("Replication error: " + err);
-            })
-        }
-    });
 }
 
 
@@ -346,36 +261,6 @@ function displayNewDefibrillator(def) {
 }
 
 
-function getUserPosition() {
-
-    navigator.geolocation.getCurrentPosition(
-        function (pos) {
-            currLatLong = [
-                pos.coords.latitude,
-                pos.coords.longitude
-            ];
-
-            map.panTo(currLatLong);
-            positionMarker.setLatLng(currLatLong);
-            positionMarker.bindPopup(i18n.t("messages.positionMarkerPopup")).openPopup();
-            clearInterval(locationWatcher);
-        },
-        function () {
-            if (!isMobile) {
-                positionMarker.bindPopup(i18n.t("messages.pcGPSError")).openPopup();
-                clearInterval(locationWatcher);
-            } else {
-                if (countLocationPopup === 0) {
-                    positionMarker.bindPopup(i18n.t("messages.mobileGPSError")).openPopup();
-                    countLocationPopup++;
-                }
-            }
-        },
-        {timeout: 3000, enableHighAccuracy: true}
-    );
-}
-
-
 // ToDO change for cordova
 function showAlert(msg) {
 
@@ -388,8 +273,3 @@ function showAlert(msg) {
 
     alert(i18n.t(msg));
 }
-
-
-
-
-

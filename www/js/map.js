@@ -18,8 +18,17 @@ let map,
 let osm,
     bing;
 
-let currLatLong = [45.601155, 8.924647],
-    defaultZoom = 12;
+let positionWatcherId         = undefined,
+    isPositionWatcherAttached = false,
+    positionWatcherOpts       = {
+        enableHighAccuracy: true,
+        timeout           : 3000,
+        maximumAge        : 0
+    };
+
+let currLatLong  = [45.464161, 9.190336],
+    currAccuracy = undefined,
+    defaultZoom  = 10;
 
 
 function initMap() {
@@ -31,28 +40,38 @@ function initMap() {
 
     map.setView(currLatLong, defaultZoom);
 
-    // Map events
-    map.on("dragend", () => disableLocationWatcher());
-
-    map.on("mousemove", (e) => $(".coordinates").html(e.latlng.lat + ", " + e.latlng.lng));
-
-    map.on("locationfound", event => {
-        console.log(event.latlng + ", " + event.accuracy);
-        positionMarker.setLatLng(event.latlng);
-    });
-
-    map.on("locationerror", () => console.log("Location error"));
-
+    // Map events (see also lines 13810 and 14028 of leaflet.js)
+    map.on("dragend", () => detachPositionWatcher());
 
     initLayers();
-    // initPositionControl();
-    // initPositionMarker();
+    attachPositionWatcher();
+    initPositionMarker();
 }
+
 
 function initAppMapUI() {
 
     // Hide the default controls of leaflet
     $(".leaflet-control-container").hide();
+
+    $("#map-control-hint").click(() => {
+
+        console.log("Hint button");
+
+    });
+
+    $("#map-control-layers").click(() => {
+
+        console.log("Layers button");
+
+    });
+
+    $("#map-control-gps").click(() => {
+
+        console.log("GPS button");
+        attachPositionWatcher();
+
+    });
 
     $("#map-new-defibrillator").click(function () {
 
@@ -63,12 +82,12 @@ function initAppMapUI() {
 
     });
 
-
 }
 
+
+// ToDo check connection
 function initLayers() {
 
-    // Add basemaps ToDo connection check
     osm = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
@@ -88,9 +107,70 @@ function initLayers() {
     };
 
     osm.addTo(map);
-    controlLayers = L.control.layers(baseMaps, overlayMaps).addTo(map);
+    // controlLayers = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 }
+
+
+function attachPositionWatcher() {
+
+    if (isPositionWatcherAttached)
+        return;
+
+    $("#map-control-gps").addClass("gps-on");
+
+    positionWatcherId = navigator.geolocation.watchPosition(
+        onPositionSuccess,
+        onPositionError,
+        positionWatcherOpts
+    );
+
+    isPositionWatcherAttached = true;
+
+    console.log("Position watcher attached");
+
+}
+
+function detachPositionWatcher() {
+
+    if (!isPositionWatcherAttached)
+        return;
+
+    $("#map-control-gps").removeClass("gps-on");
+
+    navigator.geolocation.clearWatch(positionWatcherId);
+
+    isPositionWatcherAttached = false;
+
+    console.log("Position watcher detached");
+
+}
+
+function onPositionSuccess(pos) {
+
+    currLatLong = [
+        pos.coords.latitude,
+        pos.coords.longitude
+    ];
+
+    currAccuracy = pos.coords.accuracy;
+
+    console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currAccuracy);
+
+    let radius = currAccuracy / 2;
+
+    map.setView(currLatLong, 17);
+
+    positionMarker.setLatLng(currLatLong);
+
+    // L.circle(currLatLong, radius).addTo(map);
+
+}
+
+function onPositionError(err) {
+    console.log("Position error: " + err.message);
+}
+
 
 function initPositionMarker() {
 
@@ -107,64 +187,13 @@ function initPositionMarker() {
             e.target.getLatLng().lat,
             e.target.getLatLng().lng
         ];
-        console.log(currLatLong);
 
-        disableLocationWatcher();
+        currAccuracy = 0;
+
+        console.log("Position marker dragged to: " + currLatLong);
+
+        detachPositionWatcher();
+
     });
-
-}
-
-function initPositionControl() {
-
-    // Extend the Control object of Leaflet to create a new one
-    L.Control.Position = L.Control.extend({
-        onAdd   : function (map) {
-            let icon       = L.DomUtil.create("div", "leaflet-control-position");
-            icon.innerHTML = "<div id='control-position'><i id='control-position-icon' class='fas fa-crosshairs'></i></div>";
-
-            return icon;
-        },
-        onRemove: function (map) {
-            // Do nothing
-        }
-    });
-
-    // Add the new Control to the map
-    new L.Control.Position({position: "topleft"}).addTo(map);
-
-    enableLocationWatcher();
-
-    $("#control-position").click((e) => {
-        e.stopPropagation();
-        enableLocationWatcher();
-    }).dblclick(e => e.stopPropagation());
-
-}
-
-function enableLocationWatcher() {
-
-    $("#control-position-icon").addClass("blue");
-
-    let LOCATION_OPTIONS = {
-        setView           : true,
-        zoom              : 12,
-        enableHighAccuracy: true,
-    };
-
-    if (isMobile) {
-        LOCATION_OPTIONS.watch      = true;
-        LOCATION_OPTIONS.maximumAge = 15000;
-        LOCATION_OPTIONS.timeout    = 300000;
-    }
-
-    map.locate(LOCATION_OPTIONS);
-
-}
-
-function disableLocationWatcher() {
-
-    $("#control-position-icon").removeClass("blue");
-
-    map.stopLocate();
 
 }
