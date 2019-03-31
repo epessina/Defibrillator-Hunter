@@ -36,7 +36,8 @@ function initInsert() {
 
 function openInsert() {
 
-    $("#insert-defibrillator-main").show();
+    $("#map").hide();
+    $("#insert-defibrillator").show();
 
 }
 
@@ -46,8 +47,8 @@ function initMainPage() {
 
     $("#new-defibrillator-close").click(() => {
 
-        // $("#insert-defibrillator").hide();
-        // $("#map").show();
+        $("#insert-defibrillator").hide();
+        $("#map").show();
 
         resetFields();
 
@@ -55,7 +56,26 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
-        let defibrillator = new Defibrillator();
+        let defibrillator = new Defibrillator(
+            Defibrillator.generateUID(),
+            new Date().toISOString(),
+            ln.language,
+            currLatLong,
+            currAccuracy,
+            locationCategory,
+            visualReference,
+            floor,
+            temporalAccessibility,
+            recovery,
+            signage,
+            brand,
+            notes,
+            presence,
+            photo
+        );
+
+        console.log(defibrillator);
+
         defibrillator.insertDefibrillator();
 
         // $("#insert-defibrillator").hide();

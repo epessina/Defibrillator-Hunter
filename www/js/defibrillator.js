@@ -26,13 +26,14 @@
 
 class Defibrillator {
 
-    constructor() {
+    constructor(_id, timeStamp, lang, position, accuracy, locationCategory, visualReference, floor,
+                temporalAccessibility, recovery, signage, brand, notes, presence, photo) {
 
-        this._id                   = Defibrillator.generateUID();
-        this.timeStamp             = new Date().toISOString();
-        this.lang                  = ln.language;
-        this.position              = currLatLong;
-        this.accuracy              = currAccuracy;
+        this._id                   = _id;
+        this.timeStamp             = timeStamp;
+        this.lang                  = lang;
+        this.position              = position;
+        this.accuracy              = accuracy;
         this.locationCategory      = locationCategory;
         this.visualReference       = visualReference;
         this.floor                 = floor;
@@ -109,6 +110,35 @@ class Defibrillator {
             }
 
         });
+
+    }
+
+
+    showDefibrillator() {
+
+        let marker = L.marker(
+            this.position,
+            {
+                icon     : defibrillatorIcon,
+                draggable: false
+            }
+        );
+        marker._id = this._id;
+
+        let popup =
+                "<p><b>" + i18n.t("popup.id") + "</b>" + this._id + "</p>" +
+                "<br>" +
+                "<button id='" + this._id + "' " +
+                "        class='btn-popup' " +
+                "        onclick='deleteDefibrillator(this.id)'>" +
+                i18n.t("messages.btnCancel") +
+                "</button>";
+
+        marker.bindPopup(popup);
+
+        markers.push(marker);
+
+        return marker;
 
     }
 

@@ -40,3 +40,6 @@
 
 
 - Dettagli stazione trasporti
+
+
+- Sistemare attacco/stacco position watcher come Google maps

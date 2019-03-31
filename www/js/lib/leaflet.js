@@ -13806,8 +13806,6 @@
 
         _onWheelScroll: function (e) {
 
-            detachPositionWatcher();
-
             var delta = getWheelDelta(e);
 
             var debounce = this._map.options.wheelDebounceTime;
@@ -14025,8 +14023,6 @@
 
         _onTouchStart: function (e) {
 
-            detachPositionWatcher();
-
             var map = this._map;
             if (!e.touches || e.touches.length !== 2 || map._animatingZoom || this._zooming) {
                 return;
@@ -14056,6 +14052,7 @@
         },
 
         _onTouchMove: function (e) {
+
             if (!e.touches || e.touches.length !== 2 || !this._zooming) {
                 return;
             }

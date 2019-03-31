@@ -6,18 +6,6 @@ const REMOTE_POINTS_DB = "http://localhost:5984/dh_points"; // https://couchdb-7
 let isMobile = true,
     isApp    = true;
 
-let DefibrillatorIcon = L.Icon.extend({
-    options: {
-        iconSize   : [31, 42],
-        iconAnchor : [16, 42],
-        popupAnchor: [0, -43]
-    }
-});
-
-// ToDO change for cordova (add www in front)
-let userDefibrillatorIcon  = new DefibrillatorIcon({iconUrl: "img/user-def-icon.png"}),
-    otherDefibrillatorIcon = new DefibrillatorIcon({iconUrl: "img/other-def-icon.png"});
-
 let userDefibrillators  = [],
     otherDefibrillators = [],
     userMarkers         = [],
@@ -25,6 +13,8 @@ let userDefibrillators  = [],
     allMarkersLayer,
     userMarkersLayer,
     otherMarkersLayer;
+
+let markers = [];
 
 let networkState,
     localDb,
@@ -71,9 +61,11 @@ function init() {
 
     onResize();
     initMap();
-    // initDb();
+    initDb();
 
     initInsert();
+
+    getDefibrillators();
 
 }
 
@@ -88,176 +80,51 @@ function initDb() {
 }
 
 
-function cancelDefibrillator(id, markerId) {
+function getDefibrillators() {
 
-    navigator.notification.confirm(
-        i18n.t("messages.confirmCancellation"),
-        onConfirm,
-        "Defibrillator Hunter",
-        [i18n.t("messages.yes"), i18n.t("messages.no")]
-    );
-
-    function onConfirm(btnIndex) {
-
-        if (btnIndex === 1) {
-
-            pointsDB.get(id).then(function (doc) {
-                return pointsDB.remove(doc);
-            }).then(function () {
-                let newUserMarkers = [];
-
-                userMarkers.forEach(function (marker) {
-                    if (marker._id === markerId) {
-                        userMarkersLayer.removeLayer(marker);
-                    } else {
-                        newUserMarkers.push(marker);
-                    }
-                });
-
-                userMarkers = newUserMarkers;
-            }).catch(function (err) {
-                showAlert("messages.cancelError");
-                console.log(err);
-            })
-        }
-    }
-}
-
-
-// ToDO change for cordova
-function retrieveDefibrillators() {
-
+    // ToDo
     // if (networkState === Connection.NONE || navigator.onLine === false) {
-    if (false) {
-        showAlert("messages.noInternet");
-    } else {
-        pointsDB.allDocs({include_docs: true}, function (err, doc) {
-            if (err) {
-                showAlert("messages.generalError");
-                console.log(err);
-            } else {
-                otherDefibrillators = [];
-                userDefibrillators  = [];
+    //     showAlert("messages.noInternet");
+    // }
 
-                doc.rows.forEach(function (row) {
+    pointsDB.allDocs({include_docs: true}, function (err, doc) {
 
-                    if (row.doc.location != null) {
-                        let defibrillator = {
-                            _id          : row.doc._id,
-                            user         : row.doc.user,
-                            location     : row.doc.location,
-                            accessibility: row.doc.accessibility,
-                            comment      : row.doc.comment
-                        };
+        if (err) {
 
-                        if (defibrillator.user === uuid) {
-                            userDefibrillators.push(defibrillator);
-                        } else {
-                            otherDefibrillators.push(defibrillator);
-                        }
-                    }
-                });
+            showAlert("messages.generalError");
+            console.log(err);
 
-                allMarkersLayer = displayDefibrillators();
-            }
-        })
-    }
-}
+        } else {
 
+            doc.rows.forEach(function (row) {
 
-function displayDefibrillators() {
+                let defibrillator = new Defibrillator(
+                    row.doc._id,
+                    row.doc.timeStamp,
+                    row.doc.lang,
+                    row.doc.position,
+                    row.doc.accuracy,
+                    row.doc.locationCategory,
+                    row.doc.visualReference,
+                    row.doc.floor,
+                    row.doc.temporalAccessibility,
+                    row.doc.recovery,
+                    row.doc.signage,
+                    row.doc.brand,
+                    row.doc.notes,
+                    row.doc.presence,
+                    ""
+                );
 
-    let allMarkersLayer = L.markerClusterGroup();
+                let marker = defibrillator.showDefibrillator();
 
-    userMarkers  = [];
-    otherMarkers = [];
+                marker.addTo(map);
 
-    // User's markers
-    for (let i = 0; i < userDefibrillators.length; i++) {
-        createUserMarker(userDefibrillators[i]);
-    }
+            });
 
-    // Other users' markers
-    for (let i = 0; i < otherDefibrillators.length; i++) {
+        }
+    })
 
-        let def = otherDefibrillators[i];
-
-        let marker = L.marker(def.location, {
-            icon     : otherDefibrillatorIcon,
-            draggable: false
-        });
-
-        marker.bindPopup(createMarkerPopup(def));
-
-        otherMarkers.push(marker);
-    }
-
-    userMarkersLayer  = L.featureGroup.subGroup(allMarkersLayer, userMarkers);
-    otherMarkersLayer = L.featureGroup.subGroup(allMarkersLayer, otherMarkers);
-
-    allMarkersLayer.addTo(map);
-    userMarkersLayer.addTo(map);
-    otherMarkersLayer.addTo(map);
-
-    // controlLayers.addOverlay(userMarkersLayer,
-    //     "<img src='../img/user-def-icon.png' height='24' alt=''>  " + i18n.t("overlays.userMarkers")); // ToDo Fix
-    // controlLayers.addOverlay(otherMarkersLayer,
-    //     "<img src='../img/other-def-icon.png' height='24' alt=''>  " + i18n.t("overlays.otherMarkers"));
-
-    return allMarkersLayer;
-}
-
-
-function createUserMarker(def) {
-
-    let markerId;
-
-    if (userMarkers.length < 1) {
-        markerId = 0;
-    } else {
-        markerId = userMarkers[userMarkers.length - 1]._id + 1;
-    }
-
-    let marker = L.marker(def.location, {
-        icon     : userDefibrillatorIcon,
-        draggable: false
-    });
-    marker._id = markerId;
-
-    let popup = L.popup();
-
-    popup.setContent(
-        createMarkerPopup(def) +
-        "<br>" +
-        "<button id='" + def._id + "'" +
-        "        class='btn-popup' " +
-        "        onclick='cancelDefibrillator(this.id" + ", " + markerId + ")'>" +
-        i18n.t("messages.btnCancel") +
-        "</button>"
-    );
-
-    marker.bindPopup(popup);
-
-    userMarkers.push(marker);
-
-    return marker;
-}
-
-
-function createMarkerPopup(def) {
-
-    return "<p><b>" + i18n.t("popup.id") + "</b>" + def._id + "</p>" +
-        "<p><b>" + i18n.t("popup.location") + "</b>" + def.location + "</p>" +
-        "<p><b>" + i18n.t("popup.accessibility") + "</b>" + def.accessibility + "</p>" +
-        "<p><b>" + i18n.t("popup.comment") + "</b>" + def.comment + "</p>";
-
-}
-
-
-function displayNewDefibrillator(def) {
-
-    let marker = createUserMarker(def);
-    userMarkersLayer.addLayer(marker);
 }
 
 
@@ -272,4 +139,52 @@ function showAlert(msg) {
     // );
 
     alert(i18n.t(msg));
+}
+
+
+function deleteDefibrillator(id) {
+
+    let newMarkers = [];
+
+    markers.forEach(marker => {
+        if (marker._id === id)
+            map.removeLayer(marker);
+        else
+            newMarkers.push(marker);
+    });
+
+    markers = newMarkers;
+
+    // navigator.notification.confirm(
+    //     i18n.t("messages.confirmCancellation"),
+    //     onConfirm,
+    //     "Defibrillator Hunter",
+    //     [i18n.t("messages.yes"), i18n.t("messages.no")]
+    // );
+    //
+    // function onConfirm(btnIndex) {
+    //
+    //     if (btnIndex === 1) {
+    //
+    //         pointsDB.get(id).then(function (doc) {
+    //             return pointsDB.remove(doc);
+    //         }).then(function () {
+    //             let newUserMarkers = [];
+    //
+    //             userMarkers.forEach(function (marker) {
+    //                 if (marker._id === markerId) {
+    //                     userMarkersLayer.removeLayer(marker);
+    //                 } else {
+    //                     newUserMarkers.push(marker);
+    //                 }
+    //             });
+    //
+    //             userMarkers = newUserMarkers;
+    //         }).catch(function (err) {
+    //             showAlert("messages.cancelError");
+    //             console.log(err);
+    //         })
+    //     }
+    // }
+
 }

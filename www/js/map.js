@@ -8,12 +8,18 @@ const positionMarkerIcon = L.icon({
     popupAnchor: [0, -72]
 });
 
+const defibrillatorIcon = L.icon({
+    iconUrl    : "img/user-def-icon.png",
+    iconSize   : [31, 42],
+    iconAnchor : [16, 42],
+    popupAnchor: [0, -43]
+});
+
+
 let positionMarker;
 
 let map,
-    controlLayers,
-    baseMaps,
-    overlayMaps = {};
+    baseMaps;
 
 let osm,
     bing;
@@ -40,7 +46,6 @@ function initMap() {
 
     map.setView(currLatLong, defaultZoom);
 
-    // Map events (see also lines 13810 and 14028 of leaflet.js)
     map.on("dragend", () => detachPositionWatcher());
 
     initLayers();
@@ -73,13 +78,9 @@ function initAppMapUI() {
 
     });
 
-    $("#map-new-defibrillator").click(function () {
-
-        // initDefibrillatorInsert();
-
-        $("#map").hide();
+    $("#map-new-defibrillator").click((e) => {
         openInsert();
-
+        e.stopPropagation();
     });
 
 }
@@ -107,7 +108,6 @@ function initLayers() {
     };
 
     osm.addTo(map);
-    // controlLayers = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 }
 

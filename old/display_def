@@ -1,0 +1,17 @@
+function displayDefibrillators() {
+
+    let allMarkersLayer = L.markerClusterGroup();
+
+    userMarkersLayer  = L.featureGroup.subGroup(allMarkersLayer, userMarkers);
+    otherMarkersLayer = L.featureGroup.subGroup(allMarkersLayer, otherMarkers);
+
+    allMarkersLayer.addTo(map);
+    userMarkersLayer.addTo(map);
+    otherMarkersLayer.addTo(map);
+
+    controlLayers.addOverlay(userMarkersLayer,
+        "<img src='../img/user-def-icon.png' height='24' alt=''>  " + i18n.t("overlays.userMarkers"));
+    controlLayers.addOverlay(otherMarkersLayer,
+        "<img src='../img/other-def-icon.png' height='24' alt=''>  " + i18n.t("overlays.otherMarkers"));
+
+}
