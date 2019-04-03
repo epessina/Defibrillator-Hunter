@@ -41,8 +41,7 @@ function initMap() {
 
     map = L.map("map");
 
-    if (isApp)
-        initAppMapUI();
+    initAppMapUI();
 
     map.setView(currLatLong, defaultZoom);
 

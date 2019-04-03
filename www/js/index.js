@@ -1,18 +1,9 @@
 "use strict";
 
 const LOCAL_DB         = "dh_local_db";
-const REMOTE_POINTS_DB = "http://localhost:5984/dh_points"; // https://couchdb-7167f1.smileupps.com/dh_defibrillators
 
-let isMobile = true,
-    isApp    = true;
-
-let userDefibrillators  = [],
-    otherDefibrillators = [],
-    userMarkers         = [],
-    otherMarkers        = [],
-    allMarkersLayer,
-    userMarkersLayer,
-    otherMarkersLayer;
+let isMobile,
+    isApp;
 
 let markers = [];
 
@@ -30,19 +21,27 @@ function onLoad() {
 
 // ToDO change for cordova
 function initialize() {
-    // document.addEventListener("pause", onPause, false);
-    // document.addEventListener("resume", onResume, false);
+
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+
     ln.init();
 }
 
 
 function onPause() {
+
     console.log("onPause");
+    detachPositionWatcher();
+
 }
 
 
 function onResume() {
+
     console.log("onResume");
+    attachPositionWatcher();
+
 }
 
 
@@ -55,7 +54,7 @@ function onResize() {
 function init() {
 
     // isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    // isApp    = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
+    isApp = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
 
     // networkState = navigator.connection.type;
 
@@ -73,10 +72,14 @@ function init() {
 //ToDo handle connection errors
 function initDb() {
 
-    localDb  = new PouchDB(LOCAL_DB);
-    pointsDB = new PouchDB(REMOTE_POINTS_DB);
+    localDb = new PouchDB(LOCAL_DB);
 
-    // retrieveDefibrillators();
+    console.log(isApp);
+
+    if (isApp)
+        pointsDB = new PouchDB(HOSTED_POINTS_DB);
+    else
+        pointsDB = new PouchDB(REMOTE_POINTS_DB);
 }
 
 
@@ -116,29 +119,13 @@ function getDefibrillators() {
                     ""
                 );
 
-                let marker = defibrillator.showDefibrillator();
-
-                marker.addTo(map);
+                defibrillator.showDefibrillator();
 
             });
 
         }
     })
 
-}
-
-
-// ToDO change for cordova
-function showAlert(msg) {
-
-    // navigator.notification.alert(
-    //     i18n.t(msg),
-    //     null,
-    //     "Defibrillator Hunter",
-    //     i18n.t("messages.ok")
-    // );
-
-    alert(i18n.t(msg));
 }
 
 
@@ -187,4 +174,18 @@ function deleteDefibrillator(id) {
     //     }
     // }
 
+}
+
+
+// ToDO change for cordova
+function showAlert(msg) {
+
+    // navigator.notification.alert(
+    //     i18n.t(msg),
+    //     null,
+    //     "Defibrillator Hunter",
+    //     i18n.t("messages.ok")
+    // );
+
+    alert(i18n.t(msg));
 }

@@ -56,6 +56,8 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
+        console.log(typeof photo);
+
         let defibrillator = new Defibrillator(
             Defibrillator.generateUID(),
             new Date().toISOString(),
@@ -78,8 +80,8 @@ function initMainPage() {
 
         defibrillator.insertDefibrillator();
 
-        // $("#insert-defibrillator").hide();
-        // $("#map").show();
+        $("#insert-defibrillator").hide();
+        $("#map").show();
 
         resetFields();
 

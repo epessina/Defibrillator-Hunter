@@ -45,7 +45,7 @@ class Defibrillator {
         this.presence              = presence;
         this._attachments          = {
             "image": {
-                content_type: "image\/jpeg",
+                content_type: "image/jpeg",
                 data        : photo
             }
         }
@@ -72,9 +72,8 @@ class Defibrillator {
 
                     } else {
 
-                        // userDefibrillators.push(this);
-                        // displayNewDefibrillator(this);
                         showAlert("messages.contributionSuccess");
+                        this.showDefibrillator();
 
                     }
 
@@ -94,6 +93,7 @@ class Defibrillator {
                 //     showAlert("messages.contributionSuccess");
 
                 showAlert("messages.contributionSuccess");
+                this.showDefibrillator();
 
                 localDb.replicate
                     .to(pointsDB, {retry: true})
@@ -125,18 +125,30 @@ class Defibrillator {
         );
         marker._id = this._id;
 
-        let popup =
-                "<p><b>" + i18n.t("popup.id") + "</b>" + this._id + "</p>" +
-                "<br>" +
-                "<button id='" + this._id + "' " +
-                "        class='btn-popup' " +
-                "        onclick='deleteDefibrillator(this.id)'>" +
-                i18n.t("messages.btnCancel") +
-                "</button>";
+        let photoSrc = "";
+
+        if (isApp)
+            photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+        else
+            photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+
+            let popup =
+                    "<p><b>" + i18n.t("popup.id") + "</b>" + this._id + "</p>" +
+                    "<img style='width: 200px; height: 200px' " +
+                    "src='" + photoSrc + "' " +
+                    "alt=''>" +
+                    "<br>" +
+                    "<button id='" + this._id + "' " +
+                    "        class='btn-popup' " +
+                    "        onclick='deleteDefibrillator(this.id)'>" +
+                    i18n.t("messages.btnCancel") +
+                    "</button>";
 
         marker.bindPopup(popup);
 
         markers.push(marker);
+
+        marker.addTo(map);
 
         return marker;
 

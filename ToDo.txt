@@ -1,18 +1,14 @@
 - iOS:
     - mandare mail
 
+
 - Regestrazione utenti
 	
 
 - Marker posizione
 
 
-- Sistemare inserimento defibirllatori:
-    - resettare a chiusura
-    - visualizzare foto grande
-
-
-- Cancellare e modificare i tuoi defibrillatori
+- Modificare i tuoi defibrillatori
 	
 
 - Sistemare gli alert
