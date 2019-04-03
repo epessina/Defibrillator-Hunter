@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" type="text/css" href="css/0-lib/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.Default.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+
+    <!-- Material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Modernizer -->
+    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
+
+    <title>Defibrillator Hunter</title>
+
+</head>
+
+<body onresize="onResize()" onload="onLoad()">
+
+<!-- Map -->
+<div style="display: none" id="map">
+
+    <div class="custom-container map-container">
+
+        <div id="map-control-hint" class="map-control fab">
+            <i class="material-icons fab-icon">help_outline</i>
+        </div>
+
+        <div id="map-control-layers" class="map-control fab">
+            <i class="material-icons fab-icon">layers</i>
+        </div>
+
+        <div id="map-control-gps" class="map-control fab">
+            <i class="material-icons fab-icon">gps_fixed</i>
+        </div>
+
+        <div id="map-new-defibrillator" class="map-control fab-extended">
+            <p class="fab-extended-text">NEW DEFIBRILLATOR</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Insert defibrillator -->
+<div id="insert-defibrillator">
+
+    <!-- Opaque overlay -->
+    <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
+
+    <!-- Main screen -->
+    <div id="insert-defibrillator-main">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="new-defibrillator-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
+                New defibrillator
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="new-defibrillator-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container requests-container">
+
+            <!-- Location category -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">terrain</i></div>
+
+                <div id="location-category-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.locationCategory.name">Location category</p>
+
+                    <p id="location-text" class="request-text"
+                       data-i18n="insert.locationCategory.defaultText">Add a category</p>
+
+                </div>
+
+            </div>
+
+            <!-- Floor -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">arrow_upward</i></div>
+
+                <div id="floor-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.floor.name">Height</p>
+
+                    <p id="floor-text" class="request-text" data-i18n="insert.floor.defaultText">Specify the floor</p>
+
+                </div>
+
+            </div>
+
+            <!--Temporal accessibility -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">schedule</i></div>
+
+                <div id="temporal-accessibility-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.tempAccessibility.name">Temporal accessibility</p>
+
+                    <p id="temporal-text" class="request-text"
+                       data-i18n="insert.tempAccessibility.defaultText">Specify the temporal accessibility</p>
+
+                </div>
+
+            </div>
+
+            <!-- Ease of recovery -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">accessibility_new</i></div>
+
+                <div id="recovery-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.recovery.name">Ease of recovery</p>
+
+                    <p id="recovery-text" class="request-text"
+                       data-i18n="insert.recovery.defaultText">Evaluate the ease of recovery</p>
+
+                </div>
+
+            </div>
+
+            <!-- Signage -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">warning</i></div>
+
+                <div id="signage-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.signage.name">Signage</p>
+
+                    <p id="signage-text" class="request-text"
+                       data-i18n="insert.signage.defaultText">Evaluate the signage</p>
+
+                </div>
+
+            </div>
+
+            <!-- Notes -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">notes</i></div>
+
+                <div id="notes-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
+
+                    <p id="notes-text" class="request-text"
+                       data-i18n="insert.notes.defaultText">Add additional notes</p>
+
+                </div>
+
+            </div>
+
+            <!-- Presence -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">favorite</i></div>
+
+                <div id="presence-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
+
+                    <p id="presence-text" class="request-text"
+                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
+
+                </div>
+
+            </div>
+
+            <!-- Photo -->
+            <div id="photo-request" class="button flex-btn full-width-btn outline-btn">
+
+                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+
+                <div id="photo-text" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Location category -->
+    <div style="display: none" id="dialog-location" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="location-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Location category
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="location-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">Where is the defibrillator located?</p>
+
+            <div class="custom-selector-box">
+
+                <label for="location-select" class="label custom-selector">
+                        <span class="label-description">
+                            Select a category
+                        </span>
+                    <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+                </label>
+
+                <select id="location-select" class="select">
+
+                    <option value="none" style="display: none"></option>
+
+                    <option value="commercialActivity"
+                            data-i18n="insert.locationCategory.enum.commercialActivity">
+                        Commercial activity
+                    </option>
+
+                    <option value="residentialBuilding"
+                            data-i18n="insert.locationCategory.enum.residentialBuilding">
+                        Residential building
+                    </option>
+
+                    <option value="publicPlace"
+                            data-i18n="insert.locationCategory.enum.publicPlace">
+                        Public place
+                    </option>
+
+                    <option value="sportsCentre"
+                            data-i18n="insert.locationCategory.enum.sportsCentre">
+                        Sports centre
+                    </option>
+
+                    <option value="transportStation"
+                            data-i18n="insert.locationCategory.enum.transportStation">
+                        Transport station
+                    </option>
+
+                    <option value="educationalEstablishment"
+                            data-i18n="insert.locationCategory.enum.educationalEstablishment">
+                        Educational establishment
+                    </option>
+
+                    <option value="schoolGym"
+                            data-i18n="insert.locationCategory.enum.schoolGym">
+                        School gym
+                    </option>
+
+                    <option value="drugstore"
+                            data-i18n="insert.locationCategory.enum.drugstore">
+                        Drugstore
+                    </option>
+
+                    <option value="street"
+                            data-i18n="insert.locationCategory.enum.street">
+                        Street
+                    </option>
+
+                    <option value="medicalPracticeClinic"
+                            data-i18n="insert.locationCategory.enum.medicalPracticeClinic">
+                        Medical practice/Clinic
+                    </option>
+
+                    <option value="churchOratorio"
+                            data-i18n="insert.locationCategory.enum.churchOratorio">
+                        Church/Oratorio
+                    </option>
+
+                    <option value="shelter"
+                            data-i18n="insert.locationCategory.enum.shelter">
+                        Shelter
+                    </option>
+
+                    <option value="nursingHomeHospice"
+                            data-i18n="insert.locationCategory.enum.nursingHomeHospice">
+                        Nursing home/Hospice
+                    </option>
+
+                    <option value="other"
+                            data-i18n="insert.locationCategory.enum.other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <p>
+                Specify a visual reference
+                <br>
+                (e.g. a church or a clearly visible building)
+            </p>
+
+            <textarea id="location-reference"
+                      class="custom-textarea"
+                      rows="5"
+                      placeholder="The defibrillator is near a..."
+                      maxlength="250"></textarea>
+
+        </div>
+
+    </div>
+
+    <!-- Floor -->
+    <div style="display: none" id="dialog-floor" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    At which floor is the defibrillator located with respect to the street?
+                </p>
+
+                <div class="counter-wrapper">
+
+                    <div id="floor-counter-sub" class="counter-icon">
+                        <i class="material-icons">remove</i>
+                    </div>
+
+                    <div id="floor-counter-value" class="counter-display">0</div>
+
+                    <div id="floor-counter-add" class="counter-icon">
+                        <i class="material-icons">add</i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="floor-cancel" class="text-button">CANCEL</div>
+
+                <div id="floor-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Temporal accessibility -->
+    <div style="display: none" id="dialog-temporal-accessibility" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    When is it possible to access the defibrillator?
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="temporalAccessibility"
+                               value="H24"
+                               checked>
+                        <span>24 hours a day</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="temporalAccessibility"
+                               value="PART_TIME">
+                        <span>Part time</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="temporalAccessibility"
+                               value="NOT_SPECIFIED">
+                        <span>Not specified</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="temporal-cancel" class="text-button">CANCEL</div>
+
+                <div id="temporal-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Ease of recovery -->
+    <div style="display: none" id="dialog-recovery" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Evaluate the ease of recovery of the defibrillator
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="recovery"
+                               value="Immediate"
+                               checked>
+                        <span>Immediate</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="recovery"
+                               value="Fast">
+                        <span>Fast</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="recovery"
+                               value="Average">
+                        <span>Average</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="recovery"
+                               value="Slow">
+                        <span>Slow</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="recovery"
+                               value="Very slow">
+                        <span>Very slow</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="recovery-cancel" class="text-button">CANCEL</div>
+
+                <div id="recovery-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Signage -->
+    <div style="display: none" id="dialog-signage" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Evaluate the signage presence
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="signage"
+                               value="Great"
+                               checked>
+                        <span>Great</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="signage"
+                               value="Visible">
+                        <span>Visible</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="signage"
+                               value="Hard to see">
+                        <span>Hard to see</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="signage"
+                               value="Absent">
+                        <span>Absent</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="signage-cancel" class="text-button">CANCEL</div>
+
+                <div id="signage-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Notes -->
+    <div style="display: none" id="dialog-notes" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="notes-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Additional notes
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="notes-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">
+                Brand of the defibrillator
+                <br>
+                (leave empty if not visible)
+            </p>
+
+            <textarea id="brand"
+                      class="custom-textarea"
+                      rows="1"
+                      placeholder="Specify the brand..."
+                      maxlength="50"></textarea>
+
+            <p>Additional notes</p>
+
+            <textarea id="notes"
+                      class="custom-textarea"
+                      rows="10"
+                      placeholder="Max 500 characters..."
+                      maxlength="500"></textarea>
+
+        </div>
+
+    </div>
+
+    <!-- Presence -->
+    <div style="display: none" id="dialog-presence" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Is the defibrillator in the display?
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="presence"
+                               value="Yes"
+                               checked>
+                        <span>Yes</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="presence"
+                               value="No">
+                        <span>No</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="presence-cancel" class="text-button">CANCEL</div>
+
+                <div id="presence-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Photo -->
+    <div style="display: none" id="dialog-photo" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="photo-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Add a photo
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="photo-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div style="display: none" id="photo-cancel-btn" class="photo-cancel-wrapper">
+
+            <div class="photo-cancel">
+
+                <i class="material-icons">cancel</i>
+
+            </div>
+
+        </div>
+
+        <div id="photo-dialog-container" class="custom-container">
+
+            <div id="photo-preview-wrapper" class="photo-preview-wrapper">
+
+                <img id="def-photo-preview"
+                     class="photo-preview"
+                     src="img/img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+            <div id="btn-camera" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">photo_camera</i></div>
+
+                <div class="btn-text">Take a picture</div>
+
+            </div>
+
+            <div class="photo-or">- or -</div>
+
+            <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">folder</i></div>
+
+                <div class="btn-text">Choose from the gallery</div>
+
+            </div>
+
+            <input id="tmp-photo-input"
+                   type="file"
+                   accept=".png, .jpg, .jpeg">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Cordova -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+
+<!-- Leaflet -->
+<script type="text/javascript" src="js/lib/leaflet.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
+<script type="text/javascript" src="js/lib/leaflet-bing-layer.min.js"></script>
+
+<!-- Pouch db-->
+<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
+
+<!-- i18next -->
+<script type="text/javascript" src="js/lib/i18next.min.js"></script>
+
+<!-- Fingerprint -->
+<script type="text/javascript" src="js/lib/fingerprint.js"></script>
+
+<!-- Main JS -->
+<script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/enums.js"></script>
+<script type="text/javascript" src="js/defibrillator.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
+</html>
