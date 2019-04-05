@@ -22,6 +22,7 @@ $dialog-width : 280px;
   position   : fixed;
   top        : 0;
   background : #FFFFFF;
+  overflow-y : scroll;
 
   .custom-container {
     padding-top : 32px;

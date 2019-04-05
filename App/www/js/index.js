@@ -1,8 +1,9 @@
 "use strict";
 
-const LOCAL_DB         = "dh_local_db";
+const LOCAL_DB = "dh_local_db";
 
-let isMobile,
+let isCordova,
+    isMobile,
     isApp;
 
 let markers = [];
@@ -12,14 +13,21 @@ let networkState,
     pointsDB;
 
 
-// ToDO change for cordova
 function onLoad() {
-    // document.addEventListener("deviceready", initialize, false);
-    initialize();
+
+    isCordova = window.cordova;
+
+    if (isCordova) {
+        console.log("Cordova running");
+        document.addEventListener("deviceready", initialize, false);
+    } else {
+        console.log("Cordova not running");
+        initialize();
+    }
+
 }
 
 
-// ToDO change for cordova
 function initialize() {
 
     document.addEventListener("pause", onPause, false);
@@ -50,21 +58,17 @@ function onResize() {
 }
 
 
-// ToDO change for cordova
 function init() {
 
-    // isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    isApp = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
-
-    // networkState = navigator.connection.type;
+    isMobile     = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    isApp        = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
+    networkState = navigator.connection.type;
 
     onResize();
     initMap();
     initDb();
-
-    initInsert();
-
     getDefibrillators();
+    initInsert();
 
 }
 
@@ -74,8 +78,6 @@ function initDb() {
 
     localDb = new PouchDB(LOCAL_DB);
 
-    console.log(isApp);
-
     if (isApp)
         pointsDB = new PouchDB(HOSTED_POINTS_DB);
     else
@@ -83,11 +85,12 @@ function initDb() {
 }
 
 
+// ToDO change for Cordova
 function getDefibrillators() {
 
-    // ToDo
     // if (networkState === Connection.NONE || navigator.onLine === false) {
     //     showAlert("messages.noInternet");
+    //     return;
     // }
 
     pointsDB.allDocs({include_docs: true}, function (err, doc) {
@@ -108,6 +111,7 @@ function getDefibrillators() {
                     row.doc.position,
                     row.doc.accuracy,
                     row.doc.locationCategory,
+                    row.doc.transportType,
                     row.doc.visualReference,
                     row.doc.floor,
                     row.doc.temporalAccessibility,
@@ -115,14 +119,11 @@ function getDefibrillators() {
                     row.doc.signage,
                     row.doc.brand,
                     row.doc.notes,
-                    row.doc.presence,
-                    ""
+                    row.doc.presence
                 );
 
                 defibrillator.showDefibrillator();
-
             });
-
         }
     })
 
@@ -131,61 +132,58 @@ function getDefibrillators() {
 
 function deleteDefibrillator(id) {
 
-    let newMarkers = [];
+    navigator.notification.confirm(
+        i18n.t("messages.confirmCancellation"),
+        onConfirm,
+        "Defibrillator Hunter",
+        [i18n.t("messages.yes"), i18n.t("messages.no")]
+    );
 
-    markers.forEach(marker => {
-        if (marker._id === id)
-            map.removeLayer(marker);
-        else
-            newMarkers.push(marker);
-    });
+    function onConfirm(btnIndex) {
 
-    markers = newMarkers;
+        if (btnIndex === 1) {
 
-    // navigator.notification.confirm(
-    //     i18n.t("messages.confirmCancellation"),
-    //     onConfirm,
-    //     "Defibrillator Hunter",
-    //     [i18n.t("messages.yes"), i18n.t("messages.no")]
-    // );
-    //
-    // function onConfirm(btnIndex) {
-    //
-    //     if (btnIndex === 1) {
-    //
-    //         pointsDB.get(id).then(function (doc) {
-    //             return pointsDB.remove(doc);
-    //         }).then(function () {
-    //             let newUserMarkers = [];
-    //
-    //             userMarkers.forEach(function (marker) {
-    //                 if (marker._id === markerId) {
-    //                     userMarkersLayer.removeLayer(marker);
-    //                 } else {
-    //                     newUserMarkers.push(marker);
-    //                 }
-    //             });
-    //
-    //             userMarkers = newUserMarkers;
-    //         }).catch(function (err) {
-    //             showAlert("messages.cancelError");
-    //             console.log(err);
-    //         })
-    //     }
-    // }
+            pointsDB
+                .get(id)
+                .then(doc => {
+                    return pointsDB.remove(doc)
+                })
+                .then(() => {
+
+                    let newMarkers = [];
+
+                    markers.forEach(marker => {
+                        if (marker._id === id)
+                            map.removeLayer(marker);
+                        else
+                            newMarkers.push(marker);
+                    });
+
+                    markers = newMarkers;
+                })
+                .catch(err => {
+                    showAlert("messages.cancelError");
+                    console.log(err);
+                })
+        }
+    }
 
 }
 
 
-// ToDO change for cordova
 function showAlert(msg) {
 
-    // navigator.notification.alert(
-    //     i18n.t(msg),
-    //     null,
-    //     "Defibrillator Hunter",
-    //     i18n.t("messages.ok")
-    // );
+    if (isCordova) {
 
-    alert(i18n.t(msg));
+        navigator.notification.alert(
+            i18n.t(msg),
+            null,
+            "Defibrillator Hunter",
+            i18n.t("messages.ok")
+        );
+
+    } else {
+        alert(i18n.t(msg));
+    }
+
 }

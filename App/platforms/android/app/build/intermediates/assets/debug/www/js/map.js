@@ -16,7 +16,8 @@ const defibrillatorIcon = L.icon({
 });
 
 
-let positionMarker;
+let positionMarker,
+    accuracyCircle = undefined;
 
 let map,
     baseMaps;
@@ -156,13 +157,14 @@ function onPositionSuccess(pos) {
 
     console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currAccuracy);
 
-    let radius = currAccuracy / 2;
-
     map.setView(currLatLong, 17);
 
     positionMarker.setLatLng(currLatLong);
 
-    // L.circle(currLatLong, radius).addTo(map);
+    if (accuracyCircle !== undefined)
+        map.removeLayer(accuracyCircle);
+
+    accuracyCircle = L.circle(currLatLong, {radius: currAccuracy / 2}).addTo(map);
 
 }
 
@@ -180,6 +182,15 @@ function initPositionMarker() {
 
     positionMarker.addTo(map);
 
+    positionMarker.on("dragstart", () => {
+
+        detachPositionWatcher();
+
+        map.removeLayer(accuracyCircle);
+        accuracyCircle = undefined;
+
+    });
+
     positionMarker.on("dragend", (e) => {
 
         currLatLong = [
@@ -190,8 +201,6 @@ function initPositionMarker() {
         currAccuracy = 0;
 
         console.log("Position marker dragged to: " + currLatLong);
-
-        detachPositionWatcher();
 
     });
 

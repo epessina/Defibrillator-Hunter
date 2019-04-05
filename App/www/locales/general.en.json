@@ -18,29 +18,6 @@
     "cancelSuccess" : "Defibrillator successfully deleted!",
     "btnCancel" : "Cancel"
   },
-  "popup" : {
-    "id" : "id: ",
-    "location" : "location: ",
-    "accessibility" : "accessibility: ",
-    "comment" : "comment: "
-  },
-  "basemaps" : {
-    "osm" : "OpenStreetMap",
-    "bing" : "Bing Aerial"
-  },
-  "overlays" : {
-    "userMarkers" : "Your markers",
-    "otherMarkers" : "Other users' markers"
-  },
-  "modals" : {
-    "cancel" : "cancel",
-    "next" : "next",
-    "back" : "back",
-    "titleComment" : "Insert a comment",
-    "placeholder" : "Max 250 characters...",
-    "titleAccessibility" : "Accessibility",
-    "titlePhoto" : "Photo"
-  },
   "dialogs" : {
     "btnCancel" : "CANCEL",
     "btnOk" : "OK"
@@ -57,7 +34,9 @@
       "name" : "Location category",
       "defaultText" : "Add a category",
       "questionCategory" : "Where is the defibrillator located?",
-      "defaultLabel" : "Select a category",
+      "questionTransport": "Specify the type of transport station",
+      "defaultLabelCategory" : "Select a category",
+      "defaultLabelTransport" : "Select a type",
       "enum" : {
         "commercialActivity" : "Commercial activity",
         "residentialBuilding" : "Residential building",
@@ -72,6 +51,10 @@
         "churchOratorio" : "Church / Oratorio",
         "shelter" : "Shelter",
         "nursingHomeHospice" : "Nursing home / Hospice",
+        "metro": "Metro",
+        "airport": "Airport",
+        "trainStation": "Train station",
+        "busStation": "Bus station",
         "other" : "Other"
       },
       "visualReference" : "Specify a visual reference",

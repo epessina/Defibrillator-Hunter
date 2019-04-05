@@ -26,7 +26,7 @@
 
 class Defibrillator {
 
-    constructor(_id, timeStamp, lang, position, accuracy, locationCategory, visualReference, floor,
+    constructor(_id, timeStamp, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
                 temporalAccessibility, recovery, signage, brand, notes, presence, photo) {
 
         this._id                   = _id;
@@ -35,6 +35,7 @@ class Defibrillator {
         this.position              = position;
         this.accuracy              = accuracy;
         this.locationCategory      = locationCategory;
+        this.transportType         = transportType;
         this.visualReference       = visualReference;
         this.floor                 = floor;
         this.temporalAccessibility = temporalAccessibility;
@@ -43,7 +44,12 @@ class Defibrillator {
         this.brand                 = brand;
         this.notes                 = notes;
         this.presence              = presence;
-        this._attachments          = {
+
+    }
+
+    addAttachment(photo) {
+
+        this._attachments = {
             "image": {
                 content_type: "image/jpeg",
                 data        : photo
@@ -83,9 +89,6 @@ class Defibrillator {
 
             // If there is no error, as soon as the connection is available, replicate the document in the remote db
             else {
-
-                // userDefibrillators.push(this);
-                // displayNewDefibrillator(this);
 
                 // if (networkState === Connection.NONE || navigator.onLine === false)
                 //     showAlert("messages.contributionSuccessNoInternet");
@@ -132,17 +135,17 @@ class Defibrillator {
         else
             photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
 
-            let popup =
-                    "<p><b>" + i18n.t("popup.id") + "</b>" + this._id + "</p>" +
-                    "<img style='width: 200px; height: 200px' " +
-                    "src='" + photoSrc + "' " +
-                    "alt=''>" +
-                    "<br>" +
-                    "<button id='" + this._id + "' " +
-                    "        class='btn-popup' " +
-                    "        onclick='deleteDefibrillator(this.id)'>" +
-                    i18n.t("messages.btnCancel") +
-                    "</button>";
+        let popup =
+                "<p><b>id:</b> " + this._id + "</p>" +
+                "<img style='width: 200px; height: 200px' " +
+                "src='" + photoSrc + "' " +
+                "alt=''>" +
+                "<br>" +
+                "<button id='" + this._id + "' " +
+                "        class='btn-popup' " +
+                "        onclick='deleteDefibrillator(this.id)'>" +
+                "Cancel" +
+                "</button>";
 
         marker.bindPopup(popup);
 

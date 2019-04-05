@@ -224,7 +224,9 @@
 
         </div>
 
+
         <div class="custom-container">
+
 
             <p class="first-p"
                data-i18n="insert.locationCategory.questionCategory">
@@ -236,7 +238,7 @@
                 <label for="location-select" class="label custom-selector">
 
                     <span class="label-description"
-                          data-i18n="insert.locationCategory.defaultLabel">
+                          data-i18n="insert.locationCategory.defaultLabelCategory">
                         Select a category
                     </span>
 
@@ -323,6 +325,66 @@
                 </select>
 
             </div>
+
+
+            <div style="display: none" id="transport-type-wrapper">
+
+                <p>
+                <span data-i18n="insert.locationCategory.questionTransport">
+                    Specify the type of transport station
+                </span>
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="transport-type-select" class="label custom-selector">
+
+                    <span class="label-description"
+                          data-i18n="insert.locationCategory.defaultLabelTransport">
+                        Select a type
+                    </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="transport-type-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+
+                        <option value="metro"
+                                data-i18n="insert.locationCategory.enum.metro">
+                            Metro
+                        </option>
+
+                        <option value="airport"
+                                data-i18n="insert.locationCategory.enum.airport">
+                            Airport
+                        </option>
+
+                        <option value="trainStation"
+                                data-i18n="insert.locationCategory.enum.trainStation">
+                            Train station
+                        </option>
+
+                        <option value="busStation"
+                                data-i18n="insert.locationCategory.enum.busStation">
+                            Bus station
+                        </option>
+
+                        <option value="other"
+                                data-i18n="insert.locationCategory.enum.other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
 
             <p>
                 <span data-i18n="insert.locationCategory.visualReference">

@@ -54,7 +54,15 @@ $map-control-second-row-margin : 12px;
   }
 
   .gps-on {
-    color: #2196f3;
+    color : #2196F3;
+  }
+
+  .leaflet-marker-icon {
+
+    &:focus {
+      outline : none !important;
+    }
+
   }
 
 }

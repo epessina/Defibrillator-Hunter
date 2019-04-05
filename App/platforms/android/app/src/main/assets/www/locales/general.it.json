@@ -18,38 +18,27 @@
     "cancelSuccess" : "Defibrillator successfully deleted!",
     "btnCancel" : "Cancel"
   },
-  "popup" : {
-    "id" : "id: ",
-    "location" : "location: ",
-    "accessibility" : "accessibility: ",
-    "comment" : "comment: "
+  "dialogs" : {
+    "btnCancel" : "CANCEL",
+    "btnOk" : "OK"
   },
-  "basemaps" : {
-    "osm" : "OpenStreetMap",
-    "bing" : "Bing Aerial"
-  },
-  "overlays" : {
-    "userMarkers" : "Your markers",
-    "otherMarkers" : "Other users' markers"
-  },
-  "modals" : {
-    "cancel" : "cancel",
-    "next" : "next",
-    "back" : "back",
-    "titleComment" : "Insert a comment",
-    "placeholder" : "Max 250 characters...",
-    "titleAccessibility" : "Accessibility",
-    "titlePhoto" : "Photo"
+  "map": {
+    "fabText": "New defibrillator"
   },
   "insert" : {
     "mainScreen" : {
       "topBarTitle" : "New defibrillator"
     },
     "locationCategory" : {
+      "topBarTitle" : "Location category",
       "name" : "Location category",
       "defaultText" : "Add a category",
+      "questionCategory" : "Where is the defibrillator located?",
+      "questionTransport": "Specify the type of transport station",
+      "defaultLabelCategory" : "Select a category",
+      "defaultLabelTransport" : "Select a type",
       "enum" : {
-        "commercialActivity" : "Attività commerciale",
+        "commercialActivity" : "Commercial activity",
         "residentialBuilding" : "Residential building",
         "publicPlace" : "Public place",
         "sportsCentre" : "Sports centre",
@@ -58,39 +47,85 @@
         "schoolGym" : "School gym",
         "drugstore" : "Drugstore",
         "street" : "Street",
-        "medicalPracticeClinic" : "Medical practice/Clinic",
-        "churchOratorio" : "Church/Oratorio",
+        "medicalPracticeClinic" : "Medical practice / Clinic",
+        "churchOratorio" : "Church / Oratorio",
         "shelter" : "Shelter",
-        "nursingHomeHospice" : "Nursing home/Hospice",
+        "nursingHomeHospice" : "Nursing home / Hospice",
+        "metro": "Metro",
+        "airport": "Airport",
+        "trainStation": "Train station",
+        "busStation": "Bus station",
         "other" : "Other"
-      }
+      },
+      "visualReference" : "Specify a visual reference",
+      "visualReferenceSecond" : "(e.g. a church or a clearly visible building)",
+      "visualReferencePlaceholder" : "The defibrillator is near a..."
     },
     "floor" : {
       "name" : "Height",
-      "defaultText" : "Specify the floor"
+      "defaultText" : "Specify the floor",
+      "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
     "tempAccessibility" : {
       "name" : "Temporal accessibility",
-      "defaultText" : "Specify the temporal accessibility"
+      "defaultText" : "Specify the temporal accessibility",
+      "questionTempAccessibility" : "When is it possible to access the defibrillator?",
+      "enum" : {
+        "h24" : "24 hours a day",
+        "partTime" : "Part time",
+        "notSpecified" : "Not specified"
+      }
     },
     "recovery" : {
       "name" : "Ease of recovery",
-      "defaultText" : "Evaluate the ease of recovery"
+      "defaultText" : "Evaluate the ease of recovery",
+      "questionRecovery" : "Evaluate the ease of recovery of the defibrillator",
+      "enum" : {
+        "immediate" : "Immediate",
+        "fast" : "Fast",
+        "average" : "Average",
+        "slow" : "Slow",
+        "verySlow" : "Very slow"
+      }
     },
     "signage" : {
       "name" : "Signage",
-      "defaultText" : "Evaluate the signage"
+      "defaultText" : "Evaluate the signage",
+      "questionSignage" : "Evaluate the signage presence",
+      "enum" : {
+        "great" : "Great",
+        "visible" : "Visible",
+        "hardToSee" : "Hard to see",
+        "absent" : "Absent"
+      }
     },
     "notes" : {
       "name" : "Additional notes",
-      "defaultText" : "Add additional notes"
+      "defaultText" : "Add additional notes",
+      "editText" : "Edit your additional notes",
+      "topBarTitle" : "Additional notes",
+      "questionBrand" : "Brand of the defibrillator",
+      "questionBrandSecond" : "(leave empty if not visible)",
+      "brandPlaceholder" : "Specify the brand...",
+      "questionNotes" : "Additional notes",
+      "notesPlaceholder" : "Max 500 characters..."
     },
     "presence" : {
       "name" : "Presence of the defibrillator",
-      "defaultText" : "Confirm the presence"
+      "defaultText" : "Confirm the presence",
+      "questionPresence" : "Is the defibrillator in the display?",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No"
+      }
     },
     "photo" : {
-      "name" : "Add a photo"
+      "name" : "Add a photo",
+      "editText" : "Edit your photo",
+      "topBarTitle" : "Add a photo",
+      "cameraBtn": "Take a picture",
+      "or": "- or -",
+      "galleryBtn": "Choose from the gallery"
     }
   }
 }

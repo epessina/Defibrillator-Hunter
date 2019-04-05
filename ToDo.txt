@@ -17,9 +17,6 @@
 - Aggiugnere lingue
 
 
-- Controllare aggiunta offline
-
-
 - Inserire defibrillatore in open street map
 
 
@@ -35,7 +32,7 @@
 - Sistemare allineamento verticale label select location category (flex)
 
 
-- Dettagli stazione trasporti
-
-
 - Sistemare attacco/stacco position watcher come Google maps
+
+
+- In location category, la tastiera va sopra la textbox
