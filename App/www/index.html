@@ -29,7 +29,11 @@
 <!-- Map -->
 <div id="map">
 
-    <div id="map-control-hint" class="map-control map-control-left map-control-top-1 fab">
+    <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
+        <i class="material-icons fab-icon">perm_identity</i>
+    </div>
+
+    <div id="map-control-hint" class="map-control map-control-left map-control-top-2 fab">
         <i class="material-icons fab-icon">help_outline</i>
     </div>
 
@@ -890,6 +894,170 @@
 </div>
 
 
+<!-- Defibrillator information -->
+<div style="display: none" id="defibrillator-info">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="info-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="info.topBarTitle">
+            Details
+        </div>
+
+        <div class="top-bar-right-icon">
+            <i id="info-edit" class="material-icons">edit</i>
+        </div>
+
+    </div>
+
+    <div class="custom-container">
+
+        <!-- Id -->
+        <div id="info-id" class="info-block">
+
+            <p class="info-title">ID</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Creation date -->
+        <div id="info-creation-date" class="info-block">
+
+            <p class="info-title">Creation date</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!--Last modified -->
+        <div id="info-last-modified" class="info-block">
+
+            <p class="info-title">Last modified</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Coordinates -->
+        <div id="info-coordinates" class="info-block">
+
+            <p class="info-title">Coordinates</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Accuracy -->
+        <div id="info-accuracy" class="info-block">
+
+            <p class="info-title">Accuracy</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Presence -->
+        <div id="info-presence" class="info-block">
+
+            <p class="info-title">Presence of the defibrillator</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Location category -->
+        <div id="info-category" class="info-block">
+
+            <p class="info-title">Location category</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Visual reference -->
+        <div id="info-visual-reference" class="info-block">
+
+            <p class="info-title">Visual reference</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Floor -->
+        <div id="info-floor" class="info-block">
+
+            <p class="info-title">Floor</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Temporal accessibility -->
+        <div id="info-temporal-accessibility" class="info-block">
+
+            <p class="info-title">Temporal accessibility</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Ease of recovery -->
+        <div id="info-recovery" class="info-block">
+
+            <p class="info-title">Ease of recovery</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Signage -->
+        <div id="info-signage" class="info-block">
+
+            <p class="info-title">Signage</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Brand -->
+        <div id="info-brand" class="info-block">
+
+            <p class="info-title">Brand</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Notes -->
+        <div id="info-notes" class="info-block">
+
+            <p class="info-title">Notes</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Photo -->
+        <div id="info-photo">
+
+            <div class="photo-preview-wrapper">
+
+                <img class="photo-preview"
+                     src="img/img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+        </div>
+
+        <!-- Btn cancel -->
+        <div id="info-btn-cancel" class="button flex-btn full-width-btn full-btn">
+
+            <!--<div class="icon-before"><i class="material-icons">highlight_off</i></div>-->
+
+            <div class="btn-text"
+                 data-i18n="info.cancelBtn">
+                Cancel
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
 <!-- Cordova -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
@@ -906,6 +1074,9 @@
 <script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
 <script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
 
+<!-- Moment -->
+<script type="text/javascript" src="js/lib/moment.min.js"></script>
+
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
 
@@ -915,6 +1086,7 @@
 <script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/info.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

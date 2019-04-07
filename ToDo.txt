@@ -34,5 +34,8 @@
 
 - Sistemare attacco/stacco position watcher come Google maps
 
+- Sistemare spegnimento GPS
 
-- In location category, la tastiera va sopra la textbox
+
+- Quando aggiungo, chiudo e riaggiungo, se ho scrollato, rimane scrollato
+

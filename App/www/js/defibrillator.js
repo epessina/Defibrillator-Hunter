@@ -26,11 +26,12 @@
 
 class Defibrillator {
 
-    constructor(_id, timeStamp, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
-                temporalAccessibility, recovery, signage, brand, notes, presence, photo) {
+    constructor(_id, creationDate, lastModified, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
+                temporalAccessibility, recovery, signage, brand, notes, presence) {
 
         this._id                   = _id;
-        this.timeStamp             = timeStamp;
+        this.creationDate          = creationDate;
+        this.lastModified          = lastModified;
         this.lang                  = lang;
         this.position              = position;
         this.accuracy              = accuracy;
@@ -59,7 +60,7 @@ class Defibrillator {
     }
 
 
-    insertDefibrillator() {
+    insert() {
 
         // Insert the data in the local database
         localDb.put(this, err => {
@@ -79,7 +80,7 @@ class Defibrillator {
                     } else {
 
                         showAlert("messages.contributionSuccess");
-                        this.showDefibrillator();
+                        this.show();
 
                     }
 
@@ -96,7 +97,7 @@ class Defibrillator {
                 //     showAlert("messages.contributionSuccess");
 
                 showAlert("messages.contributionSuccess");
-                this.showDefibrillator();
+                this.show();
 
                 localDb.replicate
                     .to(pointsDB, {retry: true})
@@ -117,43 +118,118 @@ class Defibrillator {
     }
 
 
-    showDefibrillator() {
+    show() {
 
         let marker = L.marker(
-            this.position,
-            {
+            this.position, {
                 icon     : defibrillatorIcon,
                 draggable: false
             }
         );
         marker._id = this._id;
 
-        let photoSrc = "";
+        marker.on("click", () => {
 
-        if (isApp)
-            photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
-        else
-            photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+            this.showInfo();
+            $("#defibrillator-info").show();
 
-        let popup =
-                "<p><b>id:</b> " + this._id + "</p>" +
-                "<img style='width: 200px; height: 200px' " +
-                "src='" + photoSrc + "' " +
-                "alt=''>" +
-                "<br>" +
-                "<button id='" + this._id + "' " +
-                "        class='btn-popup' " +
-                "        onclick='deleteDefibrillator(this.id)'>" +
-                "Cancel" +
-                "</button>";
 
-        marker.bindPopup(popup);
+        });
+
+        // let photoSrc = "";
+        //
+        // if (isApp)
+        //     photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+        // else
+        //     photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+        //
+        // let popup =
+        //         "<p><b>id:</b> " + this._id + "</p>" +
+        //         "<img style='width: 200px; height: 200px' " +
+        //         "src='" + photoSrc + "' " +
+        //         "alt=''>" +
+        //         "<br>" +
+        //         "<button id='" + this._id + "' " +
+        //         "        class='btn-popup' " +
+        //         "        onclick='deleteDefibrillator(this.id)'>" +
+        //         "Cancel" +
+        //         "</button>";
+        //
+        // marker.bindPopup(popup);
 
         markers.push(marker);
 
         marker.addTo(map);
 
         return marker;
+
+    }
+
+
+    showInfo() {
+
+        $("#info-id .info-content").html(this._id);
+
+        $("#info-creation-date .info-content").html(this.creationDate);
+
+        $("#info-last-modified .info-content").html(this.lastModified);
+
+        $("#info-coordinates .info-content").html(
+            Defibrillator.generateInfo("position", this.position)
+        );
+
+        $("#info-accuracy .info-content").html(this.accuracy);
+
+        $("#info-presence .info-content").html(
+            Defibrillator.generateInfo("presence", this.presence)
+        );
+
+        $("#info-category .info-content").html(
+            Defibrillator.generateInfo("locationCategory", this.locationCategory)
+        );
+
+        $("#info-visual-reference .info-content").html(
+            Defibrillator.generateInfo("reference", this.visualReference)
+        );
+
+        $("#info-floor .info-content").html(
+            Defibrillator.generateInfo("floor", this.floor)
+        );
+
+        $("#info-temporal-accessibility .info-content").html(
+            Defibrillator.generateInfo("tempAccessibility", this.temporalAccessibility)
+        );
+
+        $("#info-recovery .info-content").html(
+            Defibrillator.generateInfo("recovery", this.recovery)
+        );
+
+        $("#info-signage .info-content").html(
+            Defibrillator.generateInfo("signage", this.signage)
+        );
+
+        $("#info-brand .info-content").html(
+            Defibrillator.generateInfo("brand", this.brand)
+        );
+
+        $("#info-notes .info-content").html(
+            Defibrillator.generateInfo("notes", this.notes)
+        );
+
+    }
+
+    static generateInfo(category, val) {
+
+        if (val === "")
+            return "-";
+
+        if (category === "position")
+            return val[0] + ", " + val[1];
+
+        if (category === "reference" || category === "floor" || category === "brand" || category === "notes")
+            return val;
+
+        return i18n.t("insert." + category + ".enum." + val);
 
     }
 

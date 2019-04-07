@@ -25,8 +25,8 @@ $z-photo-cancel : 4;
 
 // CONTAINER
 $container-margin : 16px;
-@function container-size() {
-  @return calc(100% - #{$container-margin} * 2)
+@function container-size($margin) {
+  @return calc(100% - #{$margin} * 2)
 }
 
 // FAB

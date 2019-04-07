@@ -70,6 +70,10 @@ function init() {
     getDefibrillators();
     initInsert();
 
+
+    console.log(i18n.t("info.date", {date: new Date("2019-04-07T14:42:27.930Z")}))
+
+
 }
 
 
@@ -106,7 +110,8 @@ function getDefibrillators() {
 
                 let defibrillator = new Defibrillator(
                     row.doc._id,
-                    row.doc.timeStamp,
+                    row.doc.creationDate,
+                    row.doc.lastModified,
                     row.doc.lang,
                     row.doc.position,
                     row.doc.accuracy,
@@ -122,7 +127,7 @@ function getDefibrillators() {
                     row.doc.presence
                 );
 
-                defibrillator.showDefibrillator();
+                defibrillator.show();
             });
         }
     })

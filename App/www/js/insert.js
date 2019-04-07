@@ -60,12 +60,20 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
+        if (locationCategory === "" || floor === "" || temporalAccessibility === "") {
+            console.log("You must provide at least...");
+            return;
+        }
+
         if (locationCategory !== "transportStation")
             transportType = "";
 
+        let currDate = new Date().toISOString();
+
         let defibrillator = new Defibrillator(
             Defibrillator.generateUID(),
-            new Date().toISOString(),
+            currDate,
+            currDate,
             ln.language,
             currLatLong,
             currAccuracy,
@@ -85,7 +93,7 @@ function initMainPage() {
 
         console.log(defibrillator);
 
-        defibrillator.insertDefibrillator();
+        defibrillator.insert();
 
         closeInsert();
 
@@ -437,9 +445,7 @@ function initPhotoDialog() {
         getPicture(Camera.PictureSourceType.CAMERA);
     });
 
-    $("#btn-gallery").click(() => {
-        getPicture(Camera.PictureSourceType.SAVEDPHOTOALBUM);
-    });
+    $("#btn-gallery").click(() => getPicture(Camera.PictureSourceType.SAVEDPHOTOALBUM));
 
 
     function getPicture(srcType) {

@@ -27,6 +27,10 @@
     },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-camera-preview": {
+      "ANDROID_SUPPORT_LIBRARY_VERSION": "26+",
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {}

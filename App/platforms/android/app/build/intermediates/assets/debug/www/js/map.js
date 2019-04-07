@@ -49,7 +49,7 @@ function initMap() {
     map.on("dragend", () => detachPositionWatcher());
 
     initLayers();
-    attachPositionWatcher();
+    // attachPositionWatcher();
     initPositionMarker();
 }
 
@@ -142,8 +142,6 @@ function detachPositionWatcher() {
 
     isPositionWatcherAttached = false;
 
-    console.log("Position watcher detached");
-
 }
 
 function onPositionSuccess(pos) {
@@ -186,8 +184,10 @@ function initPositionMarker() {
 
         detachPositionWatcher();
 
-        map.removeLayer(accuracyCircle);
-        accuracyCircle = undefined;
+        if (accuracyCircle !== undefined) {
+            map.removeLayer(accuracyCircle);
+            accuracyCircle = undefined;
+        }
 
     });
 

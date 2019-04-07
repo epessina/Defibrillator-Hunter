@@ -127,5 +127,9 @@
       "or": "- or -",
       "galleryBtn": "Choose from the gallery"
     }
+  },
+  "info": {
+    "topBarTitle": "Details",
+    "cancelBtn": "Cancel"
   }
 }

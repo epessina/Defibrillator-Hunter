@@ -1,6 +1,7 @@
 "use strict";
 
 let locationCategory      = "",
+    transportType         = "",
     visualReference       = "",
     floor                 = "",
     newFloor              = "",
@@ -13,7 +14,8 @@ let locationCategory      = "",
     photo                 = "",
     newPhoto              = "";
 
-let $locationSelect = $("#location-select");
+let $locationSelect      = $("#location-select"),
+    $transportTypeSelect = $("#transport-type-select");
 
 let btnCancelPhotoTop  = 0,
     btnCancelPhotoLeft = 0;
@@ -36,7 +38,17 @@ function initInsert() {
 
 function openInsert() {
 
-    $("#insert-defibrillator-main").show();
+    //$("#map").hide();
+    $("#insert-defibrillator").show();
+
+}
+
+function closeInsert() {
+
+    $("#insert-defibrillator").hide();
+    // $("#map").show();
+
+    resetFields();
 
 }
 
@@ -44,50 +56,67 @@ function openInsert() {
 // Main page
 function initMainPage() {
 
-    $("#new-defibrillator-close").click(() => {
-
-        // $("#insert-defibrillator").hide();
-        // $("#map").show();
-
-        resetFields();
-
-    });
+    $("#new-defibrillator-close").click(() => closeInsert());
 
     $("#new-defibrillator-done").click(() => {
 
-        let defibrillator = {
-            locationCategory     : locationCategory,
-            visualReference      : visualReference,
-            floor                : floor,
-            temporalAccessibility: temporalAccessibility,
-            recovery             : recovery,
-            signage              : signage,
-            brand                : brand,
-            notes                : notes,
-            presence             : presence,
-            photo                : photo
-        };
+        if (locationCategory !== "transportStation")
+            transportType = "";
+
+        let defibrillator = new Defibrillator(
+            Defibrillator.generateUID(),
+            new Date().toISOString(),
+            ln.language,
+            currLatLong,
+            currAccuracy,
+            locationCategory,
+            transportType,
+            visualReference,
+            floor,
+            temporalAccessibility,
+            recovery,
+            signage,
+            brand,
+            notes,
+            presence
+        );
+
+        defibrillator.addAttachment(photo);
 
         console.log(defibrillator);
 
-        // $("#insert-defibrillator").hide();
-        // $("#map").show();
+        defibrillator.insertDefibrillator();
 
-        // resetFields();
+        closeInsert();
 
     });
 
     $("#location-category-request").click(() => {
 
-        let toSelect;
+        if (locationCategory === "transportStation")
+            $("#transport-type-wrapper").show();
+        else
+            $("#transport-type-wrapper").hide();
+
+        let categoryToSelect, transportTypeToSelect;
 
         if (locationCategory === "")
-            toSelect = "none";
+            categoryToSelect = "none";
         else
-            toSelect = locationCategory;
+            categoryToSelect = locationCategory;
 
-        $locationSelect.get(0).selectedIndex = $locationSelect.find("option[value=" + toSelect + "]").index();
+        $locationSelect.get(0).selectedIndex =
+            $locationSelect.find("option[value=" + categoryToSelect + "]").index();
         changeLocationSelectLabel();
+
+        if (transportType === "")
+            transportTypeToSelect = "none";
+        else
+            transportTypeToSelect = transportType;
+
+        $transportTypeSelect.get(0).selectedIndex =
+            $transportTypeSelect.find("option[value=" + transportTypeToSelect + "]").index();
+        changeTransportTypeLabel();
 
         $("#location-reference").val(visualReference);
 
@@ -116,7 +145,7 @@ function initMainPage() {
         let toSelect;
 
         if (temporalAccessibility === "")
-            toSelect = "24 hours a day";
+            toSelect = "h24";
         else
             toSelect = temporalAccessibility;
 
@@ -132,7 +161,7 @@ function initMainPage() {
         let toSelect;
 
         if (recovery === "")
-            toSelect = "Immediate";
+            toSelect = "immediate";
         else
             toSelect = recovery;
 
@@ -207,22 +236,40 @@ function initMainPage() {
 // Location category
 function initLocationCategoryDialog() {
 
-    $locationSelect.change(() => changeLocationSelectLabel());
+    $locationSelect.change(() => {
+
+        changeLocationSelectLabel();
+
+        if ($locationSelect.val() === "transportStation")
+            $("#transport-type-wrapper").show();
+        else
+            $("#transport-type-wrapper").hide();
+
+    });
+
+    $transportTypeSelect.change(() => changeTransportTypeLabel());
 
     $("#location-close").click(() => closeFullscreenDialog($("#dialog-location")));
 
     $("#location-done").click(() => {
 
-        locationCategory = $("#location-select").val();
+        locationCategory = $locationSelect.val();
 
         if (locationCategory === "none") {
             console.log("Category none"); // ToDo handle error
             return;
         }
 
+        transportType = $transportTypeSelect.val();
+
+        if (locationCategory === "transportStation" && transportType === "none") {
+            console.log("Transport type none"); // ToDo handle error
+            return;
+        }
+
         visualReference = $("#location-reference").val();
 
-        $("#location-text").html(locationCategory);
+        $("#location-text").html(i18n.t("insert.locationCategory.enum." + locationCategory));
 
         closeFullscreenDialog($("#dialog-location"));
 
@@ -258,6 +305,9 @@ function initFloorDialog() {
 
     $("#floor-ok").click(() => {
 
+        if (newFloor === "")
+            newFloor = 0;
+
         floor = newFloor;
         $("#floor-text").html(floor.toString());
 
@@ -276,7 +326,8 @@ function initTemporalAccessibilityDialog() {
     $("#temporal-ok").click(() => {
 
         temporalAccessibility = $("input[name='temporalAccessibility']:checked").val();
-        $("#temporal-text").html(temporalAccessibility);
+
+        $("#temporal-text").html(i18n.t("insert.tempAccessibility.enum." + temporalAccessibility));
 
         closeDialog($("#dialog-temporal-accessibility"));
 
@@ -293,7 +344,8 @@ function initRecoveryDialog() {
     $("#recovery-ok").click(() => {
 
         recovery = $("input[name='recovery']:checked").val();
-        $("#recovery-text").html(recovery);
+
+        $("#recovery-text").html(i18n.t("insert.recovery.enum." + recovery));
 
         closeDialog($("#dialog-recovery"));
 
@@ -310,7 +362,8 @@ function initSignageDialog() {
     $("#signage-ok").click(() => {
 
         signage = $("input[name='signage']:checked").val();
-        $("#signage-text").html(signage);
+
+        $("#signage-text").html(i18n.t("insert.signage.enum." + signage));
 
         closeDialog($("#dialog-signage"));
 
@@ -329,7 +382,7 @@ function initNotesDialog() {
         brand = $("#brand").val();
         notes = $("#notes").val();
 
-        $("#notes-text").html("Edit your additional notes");
+        $("#notes-text").html(i18n.t("insert.notes.editText"));
 
         closeFullscreenDialog($("#dialog-notes"));
 
@@ -346,7 +399,8 @@ function initPresenceDialog() {
     $("#presence-ok").click(() => {
 
         presence = $("input[name='presence']:checked").val();
-        $("#presence-text").html(presence);
+
+        $("#presence-text").html(i18n.t("insert.presence.enum." + presence));
 
         closeDialog($("#dialog-presence"));
 
@@ -484,9 +538,9 @@ function initPhotoDialog() {
         btnCancelPhotoLeft = parseInt($btnCancelPhoto.css("left"));
 
         if (photo === "")
-            $("#photo-text").html("Add a photo");
+            $("#photo-text").html(i18n.t("insert.photo.name"));
         else
-            $("#photo-text").html("Edit your photo");
+            $("#photo-text").html(i18n.t("insert.photo.editText"));
 
         closeFullscreenDialog($("#dialog-photo"));
 
@@ -530,9 +584,20 @@ function changeLocationSelectLabel() {
     let label = $("[for='location-select']").find(".label-description");
 
     if ($locationSelect.val() === "none")
-        label.html("Select a category");
+        label.html(i18n.t("insert.locationCategory.defaultLabelCategory"));
     else
         label.html($locationSelect.find("option:selected").text());
+
+}
+
+function changeTransportTypeLabel() {
+
+    let label = $("[for='transport-type-select']").find(".label-description");
+
+    if ($transportTypeSelect.val() === "none")
+        label.html(i18n.t("insert.locationCategory.defaultLabelTransport"));
+    else
+        label.html($transportTypeSelect.find("option:selected").text());
 
 }
 
@@ -550,6 +615,7 @@ function previewPhoto(photo) {
 function resetFields() {
 
     locationCategory      = "";
+    transportType         = "";
     visualReference       = "";
     floor                 = "";
     newFloor              = "";
@@ -562,13 +628,13 @@ function resetFields() {
     photo                 = "";
     newPhoto              = "";
 
-    $("#location-text").html("Add a category");
-    $("#floor-text").html("Specify the floor");
-    $("#temporal-text").html("Specify the temporal accessibility");
-    $("#recovery-text").html("Specify the ease of recovery");
-    $("#signage-text").html("Evaluate the signage");
-    $("#notes-text").html("Add additional notes");
-    $("#presence-text").html("Confirm the presence");
-    $("#photo-text").html("Add a photo");
+    $("#location-text").html(i18n.t("insert.locationCategory.defaultText"));
+    $("#floor-text").html(i18n.t("insert.floor.defaultText"));
+    $("#temporal-text").html(i18n.t("insert.tempAccessibility.defaultText"));
+    $("#recovery-text").html(i18n.t("insert.recovery.defaultText"));
+    $("#signage-text").html(i18n.t("insert.signage.defaultText"));
+    $("#notes-text").html(i18n.t("insert.notes.defaultText"));
+    $("#presence-text").html(i18n.t("insert.presence.defaultText"));
+    $("#photo-text").html(i18n.t("insert.photo.name"));
 
 }

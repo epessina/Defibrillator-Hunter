@@ -110,6 +110,14 @@ module.exports = [
         "id": "cordova-plugin-camera.CameraProxy",
         "pluginId": "cordova-plugin-camera",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-camera-preview/www/CameraPreview.js",
+        "id": "cordova-plugin-camera-preview.CameraPreview",
+        "pluginId": "cordova-plugin-camera-preview",
+        "clobbers": [
+            "CameraPreview"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -121,7 +129,8 @@ module.exports.metadata =
     "cordova-plugin-network-information": "2.0.1",
     "cordova-plugin-dialogs": "2.0.1",
     "cordova-plugin-geolocation": "4.0.1",
-    "cordova-plugin-camera": "4.0.3"
+    "cordova-plugin-camera": "4.0.3",
+    "cordova-plugin-camera-preview": "0.10.0"
 }
 // BOTTOM OF METADATA
 });

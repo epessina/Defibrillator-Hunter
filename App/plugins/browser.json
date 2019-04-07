@@ -27,6 +27,9 @@
     },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-camera-preview": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {}

@@ -106,7 +106,8 @@ function getDefibrillators() {
 
                 let defibrillator = new Defibrillator(
                     row.doc._id,
-                    row.doc.timeStamp,
+                    row.doc.creationDate,
+                    row.doc.lastModified,
                     row.doc.lang,
                     row.doc.position,
                     row.doc.accuracy,
@@ -122,7 +123,7 @@ function getDefibrillators() {
                     row.doc.presence
                 );
 
-                defibrillator.showDefibrillator();
+                defibrillator.show();
             });
         }
     })

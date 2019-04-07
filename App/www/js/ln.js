@@ -11,11 +11,21 @@ let ln = {
 
     init: function () {
         i18n.init({
-            ns         : "general",
-            lng        : "en",
-            resGetPath : "locales/__ns__.__lng__.json",
-            fallbackLng: "en",
-            useCookie  : false
+            ns           : "general",
+            lng          : "en",
+            resGetPath   : "locales/__ns__.__lng__.json",
+            fallbackLng  : "en",
+            useCookie    : false,
+            interpolation: {
+                format: function (value, format, lng) {
+                    console.log("here");
+                    if (value instanceof Date) {
+                        console.log("here");
+                        return moment(value).format(format);
+                    }
+                    return value;
+                }
+            }
         }, function () {
             ln.getLanguage();
         });

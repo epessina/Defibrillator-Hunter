@@ -42,6 +42,9 @@
     },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-camera-preview": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {},
@@ -156,6 +159,14 @@
       "id": "cordova-plugin-camera.CameraProxy",
       "pluginId": "cordova-plugin-camera",
       "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-camera-preview/www/CameraPreview.js",
+      "id": "cordova-plugin-camera-preview.CameraPreview",
+      "pluginId": "cordova-plugin-camera-preview",
+      "clobbers": [
+        "CameraPreview"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -165,6 +176,7 @@
     "cordova-plugin-network-information": "2.0.1",
     "cordova-plugin-dialogs": "2.0.1",
     "cordova-plugin-geolocation": "4.0.1",
-    "cordova-plugin-camera": "4.0.3"
+    "cordova-plugin-camera": "4.0.3",
+    "cordova-plugin-camera-preview": "0.10.0"
   }
 }

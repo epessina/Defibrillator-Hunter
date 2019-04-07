@@ -26,11 +26,12 @@
 
 class Defibrillator {
 
-    constructor(_id, timeStamp, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
-                temporalAccessibility, recovery, signage, brand, notes, presence, photo) {
+    constructor(_id, creationDate, lastModified, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
+                temporalAccessibility, recovery, signage, brand, notes, presence) {
 
         this._id                   = _id;
-        this.timeStamp             = timeStamp;
+        this.creationDate          = creationDate;
+        this.lastModified          = lastModified;
         this.lang                  = lang;
         this.position              = position;
         this.accuracy              = accuracy;
@@ -59,7 +60,7 @@ class Defibrillator {
     }
 
 
-    insertDefibrillator() {
+    insert() {
 
         // Insert the data in the local database
         localDb.put(this, err => {
@@ -79,7 +80,7 @@ class Defibrillator {
                     } else {
 
                         showAlert("messages.contributionSuccess");
-                        this.showDefibrillator();
+                        this.show();
 
                     }
 
@@ -96,7 +97,7 @@ class Defibrillator {
                 //     showAlert("messages.contributionSuccess");
 
                 showAlert("messages.contributionSuccess");
-                this.showDefibrillator();
+                this.show();
 
                 localDb.replicate
                     .to(pointsDB, {retry: true})
@@ -117,7 +118,7 @@ class Defibrillator {
     }
 
 
-    showDefibrillator() {
+    show() {
 
         let marker = L.marker(
             this.position,

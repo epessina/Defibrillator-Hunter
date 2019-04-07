@@ -5,7 +5,8 @@
   "short_name": "DefibrillatorHunter",
   "version": "polimi.epessina.defibrillatorhunter",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "author": "Edoardo Pessina",
   "icons": [],
+  "orientation": "portrait",
   "start_url": "index.html"
 }

@@ -274,36 +274,49 @@ p {
 #map .leaflet-control-attribution.leaflet-control {
   display: none;
 }
-#map .map-container {
-  height: 100%;
+#map .map-control {
   z-index: 1000;
   font: 400 16px system-ui;
-}
-#map .map-container .map-control {
   position: absolute;
 }
-#map .map-container #map-control-hint {
-  top: 16px;
-  left: 0px;
+#map .fab {
+  background: #FFFFFF;
+  color: #000000;
+  border: 0.1px solid rgba(0, 0, 0, 0.4);
 }
-#map .map-container #map-control-layers {
-  top: 16px;
-  right: 0px;
+#map .map-control-left {
+  left: 16px;
 }
-#map .map-container #map-control-gps {
+#map .map-control-right {
+  right: 16px;
+}
+#map .map-control-center {
+  right: 16px;
+  left: 16px;
+}
+#map .map-control-top-1 {
+  top: 16px;
+}
+#map .map-control-top-2 {
   top: 80px;
-  right: 0px;
 }
-#map .map-container #map-new-defibrillator {
-  right: 0px;
+#map .map-control-bottom {
   bottom: 16px;
-  left: 0px;
+}
+#map .gps-on {
+  color: #2196F3;
+}
+#map .leaflet-marker-icon:focus {
+  outline: none !important;
 }
 
 /* INSERT DEFIBRILLATOR LAYOUT */
 #insert-defibrillator {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
   overflow-y: scroll;
   background: #FFFFFF;
   /* MAIN PAGE */
@@ -452,6 +465,7 @@ p {
   width: 80%;
   height: 48px;
   margin: 0 auto;
+  text-transform: uppercase;
 }
 .fab-extended .fab-extended-text {
   font-weight: 700;
@@ -527,6 +541,7 @@ p {
   position: fixed;
   top: 0;
   background: #FFFFFF;
+  overflow-y: scroll;
 }
 .full-screen-dialog .custom-container {
   padding-top: 32px;

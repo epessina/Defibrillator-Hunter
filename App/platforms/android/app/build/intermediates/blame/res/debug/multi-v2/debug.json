@@ -26,20 +26,54 @@
             "outputFile": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\src\\main\\res\\values\\camera_theme.xml",
                     "from": {
-                        "startLines": "4,2,3",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "171,55,112",
-                        "endColumns": "63,56,58",
-                        "endOffsets": "230,107,166"
+                        "startLines": "2",
+                        "startColumns": "2",
+                        "startOffsets": "55",
+                        "endLines": "7",
+                        "endColumns": "10",
+                        "endOffsets": "381"
                     },
                     "to": {
-                        "startLines": "2,3,4",
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "281",
+                        "endLines": "11",
+                        "endColumns": "10",
+                        "endOffsets": "602"
+                    }
+                },
+                {
+                    "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\src\\main\\res\\values\\camera_ids.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "2",
+                        "startOffsets": "55",
+                        "endColumns": "44",
+                        "endOffsets": "97"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "45",
+                        "endOffsets": "96"
+                    }
+                },
+                {
+                    "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1",
+                        "startColumns": "-1,-1,-1",
+                        "startOffsets": "-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "3,4,5",
                         "startColumns": "4,4,4",
-                        "startOffsets": "55,119,176",
+                        "startOffsets": "101,165,222",
                         "endColumns": "63,56,58",
-                        "endOffsets": "114,171,230"
+                        "endOffsets": "160,217,276"
                     }
                 }
             ]

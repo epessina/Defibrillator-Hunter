@@ -92,6 +92,10 @@
         "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\platforms\\android\\app\\src\\main\\res\\drawable-port-mdpi\\screen.png"
     },
     {
+        "merged": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout_camera_activity.xml.flat",
+        "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\App\\platforms\\android\\app\\src\\main\\res\\layout\\camera_activity.xml"
+    },
+    {
         "merged": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_icon.png.flat",
         "source": "D:\\Edoardo\\Documents\\PoliMi\\V Anno\\II Semestre\\Geoinformatics Project\\Defibrillator-Hunter\\platforms\\android\\app\\src\\main\\res\\mipmap-hdpi\\icon.png"
     },
