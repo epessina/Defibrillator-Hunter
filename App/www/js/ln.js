@@ -16,16 +16,6 @@ let ln = {
             resGetPath   : "locales/__ns__.__lng__.json",
             fallbackLng  : "en",
             useCookie    : false,
-            interpolation: {
-                format: function (value, format, lng) {
-                    console.log("here");
-                    if (value instanceof Date) {
-                        console.log("here");
-                        return moment(value).format(format);
-                    }
-                    return value;
-                }
-            }
         }, function () {
             ln.getLanguage();
         });

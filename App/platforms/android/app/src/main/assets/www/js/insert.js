@@ -70,6 +70,8 @@ function initMainPage() {
 
         let currDate = new Date().toISOString();
 
+        let hasPhoto = photo !== "";
+
         let defibrillator = new Defibrillator(
             Defibrillator.generateUID(),
             currDate,
@@ -86,7 +88,8 @@ function initMainPage() {
             signage,
             brand,
             notes,
-            presence
+            presence,
+            hasPhoto
         );
 
         defibrillator.addAttachment(photo);
@@ -612,7 +615,6 @@ function previewPhoto(photo) {
 
     if (photo === "")
         $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
-
     else
         $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
 }

@@ -130,6 +130,7 @@
   },
   "info": {
     "topBarTitle": "Details",
-    "cancelBtn": "Cancel"
+    "cancelBtn": "Cancel",
+    "date": "Date: {{date, MM/DD/YYYY}}"
   }
 }

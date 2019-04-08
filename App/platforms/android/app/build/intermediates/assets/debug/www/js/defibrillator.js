@@ -27,7 +27,7 @@
 class Defibrillator {
 
     constructor(_id, creationDate, lastModified, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
-                temporalAccessibility, recovery, signage, brand, notes, presence) {
+                temporalAccessibility, recovery, signage, brand, notes, presence, hasPhoto) {
 
         this._id                   = _id;
         this.creationDate          = creationDate;
@@ -45,7 +45,7 @@ class Defibrillator {
         this.brand                 = brand;
         this.notes                 = notes;
         this.presence              = presence;
-
+        this.hasPhoto              = hasPhoto;
     }
 
     addAttachment(photo) {
@@ -121,40 +121,132 @@ class Defibrillator {
     show() {
 
         let marker = L.marker(
-            this.position,
-            {
+            this.position, {
                 icon     : defibrillatorIcon,
                 draggable: false
             }
         );
         marker._id = this._id;
 
-        let photoSrc = "";
+        marker.on("click", () => {
 
-        if (isApp)
-            photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
-        else
-            photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+            this.showInfo();
+            $("#defibrillator-info").show();
 
-        let popup =
-                "<p><b>id:</b> " + this._id + "</p>" +
-                "<img style='width: 200px; height: 200px' " +
-                "src='" + photoSrc + "' " +
-                "alt=''>" +
-                "<br>" +
-                "<button id='" + this._id + "' " +
-                "        class='btn-popup' " +
-                "        onclick='deleteDefibrillator(this.id)'>" +
-                "Cancel" +
-                "</button>";
 
-        marker.bindPopup(popup);
+        });
+
+        // let photoSrc = "";
+        //
+        // if (isApp)
+        //     photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+        // else
+        //     photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+        //
+        // let popup =
+        //         "<p><b>id:</b> " + this._id + "</p>" +
+        //         "<img style='width: 200px; height: 200px' " +
+        //         "src='" + photoSrc + "' " +
+        //         "alt=''>" +
+        //         "<br>" +
+        //         "<button id='" + this._id + "' " +
+        //         "        class='btn-popup' " +
+        //         "        onclick='deleteDefibrillator(this.id)'>" +
+        //         "Cancel" +
+        //         "</button>";
+        //
+        // marker.bindPopup(popup);
 
         markers.push(marker);
 
         marker.addTo(map);
 
         return marker;
+
+    }
+
+
+    // ToDo format date
+    showInfo() {
+
+        $("#info-id .info-content").html(this._id);
+
+        $("#info-creation-date .info-content").html(this.creationDate);
+
+        $("#info-last-modified .info-content").html(this.lastModified);
+
+        $("#info-coordinates .info-content").html(
+            Defibrillator.generateInfo("position", this.position)
+        );
+
+        $("#info-accuracy .info-content").html(this.accuracy);
+
+        $("#info-presence .info-content").html(
+            Defibrillator.generateInfo("presence", this.presence)
+        );
+
+        $("#info-category .info-content").html(
+            Defibrillator.generateInfo("locationCategory", this.locationCategory, this.transportType)
+        );
+
+        $("#info-visual-reference .info-content").html(
+            Defibrillator.generateInfo("reference", this.visualReference)
+        );
+
+        $("#info-floor .info-content").html(
+            Defibrillator.generateInfo("floor", this.floor)
+        );
+
+        $("#info-temporal-accessibility .info-content").html(
+            Defibrillator.generateInfo("tempAccessibility", this.temporalAccessibility)
+        );
+
+        $("#info-recovery .info-content").html(
+            Defibrillator.generateInfo("recovery", this.recovery)
+        );
+
+        $("#info-signage .info-content").html(
+            Defibrillator.generateInfo("signage", this.signage)
+        );
+
+        $("#info-brand .info-content").html(
+            Defibrillator.generateInfo("brand", this.brand)
+        );
+
+        $("#info-notes .info-content").html(
+            Defibrillator.generateInfo("notes", this.notes)
+        );
+
+        if (!this.hasPhoto) {
+            $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+        } else {
+            let photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+
+            if (isApp)
+                photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+
+            $("#info-photo-preview").attr("src", photoSrc);
+        }
+
+        $("#info-btn-cancel").click(() => console.log(this._id));
+
+    }
+
+    static generateInfo(category, val, type = "") {
+
+        if (val === "")
+            return "-";
+
+        if (category === "position")
+            return val[0] + ", " + val[1];
+
+        if (category === "locationCategory" && type !== "")
+            return i18n.t("insert." + category + ".enum." + val) + " (" + type + ")";
+
+        if (category === "reference" || category === "floor" || category === "brand" || category === "notes")
+            return val;
+
+        return i18n.t("insert." + category + ".enum." + val);
 
     }
 

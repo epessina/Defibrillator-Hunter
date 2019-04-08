@@ -69,6 +69,7 @@ function init() {
     initDb();
     getDefibrillators();
     initInsert();
+    initInfoPage();
 
 }
 
@@ -120,7 +121,8 @@ function getDefibrillators() {
                     row.doc.signage,
                     row.doc.brand,
                     row.doc.notes,
-                    row.doc.presence
+                    row.doc.presence,
+                    row.doc.hasPhoto
                 );
 
                 defibrillator.show();

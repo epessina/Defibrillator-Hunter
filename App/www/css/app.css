@@ -316,7 +316,7 @@ p {
   height: 100%;
   position: absolute;
   top: 0;
-  z-index: 1000;
+  z-index: 1100;
   overflow-y: scroll;
   background: #FFFFFF;
   /* MAIN PAGE */
@@ -444,7 +444,7 @@ p {
   color: #000000;
 }
 #defibrillator-info .custom-container #info-notes {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 #defibrillator-info .custom-container #info-photo {
   margin-bottom: 60px;
@@ -881,7 +881,7 @@ p {
 /* PHOTO PREVIEW */
 .photo-preview-wrapper {
   width: 100%;
-  height: 200px;
+  max-height: 200px;
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;

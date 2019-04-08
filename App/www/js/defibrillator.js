@@ -27,7 +27,7 @@
 class Defibrillator {
 
     constructor(_id, creationDate, lastModified, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
-                temporalAccessibility, recovery, signage, brand, notes, presence) {
+                temporalAccessibility, recovery, signage, brand, notes, presence, hasPhoto) {
 
         this._id                   = _id;
         this.creationDate          = creationDate;
@@ -45,8 +45,9 @@ class Defibrillator {
         this.brand                 = brand;
         this.notes                 = notes;
         this.presence              = presence;
-
+        this.hasPhoto              = hasPhoto;
     }
+
 
     addAttachment(photo) {
 
@@ -166,7 +167,10 @@ class Defibrillator {
     }
 
 
+    // ToDo format date and coordinates
     showInfo() {
+
+        $("#info-edit").unbind("click").click(() => openInsert(this));
 
         $("#info-id .info-content").html(this._id);
 
@@ -174,57 +178,98 @@ class Defibrillator {
 
         $("#info-last-modified .info-content").html(this.lastModified);
 
-        $("#info-coordinates .info-content").html(
-            Defibrillator.generateInfo("position", this.position)
-        );
+        $("#info-coordinates .info-content").html(Defibrillator.generateInfo("position", this.position));
 
         $("#info-accuracy .info-content").html(this.accuracy);
 
-        $("#info-presence .info-content").html(
-            Defibrillator.generateInfo("presence", this.presence)
-        );
+        $("#info-presence .info-content").html(Defibrillator.generateInfo("presence", this.presence));
 
         $("#info-category .info-content").html(
-            Defibrillator.generateInfo("locationCategory", this.locationCategory)
-        );
+            Defibrillator.generateInfo("locationCategory", this.locationCategory, this.transportType));
 
         $("#info-visual-reference .info-content").html(
-            Defibrillator.generateInfo("reference", this.visualReference)
-        );
+            Defibrillator.generateInfo("reference", this.visualReference));
 
-        $("#info-floor .info-content").html(
-            Defibrillator.generateInfo("floor", this.floor)
-        );
+        $("#info-floor .info-content").html(Defibrillator.generateInfo("floor", this.floor));
 
         $("#info-temporal-accessibility .info-content").html(
-            Defibrillator.generateInfo("tempAccessibility", this.temporalAccessibility)
-        );
+            Defibrillator.generateInfo("tempAccessibility", this.temporalAccessibility));
 
-        $("#info-recovery .info-content").html(
-            Defibrillator.generateInfo("recovery", this.recovery)
-        );
+        $("#info-recovery .info-content").html(Defibrillator.generateInfo("recovery", this.recovery));
 
-        $("#info-signage .info-content").html(
-            Defibrillator.generateInfo("signage", this.signage)
-        );
+        $("#info-signage .info-content").html(Defibrillator.generateInfo("signage", this.signage));
 
-        $("#info-brand .info-content").html(
-            Defibrillator.generateInfo("brand", this.brand)
-        );
+        $("#info-brand .info-content").html(Defibrillator.generateInfo("brand", this.brand));
 
-        $("#info-notes .info-content").html(
-            Defibrillator.generateInfo("notes", this.notes)
-        );
+        $("#info-notes .info-content").html(Defibrillator.generateInfo("notes", this.notes));
+
+        if (!this.hasPhoto) {
+            $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+        } else {
+            let photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+
+            if (isApp)
+                photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+
+            $("#info-photo-preview").attr("src", photoSrc);
+        }
+
+        $("#info-btn-cancel").click(() => this.cancel());
 
     }
 
-    static generateInfo(category, val) {
+
+    edit() {
+
+    }
+
+
+    cancel() {
+
+        // navigator.notification.confirm(
+        //     i18n.t("messages.confirmCancellation"),
+        //     onConfirm,
+        //     "Defibrillator Hunter",
+        //     [i18n.t("messages.yes"), i18n.t("messages.no")]
+        // );
+        //
+        // function onConfirm(btnIndex) {
+        //
+        //     if (btnIndex === 1) {
+
+        pointsDB.get(this._id)
+            .then(doc => pointsDB.remove(doc))
+            .then(() => {
+                let newMarkers = [];
+
+                markers.forEach(marker => {
+                    if (marker._id === this._id)
+                        map.removeLayer(marker);
+                    else
+                        newMarkers.push(marker);
+                });
+
+                markers = newMarkers;
+
+                closeInfoPage();
+            })
+            .catch(err => {
+                showAlert("messages.cancelError");
+                console.log(err);
+            })
+    }
+
+
+    static generateInfo(category, val, type = "") {
 
         if (val === "")
             return "-";
 
         if (category === "position")
             return val[0] + ", " + val[1];
+
+        if (category === "locationCategory" && type !== "")
+            return i18n.t("insert." + category + ".enum." + val) + " (" + type + ")";
 
         if (category === "reference" || category === "floor" || category === "brand" || category === "notes")
             return val;

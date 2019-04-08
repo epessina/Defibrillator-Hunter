@@ -895,12 +895,12 @@
 
 
 <!-- Defibrillator information -->
-<div id="defibrillator-info">
+<div style="display: none" id="defibrillator-info">
 
     <div class="top-bar">
 
         <div class="top-bar-left-icon">
-            <i id="defibrillator-info-close" class="material-icons">close</i>
+            <i id="info-close" class="material-icons">close</i>
         </div>
 
         <div class="top-bar-title" data-i18n="info.topBarTitle">
@@ -908,7 +908,7 @@
         </div>
 
         <div class="top-bar-right-icon">
-            <i id="defibrillator-info-edit" class="material-icons">edit</i>
+            <i id="info-edit" class="material-icons">edit</i>
         </div>
 
     </div>
@@ -919,7 +919,7 @@
         <div id="info-id" class="info-block">
 
             <p class="info-title">ID</p>
-            <p class="info-content">01</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -927,7 +927,7 @@
         <div id="info-creation-date" class="info-block">
 
             <p class="info-title">Creation date</p>
-            <p class="info-content">07/04/2019 19:19</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -935,7 +935,7 @@
         <div id="info-last-modified" class="info-block">
 
             <p class="info-title">Last modified</p>
-            <p class="info-content">07/04/2019 19:19</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -943,7 +943,7 @@
         <div id="info-coordinates" class="info-block">
 
             <p class="info-title">Coordinates</p>
-            <p class="info-content">45.607586, 8.954632</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -951,7 +951,7 @@
         <div id="info-accuracy" class="info-block">
 
             <p class="info-title">Accuracy</p>
-            <p class="info-content">0</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -959,7 +959,7 @@
         <div id="info-presence" class="info-block">
 
             <p class="info-title">Presence of the defibrillator</p>
-            <p class="info-content">-</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -967,7 +967,7 @@
         <div id="info-category" class="info-block">
 
             <p class="info-title">Location category</p>
-            <p class="info-content">Transport station (train station)</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -975,7 +975,7 @@
         <div id="info-visual-reference" class="info-block">
 
             <p class="info-title">Visual reference</p>
-            <p class="info-content">-</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -983,7 +983,7 @@
         <div id="info-floor" class="info-block">
 
             <p class="info-title">Floor</p>
-            <p class="info-content">-2</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -991,7 +991,7 @@
         <div id="info-temporal-accessibility" class="info-block">
 
             <p class="info-title">Temporal accessibility</p>
-            <p class="info-content">-</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -999,7 +999,7 @@
         <div id="info-recovery" class="info-block">
 
             <p class="info-title">Ease of recovery</p>
-            <p class="info-content">Immediate</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -1007,7 +1007,7 @@
         <div id="info-signage" class="info-block">
 
             <p class="info-title">Signage</p>
-            <p class="info-content">Great</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -1015,7 +1015,7 @@
         <div id="info-brand" class="info-block">
 
             <p class="info-title">Brand</p>
-            <p class="info-content">Nike</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -1023,7 +1023,7 @@
         <div id="info-notes" class="info-block">
 
             <p class="info-title">Notes</p>
-            <p class="info-content">Some additional notes</p>
+            <p class="info-content"></p>
 
         </div>
 
@@ -1032,8 +1032,9 @@
 
             <div class="photo-preview-wrapper">
 
-                <img class="photo-preview"
-                     src="img/img-placeholder-200.png"
+                <img id="info-photo-preview"
+                     class="photo-preview"
+                     src="img/no-img-placeholder-200.png"
                      alt="Your image">
 
             </div>
@@ -1074,6 +1075,9 @@
 <script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
 <script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
 
+<!-- Moment -->
+<script type="text/javascript" src="js/lib/moment.min.js"></script>
+
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
 
@@ -1083,6 +1087,7 @@
 <script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/info.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

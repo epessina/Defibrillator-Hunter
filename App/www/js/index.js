@@ -70,9 +70,7 @@ function init() {
     getDefibrillators();
     initInsert();
 
-
-    console.log(i18n.t("info.date", {date: new Date("2019-04-07T14:42:27.930Z")}))
-
+    $("#info-close").click(() => closeInfoPage());
 
 }
 
@@ -124,7 +122,8 @@ function getDefibrillators() {
                     row.doc.signage,
                     row.doc.brand,
                     row.doc.notes,
-                    row.doc.presence
+                    row.doc.presence,
+                    row.doc.hasPhoto
                 );
 
                 defibrillator.show();
@@ -135,43 +134,25 @@ function getDefibrillators() {
 }
 
 
-function deleteDefibrillator(id) {
+function closeInfoPage() {
 
-    navigator.notification.confirm(
-        i18n.t("messages.confirmCancellation"),
-        onConfirm,
-        "Defibrillator Hunter",
-        [i18n.t("messages.yes"), i18n.t("messages.no")]
-    );
+    $("#defibrillator-info").scrollTop(0).hide();
 
-    function onConfirm(btnIndex) {
-
-        if (btnIndex === 1) {
-
-            pointsDB
-                .get(id)
-                .then(doc => {
-                    return pointsDB.remove(doc)
-                })
-                .then(() => {
-
-                    let newMarkers = [];
-
-                    markers.forEach(marker => {
-                        if (marker._id === id)
-                            map.removeLayer(marker);
-                        else
-                            newMarkers.push(marker);
-                    });
-
-                    markers = newMarkers;
-                })
-                .catch(err => {
-                    showAlert("messages.cancelError");
-                    console.log(err);
-                })
-        }
-    }
+    $("#info-id .info-content").html("");
+    $("#info-creation-date .info-content").html("");
+    $("#info-last-modified .info-content").html("");
+    $("#info-coordinates .info-content").html("");
+    $("#info-accuracy .info-content").html("");
+    $("#info-presence .info-content").html("");
+    $("#info-category .info-content").html("");
+    $("#info-visual-reference .info-content").html("");
+    $("#info-floor .info-content").html("");
+    $("#info-temporal-accessibility .info-content").html("");
+    $("#info-recovery .info-content").html("");
+    $("#info-signage .info-content").html("");
+    $("#info-brand .info-content").html("");
+    $("#info-notes .info-content").html("");
+    $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
 
 }
 
