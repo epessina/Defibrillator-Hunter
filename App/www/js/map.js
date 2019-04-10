@@ -9,7 +9,7 @@ const positionMarkerIcon = L.icon({
 });
 
 const defibrillatorIcon = L.icon({
-    iconUrl    : "img/user-def-icon.png",
+    iconUrl    : "img/def-icon.png",
     iconSize   : [31, 42],
     iconAnchor : [16, 42],
     popupAnchor: [0, -43]
@@ -78,7 +78,7 @@ function initAppMapUI() {
 
     });
 
-    $("#map-new-defibrillator").click((e) => {
+    $("#map-new-defibrillator").click(e => {
         openInsert();
         e.stopPropagation();
     });

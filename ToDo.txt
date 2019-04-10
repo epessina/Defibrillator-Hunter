@@ -9,6 +9,7 @@
 
 
 - Modificare i tuoi defibrillatori
+    - modificare effettivamente
 	
 
 - Sistemare gli alert
@@ -32,10 +33,9 @@
 - Sistemare allineamento verticale label select location category (flex)
 
 
-- Sistemare attacco/stacco position watcher come Google maps
+- Sistemare attacco/stacco position watcher come Google maps -> pausea and resume, non deve cambiare lo stato
 
 - Sistemare spegnimento GPS
 
 
-- Quando aggiungo, chiudo e riaggiungo, se ho scrollato, rimane scrollato
-
+- Foto a tutto schermo

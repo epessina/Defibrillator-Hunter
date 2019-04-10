@@ -29,7 +29,6 @@
   text-transform : uppercase;
 
   .fab-extended-text {
-    font-weight : 700;
-    font-size   : $font-body;
+    @include font(700, $font-body);
   }
 }

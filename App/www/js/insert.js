@@ -615,7 +615,7 @@ function openFullscreenDialog(dialog) {
 }
 
 function closeFullscreenDialog(dialog) {
-    dialog.hide();
+    dialog.scrollTop(0).hide();
 }
 
 

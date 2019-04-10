@@ -34,13 +34,14 @@ function initialize() {
     document.addEventListener("resume", onResume, false);
 
     ln.init();
+
 }
 
 
 function onPause() {
 
     console.log("onPause");
-    detachPositionWatcher();
+    // detachPositionWatcher();
 
 }
 
@@ -48,7 +49,7 @@ function onPause() {
 function onResume() {
 
     console.log("onResume");
-    attachPositionWatcher();
+    // attachPositionWatcher();
 
 }
 

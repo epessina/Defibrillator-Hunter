@@ -489,8 +489,7 @@ p {
   text-transform: uppercase;
 }
 .fab-extended .fab-extended-text {
-  font-weight: 700;
-  font-size: 16px;
+  font: 700 16px system-ui;
 }
 
 /* TOP BAR */
