@@ -22,8 +22,8 @@
     "btnCancel" : "CANCEL",
     "btnOk" : "OK"
   },
-  "map": {
-    "fabText": "New defibrillator"
+  "map" : {
+    "fabText" : "New defibrillator"
   },
   "insert" : {
     "mainScreen" : {
@@ -34,7 +34,7 @@
       "name" : "Location category",
       "defaultText" : "Add a category",
       "questionCategory" : "Where is the defibrillator located?",
-      "questionTransport": "Specify the type of transport station",
+      "questionTransport" : "Specify the type of transport station",
       "defaultLabelCategory" : "Select a category",
       "defaultLabelTransport" : "Select a type",
       "enum" : {
@@ -51,10 +51,10 @@
         "churchOratorio" : "Church / Oratorio",
         "shelter" : "Shelter",
         "nursingHomeHospice" : "Nursing home / Hospice",
-        "metro": "Metro",
-        "airport": "Airport",
-        "trainStation": "Train station",
-        "busStation": "Bus station",
+        "metro" : "Metro",
+        "airport" : "Airport",
+        "trainStation" : "Train station",
+        "busStation" : "Bus station",
         "other" : "Other"
       },
       "visualReference" : "Specify a visual reference",
@@ -123,14 +123,27 @@
       "name" : "Add a photo",
       "editText" : "Edit your photo",
       "topBarTitle" : "Add a photo",
-      "cameraBtn": "Take a picture",
-      "or": "- or -",
-      "galleryBtn": "Choose from the gallery"
+      "cameraBtn" : "Take a picture",
+      "or" : "- or -",
+      "galleryBtn" : "Choose from the gallery"
     }
   },
-  "info": {
-    "topBarTitle": "Details",
-    "cancelBtn": "Cancel",
-    "date": "Date: {{date, MM/DD/YYYY}}"
+  "info" : {
+    "topBarTitle" : "Details",
+    "id" : "id",
+    "creationDate" : "Creation date",
+    "lastModified" : "Last modified",
+    "coordinates" : "Coordinates",
+    "accuracy" : "Accuracy",
+    "presence" : "Presence",
+    "locationCategory" : "Location category",
+    "visualReference" : "Visual reference",
+    "floor" : "Floor",
+    "temporalAccessibility" : "Temporal accessibility",
+    "recovery" : "Ease of recovery",
+    "signage" : "Signage",
+    "brand" : "Brand",
+    "notes" : "Notes",
+    "cancelBtn" : "Cancel"
   }
 }

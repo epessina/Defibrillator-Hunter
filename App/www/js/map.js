@@ -49,7 +49,7 @@ function initMap() {
     map.on("dragend", () => detachPositionWatcher());
 
     initLayers();
-    // attachPositionWatcher();
+    attachPositionWatcher();
     initPositionMarker();
 }
 
@@ -62,12 +62,6 @@ function initAppMapUI() {
     $("#map-control-hint").click(() => {
 
         console.log("Hint button");
-
-    });
-
-    $("#map-control-layers").click(() => {
-
-        console.log("Layers button");
 
     });
 

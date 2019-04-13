@@ -39,3 +39,9 @@
 
 
 - Foto a tutto schermo
+
+
+- Inserire metadati nella foto
+
+
+

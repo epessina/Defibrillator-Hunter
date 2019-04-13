@@ -122,7 +122,6 @@ function initMainPage() {
                 Defibrillator.generateUID(),
                 currDate,
                 currDate,
-                ln.language,
                 currLatLong,
                 currAccuracy,
                 locationCategory,

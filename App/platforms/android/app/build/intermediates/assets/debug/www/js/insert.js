@@ -1,5 +1,7 @@
 "use strict";
 
+let isModify = false;
+
 let locationCategory      = "",
     transportType         = "",
     visualReference       = "",
@@ -36,18 +38,60 @@ function initInsert() {
 
 }
 
-function openInsert() {
+function openInsert(defibrillator = null) {
 
-    //$("#map").hide();
+    if (defibrillator) {
+
+        isModify = true;
+
+        locationCategory      = defibrillator.locationCategory;
+        transportType         = defibrillator.transportType;
+        visualReference       = defibrillator.visualReference;
+        floor                 = defibrillator.floor;
+        temporalAccessibility = defibrillator.temporalAccessibility;
+        recovery              = defibrillator.recovery;
+        signage               = defibrillator.signage;
+        brand                 = defibrillator.brand;
+        notes                 = defibrillator.notes;
+        presence              = defibrillator.presence;
+
+        if (defibrillator.hasPhoto) {
+            $("#photo-text").html(i18n.t("insert.photo.editText"));
+
+            if (isApp)
+                photo = HOSTED_POINTS_DB + "/" + defibrillator._id + "/image";
+            else
+                photo = REMOTE_POINTS_DB + "/" + defibrillator._id + "/image";
+        }
+
+
+        $("#location-text").html(i18n.t("insert.locationCategory.enum." + locationCategory));
+        $("#floor-text").html(floor);
+        $("#temporal-text").html(i18n.t("insert.tempAccessibility.enum." + temporalAccessibility));
+
+        if (recovery !== "")
+            $("#recovery-text").html(i18n.t("insert.recovery.enum." + recovery));
+
+        if (signage !== "")
+            $("#signage-text").html(i18n.t("insert.signage.enum." + signage));
+
+        if (notes !== "")
+            $("#notes-text").html(i18n.t("insert.notes.editText"));
+
+        if (presence !== "")
+            $("#presence-text").html(i18n.t("insert.presence.enum." + presence));
+
+    }
+
     $("#insert-defibrillator").show();
 
 }
 
 function closeInsert() {
 
-    $("#insert-defibrillator").hide();
-    // $("#map").show();
+    $("#insert-defibrillator").scrollTop(0).hide();
 
+    isModify = false;
     resetFields();
 
 }
@@ -72,31 +116,35 @@ function initMainPage() {
 
         let hasPhoto = photo !== "";
 
-        let defibrillator = new Defibrillator(
-            Defibrillator.generateUID(),
-            currDate,
-            currDate,
-            ln.language,
-            currLatLong,
-            currAccuracy,
-            locationCategory,
-            transportType,
-            visualReference,
-            floor,
-            temporalAccessibility,
-            recovery,
-            signage,
-            brand,
-            notes,
-            presence,
-            hasPhoto
-        );
+        if (!isModify) {
 
-        defibrillator.addAttachment(photo);
+            let defibrillator = new Defibrillator(
+                Defibrillator.generateUID(),
+                currDate,
+                currDate,
+                currLatLong,
+                currAccuracy,
+                locationCategory,
+                transportType,
+                visualReference,
+                floor,
+                temporalAccessibility,
+                recovery,
+                signage,
+                brand,
+                notes,
+                presence,
+                hasPhoto
+            );
 
-        console.log(defibrillator);
+            defibrillator.addAttachment(photo);
+            defibrillator.insert();
 
-        defibrillator.insert();
+        } else {
+
+            console.log("Modified");
+
+        }
 
         closeInsert();
 
@@ -436,7 +484,6 @@ function initPhotoDialog() {
 
         reader.onload = function (event) {
 
-            let type    = file.type;
             let dataURL = event.target.result;
 
             getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
@@ -567,7 +614,7 @@ function openFullscreenDialog(dialog) {
 }
 
 function closeFullscreenDialog(dialog) {
-    dialog.hide();
+    dialog.scrollTop(0).hide();
 }
 
 
@@ -613,10 +660,14 @@ function changeTransportTypeLabel() {
 
 function previewPhoto(photo) {
 
-    if (photo === "")
+    if (photo === "") {
         $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
-    else
-        $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
+    } else {
+        if (isModify)
+            $("#def-photo-preview").attr("src", photo);
+        else
+            $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
+    }
 }
 
 

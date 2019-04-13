@@ -2,11 +2,12 @@
 
 /**
  * _id: String,
- * timestamp: String,
- * lang: String,
+ * creationDate: String,
+ * lastModified: String
  * position: [Float, Float],
  * accuracy: Float,
  * locationCategory: (commercialActivity | residentialBuilding | ...),
+ * transportType: String
  * visualReference: String,
  * floor: Int,
  * temporalAccessibility: (h24 | partTime | notSpecified),
@@ -26,13 +27,12 @@
 
 class Defibrillator {
 
-    constructor(_id, creationDate, lastModified, lang, position, accuracy, locationCategory, transportType, visualReference, floor,
-                temporalAccessibility, recovery, signage, brand, notes, presence, hasPhoto) {
+    constructor(_id, creationDate, lastModified, position, accuracy, locationCategory, transportType, visualReference,
+                floor, temporalAccessibility, recovery, signage, brand, notes, presence, hasPhoto) {
 
         this._id                   = _id;
         this.creationDate          = creationDate;
         this.lastModified          = lastModified;
-        this.lang                  = lang;
         this.position              = position;
         this.accuracy              = accuracy;
         this.locationCategory      = locationCategory;

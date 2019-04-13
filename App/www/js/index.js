@@ -111,7 +111,6 @@ function getDefibrillators() {
                     row.doc._id,
                     row.doc.creationDate,
                     row.doc.lastModified,
-                    row.doc.lang,
                     row.doc.position,
                     row.doc.accuracy,
                     row.doc.locationCategory,
