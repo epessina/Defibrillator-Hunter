@@ -91,45 +91,81 @@ function initDb() {
 // ToDO change for Cordova
 function getDefibrillators() {
 
+    fetch("http://localhost:8080/defibrillator/get-all")
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error("Failed to fetch defibrillators");
+            }
+            return res.json();
+        })
+        .then(resData => {
+            let data = resData.defibrillators[0];
+            console.log(data);
+
+            let defibrillator = new Defibrillator(
+                data._id,
+                data.creationDate,
+                data.lastModified,
+                data.position,
+                data.accuracy,
+                data.locationCategory,
+                data.transportType,
+                data.visualReference,
+                data.floor,
+                data.temporalAccessibility,
+                data.recovery,
+                data.signage,
+                data.brand,
+                data.notes,
+                data.presence,
+                data.hasPhoto
+            );
+
+            defibrillator.show();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
     // if (networkState === Connection.NONE || navigator.onLine === false) {
     //     showAlert("messages.noInternet");
     //     return;
     // }
 
-    pointsDB.allDocs({include_docs: true}, function (err, doc) {
-
-        if (err) {
-
-            showAlert("messages.generalError");
-            console.log(err);
-
-        } else {
-
-            doc.rows.forEach(function (row) {
-
-                let defibrillator = new Defibrillator(
-                    row.doc._id,
-                    row.doc.creationDate,
-                    row.doc.lastModified,
-                    row.doc.position,
-                    row.doc.accuracy,
-                    row.doc.locationCategory,
-                    row.doc.transportType,
-                    row.doc.visualReference,
-                    row.doc.floor,
-                    row.doc.temporalAccessibility,
-                    row.doc.recovery,
-                    row.doc.signage,
-                    row.doc.brand,
-                    row.doc.notes,
-                    row.doc.presence,
-                    row.doc.hasPhoto
-                );
-
-                defibrillator.show();
-            });
-        }
-    })
+    // pointsDB.allDocs({include_docs: true}, function (err, doc) {
+    //
+    //     if (err) {
+    //
+    //         showAlert("messages.generalError");
+    //         console.log(err);
+    //
+    //     } else {
+    //
+    //         doc.rows.forEach(function (row) {
+    //
+    //             let defibrillator = new Defibrillator(
+    //                 row.doc._id,
+    //                 row.doc.creationDate,
+    //                 row.doc.lastModified,
+    //                 row.doc.position,
+    //                 row.doc.accuracy,
+    //                 row.doc.locationCategory,
+    //                 row.doc.transportType,
+    //                 row.doc.visualReference,
+    //                 row.doc.floor,
+    //                 row.doc.temporalAccessibility,
+    //                 row.doc.recovery,
+    //                 row.doc.signage,
+    //                 row.doc.brand,
+    //                 row.doc.notes,
+    //                 row.doc.presence,
+    //                 row.doc.hasPhoto
+    //             );
+    //
+    //             defibrillator.show();
+    //         });
+    //     }
+    // })
 
 }
 

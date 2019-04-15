@@ -37,6 +37,8 @@
 
 - Sistemare spegnimento GPS
 
+- Aggiungere indirizzo con suggerimento (OSM)
+
 
 - Foto a tutto schermo
 
