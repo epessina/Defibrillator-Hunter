@@ -1,5 +1,5 @@
 ### Ignore file with db urls ###
-settings.js
+#settings.js
 
 ### Cordova ###
 # gitignore template for the Cordova framework
