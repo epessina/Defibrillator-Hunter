@@ -124,4 +124,11 @@ function showAlert(msg) {
 
 }
 
+function logOrToast(msg) {
 
+    if (!isCordova)
+        console.log(msg);
+    else
+        window.plugins.toast.showShortBottom(msg);
+
+}

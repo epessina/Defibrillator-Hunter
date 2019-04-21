@@ -105,7 +105,7 @@ function initMainPage() {
     $("#new-defibrillator-done").click(() => {
 
         // if (locationCategory === "" || floor === "" || temporalAccessibility === "" || presence === "") {
-        //     console.log("You must provide at least...");
+        //     logOrToast("You must provide at least...");
         //     return;
         // }
 
@@ -116,6 +116,22 @@ function initMainPage() {
             console.log("Modified");
         else
             postDefibrillator();
+
+    });
+
+    $("#presence-request").click(() => {
+
+        let toSelect;
+
+        if (presence === "")
+            toSelect = "Yes";
+        else
+            toSelect = presence;
+
+        $("input[name='presence'][value='" + toSelect + "']")
+            .prop("checked", "true");
+
+        openDialog($("#dialog-presence"));
 
     });
 
@@ -225,38 +241,31 @@ function initMainPage() {
 
     });
 
-    $("#presence-request").click(() => {
+    $("#photo-request-btn").click(() => {
 
-        let toSelect;
-
-        if (presence === "")
-            toSelect = "Yes";
+        if (!isCordova)
+            $("#tmp-photo-input").click();
         else
-            toSelect = presence;
-
-        $("input[name='presence'][value='" + toSelect + "']")
-            .prop("checked", "true");
-
-        openDialog($("#dialog-presence"));
+            getPicture();
 
     });
 
-    $("#photo-request").click(() => {
-
-        newPhoto = "";
-        previewPhoto(photo);
-
-        if (photo !== "")
-            $("#photo-cancel-btn")
-                .css("left", btnCancelPhotoLeft)
-                .css("top", btnCancelPhotoTop)
-                .show();
-        else
-            $("#photo-cancel-btn").hide();
-
-        openFullscreenDialog($("#dialog-photo"));
-
-    });
+    // $("#photo-request").click(() => {
+    //
+    //     newPhoto = "";
+    //     previewPhoto(photo);
+    //
+    //     if (photo !== "")
+    //         $("#photo-cancel-btn")
+    //             .css("left", btnCancelPhotoLeft)
+    //             .css("top", btnCancelPhotoTop)
+    //             .show();
+    //     else
+    //         $("#photo-cancel-btn").hide();
+    //
+    //     openFullscreenDialog($("#dialog-photo"));
+    //
+    // });
 
 }
 
@@ -266,27 +275,25 @@ function postDefibrillator() {
     const url    = "http://localhost:8080/defibrillator/post",
           method = "POST";
 
-    const data = {
-        coordinates          : currLatLong,
-        accuracy             : currAccuracy,
-        locationCategory     : locationCategory,
-        transportType        : transportType,
-        visualReference      : visualReference,
-        floor                : floor,
-        temporalAccessibility: temporalAccessibility,
-        recovery             : recovery,
-        signage              : signage,
-        brand                : brand,
-        notes                : notes,
-        presence             : presence
-    };
+    const formData = new FormData();
+
+    formData.append("coordinates", JSON.stringify(currLatLong));
+    formData.append("accuracy", currAccuracy);
+    formData.append("presence", presence);
+    formData.append("locationCategory", locationCategory);
+    formData.append("transportType", transportType);
+    formData.append("visualReference", visualReference);
+    formData.append("floor", floor);
+    formData.append("temporalAccessibility", temporalAccessibility);
+    formData.append("recovery", recovery);
+    formData.append("signage", signage);
+    formData.append("brand", brand);
+    formData.append("notes", notes);
+    formData.append("image", photo);
 
     fetch(url, {
-        method : method,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body   : JSON.stringify(data)
+        method: method,
+        body  : formData
     })
         .then(res => {
             if (res.status !== 200 && res.status !== 201) {
@@ -398,7 +405,7 @@ function initTemporalAccessibilityDialog() {
 
         temporalAccessibility = $("input[name='temporalAccessibility']:checked").val();
 
-        $("#temporal-text").html(i18n.t("insert.tempAccessibility.enum." + temporalAccessibility));
+        $("#temporal-text").html(i18n.t("insert.temporalAccessibility.enum." + temporalAccessibility));
 
         closeDialog($("#dialog-temporal-accessibility"));
 
@@ -481,100 +488,28 @@ function initPresenceDialog() {
 
 
 // Photo
+
+// ToDO delete
+$("#tmp-photo-input").change(() => {
+
+    photo = $("#tmp-photo-input")[0].files[0];
+
+    console.log(photo);
+
+    // let reader = new FileReader();
+    //
+    // if (file)
+    //     reader.readAsDataURL(file);
+    //
+    // reader.onload = function (event) {
+    //     let dataURL = event.target.result;
+    //     getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
+    // }
+
+});
+
+
 function initPhotoDialog() {
-
-    // ToDO delete
-    $("#tmp-photo-input").change(() => {
-
-        console.log("Change");
-
-        let file   = $("#tmp-photo-input")[0].files[0];
-        let reader = new FileReader();
-
-        if (file)
-            reader.readAsDataURL(file);
-
-        reader.onload = function (event) {
-
-            let dataURL = event.target.result;
-
-            getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
-        }
-    });
-
-
-    $("#btn-camera").click(() => {
-        getPicture(Camera.PictureSourceType.CAMERA);
-    });
-
-    $("#btn-gallery").click(() => getPicture(Camera.PictureSourceType.SAVEDPHOTOALBUM));
-
-
-    function getPicture(srcType) {
-
-        let options = {
-            quality           : 50,
-            destinationType   : Camera.DestinationType.DATA_URL,
-            sourceType        : srcType,
-            encodingType      : Camera.EncodingType.JPEG,
-            mediaType         : Camera.MediaType.PICTURE,
-            allowEdit         : false,
-            correctOrientation: true
-        };
-
-        navigator.camera.getPicture(getPictureSuccess, getPictureFail, options);
-    }
-
-    function getPictureSuccess(data) {
-
-        let $btnCancelPhoto = $("#photo-cancel-btn");
-
-        console.log("Picture success");
-
-        newPhoto = data;
-
-        let img    = new Image();
-        img.src    = "data:image/jpeg;base64," + data;
-        img.onload = () => {
-
-            let imgWidth  = img.width,
-                imgHeight = img.height,
-                ratio     = imgWidth / imgHeight;
-
-            if (ratio >= 1) {
-                if (imgWidth > 200) {
-                    imgWidth  = 200;
-                    imgHeight = imgWidth / ratio;
-                }
-            } else {
-                if (imgHeight > 200) {
-                    imgHeight = 200;
-                    imgWidth  = imgHeight * ratio;
-                }
-            }
-
-            let $photoPreviewWrapper = $("#photo-preview-wrapper");
-
-            previewPhoto(data);
-
-            let top = parseInt($(".top-bar").first().css("height")) +
-                parseInt($("#photo-dialog-container").css("margin-top")) +
-                parseInt($photoPreviewWrapper.css("height")) / 2 -
-                imgHeight / 2 -
-                parseInt($btnCancelPhoto.css("height"));
-
-            let left = $(document).width() / 2 +
-                imgWidth / 2 -
-                parseInt($btnCancelPhoto.css("height")) / 2;
-
-            $btnCancelPhoto.css("left", left).css("top", top).show();
-        };
-
-    }
-
-    function getPictureFail(error) {
-        console.log("Picture error: " + error)
-    }
 
 
     $("#photo-cancel-btn").click(() => {
@@ -614,6 +549,82 @@ function initPhotoDialog() {
 
     });
 
+}
+
+
+function getPicture() {
+
+    let options = {
+        quality           : 50,
+        destinationType   : Camera.DestinationType.FILE_URI,
+        sourceType        : Camera.PictureSourceType.CAMERA,
+        encodingType      : Camera.EncodingType.JPEG,
+        mediaType         : Camera.MediaType.PICTURE,
+        allowEdit         : false,
+        correctOrientation: true
+    };
+
+    navigator.camera.getPicture(getPictureSuccess, getPictureFail, options);
+}
+
+function getPictureSuccess(fileURI) {
+
+    console.log(fileURI);
+
+    window.resolveLocalFileSystemURL(
+        fileURI,
+        fileEntry => console.log(fileEntry),
+        err => logOrToast(err)
+    );
+
+
+    // let $btnCancelPhoto = $("#photo-cancel-btn");
+    //
+    // console.log("Picture success");
+    //
+    // newPhoto = data;
+    //
+    // let img    = new Image();
+    // img.src    = "data:image/jpeg;base64," + data;
+    // img.onload = () => {
+    //
+    //     let imgWidth  = img.width,
+    //         imgHeight = img.height,
+    //         ratio     = imgWidth / imgHeight;
+    //
+    //     if (ratio >= 1) {
+    //         if (imgWidth > 200) {
+    //             imgWidth  = 200;
+    //             imgHeight = imgWidth / ratio;
+    //         }
+    //     } else {
+    //         if (imgHeight > 200) {
+    //             imgHeight = 200;
+    //             imgWidth  = imgHeight * ratio;
+    //         }
+    //     }
+    //
+    //     let $photoPreviewWrapper = $("#photo-preview-wrapper");
+    //
+    //     previewPhoto(data);
+    //
+    //     let top = parseInt($(".top-bar").first().css("height")) +
+    //         parseInt($("#photo-dialog-container").css("margin-top")) +
+    //         parseInt($photoPreviewWrapper.css("height")) / 2 -
+    //         imgHeight / 2 -
+    //         parseInt($btnCancelPhoto.css("height"));
+    //
+    //     let left = $(document).width() / 2 +
+    //         imgWidth / 2 -
+    //         parseInt($btnCancelPhoto.css("height")) / 2;
+    //
+    //     $btnCancelPhoto.css("left", left).css("top", top).show();
+    // };
+
+}
+
+function getPictureFail(error) {
+    console.log("Picture error: " + error)
 }
 
 
@@ -701,7 +712,7 @@ function resetFields() {
 
     $("#location-text").html(i18n.t("insert.locationCategory.defaultText"));
     $("#floor-text").html(i18n.t("insert.floor.defaultText"));
-    $("#temporal-text").html(i18n.t("insert.tempAccessibility.defaultText"));
+    $("#temporal-text").html(i18n.t("insert.temporalAccessibility.defaultText"));
     $("#recovery-text").html(i18n.t("insert.recovery.defaultText"));
     $("#signage-text").html(i18n.t("insert.signage.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));

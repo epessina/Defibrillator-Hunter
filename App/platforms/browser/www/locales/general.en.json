@@ -29,6 +29,15 @@
     "mainScreen" : {
       "topBarTitle" : "New defibrillator"
     },
+    "presence" : {
+      "name" : "Presence of the defibrillator",
+      "defaultText" : "Confirm the presence",
+      "questionPresence" : "Is the defibrillator in the display?",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No"
+      }
+    },
     "locationCategory" : {
       "topBarTitle" : "Location category",
       "name" : "Location category",
@@ -109,15 +118,6 @@
       "brandPlaceholder" : "Specify the brand...",
       "questionNotes" : "Additional notes",
       "notesPlaceholder" : "Max 500 characters..."
-    },
-    "presence" : {
-      "name" : "Presence of the defibrillator",
-      "defaultText" : "Confirm the presence",
-      "questionPresence" : "Is the defibrillator in the display?",
-      "enum" : {
-        "yes" : "Yes",
-        "no" : "No"
-      }
     },
     "photo" : {
       "name" : "Add a photo",

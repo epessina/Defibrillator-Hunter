@@ -58,10 +58,32 @@ exports.postDefibrillator = (req, res, next) => {
             })
     }
 
+    const coordinates = JSON.parse(req.body.coordinates);
+
+    if (coordinates.length !== 2 || typeof coordinates[0] !== "number" || typeof coordinates[1] !== "number") {
+        return res
+            .status(422)
+            .json({
+                message: "Defibrillator validation failed. Entered data is incorrect.",
+                errors : {
+                    location: "body",
+                    msg     : "Invalid coordinates value",
+                    param   : "coordinates",
+                    value   : coordinates
+                }
+            })
+    }
+
+    let imageUrl = "images/no-img-placeholder-200.png";
+
+    if (req.file)
+        imageUrl = req.file.path.replace("\\", "/");
+
     const defibrillator = new Defibrillator({
         user                 : { name: "Edoardo" },
-        coordinates          : req.body.coordinates,
+        coordinates          : coordinates,
         accuracy             : req.body.accuracy,
+        presence             : req.body.presence,
         locationCategory     : req.body.locationCategory,
         transportType        : req.body.transportType,
         visualReference      : req.body.visualReference,
@@ -71,20 +93,17 @@ exports.postDefibrillator = (req, res, next) => {
         signage              : req.body.signage,
         brand                : req.body.brand,
         notes                : req.body.notes,
-        presence             : req.body.presence
+        imageUrl             : imageUrl
     });
 
-    console.log(defibrillator);
-
-    // defibrillator.save()
-    //     .then(result => {
-    //         console.log(result);
-    //         res.status(201).json({
-    //             message      : "Defibrillator created",
-    //             defibrillator: result
-    //         });
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     });
+    defibrillator.save()
+        .then(result => {
+            res.status(201).json({
+                message      : "Defibrillator created",
+                defibrillator: result
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };

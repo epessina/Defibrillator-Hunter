@@ -1,12 +1,12 @@
 "use strict";
 
 const dateOptions = {
-    year        : "numeric",
-    month       : "2-digit",
-    day         : "2-digit",
-    hour        : "2-digit",
-    minute      : "2-digit",
-    second      : "2-digit"
+    year  : "numeric",
+    month : "2-digit",
+    day   : "2-digit",
+    hour  : "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
 };
 
 let $placeholders = $("#defibrillator-info .placeholder");
@@ -77,17 +77,6 @@ function showInfo(info) {
 
     // $("#info-edit").unbind("click").click(() => openInsert(this));
 
-    // if (!this.hasPhoto) {
-    //     $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
-    // } else {
-    //     let photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
-    //
-    //     if (isApp)
-    //         photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
-    //
-    //     $("#info-photo-preview").attr("src", photoSrc);
-    // }
-    //
     // $("#info-btn-cancel").click(() => this.cancel());
 
 
@@ -136,4 +125,7 @@ function showInfo(info) {
 
             });
     }
+
+    $("#info-photo-preview").attr("src", "http://localhost:8080/" + info.imageUrl);
+
 }

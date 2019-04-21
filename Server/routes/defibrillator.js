@@ -7,30 +7,14 @@ const defibrillatorController = require("../controllers/defibrillator");
 
 const router = express.Router();
 
-const validLocationCategories = [
-    "commercialActivity",
-    "residentialBuilding",
-    "publicPlace",
-    "sportsCentre",
-    "transportStation",
-    "educationalEstablishment",
-    "schoolGym",
-    "drugstore",
-    "street",
-    "medicalPracticeClinic",
-    "churchOratorio",
-    "shelter",
-    "nursingHomeHospice",
-    "metro",
-    "airport",
-    "trainStation",
-    "busStation",
-    "other"
-];
+const validLocationCategories = ["commercialActivity", "residentialBuilding", "publicPlace", "sportsCentre",
+    "transportStation", "educationalEstablishment", "schoolGym", "drugstore", "street", "medicalPracticeClinic",
+    "churchOratorio", "shelter", "nursingHomeHospice", "other"];
+const validTransportTypes     = ["", "metro", "airport", "trainStation", "busStation", "other"];
 const validPresence           = ["yes", "no"];
 const validTempAccessibility  = ["h24", "partTime", "notSpecified"];
 const validRecovery           = ["", "immediate", "fast", "average", "slow", "verySlow"];
-const validSignage            = ["great", "visible", "hardToSee", "absent"];
+const validSignage            = ["", "great", "visible", "hardToSee", "absent"];
 
 
 // GET /defibrillator/get-all
@@ -43,12 +27,16 @@ router.get("/:defibrillatorId", defibrillatorController.getDefibrillator);
 router.post(
     "/post",
     [
+        body("accuracy")
+            .isInt().withMessage("Invalid accuracy value."),
         body("presence")
             .not().isEmpty().withMessage("You must specify if the defibrillator is present.")
             .isIn(validPresence).withMessage("Invalid presence value."),
         body("locationCategory")
             .not().isEmpty().withMessage("You must specify the location category.")
             .isIn(validLocationCategories).withMessage("Invalid location category value."),
+        body("transportType")
+            .isIn(validTransportTypes).withMessage("Invalid transport type value."),
         body("visualReference")
             .trim()
             .escape(),

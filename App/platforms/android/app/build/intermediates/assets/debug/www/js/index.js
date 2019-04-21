@@ -1,16 +1,12 @@
 "use strict";
 
-const LOCAL_DB = "dh_local_db";
-
 let isCordova,
     isMobile,
     isApp;
 
 let markers = [];
 
-let networkState,
-    localDb,
-    pointsDB;
+let networkState;
 
 
 function onLoad() {
@@ -67,92 +63,46 @@ function init() {
 
     onResize();
     initMap();
-    initDb();
     getDefibrillators();
     initInsert();
-
-    $("#info-close").click(() => closeInfoPage());
+    initInfo();
 
 }
 
 
-//ToDo handle connection errors
-function initDb() {
-
-    localDb = new PouchDB(LOCAL_DB);
-
-    if (isApp)
-        pointsDB = new PouchDB(HOSTED_POINTS_DB);
-    else
-        pointsDB = new PouchDB(REMOTE_POINTS_DB);
-}
-
-
-// ToDO change for Cordova
 function getDefibrillators() {
 
-    // if (networkState === Connection.NONE || navigator.onLine === false) {
-    //     showAlert("messages.noInternet");
-    //     return;
-    // }
-
-    pointsDB.allDocs({include_docs: true}, function (err, doc) {
-
-        if (err) {
-
-            showAlert("messages.generalError");
+    fetch("http://localhost:8080/defibrillator/get-all")
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error("Failed to fetch defibrillators");
+            }
+            return res.json();
+        })
+        .then(data => {
+            data.defibrillators.forEach(def => showDefibrillator(def._id, def.coordinates))
+        })
+        .catch(err => {
             console.log(err);
-
-        } else {
-
-            doc.rows.forEach(function (row) {
-
-                let defibrillator = new Defibrillator(
-                    row.doc._id,
-                    row.doc.creationDate,
-                    row.doc.lastModified,
-                    row.doc.position,
-                    row.doc.accuracy,
-                    row.doc.locationCategory,
-                    row.doc.transportType,
-                    row.doc.visualReference,
-                    row.doc.floor,
-                    row.doc.temporalAccessibility,
-                    row.doc.recovery,
-                    row.doc.signage,
-                    row.doc.brand,
-                    row.doc.notes,
-                    row.doc.presence,
-                    row.doc.hasPhoto
-                );
-
-                defibrillator.show();
-            });
-        }
-    })
-
+        });
 }
 
 
-function closeInfoPage() {
+function showDefibrillator(id, coordinates) {
 
-    $("#defibrillator-info").scrollTop(0).hide();
+    let marker = L.marker(
+        coordinates, {
+            icon     : defibrillatorIcon,
+            draggable: false
+        }
+    );
 
-    $("#info-id .info-content").html("");
-    $("#info-creation-date .info-content").html("");
-    $("#info-last-modified .info-content").html("");
-    $("#info-coordinates .info-content").html("");
-    $("#info-accuracy .info-content").html("");
-    $("#info-presence .info-content").html("");
-    $("#info-category .info-content").html("");
-    $("#info-visual-reference .info-content").html("");
-    $("#info-floor .info-content").html("");
-    $("#info-temporal-accessibility .info-content").html("");
-    $("#info-recovery .info-content").html("");
-    $("#info-signage .info-content").html("");
-    $("#info-brand .info-content").html("");
-    $("#info-notes .info-content").html("");
-    $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+    marker.id = id;
+
+    marker.on("click", () => openInfo(id));
+
+    markers.push(marker);
+    marker.addTo(map);
 
 }
 
@@ -171,5 +121,14 @@ function showAlert(msg) {
     } else {
         alert(i18n.t(msg));
     }
+
+}
+
+function logOrToast(msg) {
+
+    if (!isCordova)
+        console.log(msg);
+    else
+        window.plugins.toast.showShortBottom(msg);
 
 }

@@ -28,7 +28,7 @@
 
 
 <!-- Map -->
-<div style="display: none" id="map">
+<div id="map">
 
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
@@ -50,7 +50,7 @@
 
 
 <!-- Insert defibrillator -->
-<div id="insert-defibrillator">
+<div style="display: none" id="insert-defibrillator">
 
 
     <!-- Opaque overlay -->
@@ -190,15 +190,34 @@
             </div>
 
             <!-- Photo -->
-            <div id="photo-request" class="button flex-btn full-width-btn outline-btn">
+            <div id="photo-request">
 
-                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+                <input style="display: none; position: absolute; top: 0; left: 0;"
+                       id="tmp-photo-input"
+                       type="file"
+                       accept=".png, .jpg, .jpeg">
 
-                <div id="photo-text" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
+                <div class="photo-thm-wrapper">
+
+                    <div class="photo-thm-box">
+
+                        <img src="img/img-placeholder-200.png" alt="YOur photo">
+
+                    </div>
+
+                    <div id="photo-request-btn" class="photo-thm-btn">
+
+                        <i class="material-icons">add_a_photo</i>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
+
+        <!--        <div class="bottom-sheet"></div>-->
 
     </div>
 
@@ -803,83 +822,6 @@
                 </div>
 
             </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Photo -->
-    <div style="display: none" id="dialog-photo" class="full-screen-dialog">
-
-        <div class="top-bar">
-
-            <div class="top-bar-left-icon">
-                <i id="photo-close" class="material-icons">close</i>
-            </div>
-
-            <div class="top-bar-title"
-                 data-i18n="insert.photo.topBarTitle">
-                Add a photo
-            </div>
-
-            <div class="top-bar-right-icon">
-                <i id="photo-done" class="material-icons">done</i>
-            </div>
-
-        </div>
-
-        <div style="display: none" id="photo-cancel-btn" class="photo-cancel-wrapper">
-
-            <div class="photo-cancel">
-
-                <i class="material-icons">cancel</i>
-
-            </div>
-
-        </div>
-
-        <div id="photo-dialog-container" class="custom-container">
-
-            <div id="photo-preview-wrapper" class="photo-preview-wrapper">
-
-                <img id="def-photo-preview"
-                     class="photo-preview"
-                     src="img/img-placeholder-200.png"
-                     alt="Your image">
-
-            </div>
-
-            <div id="btn-camera" class="button flex-btn full-width-btn full-btn">
-
-                <div class="icon-before"><i class="material-icons">photo_camera</i></div>
-
-                <div class="btn-text"
-                     data-i18n="insert.photo.cameraBtn">
-                    Take a picture
-                </div>
-
-            </div>
-
-            <div class="photo-or"
-                 data-i18n="insert.photo.or">
-                - or -
-            </div>
-
-            <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
-
-                <div class="icon-before"><i class="material-icons">folder</i></div>
-
-                <div class="btn-text"
-                     data-i18n="insert.photo.galleryBtn">
-                    Choose from the gallery
-                </div>
-
-            </div>
-
-            <input id="tmp-photo-input"
-                   type="file"
-                   accept=".png, .jpg, .jpeg">
 
         </div>
 

@@ -49,7 +49,7 @@ function initMap() {
     map.on("dragend", () => detachPositionWatcher());
 
     initLayers();
-    //attachPositionWatcher();
+    attachPositionWatcher();
     initPositionMarker();
 }
 
