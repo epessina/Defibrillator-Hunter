@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "A RESTful API that serves as backend for the Cordova app Defibrillator Hunter",
   "main": "app.js",
+  "engines": {
+	"node": "10.15.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+	"publishheroku": "cd ../ && git subtree push --prefix Server defibrillator-hunter master || true"
   },
   "repository": {
     "type": "git",
