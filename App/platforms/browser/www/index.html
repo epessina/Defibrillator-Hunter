@@ -26,25 +26,24 @@
 
 <body onresize="onResize()" onload="onLoad()">
 
+
 <!-- Map -->
 <div id="map">
 
-    <div id="map-control-hint" class="map-control map-control-left map-control-top-1 fab">
+    <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
+        <i class="material-icons fab-icon">perm_identity</i>
+    </div>
+
+    <div id="map-control-hint" class="map-control map-control-left map-control-top-2 fab">
         <i class="material-icons fab-icon">help_outline</i>
     </div>
 
-    <div id="map-control-layers" class="map-control map-control-right map-control-top-1 fab">
-        <i class="material-icons fab-icon">layers</i>
-    </div>
-
-    <div id="map-control-gps" class="map-control map-control-right map-control-top-2 fab">
+    <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
         <i class="material-icons fab-icon">gps_fixed</i>
     </div>
 
     <div id="map-new-defibrillator" class="map-control map-control-center map-control-bottom fab-extended">
-
         <p class="fab-extended-text" data-i18n="map.fabText">New defibrillator</p>
-
     </div>
 
 </div>
@@ -78,6 +77,22 @@
         </div>
 
         <div class="custom-container requests-container">
+
+            <!-- Presence -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">favorite</i></div>
+
+                <div id="presence-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
+
+                    <p id="presence-text" class="request-text"
+                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
+
+                </div>
+
+            </div>
 
             <!-- Location category -->
             <div class="request">
@@ -169,22 +184,6 @@
 
                     <p id="notes-text" class="request-text"
                        data-i18n="insert.notes.defaultText">Add additional notes</p>
-
-                </div>
-
-            </div>
-
-            <!-- Presence -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">favorite</i></div>
-
-                <div id="presence-request" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
-
-                    <p id="presence-text" class="request-text"
-                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
 
                 </div>
 
@@ -467,7 +466,7 @@
             <div class="dialog-container">
 
                 <p class="dialog-text"
-                   data-i18n="insert.tempAccessibility.questionTempAccessibility">
+                   data-i18n="insert.temporalAccessibility.questionTempAccessibility">
                     When is it possible to access the defibrillator?
                 </p>
 
@@ -480,7 +479,7 @@
                                value="h24"
                                checked>
 
-                        <span data-i18n="insert.tempAccessibility.enum.h24">24 hours a day</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.h24">24 hours a day</span>
 
                     </label>
 
@@ -490,7 +489,7 @@
                                name="temporalAccessibility"
                                value="partTime">
 
-                        <span data-i18n="insert.tempAccessibility.enum.partTime">Part time</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.partTime">Part time</span>
 
                     </label>
 
@@ -500,7 +499,7 @@
                                name="temporalAccessibility"
                                value="notSpecified">
 
-                        <span data-i18n="insert.tempAccessibility.enum.notSpecified">Not specified</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.notSpecified">Not specified</span>
 
                     </label>
 
@@ -890,7 +889,207 @@
 </div>
 
 
+<!-- Defibrillator information -->
+<div style="display: none" id="defibrillator-info">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="info-close" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="info.topBarTitle">
+            Details
+        </div>
+
+        <div class="top-bar-right-icon">
+            <i style="visibility: hidden" id="info-edit" class="material-icons">edit</i>
+        </div>
+
+    </div>
+
+    <div class="custom-container">
+
+        <!-- Creation date -->
+        <div id="info-createdAt" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <div class="info-title ph-hidden-content" data-i18n="info.creationDate"></div>
+
+            <div class="info-content-ph placeholder"></div>
+            <div class="info-content ph-hidden-content"></div>
+
+        </div>
+
+        <!--Last modified -->
+        <div id="info-updatedAt" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.lastModified"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Coordinates -->
+        <div id="info-coordinates" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.coordinates"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Accuracy -->
+        <div id="info-accuracy" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.accuracy"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Presence -->
+        <div id="info-presence" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.presence"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Location category -->
+        <div id="info-locationCategory" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.locationCategory"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Visual reference -->
+        <div id="info-visualReference" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.visualReference"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Floor -->
+        <div id="info-floor" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.floor"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Temporal accessibility -->
+        <div id="info-temporalAccessibility" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.temporalAccessibility"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Ease of recovery -->
+        <div id="info-recovery" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.recovery"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Signage -->
+        <div id="info-signage" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.signage"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Brand -->
+        <div id="info-brand" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.brand"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Notes -->
+        <div id="info-notes" class="info-block">
+
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.notes"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
+
+        </div>
+
+        <!-- Photo -->
+        <div id="info-photo">
+
+            <div class="photo-preview-wrapper">
+
+                <div class="photo-preview-ph placeholder"></div>
+
+                <img id="info-photo-preview"
+                     class="photo-preview ph-hidden-content"
+                     src="img/no-img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+        </div>
+
+        <!-- Btn cancel -->
+        <div class="flex-btn-ph placeholder info-bottom-btn"></div>
+
+        <div class="ph-hidden-content">
+
+            <div id="info-btn-cancel"
+                 class="button flex-btn full-width-btn full-btn info-bottom-btn">
+
+                <div class="btn-text" data-i18n="info.cancelBtn"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- Cordova -->
+<!--suppress HtmlUnknownTarget -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 <!-- jQuery -->
@@ -902,19 +1101,14 @@
 <script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
 <script type="text/javascript" src="js/lib/leaflet-bing-layer.min.js"></script>
 
-<!-- Pouch db-->
-<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
-<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
-
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
-<script type="text/javascript" src="js/settings.js"></script>
-<script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/info.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

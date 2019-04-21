@@ -1,9 +1,13 @@
 /* BUTTON */
 
 
+$btn-padding-top-bottom : 15px;
+$btn-border-radius : 5px;
+
+
 .button {
-  padding       : 11px 0;
-  border-radius : 5px;
+  padding       : $btn-padding-top-bottom 0;
+  border-radius : $btn-border-radius;
   cursor        : pointer;
 
   &.full-width-btn {
@@ -34,4 +38,10 @@
     margin-right : 8px;
   }
 
+}
+
+.flex-btn-ph {
+  width         : 100%;
+  height        : $font-body + 2 * $btn-padding-top-bottom;
+  border-radius : $btn-border-radius;
 }

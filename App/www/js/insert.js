@@ -104,49 +104,38 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
-        if (locationCategory === "" || floor === "" || temporalAccessibility === "") {
-            console.log("You must provide at least...");
-            return;
-        }
+        // if (locationCategory === "" || floor === "" || temporalAccessibility === "" || presence === "") {
+        //     logOrToast("You must provide at least...");
+        //     return;
+        // }
+
+        // floor = 11;
+
+        // currLatLong = [];
 
         if (locationCategory !== "transportStation")
             transportType = "";
 
-        let currDate = new Date().toISOString();
-
-        let hasPhoto = photo !== "";
-
-        if (!isModify) {
-
-            let defibrillator = new Defibrillator(
-                Defibrillator.generateUID(),
-                currDate,
-                currDate,
-                currLatLong,
-                currAccuracy,
-                locationCategory,
-                transportType,
-                visualReference,
-                floor,
-                temporalAccessibility,
-                recovery,
-                signage,
-                brand,
-                notes,
-                presence,
-                hasPhoto
-            );
-
-            defibrillator.addAttachment(photo);
-            defibrillator.insert();
-
-        } else {
-
+        if (isModify)
             console.log("Modified");
+        else
+            postDefibrillator();
 
-        }
+    });
 
-        closeInsert();
+    $("#presence-request").click(() => {
+
+        let toSelect;
+
+        if (presence === "")
+            toSelect = "Yes";
+        else
+            toSelect = presence;
+
+        $("input[name='presence'][value='" + toSelect + "']")
+            .prop("checked", "true");
+
+        openDialog($("#dialog-presence"));
 
     });
 
@@ -256,22 +245,6 @@ function initMainPage() {
 
     });
 
-    $("#presence-request").click(() => {
-
-        let toSelect;
-
-        if (presence === "")
-            toSelect = "Yes";
-        else
-            toSelect = presence;
-
-        $("input[name='presence'][value='" + toSelect + "']")
-            .prop("checked", "true");
-
-        openDialog($("#dialog-presence"));
-
-    });
-
     $("#photo-request").click(() => {
 
         newPhoto = "";
@@ -289,6 +262,49 @@ function initMainPage() {
 
     });
 
+}
+
+// Send a post request to the server to insert a new defibrillator in the db
+function postDefibrillator() {
+
+    const url    = "http://localhost:8080/defibrillator/post",
+          method = "POST";
+
+    const data = {
+        coordinates          : currLatLong,
+        accuracy             : currAccuracy,
+        presence             : presence,
+        locationCategory     : locationCategory,
+        transportType        : transportType,
+        visualReference      : visualReference,
+        floor                : floor,
+        temporalAccessibility: temporalAccessibility,
+        recovery             : recovery,
+        signage              : signage,
+        brand                : brand,
+        notes                : notes
+    };
+
+    fetch(url, {
+        method : method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body   : JSON.stringify(data)
+    })
+        .then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error("Creating a defibrillator failed!");
+            }
+            return res.json();
+        })
+        .then(data => {
+            showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
+            closeInsert();
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 

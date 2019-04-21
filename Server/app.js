@@ -1,7 +1,10 @@
 "use strict";
 
 const express    = require("express"),
-      bodyParser = require("body-parser");
+      bodyParser = require("body-parser"),
+      mongoose   = require("mongoose");
+
+const settings = require("./settings");
 
 const defibrillatorRoutes = require("./routes/defibrillator");
 
@@ -25,9 +28,13 @@ app.use((req, res, next) => {
 app.use("/defibrillator", defibrillatorRoutes);
 
 
-let port = process.env.PORT;
+mongoose.connect(settings.mongoURL)
+    .then(result => {
+        let port = process.env.PORT;
 
-if (port == null || port == "")
-    port = 8080;
+        if (port == null || port == "")
+            port = 8080;
 
-app.listen(port);
+        app.listen(port);
+    })
+    .catch(err => console.log(err));

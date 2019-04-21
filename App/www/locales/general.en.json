@@ -29,6 +29,15 @@
     "mainScreen" : {
       "topBarTitle" : "New defibrillator"
     },
+    "presence" : {
+      "name" : "Presence of the defibrillator",
+      "defaultText" : "Confirm the presence",
+      "questionPresence" : "Is the defibrillator in the display?",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No"
+      }
+    },
     "locationCategory" : {
       "topBarTitle" : "Location category",
       "name" : "Location category",
@@ -66,7 +75,7 @@
       "defaultText" : "Specify the floor",
       "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
-    "tempAccessibility" : {
+    "temporalAccessibility" : {
       "name" : "Temporal accessibility",
       "defaultText" : "Specify the temporal accessibility",
       "questionTempAccessibility" : "When is it possible to access the defibrillator?",
@@ -110,15 +119,6 @@
       "questionNotes" : "Additional notes",
       "notesPlaceholder" : "Max 500 characters..."
     },
-    "presence" : {
-      "name" : "Presence of the defibrillator",
-      "defaultText" : "Confirm the presence",
-      "questionPresence" : "Is the defibrillator in the display?",
-      "enum" : {
-        "yes" : "Yes",
-        "no" : "No"
-      }
-    },
     "photo" : {
       "name" : "Add a photo",
       "editText" : "Edit your photo",
@@ -133,8 +133,11 @@
     "id" : "id",
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
-    "coordinates" : "Coordinates",
+    "coordinates" : "Coordinates (WGS 84)",
     "accuracy" : "Accuracy",
+    "accuracyUnknown": "Unknown",
+    "accuracyUnitSingle" : "meter",
+    "accuracyUnit" : "meters",
     "presence" : "Presence",
     "locationCategory" : "Location category",
     "visualReference" : "Visual reference",

@@ -26,6 +26,9 @@
         <param name="android-package" value="com.cordovaplugincamerapreview.CameraPreview" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
     <name>DefibrillatorHunter</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

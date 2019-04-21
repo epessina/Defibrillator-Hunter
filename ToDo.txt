@@ -17,6 +17,11 @@
 
 - Aggiugnere lingue
 
+- Tradurre errori server side
+
+
+- Vedere se sanizzare coordinate e accuratezza
+
 
 - Inserire defibrillatore in open street map
 

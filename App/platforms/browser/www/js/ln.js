@@ -11,11 +11,11 @@ let ln = {
 
     init: function () {
         i18n.init({
-            ns         : "general",
-            lng        : "en",
-            resGetPath : "locales/__ns__.__lng__.json",
-            fallbackLng: "en",
-            useCookie  : false
+            ns           : "general",
+            lng          : "en",
+            resGetPath   : "locales/__ns__.__lng__.json",
+            fallbackLng  : "en",
+            useCookie    : false,
         }, function () {
             ln.getLanguage();
         });

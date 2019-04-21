@@ -1,16 +1,12 @@
 "use strict";
 
-const LOCAL_DB = "dh_local_db";
-
 let isCordova,
     isMobile,
     isApp;
 
 let markers = [];
 
-let networkState,
-    localDb,
-    pointsDB;
+let networkState;
 
 
 function onLoad() {
@@ -34,13 +30,14 @@ function initialize() {
     document.addEventListener("resume", onResume, false);
 
     ln.init();
+
 }
 
 
 function onPause() {
 
     console.log("onPause");
-    detachPositionWatcher();
+    // detachPositionWatcher();
 
 }
 
@@ -48,7 +45,7 @@ function onPause() {
 function onResume() {
 
     console.log("onResume");
-    attachPositionWatcher();
+    // attachPositionWatcher();
 
 }
 
@@ -66,107 +63,46 @@ function init() {
 
     onResize();
     initMap();
-    initDb();
     getDefibrillators();
     initInsert();
+    initInfo();
 
 }
 
 
-//ToDo handle connection errors
-function initDb() {
-
-    localDb = new PouchDB(LOCAL_DB);
-
-    if (isApp)
-        pointsDB = new PouchDB(HOSTED_POINTS_DB);
-    else
-        pointsDB = new PouchDB(REMOTE_POINTS_DB);
-}
-
-
-// ToDO change for Cordova
 function getDefibrillators() {
 
-    // if (networkState === Connection.NONE || navigator.onLine === false) {
-    //     showAlert("messages.noInternet");
-    //     return;
-    // }
-
-    pointsDB.allDocs({include_docs: true}, function (err, doc) {
-
-        if (err) {
-
-            showAlert("messages.generalError");
+    fetch("http://localhost:8080/defibrillator/get-all")
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error("Failed to fetch defibrillators");
+            }
+            return res.json();
+        })
+        .then(data => {
+            data.defibrillators.forEach(def => showDefibrillator(def._id, def.coordinates))
+        })
+        .catch(err => {
             console.log(err);
-
-        } else {
-
-            doc.rows.forEach(function (row) {
-
-                let defibrillator = new Defibrillator(
-                    row.doc._id,
-                    row.doc.timeStamp,
-                    row.doc.lang,
-                    row.doc.position,
-                    row.doc.accuracy,
-                    row.doc.locationCategory,
-                    row.doc.transportType,
-                    row.doc.visualReference,
-                    row.doc.floor,
-                    row.doc.temporalAccessibility,
-                    row.doc.recovery,
-                    row.doc.signage,
-                    row.doc.brand,
-                    row.doc.notes,
-                    row.doc.presence
-                );
-
-                defibrillator.showDefibrillator();
-            });
-        }
-    })
-
+        });
 }
 
 
-function deleteDefibrillator(id) {
+function showDefibrillator(id, coordinates) {
 
-    navigator.notification.confirm(
-        i18n.t("messages.confirmCancellation"),
-        onConfirm,
-        "Defibrillator Hunter",
-        [i18n.t("messages.yes"), i18n.t("messages.no")]
+    let marker = L.marker(
+        coordinates, {
+            icon     : defibrillatorIcon,
+            draggable: false
+        }
     );
 
-    function onConfirm(btnIndex) {
+    marker.id = id;
 
-        if (btnIndex === 1) {
+    marker.on("click", () => openInfo(id));
 
-            pointsDB
-                .get(id)
-                .then(doc => {
-                    return pointsDB.remove(doc)
-                })
-                .then(() => {
-
-                    let newMarkers = [];
-
-                    markers.forEach(marker => {
-                        if (marker._id === id)
-                            map.removeLayer(marker);
-                        else
-                            newMarkers.push(marker);
-                    });
-
-                    markers = newMarkers;
-                })
-                .catch(err => {
-                    showAlert("messages.cancelError");
-                    console.log(err);
-                })
-        }
-    }
+    markers.push(marker);
+    marker.addTo(map);
 
 }
 
@@ -187,3 +123,5 @@ function showAlert(msg) {
     }
 
 }
+
+

@@ -118,6 +118,14 @@ module.exports = [
         "clobbers": [
             "CameraPreview"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
+        "id": "cordova-plugin-x-toast.Toast",
+        "pluginId": "cordova-plugin-x-toast",
+        "clobbers": [
+            "window.plugins.toast"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -130,7 +138,8 @@ module.exports.metadata =
     "cordova-plugin-dialogs": "2.0.1",
     "cordova-plugin-geolocation": "4.0.1",
     "cordova-plugin-camera": "4.0.3",
-    "cordova-plugin-camera-preview": "0.10.0"
+    "cordova-plugin-camera-preview": "0.10.0",
+    "cordova-plugin-x-toast": "2.7.2"
 }
 // BOTTOM OF METADATA
 });

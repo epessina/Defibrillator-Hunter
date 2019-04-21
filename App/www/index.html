@@ -26,8 +26,9 @@
 
 <body onresize="onResize()" onload="onLoad()">
 
+
 <!-- Map -->
-<div id="map">
+<div style="display: none" id="map">
 
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
@@ -49,7 +50,7 @@
 
 
 <!-- Insert defibrillator -->
-<div style="display: none" id="insert-defibrillator">
+<div id="insert-defibrillator">
 
 
     <!-- Opaque overlay -->
@@ -76,6 +77,22 @@
         </div>
 
         <div class="custom-container requests-container">
+
+            <!-- Presence -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">favorite</i></div>
+
+                <div id="presence-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
+
+                    <p id="presence-text" class="request-text"
+                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
+
+                </div>
+
+            </div>
 
             <!-- Location category -->
             <div class="request">
@@ -167,22 +184,6 @@
 
                     <p id="notes-text" class="request-text"
                        data-i18n="insert.notes.defaultText">Add additional notes</p>
-
-                </div>
-
-            </div>
-
-            <!-- Presence -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">favorite</i></div>
-
-                <div id="presence-request" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
-
-                    <p id="presence-text" class="request-text"
-                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
 
                 </div>
 
@@ -465,7 +466,7 @@
             <div class="dialog-container">
 
                 <p class="dialog-text"
-                   data-i18n="insert.tempAccessibility.questionTempAccessibility">
+                   data-i18n="insert.temporalAccessibility.questionTempAccessibility">
                     When is it possible to access the defibrillator?
                 </p>
 
@@ -478,7 +479,7 @@
                                value="h24"
                                checked>
 
-                        <span data-i18n="insert.tempAccessibility.enum.h24">24 hours a day</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.h24">24 hours a day</span>
 
                     </label>
 
@@ -488,7 +489,7 @@
                                name="temporalAccessibility"
                                value="partTime">
 
-                        <span data-i18n="insert.tempAccessibility.enum.partTime">Part time</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.partTime">Part time</span>
 
                     </label>
 
@@ -498,7 +499,7 @@
                                name="temporalAccessibility"
                                value="notSpecified">
 
-                        <span data-i18n="insert.tempAccessibility.enum.notSpecified">Not specified</span>
+                        <span data-i18n="insert.temporalAccessibility.enum.notSpecified">Not specified</span>
 
                     </label>
 
@@ -894,7 +895,7 @@
     <div class="top-bar">
 
         <div class="top-bar-left-icon">
-            <i id="info-close" class="material-icons">close</i>
+            <i id="info-close" class="material-icons">arrow_back</i>
         </div>
 
         <div class="top-bar-title" data-i18n="info.topBarTitle">
@@ -902,122 +903,153 @@
         </div>
 
         <div class="top-bar-right-icon">
-            <i id="info-edit" class="material-icons">edit</i>
+            <i style="visibility: hidden" id="info-edit" class="material-icons">edit</i>
         </div>
 
     </div>
 
     <div class="custom-container">
 
-        <!-- Id -->
-        <div id="info-id" class="info-block">
-
-            <p class="info-title" data-i18n="info.id">ID</p>
-            <p class="info-content"></p>
-
-        </div>
-
         <!-- Creation date -->
-        <div id="info-creation-date" class="info-block">
+        <div id="info-createdAt" class="info-block">
 
-            <p class="info-title" data-i18n="info.creationDate">Creation date</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <div class="info-title ph-hidden-content" data-i18n="info.creationDate"></div>
+
+            <div class="info-content-ph placeholder"></div>
+            <div class="info-content ph-hidden-content"></div>
 
         </div>
 
         <!--Last modified -->
-        <div id="info-last-modified" class="info-block">
+        <div id="info-updatedAt" class="info-block">
 
-            <p class="info-title" data-i18n="info.lastModified">Last modified</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.lastModified"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Coordinates -->
         <div id="info-coordinates" class="info-block">
 
-            <p class="info-title" data-i18n="info.coordinates">Coordinates</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.coordinates"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Accuracy -->
         <div id="info-accuracy" class="info-block">
 
-            <p class="info-title" data-i18n="info.accuracy">Accuracy</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.accuracy"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Presence -->
         <div id="info-presence" class="info-block">
 
-            <p class="info-title" data-i18n="info.presence">Presence of the defibrillator</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.presence"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Location category -->
-        <div id="info-category" class="info-block">
+        <div id="info-locationCategory" class="info-block">
 
-            <p class="info-title" data-i18n="info.locationCategory">Location category</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.locationCategory"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Visual reference -->
-        <div id="info-visual-reference" class="info-block">
+        <div id="info-visualReference" class="info-block">
 
-            <p class="info-title" data-i18n="info.visualReference">Visual reference</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.visualReference"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Floor -->
         <div id="info-floor" class="info-block">
 
-            <p class="info-title" data-i18n="info.floor">Floor</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.floor"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Temporal accessibility -->
-        <div id="info-temporal-accessibility" class="info-block">
+        <div id="info-temporalAccessibility" class="info-block">
 
-            <p class="info-title" data-i18n="info.temporalAccessibility">Temporal accessibility</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.temporalAccessibility"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Ease of recovery -->
         <div id="info-recovery" class="info-block">
 
-            <p class="info-title" data-i18n="info.recovery">Ease of recovery</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.recovery"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Signage -->
         <div id="info-signage" class="info-block">
 
-            <p class="info-title" data-i18n="info.signage">Signage</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.signage"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Brand -->
         <div id="info-brand" class="info-block">
 
-            <p class="info-title" data-i18n="info.brand">Brand</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.brand"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
         <!-- Notes -->
         <div id="info-notes" class="info-block">
 
-            <p class="info-title" data-i18n="info.notes">Notes</p>
-            <p class="info-content"></p>
+            <div class="info-title-ph placeholder"></div>
+            <p class="info-title ph-hidden-content" data-i18n="info.notes"></p>
+
+            <div class="info-content-ph placeholder"></div>
+            <p class="info-content ph-hidden-content"></p>
 
         </div>
 
@@ -1026,8 +1058,10 @@
 
             <div class="photo-preview-wrapper">
 
+                <div class="photo-preview-ph placeholder"></div>
+
                 <img id="info-photo-preview"
-                     class="photo-preview"
+                     class="photo-preview ph-hidden-content"
                      src="img/no-img-placeholder-200.png"
                      alt="Your image">
 
@@ -1036,17 +1070,20 @@
         </div>
 
         <!-- Btn cancel -->
-        <div id="info-btn-cancel" class="button flex-btn full-width-btn full-btn">
+        <div class="flex-btn-ph placeholder info-bottom-btn"></div>
 
-            <div class="btn-text"
-                 data-i18n="info.cancelBtn">
-                Cancel
+        <div class="ph-hidden-content">
+
+            <div id="info-btn-cancel"
+                 class="button flex-btn full-width-btn full-btn info-bottom-btn">
+
+                <div class="btn-text" data-i18n="info.cancelBtn"></div>
+
             </div>
 
         </div>
 
     </div>
-
 
 </div>
 
@@ -1064,20 +1101,11 @@
 <script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
 <script type="text/javascript" src="js/lib/leaflet-bing-layer.min.js"></script>
 
-<!-- Pouch db-->
-<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
-<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
-
-<!-- Moment -->
-<script type="text/javascript" src="js/lib/moment.min.js"></script>
-
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
-<script type="text/javascript" src="js/settings.js"></script>
-<script type="text/javascript" src="js/defibrillator.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/info.js"></script>

@@ -35,4 +35,5 @@
     </plugin>
     <engine name="android" spec="^7.1.4" />
     <engine name="browser" spec="^5.0.4" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.7.2" />
 </widget>

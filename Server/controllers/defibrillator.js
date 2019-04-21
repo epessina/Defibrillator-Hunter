@@ -1,45 +1,90 @@
 "use strict";
 
 
-const test = {
-  defibrillators: [
-      {
-          _id: "1068fbe1-2f2f-defc-08ea-496e75c5175b",
-          creationDate: "2019-04-07T17:52:26.129Z",
-          lastModified: "2019-04-07T17:52:26.129Z",
-          position: [45.40037851725538, 9.298553466796877],
-          accuracy: 0,
-          locationCategory: "residentialBuilding",
-          transportType: "",
-          visualReference: "",
-          floor: 6,
-          temporalAccessibility: "partTime",
-          recovery: "",
-          signage: "",
-          brand: "",
-          notes: "",
-          presence: "",
-          hasPhoto: false,
-      }
-  ]
-};
+const Defibrillator        = require("../models/defibrillator"),
+      { validationResult } = require("express-validator/check");
 
 
 exports.getDefibrillators = (req, res, next) => {
 
-    res.status(200).json(test);
+    Defibrillator.find()
+        .then(defibrillators => {
+            res.status(200)
+                .json({
+                    message       : "Fetched data successfully",
+                    defibrillators: defibrillators
+                })
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+};
+
+
+exports.getDefibrillator = (req, res, next) => {
+
+    const id = req.params.defibrillatorId;
+
+    Defibrillator.findById(id)
+        .then(defibrillator => {
+            if (!defibrillator) {
+                const error      = new Error("Could not find defibrillator.");
+                error.statusCode = 404;
+                throw error;
+            }
+            res.status(200).json({
+                message      : "Defibrillator found!",
+                defibrillator: defibrillator
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
 };
 
 
 exports.postDefibrillator = (req, res, next) => {
 
-    const _id      = req.body._id,
-          accuracy = req.body.accuracy;
+    const errors = validationResult(req);
 
-    res.status(201).json({
-        message      : "Defibrillator created",
-        defibrillator: {_id: _id, accuracy: accuracy}
+    if (!errors.isEmpty()) {
+        return res
+            .status(422)
+            .json({
+                message: "Defibrillator validation failed. Entered data is incorrect.",
+                errors : errors.array()
+            })
+    }
+
+    const defibrillator = new Defibrillator({
+        user                 : { name: "Edoardo" },
+        coordinates          : req.body.coordinates,
+        accuracy             : req.body.accuracy,
+        locationCategory     : req.body.locationCategory,
+        transportType        : req.body.transportType,
+        visualReference      : req.body.visualReference,
+        floor                : req.body.floor,
+        temporalAccessibility: req.body.temporalAccessibility,
+        recovery             : req.body.recovery,
+        signage              : req.body.signage,
+        brand                : req.body.brand,
+        notes                : req.body.notes,
+        presence             : req.body.presence
     });
 
+    console.log(defibrillator);
+
+    // defibrillator.save()
+    //     .then(result => {
+    //         console.log(result);
+    //         res.status(201).json({
+    //             message      : "Defibrillator created",
+    //             defibrillator: result
+    //         });
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
 };

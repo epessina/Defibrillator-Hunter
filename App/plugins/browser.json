@@ -30,6 +30,9 @@
     },
     "cordova-plugin-camera-preview": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {}

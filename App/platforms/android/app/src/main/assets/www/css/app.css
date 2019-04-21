@@ -425,7 +425,7 @@ p {
   background: #FFFFFF;
 }
 #defibrillator-info .custom-container {
-  padding-top: 20px;
+  padding-top: 30px;
   margin-left: 24px;
   margin-right: 24px;
   width: calc(100% - 24px * 2);
@@ -433,11 +433,22 @@ p {
 #defibrillator-info .custom-container .info-block {
   margin-bottom: 20px;
 }
+#defibrillator-info .custom-container .info-title-ph {
+  width: 25%;
+  height: 18px;
+  margin-bottom: 6px;
+  border-radius: 50px;
+}
 #defibrillator-info .custom-container .info-title {
   font: 500 13px system-ui;
   text-transform: uppercase;
   color: #009688;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
+}
+#defibrillator-info .custom-container .info-content-ph {
+  width: 100%;
+  height: 17px;
+  border-radius: 50px;
 }
 #defibrillator-info .custom-container .info-content {
   font: 400 17px system-ui;
@@ -447,12 +458,14 @@ p {
   margin-bottom: 40px;
 }
 #defibrillator-info .custom-container #info-photo {
-  margin-bottom: 60px;
+  margin-bottom: 50px;
+}
+#defibrillator-info .custom-container .info-bottom-btn {
+  margin-bottom: 40px;
 }
 #defibrillator-info .custom-container #info-btn-cancel {
   background-color: #D50000;
   text-transform: uppercase;
-  margin-bottom: 40px;
 }
 
 /* FLOATING ACTION BUTTON */
@@ -656,7 +669,7 @@ p {
 
 /* BUTTON */
 .button {
-  padding: 11px 0;
+  padding: 15px 0;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -692,6 +705,12 @@ p {
 }
 .button .icon-before {
   margin-right: 8px;
+}
+
+.flex-btn-ph {
+  width: 100%;
+  height: 46px;
+  border-radius: 5px;
 }
 
 /* SELECTOR */
@@ -894,11 +913,42 @@ p {
   -ms-justify-content: center;
   justify-content: center;
 }
+.photo-preview-wrapper .photo-preview-ph {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+}
 .photo-preview-wrapper .photo-preview {
   max-width: 200px;
   max-height: 200px;
   border: 1px solid #707070;
   border-radius: 5px;
+}
+
+/* PLACEHOLDERS */
+@keyframes placeholderAnimate {
+  0% {
+    background-position: -650px 0;
+  }
+  100% {
+    background-position: 650px 0;
+  }
+}
+.placeholder {
+  overflow: hidden;
+  background: #E9EAEE linear-gradient(to right, #EEEEEE 2%, #DDDDDD 18%, #EEEEEE 33%);
+  background-size: 1300px;
+}
+.placeholder.ph-animate {
+  animation-duration: 1.7s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeholderAnimate;
+}
+
+.ph-hidden-content {
+  display: none;
 }
 
 /*# sourceMappingURL=app.css.map */

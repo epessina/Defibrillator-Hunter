@@ -9,7 +9,7 @@ const positionMarkerIcon = L.icon({
 });
 
 const defibrillatorIcon = L.icon({
-    iconUrl    : "img/user-def-icon.png",
+    iconUrl    : "img/def-icon.png",
     iconSize   : [31, 42],
     iconAnchor : [16, 42],
     popupAnchor: [0, -43]
@@ -65,12 +65,6 @@ function initAppMapUI() {
 
     });
 
-    $("#map-control-layers").click(() => {
-
-        console.log("Layers button");
-
-    });
-
     $("#map-control-gps").click(() => {
 
         console.log("GPS button");
@@ -78,7 +72,7 @@ function initAppMapUI() {
 
     });
 
-    $("#map-new-defibrillator").click((e) => {
+    $("#map-new-defibrillator").click(e => {
         openInsert();
         e.stopPropagation();
     });
@@ -142,8 +136,6 @@ function detachPositionWatcher() {
 
     isPositionWatcherAttached = false;
 
-    console.log("Position watcher detached");
-
 }
 
 function onPositionSuccess(pos) {
@@ -186,8 +178,10 @@ function initPositionMarker() {
 
         detachPositionWatcher();
 
-        map.removeLayer(accuracyCircle);
-        accuracyCircle = undefined;
+        if (accuracyCircle !== undefined) {
+            map.removeLayer(accuracyCircle);
+            accuracyCircle = undefined;
+        }
 
     });
 
