@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-	"publishheroku": "cd ../ && git subtree push --prefix Server defibrillator-hunter master || true"
+    "start": "node app.js",
+	"publishheroku": "cd ../ && git subtree push --prefix Server heroku master || true"
   },
   "repository": {
     "type": "git",
