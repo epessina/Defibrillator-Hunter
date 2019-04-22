@@ -25,7 +25,7 @@ function openInfo(id) {
 
     $("#defibrillator-info").show();
 
-    fetch("http://localhost:8080/defibrillator/" + id)
+    fetch(serverUrl + "defibrillator/" + id)
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to fetch defibrillators");
@@ -126,6 +126,6 @@ function showInfo(info) {
             });
     }
 
-    $("#info-photo-preview").attr("src", "http://localhost:8080/" + info.imageUrl);
+    $("#info-photo-preview").attr("src", serverUrl + info.imageUrl);
 
 }

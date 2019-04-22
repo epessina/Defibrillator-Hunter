@@ -243,10 +243,15 @@ function initMainPage() {
 
     $("#photo-request-btn").click(() => {
 
-        if (!isCordova)
-            $("#tmp-photo-input").click();
-        else
-            getPicture();
+        // if (!isCordova) {
+        //     $("#tmp-photo-input").click();
+        //     // photo = "file:///D:/Edoardo/Desktop/test.jpg";
+        // } else
+        //     getPicture();
+
+        getPicture();
+
+        // photo = "file:///D:/Edoardo/Desktop/test.jpg";
 
     });
 
@@ -272,42 +277,86 @@ function initMainPage() {
 // Send a post request to the server to insert a new defibrillator in the db
 function postDefibrillator() {
 
-    const url    = "http://localhost:8080/defibrillator/post",
-          method = "POST";
+    let options = new FileUploadOptions();
 
-    const formData = new FormData();
+    options.fileKey  = "image";
+    options.mimeType = "image/jpeg";
+    options.fileName = "test";
 
-    formData.append("coordinates", JSON.stringify(currLatLong));
-    formData.append("accuracy", currAccuracy);
-    formData.append("presence", presence);
-    formData.append("locationCategory", locationCategory);
-    formData.append("transportType", transportType);
-    formData.append("visualReference", visualReference);
-    formData.append("floor", floor);
-    formData.append("temporalAccessibility", temporalAccessibility);
-    formData.append("recovery", recovery);
-    formData.append("signage", signage);
-    formData.append("brand", brand);
-    formData.append("notes", notes);
-    formData.append("image", photo);
+    let params = {};
 
-    fetch(url, {
-        method: method,
-        body  : formData
-    })
-        .then(res => {
-            if (res.status !== 200 && res.status !== 201) {
+    params.coordinates           = JSON.stringify(currLatLong);
+    params.accuracy              = currAccuracy;
+    params.presence              = presence;
+    params.locationCategory      = locationCategory;
+    params.transportType         = transportType;
+    params.visualReference       = visualReference;
+    params.floor                 = floor;
+    params.temporalAccessibility = temporalAccessibility;
+    params.recovery              = recovery;
+    params.signage               = signage;
+    params.brand                 = brand;
+    params.notes                 = notes;
+
+    options.params = params;
+
+    let ft = new FileTransfer();
+    ft.upload(
+        photo,
+        encodeURI(serverUrl + "defibrillator/post"),
+        res => {
+
+            if (res.responseCode !== 200 && res.responseCode !== 201) {
                 throw new Error("Creating a defibrillator failed!");
             }
-            return res.json();
-        })
-        .then(data => {
-            showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
+
+            console.log(res.response);
+
+            showDefibrillator(res.response._id, res.response.coordinates);
             closeInsert();
-        })
-        .catch(err => {
-            console.log(err);
-        });
+
+        },
+        err => console.log(err),
+        options
+    );
+
+
+    // const url    = serverUrl + "defibrillator/post",
+    //       method = "POST";
+    //
+    // const formData = new FormData();
+    //
+    // formData.append("coordinates", JSON.stringify(currLatLong));
+    // formData.append("accuracy", currAccuracy);
+    // formData.append("presence", presence);
+    // formData.append("locationCategory", locationCategory);
+    // formData.append("transportType", transportType);
+    // formData.append("visualReference", visualReference);
+    // formData.append("floor", floor);
+    // formData.append("temporalAccessibility", temporalAccessibility);
+    // formData.append("recovery", recovery);
+    // formData.append("signage", signage);
+    // formData.append("brand", brand);
+    // formData.append("notes", notes);
+    // formData.append("image", photo);
+    //
+    // fetch(url, {
+    //     method: method,
+    //     body  : formData
+    // })
+    //     .then(res => {
+    //         if (res.status !== 200 && res.status !== 201) {
+    //             throw new Error("Creating a defibrillator failed!");
+    //         }
+    //         return res.json();
+    //     })
+    //     .then(data => {
+    //         showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
+    //         closeInsert();
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
 }
 
 
@@ -494,8 +543,6 @@ $("#tmp-photo-input").change(() => {
 
     photo = $("#tmp-photo-input")[0].files[0];
 
-    console.log(photo);
-
     // let reader = new FileReader();
     //
     // if (file)
@@ -569,14 +616,15 @@ function getPicture() {
 
 function getPictureSuccess(fileURI) {
 
-    console.log(fileURI);
+    photo = fileURI;
 
-    window.resolveLocalFileSystemURL(
-        fileURI,
-        fileEntry => console.log(fileEntry),
-        err => logOrToast(err)
-    );
+    console.log(fileURI, typeof fileURI);
 
+    // window.resolveLocalFileSystemURL(
+    //     fileURI,
+    //     fileEntry => console.log(fileEntry),
+    //     err => logOrToast(err)
+    // );
 
     // let $btnCancelPhoto = $("#photo-cancel-btn");
     //

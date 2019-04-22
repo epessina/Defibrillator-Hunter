@@ -1,5 +1,9 @@
 "use strict";
 
+// let serverUrl = "http://localhost:8080/";
+// let serverUrl = "http://192.168.1.103:8080/";
+let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+
 let isCordova,
     isMobile,
     isApp;
@@ -61,6 +65,9 @@ function init() {
     isApp        = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
     networkState = navigator.connection.type;
 
+    // if (isCordova)
+    //     serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+
     onResize();
     initMap();
     getDefibrillators();
@@ -72,7 +79,7 @@ function init() {
 
 function getDefibrillators() {
 
-    fetch("http://localhost:8080/defibrillator/get-all")
+    fetch(serverUrl + "defibrillator/get-all")
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to fetch defibrillators");

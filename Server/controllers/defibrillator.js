@@ -47,7 +47,7 @@ exports.getDefibrillator = (req, res, next) => {
 
 exports.postDefibrillator = (req, res, next) => {
 
-    const errors = validationResult(req);
+   const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res
@@ -106,4 +106,5 @@ exports.postDefibrillator = (req, res, next) => {
         .catch(err => {
             console.log(err);
         });
+
 };
