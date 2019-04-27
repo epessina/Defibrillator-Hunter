@@ -47,37 +47,44 @@ exports.getDefibrillator = (req, res, next) => {
 
 exports.postDefibrillator = (req, res, next) => {
 
-   const errors = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res
-            .status(422)
-            .json({
-                message: "Defibrillator validation failed. Entered data is incorrect.",
-                errors : errors.array()
-            })
+        const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
+        error.errors     = errors.array();
+        error.statusCode = 422;
+        throw error;
     }
 
     const coordinates = JSON.parse(req.body.coordinates);
 
     if (coordinates.length !== 2 || typeof coordinates[0] !== "number" || typeof coordinates[1] !== "number") {
-        return res
-            .status(422)
-            .json({
-                message: "Defibrillator validation failed. Entered data is incorrect.",
-                errors : {
-                    location: "body",
-                    msg     : "Invalid coordinates value",
-                    param   : "coordinates",
-                    value   : coordinates
-                }
-            })
+        const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
+        error.errors     = [{
+            location: "body",
+            msg     : "Invalid coordinates value",
+            param   : "coordinates",
+            value   : coordinates
+        }];
+        error.statusCode = 422;
+        throw error;
     }
 
-    let imageUrl = "images/no-img-placeholder-200.png";
+    let imageUrl;
 
-    if (req.file)
+    if (req.file) {
         imageUrl = req.file.path.replace("\\", "/");
+    } else {
+        const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
+        error.errors     = [{
+            location: "body",
+            msg     : "You must provide a photo",
+            param   : "imageUrl",
+            value   : ""
+        }];
+        error.statusCode = 422;
+        throw error;
+    }
 
     const defibrillator = new Defibrillator({
         user                 : { name: "Edoardo" },
@@ -105,6 +112,10 @@ exports.postDefibrillator = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
         });
-
 };

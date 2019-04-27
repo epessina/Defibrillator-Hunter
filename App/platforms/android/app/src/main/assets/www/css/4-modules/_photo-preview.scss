@@ -36,6 +36,7 @@ $photo-thm-btn-size : 56px;
   .photo-thm-box {
     width            : $photo-thm-size;
     height           : $photo-thm-size;
+    @include flex-center;
     overflow         : hidden;
     background-color : lightgray;
     border-radius    : 15px;
@@ -47,8 +48,8 @@ $photo-thm-btn-size : 56px;
       top           : -1000%;
       bottom        : -1000%;
       margin        : auto;
-      min-height    : 100%;
-      min-width     : 100%;
+      //min-height    : 100%;
+      //min-width     : 100%;
       border-radius : 15px;
     }
   }

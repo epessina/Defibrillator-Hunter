@@ -15,15 +15,10 @@ const defibrillatorIcon = L.icon({
     popupAnchor: [0, -43]
 });
 
+let map;
 
 let positionMarker,
     accuracyCircle = undefined;
-
-let map,
-    baseMaps;
-
-let osm,
-    bing;
 
 let positionWatcherId         = undefined,
     isPositionWatcherAttached = false,
@@ -33,24 +28,46 @@ let positionWatcherId         = undefined,
         maximumAge        : 0
     };
 
-let currLatLong  = [45.464161, 9.190336],
-    currAccuracy = undefined,
-    defaultZoom  = 10;
+const defaultLatLong = [45.464161, 9.190336],
+      defaultZoom    = 10;
+
+let currLatLong  = undefined,
+    currAccuracy = undefined;
 
 
 function initMap() {
 
-    map = L.map("map");
+    map = L.map("map", { zoomSnap: 0 });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution : "&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
+        errorTileUrl: "img/errorTile.png"
+    }).addTo(map);
+
+    map.setView(defaultLatLong, defaultZoom);
 
     initAppMapUI();
 
-    map.setView(currLatLong, defaultZoom);
-
     map.on("dragend", () => detachPositionWatcher());
 
-    initLayers();
-    attachPositionWatcher();
-    initPositionMarker();
+
+    // cordova.plugins.diagnostic.isLocationEnabled(
+    //     gps => {
+    //
+    //         if (gps)
+    //             logOrToast("GPS enable");
+    //         else {
+    //             logOrToast("GPS disabled");
+    //         }
+    //
+    //     },
+    //     () => logOrToast("Error checking the GPS")
+    // );
+
+
+    // attachPositionWatcher();
+    // initPositionMarker();
+
 }
 
 
@@ -59,49 +76,14 @@ function initAppMapUI() {
     // Hide the default controls of leaflet
     $(".leaflet-control-container").hide();
 
-    $("#map-control-hint").click(() => {
+    $("#map-control-hint").click(() => console.log("Hint button"));
 
-        console.log("Hint button");
-
-    });
-
-    $("#map-control-gps").click(() => {
-
-        console.log("GPS button");
-        attachPositionWatcher();
-
-    });
+    $("#map-control-gps").click(() => attachPositionWatcher());
 
     $("#map-new-defibrillator").click(e => {
         openInsert();
         e.stopPropagation();
     });
-
-}
-
-
-// ToDo check connection
-function initLayers() {
-
-    osm = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            attribution : "&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
-            errorTileUrl: "img/errorTile.png"
-        }
-    );
-
-    bing = new L.tileLayer.bing(
-        "AqSfYcbsnUwaN_5NvJfoNgNnsBfo1lYuRUKsiVdS5wQP3gMX6x8xuzrjZkWMcJQ1",
-        {type: "AerialWithLabels"}
-    );
-
-    baseMaps = {
-        "Open Street Map": osm,
-        "Bing Aerial"    : bing
-    };
-
-    osm.addTo(map);
 
 }
 
@@ -156,7 +138,7 @@ function onPositionSuccess(pos) {
     if (accuracyCircle !== undefined)
         map.removeLayer(accuracyCircle);
 
-    accuracyCircle = L.circle(currLatLong, {radius: currAccuracy / 2}).addTo(map);
+    accuracyCircle = L.circle(currLatLong, { radius: currAccuracy / 2 }).addTo(map);
 
 }
 
@@ -168,8 +150,8 @@ function onPositionError(err) {
 function initPositionMarker() {
 
     positionMarker = L.marker(
-        currLatLong,
-        {icon: positionMarkerIcon, draggable: true}
+        defaultLatLong,
+        { icon: positionMarkerIcon, draggable: true }
     );
 
     positionMarker.addTo(map);

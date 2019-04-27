@@ -7,10 +7,26 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-camera-preview": {
+      "ANDROID_SUPPORT_LIBRARY_VERSION": "26+",
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     },
     "cordova-plugin-device": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-geolocation": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     },
     "cordova-plugin-globalization": {
@@ -19,26 +35,14 @@
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
-    },
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
-    },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
-    },
-    "cordova-plugin-camera-preview": {
-      "ANDROID_SUPPORT_LIBRARY_VERSION": "26+",
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     },
     "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
-    },
-    "cordova-plugin-file-transfer": {
+    "cordova.plugins.diagnostic": {
+      "ANDROID_SUPPORT_VERSION": "28.+",
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },

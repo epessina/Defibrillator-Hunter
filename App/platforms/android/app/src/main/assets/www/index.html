@@ -28,7 +28,7 @@
 
 
 <!-- Map -->
-<div id="map">
+<div style="display: none" id="map">
 
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
@@ -50,7 +50,7 @@
 
 
 <!-- Insert defibrillator -->
-<div style="display: none" id="insert-defibrillator">
+<div id="insert-defibrillator">
 
 
     <!-- Opaque overlay -->
@@ -201,7 +201,7 @@
 
                     <div class="photo-thm-box">
 
-                        <img src="img/img-placeholder-200.png" alt="YOur photo">
+                        <img id="photo-thm" src="img/img-placeholder-200.png" alt="Your photo">
 
                     </div>
 
@@ -216,8 +216,6 @@
             </div>
 
         </div>
-
-        <!--        <div class="bottom-sheet"></div>-->
 
     </div>
 
@@ -1022,6 +1020,30 @@
                 <div class="btn-text" data-i18n="info.cancelBtn"></div>
 
             </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Image visualization -->
+<div style="display: none" id="img-screen">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="img-screen-close" class="material-icons">arrow_back</i>
+        </div>
+
+    </div>
+
+    <div id="img-screen-container">
+
+        <div id="img-screen-img-container">
+
+            <img src="" alt="Your photo">
 
         </div>
 

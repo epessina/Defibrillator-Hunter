@@ -1,0 +1,46 @@
+    // let options = new FileUploadOptions();
+    //
+    // options.fileKey  = "image";
+    // options.mimeType = "image/jpeg";
+    // options.fileName = "test";
+    //
+    // let params = {};
+    //
+    // params.coordinates           = JSON.stringify(currLatLong);
+    // params.accuracy              = currAccuracy;
+    // params.presence              = presence;
+    // params.locationCategory      = locationCategory;
+    // params.transportType         = transportType;
+    // params.visualReference       = visualReference;
+    // params.floor                 = floor;
+    // params.temporalAccessibility = temporalAccessibility;
+    // params.recovery              = recovery;
+    // params.signage               = signage;
+    // params.brand                 = brand;
+    // params.notes                 = notes;
+    //
+    // options.params = params;
+    //
+    // let ft = new FileTransfer();
+    // ft.upload(
+    //     photo,
+    //     encodeURI(serverUrl + "defibrillator/post"),
+    //     res => {
+    //
+    //         if (res.responseCode !== 200 && res.responseCode !== 201) {
+    //             throw new Error("Creating a defibrillator failed!");
+    //         }
+    //
+    //         console.log(res.response);
+    //
+    //         let response = JSON.parse(res.response);
+    //
+    //         console.log(response);
+    //
+    //         showDefibrillator(response.defibrillator._id, response.defibrillator.coordinates);
+    //         closeInsert();
+    //
+    //     },
+    //     err => console.log(err),
+    //     options
+    // );

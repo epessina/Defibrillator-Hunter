@@ -201,7 +201,7 @@
 
                     <div class="photo-thm-box">
 
-                        <img src="img/img-placeholder-200.png" alt="YOur photo">
+                        <img id="photo-thm" src="img/img-placeholder-200.png" alt="Your photo">
 
                     </div>
 
@@ -216,8 +216,6 @@
             </div>
 
         </div>
-
-        <!--        <div class="bottom-sheet"></div>-->
 
     </div>
 
@@ -998,16 +996,31 @@
         <!-- Photo -->
         <div id="info-photo">
 
-            <div class="photo-preview-wrapper">
+            <div class="photo-thm-wrapper">
 
-                <div class="photo-preview-ph placeholder"></div>
+                <div class="photo-thm-box">
 
-                <img id="info-photo-preview"
-                     class="photo-preview ph-hidden-content"
-                     src="img/no-img-placeholder-200.png"
-                     alt="Your image">
+                    <div class="photo-thm-ph placeholder"></div>
+
+                    <img id="info-photo-thm"
+                         class="ph-hidden-content"
+                         src="img/img-placeholder-200.png"
+                         alt="Your photo">
+
+                </div>
 
             </div>
+
+            <!--            <div class="photo-preview-wrapper">-->
+
+            <!--                <div class="photo-preview-ph placeholder"></div>-->
+
+            <!--                <img id="info-photo-preview"-->
+            <!--                     class="photo-preview ph-hidden-content"-->
+            <!--                     src="img/no-img-placeholder-200.png"-->
+            <!--                     alt="Your image">-->
+
+            <!--            </div>-->
 
         </div>
 
@@ -1022,6 +1035,30 @@
                 <div class="btn-text" data-i18n="info.cancelBtn"></div>
 
             </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Image visualization -->
+<div style="display: none" id="img-screen">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="img-screen-close" class="material-icons">arrow_back</i>
+        </div>
+
+    </div>
+
+    <div id="img-screen-container">
+
+        <div id="img-screen-img-container">
+
+            <img src="" alt="Your photo">
 
         </div>
 

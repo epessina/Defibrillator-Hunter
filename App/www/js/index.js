@@ -17,13 +17,10 @@ function onLoad() {
 
     isCordova = window.cordova;
 
-    if (isCordova) {
-        console.log("Cordova running");
+    if (isCordova)
         document.addEventListener("deviceready", initialize, false);
-    } else {
-        console.log("Cordova not running");
+    else
         initialize();
-    }
 
 }
 
@@ -65,8 +62,7 @@ function init() {
     isApp        = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
     networkState = navigator.connection.type;
 
-    // if (isCordova)
-    //     serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+    $("#img-screen-close").click(() => $("#img-screen").hide());
 
     onResize();
     initMap();

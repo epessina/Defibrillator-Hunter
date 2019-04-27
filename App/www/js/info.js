@@ -16,6 +16,8 @@ function initInfo() {
 
     $("#info-close").click(() => closeInfo());
 
+    $("#info-photo-thm").click(() => $("#img-screen").show());
+
 }
 
 
@@ -69,6 +71,7 @@ function closeInfo() {
     $("#info-brand .info-content").html("");
     $("#info-notes .info-content").html("");
     $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+    $("#img-screen-img-container img").attr("src", "");
 
 }
 
@@ -126,6 +129,7 @@ function showInfo(info) {
             });
     }
 
-    $("#info-photo-preview").attr("src", serverUrl + info.imageUrl);
+    $("#info-photo-thm").attr("src", serverUrl + info.imageUrl);
+    $("#img-screen-img-container img").attr("src", serverUrl + info.imageUrl);
 
 }

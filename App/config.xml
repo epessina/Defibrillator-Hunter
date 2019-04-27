@@ -36,6 +36,5 @@
     <plugin name="cordova-plugin-x-toast" spec="^2.7.2" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
-    <engine name="android" spec="^7.1.4" />
-    <engine name="browser" spec="^5.0.4" />
+    <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />
 </widget>

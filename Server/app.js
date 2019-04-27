@@ -8,11 +8,11 @@ const express    = require("express"),
       multer     = require("multer"),
       uuidv4     = require("uuid/v4");
 
-const settings = require("./settings");
-
-const defibrillatorRoutes = require("./routes/defibrillator");
+const settings            = require("./settings"),
+      defibrillatorRoutes = require("./routes/defibrillator");
 
 const app = express();
+
 
 // Multer config
 const fileStorage = multer.diskStorage({
@@ -55,8 +55,21 @@ app.use((req, res, next) => {
 
 app.use("/defibrillator", defibrillatorRoutes);
 
+// Error handling middleware
+app.use((error, req, res, next) => {
 
-mongoose.connect(settings.mongoURL)
+    console.log("M", error);
+
+    const status  = error.statusCode || 500,
+          message = error.message,
+          errors  = error.errors || [];
+
+    res.status(status).json({ message: message, errors: errors });
+
+});
+
+
+mongoose.connect(settings.mongoURL, { useNewUrlParser: true })
     .then(result => {
         let port = process.env.PORT;
 

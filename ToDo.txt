@@ -8,8 +8,9 @@
 - Marker posizione
 
 
-- Modificare i tuoi defibrillatori
-    - modificare effettivamente
+- Modificare i defibrillatori
+
+- Cancellare i defibrillatori
 	
 
 - Sistemare gli alert
@@ -29,25 +30,17 @@
 - Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)
 
 
-- Sistemare allineamento verticale label select location category (flex)
-
-
 - Sistemare attacco/stacco position watcher come Google maps -> pausa and resume, non deve cambiare lo stato
 
 - Sistemare spegnimento GPS
 
+
 - Aggiungere indirizzo con suggerimento (OSM)
 
 
-- Foto a tutto schermo
+- Foto a tutto schermo:
+    - zoom & pan
 
 - Inserire metadati nella foto
 
-- Creare ph immagine rotta (se non si riesce a prendere dal server)
-
 - Testare caricamento altri file
-
-- Vedere se il server prende l'immagine da telefono
-
-
-- Vendor su animazione ph

@@ -386,33 +386,6 @@ p {
 #insert-defibrillator #insert-defibrillator-main .requests-container #photo-request {
   margin: 40px 0 60px 0;
 }
-#insert-defibrillator #dialog-photo .custom-container {
-  margin-top: 56px;
-}
-#insert-defibrillator #dialog-photo .photo-cancel-wrapper {
-  width: 48px;
-  height: 48px;
-  padding: 12px;
-  z-index: 4;
-  position: absolute;
-  cursor: pointer;
-}
-#insert-defibrillator #dialog-photo .photo-cancel-wrapper .photo-cancel {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #FFFFFF;
-}
-#insert-defibrillator #dialog-photo .photo-preview-wrapper {
-  margin: 0 0 40px 0;
-}
-#insert-defibrillator #dialog-photo .photo-or {
-  width: 100%;
-  text-align: center;
-  color: #000000;
-  font: 500 16px system-ui;
-  margin: 16px 0;
-}
 
 /* DEFIBRILLATOR INFO LAYOUT */
 #defibrillator-info {
@@ -466,6 +439,60 @@ p {
 #defibrillator-info .custom-container #info-btn-cancel {
   background-color: #D50000;
   text-transform: uppercase;
+}
+
+/* IMAGE SCREEN */
+#img-screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background-color: #000000;
+  color: #FFFFFF;
+}
+#img-screen .top-bar {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -moz-justify-content: -moz-flex-start;
+  -webkit-justify-content: -webkit-flex-start;
+  -ms-justify-content: -ms-flex-start;
+  justify-content: flex-start;
+  background-color: transparent;
+  box-shadow: 0 0 0 0;
+}
+#img-screen #img-screen-container {
+  width: 100%;
+  height: calc(100% - 56px);
+  position: fixed;
+  top: 56px;
+  left: 0;
+  background-color: transparent;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+#img-screen #img-screen-container #img-screen-img-container img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* FLOATING ACTION BUTTON */
@@ -744,7 +771,7 @@ p {
 .custom-selector-box .label {
   height: 40px;
   margin: 0;
-  padding: 7px 0 10px 10px;
+  padding: 10px 0 8px 10px;
   cursor: pointer;
 }
 .custom-selector-box .label-icon {
@@ -943,19 +970,36 @@ p {
 .photo-thm-wrapper .photo-thm-box {
   width: 200px;
   height: 200px;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
   overflow: hidden;
   background-color: lightgray;
   border-radius: 15px;
 }
+.photo-thm-wrapper .photo-thm-box .photo-thm-ph {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+}
 .photo-thm-wrapper .photo-thm-box img {
+  max-width: 300px;
+  max-height: 300px;
   position: absolute;
   left: -1000%;
   right: -1000%;
   top: -1000%;
   bottom: -1000%;
   margin: auto;
-  min-height: 100%;
-  min-width: 100%;
   border-radius: 15px;
 }
 .photo-thm-wrapper .photo-thm-btn {
