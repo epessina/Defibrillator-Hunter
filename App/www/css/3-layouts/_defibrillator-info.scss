@@ -6,6 +6,8 @@ $font-info-content : 17px;
 
 $info-container-margin : 24px;
 
+$top-bar-icon-margin : 8px;
+
 
 #defibrillator-info {
   width      : 100%;
@@ -15,6 +17,46 @@ $info-container-margin : 24px;
   z-index    : $z-info-wrapper;
   overflow-y : scroll;
   background : #FFFFFF;
+
+  .info-top-bar {
+    width      : 100%;
+    height     : $top-bar-height;
+    position   : fixed;
+    top        : 0;
+    z-index    : $z-top-bar;
+    background : $color-main-dark;
+    box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    color      : #FFFFFF;
+
+    .info-top-bar-icon {
+      position : absolute;
+      top      : $top-bar-height - $top-bar-icon-area;
+      @include flex-static-size($top-bar-icon-area);
+      cursor   : pointer;
+
+      i {
+        padding : $icon-padding;
+      }
+
+    }
+
+    .info-top-bar-left-icon {
+      left : $top-bar-icon-margin;
+    }
+
+    .info-top-bar-right-icon-1 {
+      right : $top-bar-icon-area + $top-bar-icon-margin;
+    }
+
+    .info-top-bar-right-icon-2 {
+      right : $top-bar-icon-margin;
+    }
+
+    & + .custom-container {
+      margin-top : $top-bar-height;
+    }
+
+  }
 
   .custom-container {
     padding-top  : 30px;
@@ -56,16 +98,7 @@ $info-container-margin : 24px;
     }
 
     #info-photo {
-      margin-bottom : 50px;
-    }
-
-    .info-bottom-btn {
       margin-bottom : 40px;
-    }
-
-    #info-btn-cancel {
-      background-color : #D50000;
-      text-transform   : uppercase;
     }
 
   }

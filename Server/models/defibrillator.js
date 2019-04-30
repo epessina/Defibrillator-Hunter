@@ -16,12 +16,7 @@
  * brand: String,
  * notes: String,
  * presence: Boolean,
- *  _attachments: {
- *      "image": {
- *          content_type: "image\/jpeg",
- *          data: Data
- *      }
- *  }
+ * imageUrl: String
  *
  */
 
@@ -30,6 +25,8 @@ const mongoose = require("mongoose"),
 
 const defibrillatorSchema = new Schema({
     user                 : Object,
+    markedForDeletion    : { type: Boolean, default: false },
+    checked              : { type: Boolean, default: false },
     coordinates          : [Number],
     accuracy             : Number,
     presence             : String,

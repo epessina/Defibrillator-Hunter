@@ -28,7 +28,7 @@
 
 
 <!-- Map -->
-<div style="display: none" id="map">
+<div id="map">
 
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
@@ -50,7 +50,7 @@
 
 
 <!-- Insert defibrillator -->
-<div id="insert-defibrillator">
+<div style="display: none" id="insert-defibrillator">
 
 
     <!-- Opaque overlay -->
@@ -832,18 +832,18 @@
 <!-- Defibrillator information -->
 <div style="display: none" id="defibrillator-info">
 
-    <div class="top-bar">
+    <div class="info-top-bar">
 
-        <div class="top-bar-left-icon">
+        <div class="info-top-bar-icon info-top-bar-left-icon">
             <i id="info-close" class="material-icons">arrow_back</i>
         </div>
 
-        <div class="top-bar-title" data-i18n="info.topBarTitle">
-            Details
+        <div class="info-top-bar-icon info-top-bar-right-icon-1">
+            <i style="display: none" id="info-edit" class="material-icons">edit</i>
         </div>
 
-        <div class="top-bar-right-icon">
-            <i style="visibility: hidden" id="info-edit" class="material-icons">edit</i>
+        <div class="info-top-bar-icon info-top-bar-right-icon-2">
+            <i style="display: none" id="info-delete" class="material-icons">delete</i>
         </div>
 
     </div>
@@ -996,28 +996,18 @@
         <!-- Photo -->
         <div id="info-photo">
 
-            <div class="photo-preview-wrapper">
+            <div class="photo-thm-wrapper">
 
-                <div class="photo-preview-ph placeholder"></div>
+                <div class="photo-thm-box">
 
-                <img id="info-photo-preview"
-                     class="photo-preview ph-hidden-content"
-                     src="img/no-img-placeholder-200.png"
-                     alt="Your image">
+                    <div class="photo-thm-ph placeholder"></div>
 
-            </div>
+                    <img id="info-photo-thm"
+                         class="ph-hidden-content"
+                         src="img/img-placeholder-200.png"
+                         alt="Your photo">
 
-        </div>
-
-        <!-- Btn cancel -->
-        <div class="flex-btn-ph placeholder info-bottom-btn"></div>
-
-        <div class="ph-hidden-content">
-
-            <div id="info-btn-cancel"
-                 class="button flex-btn full-width-btn full-btn info-bottom-btn">
-
-                <div class="btn-text" data-i18n="info.cancelBtn"></div>
+                </div>
 
             </div>
 

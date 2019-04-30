@@ -386,33 +386,6 @@ p {
 #insert-defibrillator #insert-defibrillator-main .requests-container #photo-request {
   margin: 40px 0 60px 0;
 }
-#insert-defibrillator #dialog-photo .custom-container {
-  margin-top: 56px;
-}
-#insert-defibrillator #dialog-photo .photo-cancel-wrapper {
-  width: 48px;
-  height: 48px;
-  padding: 12px;
-  z-index: 4;
-  position: absolute;
-  cursor: pointer;
-}
-#insert-defibrillator #dialog-photo .photo-cancel-wrapper .photo-cancel {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #FFFFFF;
-}
-#insert-defibrillator #dialog-photo .photo-preview-wrapper {
-  margin: 0 0 40px 0;
-}
-#insert-defibrillator #dialog-photo .photo-or {
-  width: 100%;
-  text-align: center;
-  color: #000000;
-  font: 500 16px system-ui;
-  margin: 16px 0;
-}
 
 /* DEFIBRILLATOR INFO LAYOUT */
 #defibrillator-info {
@@ -423,6 +396,40 @@ p {
   z-index: 1000;
   overflow-y: scroll;
   background: #FFFFFF;
+}
+#defibrillator-info .info-top-bar {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background: #00796B;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+}
+#defibrillator-info .info-top-bar .info-top-bar-icon {
+  position: absolute;
+  top: 4px;
+  -moz-flex: 0 0 52px;
+  -webkit-flex: 0 0 52px;
+  -ms-flex: 0 0 52px;
+  flex: 0 0 52px;
+  cursor: pointer;
+}
+#defibrillator-info .info-top-bar .info-top-bar-icon i {
+  padding: 12px;
+}
+#defibrillator-info .info-top-bar .info-top-bar-left-icon {
+  left: 8px;
+}
+#defibrillator-info .info-top-bar .info-top-bar-right-icon-1 {
+  right: 60px;
+}
+#defibrillator-info .info-top-bar .info-top-bar-right-icon-2 {
+  right: 8px;
+}
+#defibrillator-info .info-top-bar + .custom-container {
+  margin-top: 56px;
 }
 #defibrillator-info .custom-container {
   padding-top: 30px;
@@ -458,14 +465,7 @@ p {
   margin-bottom: 40px;
 }
 #defibrillator-info .custom-container #info-photo {
-  margin-bottom: 50px;
-}
-#defibrillator-info .custom-container .info-bottom-btn {
   margin-bottom: 40px;
-}
-#defibrillator-info .custom-container #info-btn-cancel {
-  background-color: #D50000;
-  text-transform: uppercase;
 }
 
 /* IMAGE SCREEN */
@@ -591,11 +591,11 @@ p {
   cursor: pointer;
 }
 .top-bar .top-bar-left-icon i {
-  margin-left: 4px;
+  margin-left: 8px;
   padding: 12px;
 }
 .top-bar .top-bar-right-icon i {
-  margin-right: 4px;
+  margin-right: 8px;
   padding: 12px;
 }
 .top-bar .top-bar-title {
@@ -1013,7 +1013,14 @@ p {
   background-color: lightgray;
   border-radius: 15px;
 }
+.photo-thm-wrapper .photo-thm-box .photo-thm-ph {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+}
 .photo-thm-wrapper .photo-thm-box img {
+  max-width: 300px;
+  max-height: 300px;
   position: absolute;
   left: -1000%;
   right: -1000%;

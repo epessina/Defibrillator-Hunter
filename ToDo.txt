@@ -44,3 +44,9 @@
 - Inserire metadati nella foto
 
 - Testare caricamento altri file
+
+
+- Chedere agli utenti se sono soccorritori
+
+
+- Abbassare molto peso immagini

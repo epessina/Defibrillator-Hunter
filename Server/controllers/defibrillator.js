@@ -1,5 +1,7 @@
 "use strict";
 
+const fs   = require("fs"),
+      path = require("path");
 
 const Defibrillator        = require("../models/defibrillator"),
       { validationResult } = require("express-validator/check");
@@ -7,7 +9,7 @@ const Defibrillator        = require("../models/defibrillator"),
 
 exports.getDefibrillators = (req, res, next) => {
 
-    Defibrillator.find()
+    Defibrillator.find({ markedForDeletion: false })
         .then(defibrillators => {
             res.status(200)
                 .json({
@@ -40,6 +42,11 @@ exports.getDefibrillator = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
         });
 
 };
@@ -118,4 +125,102 @@ exports.postDefibrillator = (req, res, next) => {
             }
             next(err);
         });
+};
+
+
+exports.updateDefibrillator = (req, res, next) => {
+
+    const id = req.params.defibrillatorId;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
+        error.errors     = errors.array();
+        error.statusCode = 422;
+        throw error;
+    }
+
+    Defibrillator.findById(id)
+        .then(defibrillator => {
+            if (!defibrillator) {
+                const error      = new Error("Could not find defibrillator.");
+                error.statusCode = 404;
+                throw error;
+            }
+            defibrillator.presence              = req.body.presence;
+            defibrillator.locationCategory      = req.body.locationCategory;
+            defibrillator.transportType         = req.body.transportType;
+            defibrillator.visualReference       = req.body.visualReference;
+            defibrillator.floor                 = req.body.floor;
+            defibrillator.temporalAccessibility = req.body.temporalAccessibility;
+            defibrillator.recovery              = req.body.recovery;
+            defibrillator.signage               = req.body.signage;
+            defibrillator.brand                 = req.body.brand;
+            defibrillator.notes                 = req.body.notes;
+
+            if (req.file) {
+                console.log("Got file");
+                clearImage(defibrillator.imageUrl);
+                defibrillator.imageUrl = req.file.path.replace("\\", "/");
+            } else {
+                console.log("No file");
+            }
+
+            return defibrillator.save();
+        })
+        .then(result => {
+            console.log(result);
+            res.status(200)
+                .json({
+                    message      : "Defibrillator updated.",
+                    defibrillator: result
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
+        });
+};
+
+
+exports.deleteDefibrillator = (req, res, next) => {
+
+    const id = req.params.defibrillatorId;
+
+    Defibrillator.findById(id)
+        .then(defibrillator => {
+            if (!defibrillator) {
+                const error      = new Error("Could not find defibrillator.");
+                error.statusCode = 404;
+                throw error;
+            }
+            // Check logged user
+            defibrillator.markedForDeletion = true;
+            return defibrillator.save();
+        })
+        .then(result => {
+            console.log(result);
+            res.status(200).json({ message: "Defibrillator successfully deleted." })
+        })
+        .catch(err => {
+            console.log(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
+        });
+};
+
+
+const clearImage = filePath => {
+    filePath = path.join(__dirname, "..", filePath);
+    fs.unlink(filePath, err => {
+        console.error(err)
+    });
 };

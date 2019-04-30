@@ -16,6 +16,8 @@ function initInfo() {
 
     $("#info-close").click(() => closeInfo());
 
+    $("#info-photo-thm").click(() => $("#img-screen").show());
+
 }
 
 
@@ -33,9 +35,23 @@ function openInfo(id) {
             return res.json();
         })
         .then(data => {
-            $("#info-edit").css("visibility", "visible");
+
+            $("#info-delete")
+                .show()
+                .unbind("click")
+                .click(() => deleteDefibrillator(data.defibrillator._id));
+
+            $("#info-edit")
+                .show()
+                .unbind("click")
+                .click(() => {
+                    $("#defibrillator-info").scrollTop(0);
+                    openInsert(data.defibrillator);
+                });
+
             $placeholders.hide().removeClass("ph-animate");
             $("#defibrillator-info .ph-hidden-content").show();
+
             showInfo(data.defibrillator);
         })
         .catch(err => {
@@ -52,7 +68,8 @@ function closeInfo() {
     $("#defibrillator-info .ph-hidden-content").hide();
     $placeholders.removeClass("ph-animate").show();
 
-    $("#info-edit").css("visibility", "hidden");
+    $("#info-delete").hide();
+    $("#info-edit").hide();
 
     $("#info-id .info-content").html("");
     $("#info-creation-date .info-content").html("");
@@ -60,25 +77,21 @@ function closeInfo() {
     $("#info-coordinates .info-content").html("");
     $("#info-accuracy .info-content").html("");
     $("#info-presence .info-content").html("");
-    $("#info-category .info-content").html("");
-    $("#info-visual-reference .info-content").html("");
+    $("#info-locationCategory .info-content").html("");
+    $("#info-visualReference .info-content").html("");
     $("#info-floor .info-content").html("");
-    $("#info-temporal-accessibility .info-content").html("");
+    $("#info-temporalAccessibility .info-content").html("");
     $("#info-recovery .info-content").html("");
     $("#info-signage .info-content").html("");
     $("#info-brand .info-content").html("");
     $("#info-notes .info-content").html("");
     $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+    $("#img-screen-img-container img").attr("src", "");
 
 }
 
 
 function showInfo(info) {
-
-    // $("#info-edit").unbind("click").click(() => openInsert(this));
-
-    // $("#info-btn-cancel").click(() => this.cancel());
-
 
     for (let key in info) {
 
@@ -126,6 +139,7 @@ function showInfo(info) {
             });
     }
 
-    $("#info-photo-preview").attr("src", serverUrl + info.imageUrl);
+    $("#info-photo-thm").attr("src", serverUrl + info.imageUrl);
+    $("#img-screen-img-container img").attr("src", serverUrl + info.imageUrl);
 
 }

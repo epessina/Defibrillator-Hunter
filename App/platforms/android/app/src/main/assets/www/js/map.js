@@ -66,7 +66,7 @@ function initMap() {
 
 
     // attachPositionWatcher();
-    // initPositionMarker();
+    initPositionMarker();
 
 }
 

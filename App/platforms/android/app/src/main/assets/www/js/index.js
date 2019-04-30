@@ -1,7 +1,7 @@
 "use strict";
 
 // let serverUrl = "http://localhost:8080/";
-let serverUrl = "http://192.168.1.103:8080/";
+let serverUrl = "http://192.168.1.100:8080/";
 // let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 let isCordova,
@@ -62,11 +62,11 @@ function init() {
     isApp        = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
     networkState = navigator.connection.type;
 
-    $("#img-screen-close").click($("#img-screen").hide());
+    $("#img-screen-close").click(() => $("#img-screen").hide());
 
     onResize();
     initMap();
-    // getDefibrillators();
+    getDefibrillators();
     initInsert();
     initInfo();
 
@@ -88,6 +88,7 @@ function getDefibrillators() {
         .catch(err => {
             console.log(err);
         });
+
 }
 
 
@@ -100,13 +101,42 @@ function showDefibrillator(id, coordinates) {
         }
     );
 
-    marker.id = id;
+    marker._id = id;
 
     marker.on("click", () => openInfo(id));
 
     markers.push(marker);
     marker.addTo(map);
 
+}
+
+
+function deleteDefibrillator(id) {
+
+    fetch(serverUrl + "defibrillator/" + id, { method: "DELETE" })
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error("Failed to delete the defibrillator");
+            }
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+
+            let new_markers = [];
+            markers.forEach(marker => {
+                if (marker._id === id)
+                    map.removeLayer(marker);
+                else
+                    new_markers.push(marker);
+            });
+            markers = new_markers;
+
+            closeInfo();
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 
@@ -135,3 +165,18 @@ function logOrToast(msg) {
         window.plugins.toast.showShortBottom(msg);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
