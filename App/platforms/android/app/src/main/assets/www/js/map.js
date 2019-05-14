@@ -1,6 +1,6 @@
 "use strict";
 
-// ToDo add "www" for Cordova
+
 const positionMarkerIcon = L.icon({
     iconUrl    : "img/user-position-marker.png",
     iconSize   : [47, 71],
@@ -122,11 +122,7 @@ function detachPositionWatcher() {
 
 function onPositionSuccess(pos) {
 
-    currLatLong = [
-        pos.coords.latitude,
-        pos.coords.longitude
-    ];
-
+    currLatLong  = [pos.coords.latitude, pos.coords.longitude];
     currAccuracy = pos.coords.accuracy;
 
     console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currAccuracy);
@@ -138,7 +134,11 @@ function onPositionSuccess(pos) {
     if (accuracyCircle !== undefined)
         map.removeLayer(accuracyCircle);
 
-    accuracyCircle = L.circle(currLatLong, { radius: currAccuracy / 2 }).addTo(map);
+    accuracyCircle = L.circle(currLatLong, {
+        radius : currAccuracy / 2,
+        color  : "green",
+        opacity: .5
+    }).addTo(map);
 
 }
 
@@ -164,7 +164,6 @@ function initPositionMarker() {
             map.removeLayer(accuracyCircle);
             accuracyCircle = undefined;
         }
-
     });
 
     positionMarker.on("dragend", (e) => {

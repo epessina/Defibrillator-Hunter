@@ -1,12 +1,10 @@
 "use strict";
 
 // let serverUrl = "http://localhost:8080/";
-let serverUrl = "http://192.168.1.100:8080/";
-// let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+// let serverUrl = "http://192.168.1.100:8080/";
+let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
-let isCordova,
-    isMobile,
-    isApp;
+let isCordova;
 
 let markers = [];
 
@@ -58,8 +56,6 @@ function onResize() {
 
 function init() {
 
-    isMobile     = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    isApp        = document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1;
     networkState = navigator.connection.type;
 
     $("#img-screen-close").click(() => $("#img-screen").hide());
@@ -121,8 +117,6 @@ function deleteDefibrillator(id) {
             return res.json();
         })
         .then(data => {
-            console.log(data);
-
             let new_markers = [];
             markers.forEach(marker => {
                 if (marker._id === id)

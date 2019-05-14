@@ -33,7 +33,6 @@
           @include font(500, $font-body);
           @include vendor("flex", "1");
           padding-left  : 6px;
-          margin-right  : 16px;
           cursor        : pointer;
           border-bottom : 1px solid #C5C5C5;
 
@@ -58,42 +57,5 @@
     }
 
   }
-
-  /* PHOTO DIALOG */
-  //#dialog-photo {
-  //
-  //  .custom-container {
-  //    margin-top : $top-bar-height;
-  //  }
-  //
-  //  .photo-cancel-wrapper {
-  //    width    : $icon-area;
-  //    height   : $icon-area;
-  //    padding  : $icon-padding;
-  //    z-index  : $z-photo-cancel;
-  //    position : absolute;
-  //    cursor   : pointer;
-  //
-  //    .photo-cancel {
-  //      width         : $icon-size;
-  //      height        : $icon-size;
-  //      border-radius : 50%;
-  //      background    : #FFFFFF;
-  //    }
-  //  }
-  //
-  //  .photo-preview-wrapper {
-  //    margin : 0 0 40px 0;
-  //  }
-  //
-  //  .photo-or {
-  //    width      : 100%;
-  //    text-align : center;
-  //    color      : $color-text;
-  //    @include font(500, $font-body);
-  //    margin     : 16px 0;
-  //  }
-  //
-  //}
 
 }
