@@ -3,7 +3,10 @@
 /**
  * _id: String,
  * creationDate: String,
- * lastModified: String
+ * lastModified: String,
+ * user: {Object},
+ * markedForDeletion: Boolean,
+ * checked: Boolean
  * position: [Float, Float],
  * accuracy: Float,
  * locationCategory: (commercialActivity | residentialBuilding | ...),

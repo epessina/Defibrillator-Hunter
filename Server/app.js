@@ -53,12 +53,12 @@ app.use((req, res, next) => {
 
 });
 
+app.use("/", (req, res) => res.send("DefibrillatorHunter server"));
+
 app.use("/defibrillator", defibrillatorRoutes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {
-
-    console.log("M", error);
 
     const status  = error.statusCode || 500,
           message = error.message,

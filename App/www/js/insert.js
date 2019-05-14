@@ -20,9 +20,6 @@ let $locationSelect      = $("#location-select"),
 
 let $photoThm = $("#photo-thm");
 
-let btnCancelPhotoTop  = 0,
-    btnCancelPhotoLeft = 0;
-
 
 function initInsert() {
 
@@ -35,7 +32,6 @@ function initInsert() {
     initSignageDialog();
     initNotesDialog();
     initPresenceDialog();
-    initPhotoDialog();
 
 }
 
@@ -61,14 +57,9 @@ function openInsert(data = null) {
         $("#floor-text").html(floor);
         $("#temporal-text").html(i18n.t("insert.temporalAccessibility.enum." + temporalAccessibility));
 
-        if (recovery !== "")
-            $("#recovery-text").html(i18n.t("insert.recovery.enum." + recovery));
-
-        if (signage !== "")
-            $("#signage-text").html(i18n.t("insert.signage.enum." + signage));
-
-        if (notes !== "")
-            $("#notes-text").html(i18n.t("insert.notes.editText"));
+        if (recovery !== "") $("#recovery-text").html(i18n.t("insert.recovery.enum." + recovery));
+        if (signage !== "") $("#signage-text").html(i18n.t("insert.signage.enum." + signage));
+        if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.editText"));
 
         $photoThm.attr("src", photo);
         $("#img-screen-img-container img").attr("src", photo);
@@ -245,6 +236,7 @@ function initMainPage() {
     });
 
 }
+
 
 // Send a post request to the server to insert a new defibrillator in the db
 function postDefibrillator() {
@@ -529,49 +521,6 @@ $("#tmp-photo-input").change(() => {
 });
 
 
-function initPhotoDialog() {
-
-
-    $("#photo-cancel-btn").click(() => {
-
-        newPhoto = "";
-
-        $("#photo-cancel-btn").hide();
-        previewPhoto(newPhoto);
-
-        $("#tmp-photo-input").val(""); // ToDo delete
-
-    });
-
-
-    $("#photo-close").click(() => {
-
-        newPhoto = "";
-        closeFullscreenDialog($("#dialog-photo"));
-
-    });
-
-    $("#photo-done").click(() => {
-
-        let $btnCancelPhoto = $("#photo-cancel-btn");
-
-        photo              = newPhoto;
-        newPhoto           = "";
-        btnCancelPhotoTop  = parseInt($btnCancelPhoto.css("top"));
-        btnCancelPhotoLeft = parseInt($btnCancelPhoto.css("left"));
-
-        if (photo === "")
-            $("#photo-text").html(i18n.t("insert.photo.name"));
-        else
-            $("#photo-text").html(i18n.t("insert.photo.editText"));
-
-        closeFullscreenDialog($("#dialog-photo"));
-
-    });
-
-}
-
-
 function getPicture() {
 
     let options = {
@@ -595,48 +544,6 @@ function getPictureSuccess(fileURI) {
     $("#img-screen-img-container img").attr("src", photo);
 
     $("#photo-request-btn i").html("edit");
-
-    // window.resolveLocalFileSystemURL(fileURI, fileEntry => {
-    //
-    //         fileEntry.file(file => {
-    //
-    //             let reader = new FileReader();
-    //
-    //             reader.onloadend = e => {
-    //
-    //                 let img = new Image();
-    //                 img.src = e.target.result;
-    //
-    //                 img.onload = () => {
-    //
-    //                     const ratio         = img.width / img.height,
-    //                           imgDefaultDim = 300;
-    //
-    //                     if (ratio >= 1) {
-    //                         $photoThm.css("height", imgDefaultDim);
-    //                         $photoThm.css("width", imgDefaultDim * ratio);
-    //                     } else {
-    //                         $photoThm.css("width", imgDefaultDim);
-    //                         $photoThm.css("height", imgDefaultDim / ratio);
-    //                     }
-    //
-    //                     $photoThm.attr("src", photo);
-    //                     $("#img-screen-img-container img").attr("src", photo);
-    //
-    //                     $("#photo-request-btn i").html("edit");
-    //
-    //                     img = null;
-    //                 }
-    //             };
-    //
-    //             reader.onerror = fileReadResult => console.log("Reader error", fileReadResult);
-    //
-    //             reader.readAsDataURL(file)
-    //
-    //         }, err => console.log("Error reading the file", err));
-    //
-    //     }
-    // )
 
 }
 
@@ -698,18 +605,6 @@ function changeTransportTypeLabel() {
 }
 
 
-function previewPhoto(photo) {
-
-    if (photo === "") {
-        $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
-    } else {
-        if (isModify)
-            $("#def-photo-preview").attr("src", photo);
-        else
-            $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
-    }
-}
-
 // Append the photo to the formData object
 function appendFile(formData, fileUri) {
 
@@ -766,7 +661,8 @@ function resetFields() {
     $("#signage-text").html(i18n.t("insert.signage.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));
     $("#presence-text").html(i18n.t("insert.presence.defaultText"));
-    $("#photo-thm").attr("src", "img/img-placeholder-200.png");
+
+    $photoThm.attr("src", "img/img-placeholder-200.png");
     $("#photo-request-btn i").html("add_a_photo");
     $("#img-screen-img-container img").attr("src", "");
 

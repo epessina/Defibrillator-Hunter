@@ -49,10 +49,11 @@ function openInfo(id) {
                     openInsert(data.defibrillator);
                 });
 
+            showInfo(data.defibrillator);
+
             $placeholders.hide().removeClass("ph-animate");
             $("#defibrillator-info .ph-hidden-content").show();
 
-            showInfo(data.defibrillator);
         })
         .catch(err => {
             closeInfo();
@@ -71,9 +72,8 @@ function closeInfo() {
     $("#info-delete").hide();
     $("#info-edit").hide();
 
-    $("#info-id .info-content").html("");
-    $("#info-creation-date .info-content").html("");
-    $("#info-last-modified .info-content").html("");
+    $("#info-createdAt .info-content").html("");
+    $("#info-updatedAt .info-content").html("");
     $("#info-coordinates .info-content").html("");
     $("#info-accuracy .info-content").html("");
     $("#info-presence .info-content").html("");

@@ -129,15 +129,10 @@
     }
   },
   "info" : {
-    "topBarTitle" : "Details",
-    "id" : "id",
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
     "coordinates" : "Coordinates (WGS 84)",
     "accuracy" : "Accuracy",
-    "accuracyUnknown": "Unknown",
-    "accuracyUnitSingle" : "meter",
-    "accuracyUnit" : "meters",
     "presence" : "Presence",
     "locationCategory" : "Location category",
     "visualReference" : "Visual reference",
@@ -147,6 +142,8 @@
     "signage" : "Signage",
     "brand" : "Brand",
     "notes" : "Notes",
-    "cancelBtn" : "Cancel"
+    "accuracyUnknown" : "Unknown",
+    "accuracyUnitSingle" : "meter",
+    "accuracyUnit" : "meters"
   }
 }

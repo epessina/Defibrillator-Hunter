@@ -320,7 +320,6 @@ p {
   overflow-y: scroll;
   background: #FFFFFF;
   /* MAIN PAGE */
-  /* PHOTO DIALOG */
 }
 #insert-defibrillator #insert-defibrillator-main {
   width: 100%;
@@ -371,7 +370,6 @@ p {
   -ms-flex: 1;
   flex: 1;
   padding-left: 6px;
-  margin-right: 16px;
   cursor: pointer;
   border-bottom: 1px solid #C5C5C5;
 }
@@ -951,34 +949,6 @@ p {
 }
 
 /* PHOTO PREVIEW */
-.photo-preview-wrapper {
-  width: 100%;
-  max-height: 200px;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-}
-.photo-preview-wrapper .photo-preview-ph {
-  width: 200px;
-  height: 200px;
-  border-radius: 5px;
-}
-.photo-preview-wrapper .photo-preview {
-  max-width: 200px;
-  max-height: 200px;
-  border: 1px solid #707070;
-  border-radius: 5px;
-}
-
 .photo-thm-wrapper {
   width: 100%;
   display: -moz-flex;
@@ -1081,15 +1051,6 @@ p {
 
 .ph-hidden-content {
   display: none;
-}
-
-/* BOTTOM SHEET */
-.bottom-sheet {
-  width: 100%;
-  min-height: 56px;
-  position: fixed;
-  bottom: 0;
-  background-color: lightgray;
 }
 
 /*# sourceMappingURL=app.css.map */
