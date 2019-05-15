@@ -1,36 +1,44 @@
 {
   "messages" : {
-    "ok" : "OK",
-    "yes" : "Yes",
-    "no" : "No",
-    "generalError" : "Error!",
-    "noInternet" : "The contributions cannot be displayed due to no Internet connection.",
-    "positionMarkerPopup" : "If it's not your current location, please drag the marker to the correct one.",
-    "pcGPSError" : "GPS error! Please drag the marker to set your current location.",
-    "mobileGPSError" : "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
-    "localStorageError" : "This browser does not support local storage.",
-    "contributionSuccess" : "Thank you for your contribution!",
-    "contributionSuccessNoInternet" : "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
-    "bingNoInternet" : "Bing Aerial cannot be displayed due to no Internet connection.",
-    "osmNoInternet" : "OpenStreetMap cannot be displayed due to no Internet connection.",
-    "confirmCancellation" : "Are you sure you want to delete this defibrillator?",
-    "cancelError" : "An error occurred while deleting the defibrillator.",
-    "cancelSuccess" : "Defibrillator successfully deleted!",
-    "btnCancel" : "Cancel"
+    "mandatoryPresence": "You must confirm the presence of the defibrillator.",
+    "mandatoryLocationCategory": "You must specify the location category.",
+    "mandatoryTransportType": "You must specify the type of transport station.",
+    "mandatoryFloor": "You must specify the floor.",
+    "mandatoryTempAccessibility": "You must specify the temporal accessibility.",
+    "mandatoryPhoto": "You must provide a photo of the defibrillator."
   },
   "dialogs" : {
-    "btnCancel" : "CANCEL",
-    "btnOk" : "OK"
+    "deleteConfirmation": "Are you sure you want to delete this defibrillator?",
+    "btnCancel" : "cancel",
+    "btnOk" : "ok",
+    "map": {
+      "permissionsCheckError": "An error occurred while checking the location permissions.",
+      "permissionsRequestError": "An error occurred while requesting the location permissions.",
+      "cannotRequestPermissions": "The application cannot request the location permissions again. Please, enable them manually from the settings.",
+      "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
+      "gpsCheckError": "An error occurred while checking the GPS status."
+    },
+    "insert": {
+      "confirmClose": "Discard the changes you made?",
+      "btnKeepEditing": "Keep editing",
+      "btnDiscard": "Discard"
+    },
+    "photoScreen": {
+      "deletePictureConfirmation": "Are you sure you want to delete the photo?"
+    }
   },
   "map" : {
-    "fabText" : "New defibrillator"
+    "fabText" : "New defibrillator",
+    "positionFinding": "Finding your position..."
   },
   "insert" : {
     "mainScreen" : {
-      "topBarTitle" : "New defibrillator"
+      "topBarTitle" : "New defibrillator",
+      "requiredFields": "* Indicates a required field",
+      "photoName": "Photo*"
     },
     "presence" : {
-      "name" : "Presence of the defibrillator",
+      "name" : "Presence of the defibrillator*",
       "defaultText" : "Confirm the presence",
       "questionPresence" : "Is the defibrillator in the display?",
       "enum" : {
@@ -40,10 +48,10 @@
     },
     "locationCategory" : {
       "topBarTitle" : "Location category",
-      "name" : "Location category",
+      "name" : "Location category*",
       "defaultText" : "Add a category",
-      "questionCategory" : "Where is the defibrillator located?",
-      "questionTransport" : "Specify the type of transport station",
+      "questionCategory" : "Where is the defibrillator located?*",
+      "questionTransport" : "Specify the type of transport station*",
       "defaultLabelCategory" : "Select a category",
       "defaultLabelTransport" : "Select a type",
       "enum" : {
@@ -71,12 +79,12 @@
       "visualReferencePlaceholder" : "The defibrillator is near a..."
     },
     "floor" : {
-      "name" : "Height",
+      "name" : "Height*",
       "defaultText" : "Specify the floor",
       "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
     "temporalAccessibility" : {
-      "name" : "Temporal accessibility",
+      "name" : "Temporal accessibility*",
       "defaultText" : "Specify the temporal accessibility",
       "questionTempAccessibility" : "When is it possible to access the defibrillator?",
       "enum" : {
@@ -132,7 +140,7 @@
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
     "coordinates" : "Coordinates (WGS 84)",
-    "accuracy" : "Accuracy",
+    "coordinatesAccuracy" : "Coordinates accuracy",
     "presence" : "Presence",
     "locationCategory" : "Location category",
     "visualReference" : "Visual reference",
@@ -142,8 +150,7 @@
     "signage" : "Signage",
     "brand" : "Brand",
     "notes" : "Notes",
-    "accuracyUnknown" : "Unknown",
-    "accuracyUnitSingle" : "meter",
-    "accuracyUnit" : "meters"
+    "unknown" : "Unknown",
+    "accuracyUnit" : "m"
   }
 }

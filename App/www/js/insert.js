@@ -61,13 +61,19 @@ function openInsert(data = null) {
         if (signage !== "") $("#signage-text").html(i18n.t("insert.signage.enum." + signage));
         if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.editText"));
 
-        $photoThm.attr("src", photo);
-        $("#img-screen-img-container img").attr("src", photo);
-        $("#photo-request-btn i").html("edit");
+        $photoThm
+            .find("img")
+            .attr("src", photo)
+            .show();
+
+        $photoThm
+            .find("i")
+            .hide();
 
     }
 
     $("#insert-defibrillator").show();
+    closeInfo();
 
 }
 
@@ -80,12 +86,46 @@ function closeInsert() {
 // Main page
 function initMainPage() {
 
-    $("#new-defibrillator-close").click(() => closeInsert());
+    $("#new-defibrillator-close").click(() => {
+
+        createAlertDialog(
+            i18n.t("dialogs.insert.confirmClose"),
+            i18n.t("dialogs.insert.btnKeepEditing"),
+            null,
+            i18n.t("dialogs.insert.btnDiscard"),
+            () => {
+                if (defibrillator)
+                    openInfo(defibrillator._id);
+                closeInsert();
+            }
+        );
+
+    });
 
     $("#new-defibrillator-done").click(() => {
 
-        // if (locationCategory === "" || floor === "" || temporalAccessibility === "" || presence === "") {
-        //     logOrToast("You must provide at least...");
+        // if (presence === "") {
+        //     logOrToast(i18n.t("messages.mandatoryPresence"), "long");
+        //     return;
+        // }
+        //
+        // if (locationCategory === "") {
+        //     logOrToast(i18n.t("messages.mandatoryLocationCategory"), "long");
+        //     return;
+        // }
+        //
+        // if (floor === "") {
+        //     logOrToast(i18n.t("messages.mandatoryFloor"), "long");
+        //     return;
+        // }
+        //
+        // if (temporalAccessibility === "") {
+        //     logOrToast(i18n.t("messages.mandatoryTempAccessibility"), "long");
+        //     return;
+        // }
+        //
+        // if (photo === "") {
+        //     logOrToast(i18n.t("messages.mandatoryPhoto"), "long");
         //     return;
         // }
 
@@ -221,18 +261,26 @@ function initMainPage() {
 
     });
 
-    $("#photo-request-btn").click(() => {
-
-        if (!isCordova)
-            $("#tmp-photo-input").click();
-        else
-            getPicture();
-
-    });
-
     $photoThm.click(() => {
-        if (photo !== "")
-            $("#img-screen").show();
+
+        if (photo === "") {
+            if (!isCordova)
+                $("#tmp-photo-input").click();
+            else
+                getPicture();
+        } else
+            openImgScreen(
+                $photoThm.find("img").attr("src"),
+                true,
+                () => {
+                    if (!isCordova)
+                        $("#tmp-photo-input").click();
+                    else
+                        getPicture()
+                },
+                () => removePicturePreview()
+            )
+
     });
 
 }
@@ -241,10 +289,12 @@ function initMainPage() {
 // Send a post request to the server to insert a new defibrillator in the db
 function postDefibrillator() {
 
+    openLoader();
+
     const formData = new FormData();
 
     formData.append("coordinates", JSON.stringify(currLatLong));
-    formData.append("accuracy", currAccuracy);
+    formData.append("accuracy", currLatLongAccuracy);
     formData.append("presence", presence);
     formData.append("locationCategory", locationCategory);
     formData.append("transportType", transportType);
@@ -256,15 +306,20 @@ function postDefibrillator() {
     formData.append("brand", brand);
     formData.append("notes", notes);
 
+    // ToDo delete
     if (!isCordova) {
         formData.append("image", photo);
         postOrPut(formData);
-    } else
-        appendFile(formData, photo);
+        return;
+    }
+
+    appendFile(formData, photo);
 
 }
 
 function putDefibrillator() {
+
+    openLoader();
 
     const formData = new FormData();
 
@@ -280,14 +335,15 @@ function putDefibrillator() {
     formData.append("notes", notes);
 
     if (photo !== serverUrl + defibrillator.imageUrl) {
+
         if (!isCordova) {
             formData.append("image", photo);
             postOrPut(formData);
         } else
             appendFile(formData, photo);
-    } else {
+
+    } else
         postOrPut(formData);
-    }
 
 }
 
@@ -313,16 +369,38 @@ function postOrPut(formData) {
         })
         .then(data => {
             if (!defibrillator) {
+                closeLoader();
                 showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
                 closeInsert();
             } else {
-                showInfo(data.defibrillator);
+                closeLoader();
                 closeInsert();
+                openInfo(data.defibrillator._id);
             }
         })
         .catch(err => {
-            console.log(err);
+            console.error("Error posting or putting the landslide", err);
+            closeLoader();
+            // ToDo alert
         });
+}
+
+
+// Presence
+function initPresenceDialog() {
+
+    $("#presence-cancel").click(() => closeDialog($("#dialog-presence")));
+
+    $("#presence-ok").click(() => {
+
+        presence = $("input[name='presence']:checked").val();
+
+        $("#presence-text").html(i18n.t("insert.presence.enum." + presence));
+
+        closeDialog($("#dialog-presence"));
+
+    });
+
 }
 
 
@@ -349,14 +427,14 @@ function initLocationCategoryDialog() {
         locationCategory = $locationSelect.val();
 
         if (locationCategory === "none") {
-            console.log("Category none"); // ToDo handle error
+            logOrToast(i18n.t("messages.mandatoryLocationCategory"), "long");
             return;
         }
 
         transportType = $transportTypeSelect.val();
 
         if (locationCategory === "transportStation" && transportType === "none") {
-            console.log("Transport type none"); // ToDo handle error
+            logOrToast(i18n.t("messages.mandatoryTransportType"), "long");
             return;
         }
 
@@ -484,24 +562,6 @@ function initNotesDialog() {
 }
 
 
-// Presence
-function initPresenceDialog() {
-
-    $("#presence-cancel").click(() => closeDialog($("#dialog-presence")));
-
-    $("#presence-ok").click(() => {
-
-        presence = $("input[name='presence']:checked").val();
-
-        $("#presence-text").html(i18n.t("insert.presence.enum." + presence));
-
-        closeDialog($("#dialog-presence"));
-
-    });
-
-}
-
-
 // Photo
 
 // ToDO delete
@@ -512,8 +572,16 @@ $("#tmp-photo-input").change(() => {
     let reader = new FileReader();
 
     reader.onloadend = e => {
-        $photoThm.attr("src", e.target.result);
-        $("#photo-request-btn i").html("edit");
+
+        $photoThm
+            .find("img")
+            .attr("src", e.target.result)
+            .show();
+
+        $photoThm
+            .find("i")
+            .hide();
+
     };
 
     reader.readAsDataURL(photo);
@@ -533,22 +601,43 @@ function getPicture() {
         correctOrientation: true
     };
 
-    navigator.camera.getPicture(getPictureSuccess, getPictureFail, options);
+    navigator.camera.getPicture(
+        fileURI => {
+
+            photo = fileURI;
+
+            $photoThm
+                .find("img")
+                .attr("src", photo)
+                .show();
+
+            $photoThm
+                .find("i")
+                .hide();
+
+        },
+        err => {
+
+            console.log("Error taking picture", err);
+            createAlertDialog(i18n.t("dialogs.insert.pictureError"), i18n.t("dialogs.btnOk"));
+
+        },
+        options);
 }
 
-function getPictureSuccess(fileURI) {
+function removePicturePreview() {
 
-    photo = fileURI;
+    photo = "";
 
-    $photoThm.attr("src", photo);
-    $("#img-screen-img-container img").attr("src", photo);
+    $photoThm
+        .find("img")
+        .attr("src", "img/img-placeholder-200.png")
+        .hide();
 
-    $("#photo-request-btn i").html("edit");
+    $photoThm
+        .find("i")
+        .show();
 
-}
-
-function getPictureFail(error) {
-    console.log("Picture error: " + error)
 }
 
 
@@ -626,14 +715,23 @@ function appendFile(formData, fileUri) {
 
                     };
 
-                    reader.onerror = fileReadResult => console.log("Reader error", fileReadResult);
+                    reader.onerror = fileReadResult => {
+                        closeLoader();
+                        console.error("Reader error", fileReadResult);
+                    };
 
                     reader.readAsArrayBuffer(file);
                 },
-                err => console.log("Error getting the fileEntry file", err)
+                err => {
+                    closeLoader();
+                    console.error("Error getting the fileEntry file", err)
+                }
             )
         },
-        err => console.log("Error getting the file", err)
+        err => {
+            closeLoader();
+            console.error("Error getting the file", err)
+        }
     );
 }
 
@@ -654,16 +752,21 @@ function resetFields() {
     presence              = "";
     photo                 = "";
 
+    $("#presence-text").html(i18n.t("insert.presence.defaultText"));
     $("#location-text").html(i18n.t("insert.locationCategory.defaultText"));
     $("#floor-text").html(i18n.t("insert.floor.defaultText"));
     $("#temporal-text").html(i18n.t("insert.temporalAccessibility.defaultText"));
     $("#recovery-text").html(i18n.t("insert.recovery.defaultText"));
     $("#signage-text").html(i18n.t("insert.signage.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));
-    $("#presence-text").html(i18n.t("insert.presence.defaultText"));
 
-    $photoThm.attr("src", "img/img-placeholder-200.png");
-    $("#photo-request-btn i").html("add_a_photo");
-    $("#img-screen-img-container img").attr("src", "");
+    $photoThm
+        .find("img")
+        .attr("src", "img/img-placeholder-200.png")
+        .hide();
+
+    $photoThm
+        .find("i")
+        .show();
 
 }

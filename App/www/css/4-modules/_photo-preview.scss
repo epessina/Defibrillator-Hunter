@@ -1,8 +1,8 @@
 /* PHOTO PREVIEW */
 
 
-$photo-thm-size : 200px;
-$photo-thm-btn-size : 56px;
+$photo-thm-size : 150px;
+$photo-thm-radius : 10px;
 
 
 .photo-thm-wrapper {
@@ -14,43 +14,32 @@ $photo-thm-btn-size : 56px;
     height           : $photo-thm-size;
     @include flex-center;
     overflow         : hidden;
-    background-color : lightgray;
-    border-radius    : 15px;
+    border        : 1px solid #C5C5C5;
+    border-radius : $photo-thm-radius;
+    cursor        : pointer;
+
+    i {
+      font-size : 36px;
+      color     : $color-main-dark;
+    }
 
     .photo-thm-ph {
       width         : $photo-thm-size;
       height        : $photo-thm-size;
-      border-radius : 15px;
+      border-radius : $photo-thm-radius;
     }
 
     img {
-      max-width     : 300px;
-      max-height    : 300px;
+      max-width     : 250px;
+      max-height    : 250px;
       position      : absolute;
       left          : -1000%;
       right         : -1000%;
       top           : -1000%;
       bottom        : -1000%;
+      z-index       : 1;
       margin        : auto;
-      border-radius : 15px;
-    }
-  }
-
-  .photo-thm-btn {
-    width            : $photo-thm-btn-size;
-    height           : $photo-thm-btn-size;
-    @include flex-center;
-    cursor           : pointer;
-    border-radius    : 100%;
-    background-color : $color-main;
-    color            : #FFFFFF;
-    position         : absolute;
-    top              : $photo-thm-size - 35px;
-    left             : calc(50% + #{$photo-thm-size} / 2 - 35px);
-
-    i {
-      width  : 24px;
-      height : 24px;
+      border-radius : $photo-thm-radius;
     }
 
   }

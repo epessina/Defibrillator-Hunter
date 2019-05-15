@@ -1,29 +1,19 @@
 {
-  "messages" : {
-    "ok" : "OK",
-    "yes" : "Yes",
-    "no" : "No",
-    "generalError" : "Error!",
-    "noInternet" : "The contributions cannot be displayed due to no Internet connection.",
-    "positionMarkerPopup" : "If it's not your current location, please drag the marker to the correct one.",
-    "pcGPSError" : "GPS error! Please drag the marker to set your current location.",
-    "mobileGPSError" : "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
-    "localStorageError" : "This browser does not support local storage.",
-    "contributionSuccess" : "Thank you for your contribution!",
-    "contributionSuccessNoInternet" : "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
-    "bingNoInternet" : "Bing Aerial cannot be displayed due to no Internet connection.",
-    "osmNoInternet" : "OpenStreetMap cannot be displayed due to no Internet connection.",
-    "confirmCancellation" : "Are you sure you want to delete this defibrillator?",
-    "cancelError" : "An error occurred while deleting the defibrillator.",
-    "cancelSuccess" : "Defibrillator successfully deleted!",
-    "btnCancel" : "Cancel"
-  },
+  "messages" : {},
   "dialogs" : {
-    "btnCancel" : "CANCEL",
-    "btnOk" : "OK"
+    "btnCancel" : "cancel",
+    "btnOk" : "ok",
+    "map": {
+      "permissionsCheckError": "An error occurred while checking the location permissions.",
+      "permissionsRequestError": "An error occurred while requesting the location permissions.",
+      "cannotRequestPermissions": "The application cannot request the location permissions again. Please, enable them manually from the settings.",
+      "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
+      "gpsCheckError": "An error occurred while checking the GPS status."
+    }
   },
   "map" : {
-    "fabText" : "New defibrillator"
+    "fabText" : "New defibrillator",
+    "positionFinding": "Finding your position..."
   },
   "insert" : {
     "mainScreen" : {

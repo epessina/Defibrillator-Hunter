@@ -1,14 +1,20 @@
 "use strict";
 
 // let serverUrl = "http://localhost:8080/";
-// let serverUrl = "http://192.168.1.100:8080/";
-let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+let serverUrl = "http://192.168.1.100:8080/";
+// let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+
+let backPressedCount = 0;
 
 let isCordova;
 
 let markers = [];
 
 let networkState;
+
+let toReattachPositionWatcher = false;
+
+let $alertOverlay = $("#alert-dialog-overlay");
 
 
 function onLoad() {
@@ -22,7 +28,6 @@ function onLoad() {
 
 }
 
-
 function initialize() {
 
     document.addEventListener("pause", onPause, false);
@@ -32,22 +37,27 @@ function initialize() {
 
 }
 
-
 function onPause() {
 
     console.log("onPause");
-    // detachPositionWatcher();
+
+    if (isPositionWatcherAttached) {
+        toReattachPositionWatcher = true;
+        detachPositionWatcher();
+    }
 
 }
-
 
 function onResume() {
 
     console.log("onResume");
-    // attachPositionWatcher();
+
+    if (toReattachPositionWatcher) {
+        checkGPSOn(() => attachPositionWatcher());
+        toReattachPositionWatcher = false;
+    }
 
 }
-
 
 function onResize() {
     $("#map").height($(window).height());
@@ -56,9 +66,27 @@ function onResize() {
 
 function init() {
 
-    networkState = navigator.connection.type;
+    // ToDo handle properly
+    if (isCordova) {
 
-    $("#img-screen-close").click(() => $("#img-screen").hide());
+        document.addEventListener(
+            "backbutton",
+            () => {
+
+                if (backPressedCount === 0) {
+                    logOrToast("Press again to leave", "short");
+                    backPressedCount++;
+                    setInterval(() => backPressedCount = 0, 2000);
+                } else
+                    navigator.app.exitApp();
+
+            },
+            false
+        );
+
+    }
+
+    networkState = navigator.connection.type;
 
     onResize();
     initMap();
@@ -102,10 +130,9 @@ function showDefibrillator(id, coordinates) {
     marker.on("click", () => openInfo(id));
 
     markers.push(marker);
-    marker.addTo(map);
+    markersLayer.addLayer(marker);
 
 }
-
 
 function deleteDefibrillator(id) {
 
@@ -120,7 +147,7 @@ function deleteDefibrillator(id) {
             let new_markers = [];
             markers.forEach(marker => {
                 if (marker._id === id)
-                    map.removeLayer(marker);
+                    markersLayer.removeLayer(marker);
                 else
                     new_markers.push(marker);
             });
@@ -134,29 +161,141 @@ function deleteDefibrillator(id) {
 }
 
 
-function showAlert(msg) {
+function openImgScreen(scr, editable = false, clbEdit, clbCancel) {
 
-    if (isCordova) {
+    $("#img-screen-container img").attr("src", scr);
 
-        navigator.notification.alert(
-            i18n.t(msg),
-            null,
-            "Defibrillator Hunter",
-            i18n.t("messages.ok")
-        );
+    $("#img-screen-close").click(() => closeImgScreen());
 
-    } else {
-        alert(i18n.t(msg));
+    if (editable) {
+
+        $("#img-screen-edit")
+            .unbind("click")
+            .click(() => {
+                closeImgScreen();
+                clbEdit();
+            })
+            .parent().show();
+
+        $("#img-screen-delete")
+            .show()
+            .unbind("click")
+            .click(() => {
+
+                createAlertDialog(
+                    i18n.t("dialogs.photoScreen.deletePictureConfirmation"),
+                    i18n.t("dialogs.btnCancel"),
+                    null,
+                    i18n.t("dialogs.btnOk"),
+                    () => {
+                        clbCancel();
+                        closeImgScreen();
+                    }
+                );
+
+            })
+            .parent().show();
+
     }
+
+    $("#img-screen").show();
 
 }
 
-function logOrToast(msg) {
+function closeImgScreen() {
 
-    if (!isCordova)
+    $("#img-screen").hide();
+
+    $("#img-screen-container img").attr("src", "");
+
+    $("#img-screen-edit").parent().hide();
+
+    $("#img-screen-delete").parent().hide();
+
+}
+
+
+/**
+ * Creates and display a new alert dialog with a message and up to two buttons.
+ * It must be passed the text of the buttons (a null value means that there is no button) and a callback function to be
+ * executed when the buttons are clicked (a null value means no callback).
+ *
+ * @param msg: the message to display.
+ * @param btn1: the text of the first button.
+ * @param clbBtn1: the function to call when the first button is clicked.
+ * @param btn2: the text of the second button.
+ * @param clbBtn2: the function to call when the second button is clicked.
+ */
+function createAlertDialog(msg, btn1, clbBtn1 = null, btn2 = null, clbBtn2 = null) {
+
+    $alertOverlay.find(".dialog-text").html(msg);
+
+    $("#alert-first-button")
+        .html(btn1)
+        .unbind("click")
+        .click(() => {
+            closeAlertDialog();
+            if (clbBtn1)
+                clbBtn1();
+        });
+
+    if (btn2) {
+
+        $("#alert-second-button")
+            .show()
+            .html(btn2)
+            .unbind("click")
+            .click(() => {
+                closeAlertDialog();
+                if (clbBtn2)
+                    clbBtn2();
+            });
+
+    }
+
+    $alertOverlay.find(".dialog-wrapper").show();
+    $alertOverlay.show();
+
+}
+
+function closeAlertDialog() {
+
+    $alertOverlay
+        .hide()
+        .children(".dialog-text").html("");
+
+    $("#alert-second-button").hide();
+
+    $alertOverlay.find(".dialog-wrapper").hide();
+
+}
+
+
+function openLoader() {
+
+    $alertOverlay.find(".spinner-wrapper").show();
+
+    $alertOverlay.show();
+
+}
+
+function closeLoader() {
+
+    $alertOverlay.hide();
+
+    $alertOverlay.find(".spinner-wrapper").hide();
+
+}
+
+
+function logOrToast(msg, duration) {
+
+    if (!isCordova) {
         console.log(msg);
-    else
-        window.plugins.toast.showShortBottom(msg);
+        return;
+    }
+
+    window.plugins.toast.show(msg, duration, "bottom");
 
 }
 

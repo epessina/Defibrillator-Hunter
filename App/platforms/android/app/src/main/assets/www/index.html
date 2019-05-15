@@ -30,6 +30,10 @@
 <!-- Map -->
 <div id="map">
 
+    <div style="display: none" id="finding-position-msg">
+        <p data-i18n="map.positionFinding"></p>
+    </div>
+
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
     </div>
@@ -1038,6 +1042,45 @@
 </div>
 
 
+<!-- Alert dialog -->
+<div style="display: none" id="alert-dialog-overlay" class="opaque-overlay">
+
+    <div style="display: none" class="spinner-wrapper">
+
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+    </div>
+
+    <div style="display: none" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"></p>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="alert-first-button" class="text-button"></div>
+
+                <div id="alert-second-button" style="display:none;" class="text-button"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- Cordova -->
 <!--suppress HtmlUnknownTarget -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
@@ -1048,7 +1091,6 @@
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script>
 <script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
-<script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
 
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>

@@ -271,6 +271,31 @@ p {
   position: relative;
   width: 100%;
 }
+#map #finding-position-msg {
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  z-index: 1000;
+}
+#map #finding-position-msg p {
+  font: 400 16px system-ui;
+  border-radius: 50px;
+  padding: 8px 12px;
+  background: rgba(53, 53, 53, 0.61);
+  color: #FFFFFF;
+}
 #map .leaflet-control-attribution.leaflet-control {
   display: none;
 }
@@ -619,6 +644,27 @@ p {
   background: rgba(0, 0, 0, 0.6);
 }
 
+#alert-dialog-overlay {
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.4);
+}
+#alert-dialog-overlay .spinner-wrapper {
+  width: 100%;
+  height: 100%;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+
 .full-screen-dialog {
   width: 100%;
   height: 100%;
@@ -696,6 +742,7 @@ p {
   height: 52px;
   margin-top: 28px;
   padding: 8px;
+  color: #009688;
 }
 .dialog-wrapper .dialog .dialog-footer .text-button {
   font: 500 14px system-ui;
@@ -716,7 +763,7 @@ p {
   padding: 0 8px;
   cursor: pointer;
   text-align: center;
-  color: #009688;
+  text-transform: uppercase;
 }
 
 /* BUTTON */

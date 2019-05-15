@@ -3,9 +3,6 @@
 
 
 - Regestrazione utenti
-	
-
-- Marker posizione
 
 
 - Modificare i defibrillatori
@@ -30,16 +27,11 @@
 - Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)
 
 
-- Sistemare attacco/stacco position watcher come Google maps -> pausa and resume, non deve cambiare lo stato
-
-- Sistemare spegnimento GPS
+- Se muovo il marker e poi zoommo e poi clicck GPS, fa freemap(), perchè autoZoom = false viene chiamato prima di zoomstart
 
 
 - Aggiungere indirizzo con suggerimento (OSM)
 
-
-- Foto a tutto schermo:
-    - zoom & pan
 
 - Inserire metadati nella foto
 

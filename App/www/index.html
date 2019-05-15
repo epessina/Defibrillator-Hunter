@@ -30,6 +30,10 @@
 <!-- Map -->
 <div id="map">
 
+    <div style="display: none" id="finding-position-msg">
+        <p data-i18n="map.positionFinding"></p>
+    </div>
+
     <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">perm_identity</i>
     </div>
@@ -66,9 +70,7 @@
                 <i id="new-defibrillator-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
-                New defibrillator
-            </div>
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle"></div>
 
             <div class="top-bar-right-icon">
                 <i id="new-defibrillator-done" class="material-icons">done</i>
@@ -78,6 +80,8 @@
 
         <div class="custom-container requests-container">
 
+            <p class="required-fields" data-i18n="insert.mainScreen.requiredFields"></p>
+
             <!-- Presence -->
             <div class="request">
 
@@ -85,10 +89,9 @@
 
                 <div id="presence-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.presence.name">Presence of the defibrillator</p>
+                    <p class="request-name" data-i18n="insert.presence.name"></p>
 
-                    <p id="presence-text" class="request-text"
-                       data-i18n="insert.presence.defaultText">Confirm the presence</p>
+                    <p id="presence-text" class="request-text" data-i18n="insert.presence.defaultText"></p>
 
                 </div>
 
@@ -101,10 +104,9 @@
 
                 <div id="location-category-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.locationCategory.name">Location category</p>
+                    <p class="request-name" data-i18n="insert.locationCategory.name"></p>
 
-                    <p id="location-text" class="request-text"
-                       data-i18n="insert.locationCategory.defaultText">Add a category</p>
+                    <p id="location-text" class="request-text" data-i18n="insert.locationCategory.defaultText"></p>
 
                 </div>
 
@@ -117,9 +119,9 @@
 
                 <div id="floor-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.floor.name">Height</p>
+                    <p class="request-name" data-i18n="insert.floor.name"></p>
 
-                    <p id="floor-text" class="request-text" data-i18n="insert.floor.defaultText">Specify the floor</p>
+                    <p id="floor-text" class="request-text" data-i18n="insert.floor.defaultText"></p>
 
                 </div>
 
@@ -132,10 +134,9 @@
 
                 <div id="temporal-accessibility-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.tempAccessibility.name">Temporal accessibility</p>
+                    <p class="request-name" data-i18n="insert.temporalAccessibility.name"></p>
 
-                    <p id="temporal-text" class="request-text"
-                       data-i18n="insert.tempAccessibility.defaultText">Specify the temporal accessibility</p>
+                    <p id="temporal-text" class="request-text" data-i18n="insert.temporalAccessibility.defaultText"></p>
 
                 </div>
 
@@ -148,10 +149,9 @@
 
                 <div id="recovery-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.recovery.name">Ease of recovery</p>
+                    <p class="request-name" data-i18n="insert.recovery.name"></p>
 
-                    <p id="recovery-text" class="request-text"
-                       data-i18n="insert.recovery.defaultText">Evaluate the ease of recovery</p>
+                    <p id="recovery-text" class="request-text" data-i18n="insert.recovery.defaultText"></p>
 
                 </div>
 
@@ -164,10 +164,9 @@
 
                 <div id="signage-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.signage.name">Signage</p>
+                    <p class="request-name" data-i18n="insert.signage.name"></p>
 
-                    <p id="signage-text" class="request-text"
-                       data-i18n="insert.signage.defaultText">Evaluate the signage</p>
+                    <p id="signage-text" class="request-text" data-i18n="insert.signage.defaultText"></p>
 
                 </div>
 
@@ -180,10 +179,9 @@
 
                 <div id="notes-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
+                    <p class="request-name" data-i18n="insert.notes.name"></p>
 
-                    <p id="notes-text" class="request-text"
-                       data-i18n="insert.notes.defaultText">Add additional notes</p>
+                    <p id="notes-text" class="request-text" data-i18n="insert.notes.defaultText"></p>
 
                 </div>
 
@@ -192,6 +190,18 @@
             <!-- Photo -->
             <div id="photo-request">
 
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">photo_camera</i></div>
+
+                    <div class="request-content">
+
+                        <p class="request-name" data-i18n="insert.mainScreen.photoName"></p>
+
+                    </div>
+
+                </div>
+
                 <input style="display: none; position: absolute; top: 0; left: 0;"
                        id="tmp-photo-input"
                        type="file"
@@ -199,12 +209,12 @@
 
                 <div class="photo-thm-wrapper">
 
-                    <div class="photo-thm-box">
-                        <img id="photo-thm" src="img/img-placeholder-200.png" alt="Your photo">
-                    </div>
+                    <div id="photo-thm" class="photo-thm-box">
 
-                    <div id="photo-request-btn" class="photo-thm-btn">
                         <i class="material-icons">add_a_photo</i>
+
+                        <img style="display: none" src="img/img-placeholder-200.png" alt="Your photo">
+
                     </div>
 
                 </div>
@@ -828,17 +838,17 @@
 <!-- Defibrillator information -->
 <div style="display: none" id="defibrillator-info">
 
-    <div class="info-top-bar">
+    <div class="icons-top-bar">
 
-        <div class="info-top-bar-icon info-top-bar-left-icon">
+        <div class="icons-top-bar-icon icons-top-bar-left-icon">
             <i id="info-close" class="material-icons">arrow_back</i>
         </div>
 
-        <div class="info-top-bar-icon info-top-bar-right-icon-1">
+        <div class="icons-top-bar-icon icons-top-bar-right-icon-1">
             <i style="display: none" id="info-edit" class="material-icons">edit</i>
         </div>
 
-        <div class="info-top-bar-icon info-top-bar-right-icon-2">
+        <div class="icons-top-bar-icon icons-top-bar-right-icon-2">
             <i style="display: none" id="info-delete" class="material-icons">delete</i>
         </div>
 
@@ -883,7 +893,7 @@
         <div id="info-accuracy" class="info-block">
 
             <div class="info-title-ph placeholder"></div>
-            <p class="info-title ph-hidden-content" data-i18n="info.accuracy"></p>
+            <p class="info-title ph-hidden-content" data-i18n="info.coordinatesAccuracy"></p>
 
             <div class="info-content-ph placeholder"></div>
             <p class="info-content ph-hidden-content"></p>
@@ -1000,7 +1010,7 @@
 
                     <img id="info-photo-thm"
                          class="ph-hidden-content"
-                         src="img/img-placeholder-200.png"
+                         src="img/broken-img-placeholder-200.png"
                          alt="Your photo">
 
                 </div>
@@ -1017,19 +1027,62 @@
 <!-- Image visualization -->
 <div style="display: none" id="img-screen">
 
-    <div class="top-bar">
+    <div class="icons-top-bar">
 
-        <div class="top-bar-left-icon">
+        <div class="icons-top-bar-icon icons-top-bar-left-icon">
             <i id="img-screen-close" class="material-icons">arrow_back</i>
+        </div>
+
+        <div style="display: none" class="icons-top-bar-icon icons-top-bar-right-icon-1">
+            <i id="img-screen-edit" class="material-icons">edit</i>
+        </div>
+
+        <div style="display: none" class="icons-top-bar-icon icons-top-bar-right-icon-2">
+            <i id="img-screen-delete" class="material-icons">delete</i>
         </div>
 
     </div>
 
     <div id="img-screen-container">
 
-        <div id="img-screen-img-container">
+        <img src="" alt="Your photo">
 
-            <img src="" alt="Your photo">
+    </div>
+
+</div>
+
+
+<!-- Alert dialog -->
+<div style="display: none" id="alert-dialog-overlay" class="opaque-overlay">
+
+    <div style="display: none" class="spinner-wrapper">
+
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+    </div>
+
+    <div style="display: none" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"></p>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="alert-first-button" class="text-button"></div>
+
+                <div id="alert-second-button" style="display:none;" class="text-button"></div>
+
+            </div>
 
         </div>
 
@@ -1048,7 +1101,6 @@
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script>
 <script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
-<script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
 
 <!-- i18next -->
 <script type="text/javascript" src="js/lib/i18next.min.js"></script>
