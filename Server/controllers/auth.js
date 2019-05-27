@@ -1,7 +1,6 @@
 "use strict";
 
-const settings             = require("../settings"),
-      User                 = require("../models/user"),
+const User                 = require("../models/user"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       jwt                  = require("jsonwebtoken"),
@@ -10,7 +9,7 @@ const settings             = require("../settings"),
 
 const transporter = nodemailer.createTransport(
     sendgridTransport({
-        auth: { api_key: settings.nodemailerKey }
+        auth: { api_key: process.env.NODEMAILER_KEY }
     })
 );
 
@@ -118,7 +117,7 @@ exports.login = (req, res, next) => {
             const token = jwt.sign({
                     userId: loadedUser._id.toString(),
                     email : loadedUser.email
-                }, settings.privateKey, { expiresIn: "1d" }
+                }, process.env.JWT_PRIVATE_KEY, { expiresIn: "1d" }
             );
 
             res.status(200).json({

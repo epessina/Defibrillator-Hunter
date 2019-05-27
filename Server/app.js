@@ -8,9 +8,13 @@ const express    = require("express"),
       multer     = require("multer"),
       uuidv4     = require("uuid/v4");
 
-const settings            = require("./settings"),
-      defibrillatorRoutes = require("./routes/defibrillator"),
+const defibrillatorRoutes = require("./routes/defibrillator"),
       authRoutes          = require("./routes/auth");
+
+const MONGODB_URI =
+          `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@defibrillators-nbck3.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true`;
+
+// epessina Drachen995
 
 const app = express();
 
@@ -70,13 +74,9 @@ app.use((error, req, res, next) => {
 });
 
 
-mongoose.connect(settings.mongoURL, { useNewUrlParser: true })
-    .then(result => {
-        let port = process.env.PORT;
-
-        if (port == null || port == "")
-            port = 8080;
-
-        app.listen(port);
+mongoose
+    .connect(MONGODB_URI, { useNewUrlParser: true })
+    .then(() => {
+        app.listen(process.env.PORT || 8080);
     })
     .catch(err => console.log(err));

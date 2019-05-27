@@ -1,8 +1,8 @@
 "use strict";
 
 // let serverUrl = "http://localhost:8080/";
-let serverUrl = "http://192.168.1.100:8080/";
-// let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+// let serverUrl = "http://192.168.1.100:8080/";
+let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 let backPressedCount = 0;
 
@@ -16,7 +16,8 @@ let markers = [];
 
 let toReattachPositionWatcher = false;
 
-let $alertOverlay = $("#alert-dialog-overlay");
+let $splashScreen = $("#splash"),
+    $alertOverlay = $("#alert-dialog-overlay");
 
 
 function onLoad() {
@@ -90,15 +91,19 @@ function init() {
 
     onResize();
     initAuth();
-    initMap();
+
+    if (!getAuthStatus()) {
+        $("#log-in-page").show();
+        $splashScreen.hide();
+    } else {
+        $("#map").show();
+        $splashScreen.hide();
+        initMap();
+        getDefibrillators();
+    }
+
     initInsert();
     initInfo();
-
-    // Find if the user is authernticated
-    if (!getAuthStatus())
-        $("#log-in-page").show();
-    else
-        getDefibrillators();
 
 }
 

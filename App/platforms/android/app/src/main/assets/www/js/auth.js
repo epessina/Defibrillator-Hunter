@@ -35,10 +35,7 @@ function initRegistrationPage() {
 
     $("#register-go-back").click(() => $("#register-page-two").hide());
 
-    $(".register-to-login").click(() => {
-        $("#log-in-page").show();
-        closeRegistrationPage();
-    });
+    $(".register-to-login").click(() => closeRegistrationPage());
 
 }
 
@@ -59,6 +56,8 @@ function resetLoginFields() {
 
 function closeRegistrationPage() {
 
+    $("#log-in-page").show();
+
     $("#register-page-one").scrollTop(0).hide();
     $("#register-page-two").scrollTop(0).hide();
 
@@ -66,9 +65,10 @@ function closeRegistrationPage() {
     $("#register-password").val("");
     $("#register-confirm-password").val("");
 
-    // ToDo other values
     $("#register-name").val("");
     resetSelector("register-age");
+    resetSelector("register-gender");
+    resetSelector("register-occupation");
     $("#register-rescuer").prop("checked", false);
 
 }
@@ -161,15 +161,16 @@ function login() {
             localStorage.setItem("token", resData.token);
             localStorage.setItem("userId", resData.userId);
 
-            // ToDo see if can change with the server
-            const remainingMilliseconds = 60 * 60 * 1000,
+            const remainingMilliseconds = 24 * 60 * 60 * 1000,
                   expireDate            = new Date(new Date().getTime() + remainingMilliseconds);
             localStorage.setItem("expireDate", expireDate.toISOString());
             setAutoLogout(remainingMilliseconds);
 
+            $("#map").show();
+            initMap();
+            getDefibrillators();
             closeLoginPage();
             closeLoader();
-            getDefibrillators();
         })
         .catch(err => {
             console.error(err);
@@ -206,6 +207,7 @@ function register() {
         confirmPassword = $("#register-confirm-password").val(),
         name            = $("#register-name").val(),
         age             = $("#register-age").val(),
+        gender          = $("#register-gender").val(),
         occupation      = $("#register-occupation").val(),
         isRescuer       = $("#register-rescuer").prop("checked");
 
@@ -218,6 +220,7 @@ function register() {
             confirmPassword: confirmPassword,
             name           : name,
             age            : age,
+            gender         : gender,
             occupation     : occupation,
             isRescuer      : isRescuer
         })
@@ -234,6 +237,7 @@ function register() {
         .then(resData => {
             console.log(resData);
             closeLoader();
+            closeRegistrationPage();
         })
         .catch(err => {
             console.error(err);
