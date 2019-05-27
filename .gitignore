@@ -1,5 +1,5 @@
 ### Ignore file with db urls ###
-#nodemon.json
+nodemon.json
 
 ### Cordova ###
 # gitignore template for the Cordova framework
