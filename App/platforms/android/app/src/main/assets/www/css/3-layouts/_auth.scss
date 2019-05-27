@@ -1,0 +1,150 @@
+/* AUTH */
+
+
+.auth-page {
+  width      : 100%;
+  height     : 100%;
+  position   : absolute;
+  top        : 0;
+  left       : 0;
+  background : linear-gradient(135deg, #FFFFFF 0%, #F9FFFC 100%);
+  z-index    : $z-auth;
+
+  .auth-sub-page {
+    width  : 100%;
+    height : 100%;
+  }
+
+  .auth-footer {
+    width      : 100%;
+    height     : 57px;
+    position   : absolute;
+    bottom     : 0;
+    border-top : 1px solid #CFCFCF;
+    @include flex-center;
+    color      : #858585;
+    @include font(400, $font-body);
+
+    .link {
+      color          : #000000;
+      text-transform : uppercase;
+      cursor         : pointer;
+      @include font(500, $font-body);
+    }
+
+  }
+
+}
+
+
+#log-in-page {
+  padding-top : 50px;
+
+  .logo-wrapper {
+    width : 100%;
+    @include flex-display(row, center);
+
+    .logo {
+      width         : 120px;
+      height        : 120px;
+      border        : 1px solid #858585;
+      border-radius : 50%;
+      overflow      : hidden;
+      @include flex-center;
+
+      span {
+        @include font(500, $font-title);
+        text-transform : uppercase;
+        color          : #000000;
+      }
+
+    }
+
+  }
+
+  .form-container {
+    margin-top : 50px;
+
+    .forgot-password {
+      margin-top : 10px;
+      text-align : center;
+      cursor     : pointer;
+    }
+
+    .fab-extended {
+      margin-top : 36px;
+    }
+
+  }
+
+}
+
+
+.register-page {
+  padding-top : 65px;
+
+  .form-container {
+
+    .register-top-text {
+      @include font(500, $font-title);
+      color      : #000000;
+      text-align : center;
+    }
+
+    .fab-extended {
+      margin-top : 36px;
+    }
+
+  }
+}
+
+#register-page-one {
+
+  .register-top-text {
+    margin-bottom : 80px;
+  }
+
+}
+
+#register-page-two {
+
+  .register-top-text {
+    margin-bottom : 57px;
+  }
+
+  .register-checkbox {
+    @include flex-display(row);
+    @include vendor("align-items", "center");
+    margin-top   : 4px;
+    padding-left : 16px;
+
+    input {
+      -webkit-appearance : none;
+      width              : 16px;
+      height             : 16px;
+      margin-left        : 26px;
+      background         : white;
+      border             : 1px solid #555555;
+      border-radius      : 2px;
+
+      &:focus {
+        outline : none !important;
+      }
+
+      &:checked {
+        background : $color-main;
+        border     : none;
+      }
+
+    }
+
+  }
+
+  #register-go-back {
+    margin-top : 20px;
+    text-align : center;
+    color      : #858585;
+    cursor     : pointer;
+  }
+
+}

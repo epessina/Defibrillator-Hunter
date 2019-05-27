@@ -1,26 +1,103 @@
 {
-  "messages" : {},
+  "messages" : {
+    "mandatoryPresence" : "You must confirm the presence of the defibrillator.",
+    "mandatoryLocationCategory" : "You must specify the location category.",
+    "mandatoryTransportType" : "You must specify the type of transport station.",
+    "mandatoryFloor" : "You must specify the floor.",
+    "mandatoryTempAccessibility" : "You must specify the temporal accessibility.",
+    "mandatoryPhoto" : "You must provide a photo of the defibrillator."
+  },
   "dialogs" : {
+    "errorGetDefibrillators" : "An error occurred while retrieving the defibrillators.",
+    "errorDeleteDefibrillator" : "An error occurred while deleting the defibrillator.",
+    "deleteConfirmation" : "Are you sure you want to delete this defibrillator?",
     "btnCancel" : "cancel",
     "btnOk" : "ok",
-    "map": {
-      "permissionsCheckError": "An error occurred while checking the location permissions.",
-      "permissionsRequestError": "An error occurred while requesting the location permissions.",
-      "cannotRequestPermissions": "The application cannot request the location permissions again. Please, enable them manually from the settings.",
-      "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
-      "gpsCheckError": "An error occurred while checking the GPS status."
+    "map" : {
+      "permissionsCheckError" : "An error occurred while checking the location permissions.",
+      "permissionsRequestError" : "An error occurred while requesting the location permissions.",
+      "cannotRequestPermissions" : "The application cannot request the location permissions again. Please, enable them manually from the settings.",
+      "gpsOff" : "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
+      "gpsCheckError" : "An error occurred while checking the GPS status."
+    },
+    "insert" : {
+      "errorPost" : "An error occurred while inserting the new defibrillator in the database.",
+      "errorPut" : "An error occurred while updating the defibrillator.",
+      "errorAppendPicture" : "An error occurred while sending the photo to the server.",
+      "confirmClose" : "Discard the changes you made?",
+      "btnKeepEditing" : "Keep editing",
+      "btnDiscard" : "Discard"
+    },
+    "info" : {
+      "errorGetDefibrillator" : "An error occurred while retrieving the defibrillator."
+    },
+    "photoScreen" : {
+      "deletePictureConfirmation" : "Are you sure you want to delete the photo?"
+    }
+  },
+  "auth" : {
+    "login" : {
+      "emailPh" : "Email address",
+      "passwordPh" : "Password",
+      "forgotPassword" : "Forgot your password?",
+      "btnLogin" : "Login",
+      "noAccount" : "Don't have an account?",
+      "signUp" : "sign up"
+    },
+    "register" : {
+      "topText1" : "- Sign up -",
+      "topText2" : "- Tell us about yourself -",
+      "emailPh" : "Email address",
+      "passwordPh" : "Password",
+      "confirmPasswordPh" : "Confirm password",
+      "namePh" : "Name",
+      "ageEnum": {
+        "less15": "Less than 15",
+        "16-20": "From 16 to 20",
+        "21-25": "From 21 to 25",
+        "26-30": "From 26 to 30",
+        "31-35": "From 31 to 35",
+        "36-40": "From 36 to 40",
+        "41-45": "From 41 to 45",
+        "46-50": "From 46 to 50",
+        "51-55": "From 51 to 55",
+        "56-60": "From 56 to 60",
+        "61-65": "From 61 to 65",
+        "66-70": "From 66 to 70",
+        "more70": "More than 70"
+      },
+      "genderEnum": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "occupationEnum": {
+        "student": "Student",
+        "employee": "Employee",
+        "freelancer": "Freelancer",
+        "unemployed": "Unemployed",
+        "retiree": "Retiree"
+      },
+      "rescuer": "Are you a rescuer?",
+      "btnNext" : "Next",
+      "btnRegister" : "Register",
+      "goBack": "Go back",
+      "haveAccount": "Already have an account? ",
+      "login": "Log in"
     }
   },
   "map" : {
     "fabText" : "New defibrillator",
-    "positionFinding": "Finding your position..."
+    "positionFinding" : "Finding your position..."
   },
   "insert" : {
     "mainScreen" : {
-      "topBarTitle" : "New defibrillator"
+      "topBarTitle" : "New defibrillator",
+      "requiredFields" : "* Indicates a required field",
+      "photoName" : "Photo*"
     },
     "presence" : {
-      "name" : "Presence of the defibrillator",
+      "name" : "Presence of the defibrillator*",
       "defaultText" : "Confirm the presence",
       "questionPresence" : "Is the defibrillator in the display?",
       "enum" : {
@@ -30,12 +107,10 @@
     },
     "locationCategory" : {
       "topBarTitle" : "Location category",
-      "name" : "Location category",
+      "name" : "Location category*",
       "defaultText" : "Add a category",
-      "questionCategory" : "Where is the defibrillator located?",
-      "questionTransport" : "Specify the type of transport station",
-      "defaultLabelCategory" : "Select a category",
-      "defaultLabelTransport" : "Select a type",
+      "questionCategory" : "Where is the defibrillator located?*",
+      "questionTransport" : "Specify the type of transport station*",
       "enum" : {
         "commercialActivity" : "Commercial activity",
         "residentialBuilding" : "Residential building",
@@ -61,12 +136,12 @@
       "visualReferencePlaceholder" : "The defibrillator is near a..."
     },
     "floor" : {
-      "name" : "Height",
+      "name" : "Height*",
       "defaultText" : "Specify the floor",
       "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
     "temporalAccessibility" : {
-      "name" : "Temporal accessibility",
+      "name" : "Temporal accessibility*",
       "defaultText" : "Specify the temporal accessibility",
       "questionTempAccessibility" : "When is it possible to access the defibrillator?",
       "enum" : {
@@ -122,7 +197,7 @@
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
     "coordinates" : "Coordinates (WGS 84)",
-    "accuracy" : "Accuracy",
+    "coordinatesAccuracy" : "Coordinates accuracy",
     "presence" : "Presence",
     "locationCategory" : "Location category",
     "visualReference" : "Visual reference",
@@ -132,8 +207,14 @@
     "signage" : "Signage",
     "brand" : "Brand",
     "notes" : "Notes",
-    "accuracyUnknown" : "Unknown",
-    "accuracyUnitSingle" : "meter",
-    "accuracyUnit" : "meters"
+    "unknown" : "Unknown",
+    "accuracyUnit" : "m"
+  },
+  "selectors" : {
+    "register-ageDefLabel" : "Age",
+    "register-genderDefLabel" : "Gender",
+    "register-occupationDefLabel" : "Occupation",
+    "location-selectDefLabel" : "Select a category",
+    "transport-type-selectDefLabel" : "Select a type"
   }
 }

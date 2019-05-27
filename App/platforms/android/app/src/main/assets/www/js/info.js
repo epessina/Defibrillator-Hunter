@@ -9,14 +9,17 @@ const dateOptions = {
     second: "2-digit"
 };
 
-let $placeholders = $("#defibrillator-info .placeholder");
+let defibrillatorData = undefined,
+    $placeholders     = $("#defibrillator-info .placeholder");
 
 
 function initInfo() {
 
     $("#info-close").click(() => closeInfo());
 
-    $("#info-photo-thm").click(() => $("#img-screen").show());
+    $("#info-photo-thm").click(function () {
+        openImgScreen($(this).attr("src"));
+    });
 
 }
 
@@ -27,7 +30,11 @@ function openInfo(id) {
 
     $("#defibrillator-info").show();
 
-    fetch(serverUrl + "defibrillator/" + id)
+    fetch(serverUrl + "defibrillator/" + id, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to fetch defibrillators");
@@ -36,35 +43,43 @@ function openInfo(id) {
         })
         .then(data => {
 
+            defibrillatorData = data.defibrillator;
+
             $("#info-delete")
                 .show()
                 .unbind("click")
-                .click(() => deleteDefibrillator(data.defibrillator._id));
+                .click(() => {
+                    createAlertDialog(
+                        i18n.t("dialogs.deleteConfirmation"),
+                        i18n.t("dialogs.btnCancel"),
+                        null,
+                        i18n.t("dialogs.btnOk"),
+                        () => deleteDefibrillator(defibrillatorData._id)
+                    );
+
+                });
 
             $("#info-edit")
                 .show()
                 .unbind("click")
                 .click(() => {
-                    $("#defibrillator-info").scrollTop(0);
-                    openInsert(data.defibrillator);
+                    openInsert(defibrillatorData);
                 });
 
-            showInfo(data.defibrillator);
-
-            $placeholders.hide().removeClass("ph-animate");
-            $("#defibrillator-info .ph-hidden-content").show();
+            showInfo();
 
         })
         .catch(err => {
+            createAlertDialog(i18n.t("dialogs.info.errorGetDefibrillator"), i18n.t("dialogs.btnOk"));
             closeInfo();
-            console.log(err);
+            console.error("Retrieving defibrillator failed", err);
         });
 
 }
 
 function closeInfo() {
 
-    $("#defibrillator-info").hide().scrollTop(0);
+    $("#defibrillator-info").scrollTop(0).hide();
 
     $("#defibrillator-info .ph-hidden-content").hide();
     $placeholders.removeClass("ph-animate").show();
@@ -86,20 +101,21 @@ function closeInfo() {
     $("#info-brand .info-content").html("");
     $("#info-notes .info-content").html("");
     $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
-    $("#img-screen-img-container img").attr("src", "");
+
+    defibrillatorData = undefined;
 
 }
 
 
-function showInfo(info) {
+function showInfo() {
 
-    for (let key in info) {
+    for (let key in defibrillatorData) {
 
-        if (info.hasOwnProperty(key) && key !== "transportType")
+        if (defibrillatorData.hasOwnProperty(key) && key !== "transportType")
 
             $("#info-" + key + " .info-content").html(() => {
 
-                let val = info[key];
+                let val = defibrillatorData[key];
 
                 if (val === "")
                     return "-";
@@ -114,16 +130,14 @@ function showInfo(info) {
                         return val[0] + ", " + val[1];
 
                     case "accuracy":
-                        if (val === 0)
-                            return i18n.t("info.accuracyUnknown");
-                        if (val === 1)
-                            return val + " " + i18n.t("info.accuracyUnitSingle");
+                        if (val === 0 || val === null)
+                            return i18n.t("info.unknown");
                         return val + " " + i18n.t("info.accuracyUnit");
 
                     case "locationCategory":
                         let content = i18n.t("insert.locationCategory.enum." + val);
-                        if (info.transportType !== "")
-                            content = content + " (" + info.transportType + ")";
+                        if (defibrillatorData.transportType !== "")
+                            content = content + " (" + defibrillatorData.transportType + ")";
                         return content;
 
                     case "visualReference":
@@ -139,7 +153,8 @@ function showInfo(info) {
             });
     }
 
-    $("#info-photo-thm").attr("src", serverUrl + info.imageUrl);
-    $("#img-screen-img-container img").attr("src", serverUrl + info.imageUrl);
+    $("#info-photo-thm").attr("src", serverUrl + defibrillatorData.imageUrl);
+    $placeholders.hide().removeClass("ph-animate");
+    $("#defibrillator-info .ph-hidden-content").show();
 
 }

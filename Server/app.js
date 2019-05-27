@@ -9,7 +9,8 @@ const express    = require("express"),
       uuidv4     = require("uuid/v4");
 
 const settings            = require("./settings"),
-      defibrillatorRoutes = require("./routes/defibrillator");
+      defibrillatorRoutes = require("./routes/defibrillator"),
+      authRoutes          = require("./routes/auth");
 
 const app = express();
 
@@ -53,9 +54,9 @@ app.use((req, res, next) => {
 
 });
 
-// app.use("/", (req, res) => res.send("DefibrillatorHunter server"));
 
 app.use("/defibrillator", defibrillatorRoutes);
+app.use("/auth", authRoutes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {

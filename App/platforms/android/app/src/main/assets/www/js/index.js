@@ -6,11 +6,13 @@ let serverUrl = "http://192.168.1.100:8080/";
 
 let backPressedCount = 0;
 
-let isCordova;
+let isCordova = false;
+
+let isAuth = false,
+    token  = null,
+    userId = null;
 
 let markers = [];
-
-let networkState;
 
 let toReattachPositionWatcher = false;
 
@@ -86,20 +88,53 @@ function init() {
 
     }
 
-    networkState = navigator.connection.type;
-
     onResize();
+    initAuth();
     initMap();
-    getDefibrillators();
     initInsert();
     initInfo();
+
+    // Find if the user is authernticated
+    if (!getAuthStatus())
+        $("#log-in-page").show();
+    else
+        getDefibrillators();
+
+}
+
+function getAuthStatus() {
+
+    token            = localStorage.getItem("token");
+    const expireDate = localStorage.getItem("expireDate");
+
+    if (!token || !expireDate)
+        return false;
+
+    if (new Date(expireDate) <= new Date()) {
+        logout();
+        return false;
+    }
+
+    userId = localStorage.getItem("userId");
+
+    const remainingMilliseconds = new Date(expireDate).getTime() - new Date().getTime();
+    setAutoLogout(remainingMilliseconds);
+
+    return true;
 
 }
 
 
 function getDefibrillators() {
 
-    fetch(serverUrl + "defibrillator/get-all")
+    markers.forEach(marker => markersLayer.removeLayer(marker));
+    markers = [];
+
+    fetch(serverUrl + "defibrillator/get-all", {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to fetch defibrillators");
@@ -110,7 +145,8 @@ function getDefibrillators() {
             data.defibrillators.forEach(def => showDefibrillator(def._id, def.coordinates))
         })
         .catch(err => {
-            console.log(err);
+            createAlertDialog(i18n.t("dialogs.errorGetDefibrillators"), i18n.t("dialogs.btnOk"));
+            console.error(err);
         });
 
 }
@@ -136,7 +172,12 @@ function showDefibrillator(id, coordinates) {
 
 function deleteDefibrillator(id) {
 
-    fetch(serverUrl + "defibrillator/" + id, { method: "DELETE" })
+    fetch(serverUrl + "defibrillator/" + id, {
+        method : "DELETE",
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to delete the defibrillator");
@@ -156,8 +197,90 @@ function deleteDefibrillator(id) {
             closeInfo();
         })
         .catch(err => {
-            console.log(err);
+            createAlertDialog(i18n.t("dialogs.errorDeleteDefibrillator"), i18n.t("dialogs.btnOk"));
+            console.error(err);
         });
+}
+
+
+function openImgScreen(scr, editable = false, clbEdit, clbCancel) {
+
+    $("#img-screen-container img").attr("src", scr);
+
+    $("#img-screen-close").click(() => closeImgScreen());
+
+    if (editable) {
+
+        $("#img-screen-edit")
+            .unbind("click")
+            .click(() => {
+                closeImgScreen();
+                clbEdit();
+            })
+            .parent().show();
+
+        $("#img-screen-delete")
+            .show()
+            .unbind("click")
+            .click(() => {
+
+                createAlertDialog(
+                    i18n.t("dialogs.photoScreen.deletePictureConfirmation"),
+                    i18n.t("dialogs.btnCancel"),
+                    null,
+                    i18n.t("dialogs.btnOk"),
+                    () => {
+                        clbCancel();
+                        closeImgScreen();
+                    }
+                );
+
+            })
+            .parent().show();
+
+    }
+
+    $("#img-screen").show();
+
+}
+
+function closeImgScreen() {
+
+    $("#img-screen").hide();
+
+    $("#img-screen-container img").attr("src", "");
+
+    $("#img-screen-edit").parent().hide();
+
+    $("#img-screen-delete").parent().hide();
+
+}
+
+
+function changeSelectorLabel(selectorId, changeColor = false) {
+
+    let $selector = $("#" + selectorId),
+        $label    = $("[for='" + selectorId + "'").find(".label-description");
+
+    if ($selector.val() === "none") {
+        $label.html(i18n.t("selectors." + selectorId + "DefLabel"));
+
+        if (changeColor)
+            $label.css("color", "#757575");
+    } else {
+        $label.html($selector.find("option:selected").text());
+
+        if (changeColor)
+            $label.css("color", "#000000");
+    }
+
+}
+
+function resetSelector(selectorId) {
+
+    $("#" + selectorId).get(0).selectedIndex = 0;
+    changeSelectorLabel(selectorId);
+
 }
 
 
@@ -244,18 +367,3 @@ function logOrToast(msg, duration) {
     window.plugins.toast.show(msg, duration, "bottom");
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,15 +2,7 @@
     - mandare mail
 
 
-- Regestrazione utenti
-
-
-- Modificare i defibrillatori
-
-- Cancellare i defibrillatori
-	
-
-- Sistemare gli alert
+- Cambio password
 
 
 - Aggiugnere lingue
@@ -23,7 +15,6 @@
 
 - Aggiungere tag edit-config (vedi camera-plugin)
 
-
 - Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)
 
 
@@ -35,10 +26,14 @@
 
 - Inserire metadati nella foto
 
-- Testare caricamento altri file
-
-
-- Chedere agli utenti se sono soccorritori
-
-
 - Abbassare molto peso immagini
+
+
+- Per il token:
+    - le sessioni devono essere indefinitamente valide o scadere? Nel caso, dopo quanto?
+    - se non scadono mai, va bene anche se c'è la possibilità che qualcuno usi il token se è stato copiato?
+    - devo implementare una blacklist di token non più validi nel db?
+
+- Come valido che l'applicazione da cui sto mandando richieste sia la mia?
+
+- Per i link da mail, che faccio? Renderizzo una view o uso un deep link?

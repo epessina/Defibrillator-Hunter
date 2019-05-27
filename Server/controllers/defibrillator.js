@@ -4,12 +4,13 @@ const fs   = require("fs"),
       path = require("path");
 
 const Defibrillator        = require("../models/defibrillator"),
+      User                 = require("../models/user"),
       { validationResult } = require("express-validator/check");
 
 
 exports.getDefibrillators = (req, res, next) => {
 
-    Defibrillator.find({ markedForDeletion: false })
+    Defibrillator.find({ user: req.userId, markedForDeletion: false })
         .then(defibrillators => {
             res.status(200)
                 .json({
@@ -35,6 +36,13 @@ exports.getDefibrillator = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
+
+            if (defibrillator.user.toString() !== req.userId) {
+                const error      = new Error("Not authorized.");
+                error.statusCode = 403;
+                throw error;
+            }
+
             res.status(200).json({
                 message      : "Defibrillator found!",
                 defibrillator: defibrillator
@@ -93,8 +101,10 @@ exports.postDefibrillator = (req, res, next) => {
         throw error;
     }
 
+    let creator;
+
     const defibrillator = new Defibrillator({
-        user                 : { name: "Edoardo" },
+        user                 : req.userId,
         coordinates          : coordinates,
         accuracy             : req.body.accuracy,
         presence             : req.body.presence,
@@ -110,15 +120,25 @@ exports.postDefibrillator = (req, res, next) => {
         imageUrl             : imageUrl
     });
 
-    defibrillator.save()
+    defibrillator
+        .save()
+        .then(result => {
+            return User.findById(req.userId);
+        })
+        .then(user => {
+            creator = user;
+            user.defibrillators.push(defibrillator);
+            return user.save();
+        })
         .then(result => {
             res.status(201).json({
                 message      : "Defibrillator created",
-                defibrillator: result
+                defibrillator: defibrillator,
+                userId       : creator._id
             });
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             if (!err.statusCode) {
                 err.statusCode = 500;
                 err.errors     = ["Something went wrong on the server."];
@@ -148,6 +168,13 @@ exports.updateDefibrillator = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
+
+            if (defibrillator.user.toString() !== req.userId) {
+                const error      = new Error("Not authorized.");
+                error.statusCode = 403;
+                throw error;
+            }
+
             defibrillator.presence              = req.body.presence;
             defibrillator.locationCategory      = req.body.locationCategory;
             defibrillator.transportType         = req.body.transportType;
@@ -199,7 +226,13 @@ exports.deleteDefibrillator = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-            // Check logged user
+
+            if (defibrillator.user.toString() !== req.userId) {
+                const error      = new Error("Not authorized.");
+                error.statusCode = 403;
+                throw error;
+            }
+
             defibrillator.markedForDeletion = true;
             return defibrillator.save();
         })

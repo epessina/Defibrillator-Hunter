@@ -19,6 +19,12 @@
     .requests-container {
       @include flex-display(column);
 
+      .required-fields {
+        margin-top : 20px;
+        @include font(400, $font-body-small);
+        color      : #949494;
+      }
+
       .request {
         @include flex-display;
         width      : 100%;
@@ -50,12 +56,28 @@
 
       }
 
-      #photo-request {
-        margin : 40px 0 60px 0;
+    }
+
+    #photo-request {
+      margin-bottom : 40px;
+
+      .request-content {
+        border : 0;
+      }
+
+      .request-name {
+        margin-bottom : 20px;
       }
 
     }
 
+  }
+
+  .insert-selector-wrapper {
+    width         : 100%;
+    height        : 40px;
+    border        : 1px solid $color-main;
+    border-radius : 5px;
   }
 
 }

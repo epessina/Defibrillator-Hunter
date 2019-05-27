@@ -30,7 +30,11 @@ function openInfo(id) {
 
     $("#defibrillator-info").show();
 
-    fetch(serverUrl + "defibrillator/" + id)
+    fetch(serverUrl + "defibrillator/" + id, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("Failed to fetch defibrillators");
@@ -66,6 +70,7 @@ function openInfo(id) {
 
         })
         .catch(err => {
+            createAlertDialog(i18n.t("dialogs.info.errorGetDefibrillator"), i18n.t("dialogs.btnOk"));
             closeInfo();
             console.error("Retrieving defibrillator failed", err);
         });

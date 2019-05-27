@@ -18,51 +18,12 @@ $top-bar-icon-margin : 8px;
   overflow-y : scroll;
   background : #FFFFFF;
 
-  .info-top-bar {
-    width      : 100%;
-    height     : $top-bar-height;
-    position   : fixed;
-    top        : 0;
-    z-index    : $z-top-bar;
-    background : $color-main-dark;
-    box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-    color      : #FFFFFF;
-
-    .info-top-bar-icon {
-      position : absolute;
-      top      : $top-bar-height - $top-bar-icon-area;
-      @include flex-static-size($top-bar-icon-area);
-      cursor   : pointer;
-
-      i {
-        padding : $icon-padding;
-      }
-
-    }
-
-    .info-top-bar-left-icon {
-      left : $top-bar-icon-margin;
-    }
-
-    .info-top-bar-right-icon-1 {
-      right : $top-bar-icon-area + $top-bar-icon-margin;
-    }
-
-    .info-top-bar-right-icon-2 {
-      right : $top-bar-icon-margin;
-    }
-
-    & + .custom-container {
-      margin-top : $top-bar-height;
-    }
-
-  }
-
   .custom-container {
-    padding-top  : 30px;
-    margin-left  : $info-container-margin;
-    margin-right : $info-container-margin;
-    width        : container-size($info-container-margin);
+    padding-top   : 30px;
+    margin-left   : $info-container-margin;
+    margin-right  : $info-container-margin;
+    width         : container-size($info-container-margin);
+    margin-bottom : 40px;
 
     .info-block {
       margin-bottom : 20px;

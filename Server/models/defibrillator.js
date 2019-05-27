@@ -27,9 +27,18 @@ const mongoose = require("mongoose"),
       Schema   = mongoose.Schema;
 
 const defibrillatorSchema = new Schema({
-    user                 : Object,
-    markedForDeletion    : { type: Boolean, default: false },
-    checked              : { type: Boolean, default: false },
+    user                 : {
+        type: Schema.Types.ObjectId,
+        ref : "User"
+    },
+    markedForDeletion    : {
+        type   : Boolean,
+        default: false
+    },
+    checked              : {
+        type   : Boolean,
+        default: false
+    },
     coordinates          : [Number],
     accuracy             : Number,
     presence             : String,

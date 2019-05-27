@@ -3,7 +3,8 @@
 const express  = require("express"),
       { body } = require("express-validator/check");
 
-const defibrillatorController = require("../controllers/defibrillator");
+const defibrillatorController = require("../controllers/defibrillator"),
+      isAuth                  = require("../middleware/is-auth");
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ const postValidation = [
         .escape()
 ];
 
-const putValidation  = [
+const putValidation = [
     body("presence")
         .not().isEmpty().withMessage("You must specify if the defibrillator is present.")
         .isIn(validPresence).withMessage("Invalid presence value."),
@@ -80,19 +81,19 @@ const putValidation  = [
 
 
 // GET /defibrillator/get-all
-router.get("/get-all", defibrillatorController.getDefibrillators);
+router.get("/get-all", isAuth, defibrillatorController.getDefibrillators);
 
 // GET /defibrillator/:defibrillatorId
-router.get("/:defibrillatorId", defibrillatorController.getDefibrillator);
+router.get("/:defibrillatorId", isAuth, defibrillatorController.getDefibrillator);
 
 // POST /defibrillator/post
-router.post("/post", postValidation, defibrillatorController.postDefibrillator);
+router.post("/post", isAuth, postValidation, defibrillatorController.postDefibrillator);
 
 // PUT /defibrillator/:defibrillatorId
-router.put("/:defibrillatorId", putValidation, defibrillatorController.updateDefibrillator);
+router.put("/:defibrillatorId", isAuth, putValidation, defibrillatorController.updateDefibrillator);
 
 // DELETE /defibrillator/:defibrillatorId
-router.delete("/:defibrillatorId", defibrillatorController.deleteDefibrillator);
+router.delete("/:defibrillatorId", isAuth, defibrillatorController.deleteDefibrillator);
 
 
 module.exports = router;

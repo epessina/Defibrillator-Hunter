@@ -26,9 +26,272 @@
 
 <body onresize="onResize()" onload="onLoad()">
 
+<!-- Splash screen -->
+<div id="splash">
+
+    <div class="logo-wrapper">
+
+        <div class="logo"><span>Logo</span></div>
+
+    </div>
+
+</div>
+
+
+<!-- Log in page -->
+<div style="display: none" id="log-in-page" class="auth-page">
+
+    <div class="logo-wrapper">
+
+        <div class="logo"><span>Logo</span></div>
+
+    </div>
+
+    <div class="form-container">
+
+        <!-- Email -->
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="login-email"></label>
+            <input id="login-email"
+                   type="email"
+                   data-i18n="[placeholder]auth.login.emailPh">
+
+        </div>
+
+        <!-- Password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="login-password"></label>
+            <input id="login-password"
+                   type="password"
+                   data-i18n="[placeholder]auth.login.passwordPh">
+
+        </div>
+
+        <p id="forgot-password" class="forgot-password" data-i18n="auth.login.forgotPassword"></p>
+
+        <div id="login-btn" class="fab-extended fab-extended-flex">
+            <p class="fab-extended-text" data-i18n="auth.login.btnLogin"></p>
+        </div>
+
+    </div>
+
+    <div class="auth-footer">
+        <p>
+            <span data-i18n="auth.login.noAccount"></span>
+            <span id="login-to-register" class="link" data-i18n="auth.login.signUp"></span>
+        </p>
+    </div>
+
+</div>
+
+<!-- Register page -->
+<div style="display: none" id="register-page-one" class="auth-page register-page">
+
+    <div class="form-container">
+
+        <p class="register-top-text" data-i18n="auth.register.topText1"></p>
+
+        <!-- Email -->
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="register-email"></label>
+            <input id="register-email"
+                   type="email"
+                   data-i18n="[placeholder]auth.register.emailPh">
+
+        </div>
+
+        <!-- Password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="register-password"></label>
+            <input id="register-password"
+                   type="password"
+                   data-i18n="[placeholder]auth.register.passwordPh">
+
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="register-confirm-password"></label>
+            <input id="register-confirm-password"
+                   type="password"
+                   data-i18n="[placeholder]auth.register.confirmPasswordPh">
+
+        </div>
+
+        <div id="register-btn-next" class="fab-extended fab-extended-flex">
+            <p class="fab-extended-text" data-i18n="auth.register.btnNext"></p>
+        </div>
+
+    </div>
+
+    <div class="auth-footer">
+        <p>
+            <span data-i18n="auth.register.haveAccount"></span>
+            <span class="link register-to-login" data-i18n="auth.register.login"></span>
+        </p>
+    </div>
+
+</div>
+
+<div style="display: none" id="register-page-two" class="auth-page register-page">
+
+    <div class="form-container">
+
+        <p class="register-top-text" data-i18n="auth.register.topText2"></p>
+
+        <!-- Name -->
+        <div class="form-field">
+
+            <i class="material-icons">face</i>
+
+            <label for="register-name"></label>
+            <input id="register-name"
+                   type="text"
+                   data-i18n="[placeholder]auth.register.namePh">
+
+        </div>
+
+        <!-- Age -->
+        <div class="form-field">
+
+            <i class="material-icons">cake</i>
+
+            <div class="custom-selector-box">
+
+                <label for="register-age">
+
+                    <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="register-age">
+
+                    <option value="none">--</option>
+                    <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
+                    <option value="16-20" data-i18n="auth.register.ageEnum.16-20"></option>
+                    <option value="21-25" data-i18n="auth.register.ageEnum.21-25"></option>
+                    <option value="26-30" data-i18n="auth.register.ageEnum.26-30"></option>
+                    <option value="31-35" data-i18n="auth.register.ageEnum.31-35"></option>
+                    <option value="36-40" data-i18n="auth.register.ageEnum.36-40"></option>
+                    <option value="41-45" data-i18n="auth.register.ageEnum.41-45"></option>
+                    <option value="46-50" data-i18n="auth.register.ageEnum.46-50"></option>
+                    <option value="51-55" data-i18n="auth.register.ageEnum.51-55"></option>
+                    <option value="56-60" data-i18n="auth.register.ageEnum.56-60"></option>
+                    <option value="61-65" data-i18n="auth.register.ageEnum.61-65"></option>
+                    <option value="66-70" data-i18n="auth.register.ageEnum.66-70"></option>
+                    <option value="more70" data-i18n="auth.register.ageEnum.more70"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Gender -->
+        <div class="form-field">
+
+            <i class="material-icons">perm_identity</i>
+
+            <div class="custom-selector-box">
+
+                <label for="register-gender">
+
+                    <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="register-gender">
+
+                    <option value="none">--</option>
+                    <option value="male" data-i18n="auth.register.genderEnum.male"></option>
+                    <option value="female" data-i18n="auth.register.genderEnum.female"></option>
+                    <option value="other" data-i18n="auth.register.genderEnum.other"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Occupation -->
+        <div class="form-field">
+
+            <i class="material-icons">domain</i>
+
+            <div class="custom-selector-box">
+
+                <label for="register-occupation">
+
+                    <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="register-occupation">
+
+                    <option value="none">--</option>
+                    <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
+                    <option value="employee" data-i18n="auth.register.occupationEnum.employee"></option>
+                    <option value="freelancer" data-i18n="auth.register.occupationEnum.freelancer"></option>
+                    <option value="unemployed" data-i18n="auth.register.occupationEnum.unemployed"></option>
+                    <option value="retiree" data-i18n="auth.register.occupationEnum.retiree"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Rescuer -->
+        <div class="register-checkbox">
+
+            <div data-i18n="auth.register.rescuer"></div>
+
+            <label for="register-rescuer"></label>
+            <input id="register-rescuer" type="checkbox">
+
+        </div>
+
+        <div id="register-btn-done" class="fab-extended fab-extended-flex">
+            <p class="fab-extended-text" data-i18n="auth.register.btnRegister"></p>
+        </div>
+
+        <p id="register-go-back" data-i18n="auth.register.goBack"></p>
+
+    </div>
+
+    <div class="auth-footer">
+        <p>
+            <span data-i18n="auth.register.haveAccount"></span>
+            <span class="link register-to-login" data-i18n="auth.register.login"></span>
+        </p>
+    </div>
+
+</div>
+
 
 <!-- Map -->
-<div id="map">
+<div style="display: none" id="map">
 
     <div style="display: none" id="finding-position-msg">
         <p data-i18n="map.positionFinding"></p>
@@ -47,7 +310,7 @@
     </div>
 
     <div id="map-new-defibrillator" class="map-control map-control-center map-control-bottom fab-extended">
-        <p class="fab-extended-text" data-i18n="map.fabText">New defibrillator</p>
+        <p class="fab-extended-text" data-i18n="map.fabText"></p>
     </div>
 
 </div>
@@ -235,10 +498,7 @@
                 <i id="location-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title"
-                 data-i18n="insert.locationCategory.topBarTitle">
-                Location category
-            </div>
+            <div class="top-bar-title" data-i18n="insert.locationCategory.topBarTitle"></div>
 
             <div class="top-bar-right-icon">
                 <i id="location-done" class="material-icons">done</i>
@@ -246,160 +506,59 @@
 
         </div>
 
-
         <div class="custom-container">
 
+            <p class="first-p" data-i18n="insert.locationCategory.questionCategory"></p>
 
-            <p class="first-p"
-               data-i18n="insert.locationCategory.questionCategory">
-                Where is the defibrillator located?
-            </p>
-
-            <div class="custom-selector-box">
-
-                <label for="location-select" class="label custom-selector">
-
-                    <span class="label-description"
-                          data-i18n="insert.locationCategory.defaultLabelCategory">
-                        Select a category
-                    </span>
-
-                    <span class="label-icon">
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </span>
-
-                </label>
-
-                <select id="location-select" class="select">
-
-                    <option value="none" style="display: none"></option>
-
-                    <option value="commercialActivity"
-                            data-i18n="insert.locationCategory.enum.commercialActivity">
-                        Commercial activity
-                    </option>
-
-                    <option value="residentialBuilding"
-                            data-i18n="insert.locationCategory.enum.residentialBuilding">
-                        Residential building
-                    </option>
-
-                    <option value="publicPlace"
-                            data-i18n="insert.locationCategory.enum.publicPlace">
-                        Public place
-                    </option>
-
-                    <option value="sportsCentre"
-                            data-i18n="insert.locationCategory.enum.sportsCentre">
-                        Sports centre
-                    </option>
-
-                    <option value="transportStation"
-                            data-i18n="insert.locationCategory.enum.transportStation">
-                        Transport station
-                    </option>
-
-                    <option value="educationalEstablishment"
-                            data-i18n="insert.locationCategory.enum.educationalEstablishment">
-                        Educational establishment
-                    </option>
-
-                    <option value="schoolGym"
-                            data-i18n="insert.locationCategory.enum.schoolGym">
-                        School gym
-                    </option>
-
-                    <option value="drugstore"
-                            data-i18n="insert.locationCategory.enum.drugstore">
-                        Drugstore
-                    </option>
-
-                    <option value="street"
-                            data-i18n="insert.locationCategory.enum.street">
-                        Street
-                    </option>
-
-                    <option value="medicalPracticeClinic"
-                            data-i18n="insert.locationCategory.enum.medicalPracticeClinic">
-                        Medical practice / Clinic
-                    </option>
-
-                    <option value="churchOratorio"
-                            data-i18n="insert.locationCategory.enum.churchOratorio">
-                        Church / Oratorio
-                    </option>
-
-                    <option value="shelter"
-                            data-i18n="insert.locationCategory.enum.shelter">
-                        Shelter
-                    </option>
-
-                    <option value="nursingHomeHospice"
-                            data-i18n="insert.locationCategory.enum.nursingHomeHospice">
-                        Nursing home / Hospice
-                    </option>
-
-                    <option value="other"
-                            data-i18n="insert.locationCategory.enum.other">
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div style="display: none" id="transport-type-wrapper">
-
-                <p>
-                <span data-i18n="insert.locationCategory.questionTransport">
-                    Specify the type of transport station
-                </span>
-                </p>
+            <div class="insert-selector-wrapper">
 
                 <div class="custom-selector-box">
 
-                    <label for="transport-type-select" class="label custom-selector">
+                    <label for="location-select">
 
-                    <span class="label-description"
-                          data-i18n="insert.locationCategory.defaultLabelTransport">
-                        Select a type
-                    </span>
+                        <span class="label-description" data-i18n="insert.locationCategory.defaultLabelCategory"></span>
 
-                        <span class="label-icon">
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </span>
+                        <i class="material-icons">keyboard_arrow_down</i>
 
                     </label>
 
-                    <select id="transport-type-select" class="select">
+                    <select id="location-select">
 
                         <option value="none" style="display: none"></option>
 
-                        <option value="metro"
-                                data-i18n="insert.locationCategory.enum.metro">
-                            Metro
-                        </option>
+                        <option value="commercialActivity"
+                                data-i18n="insert.locationCategory.enum.commercialActivity"></option>
 
-                        <option value="airport"
-                                data-i18n="insert.locationCategory.enum.airport">
-                            Airport
-                        </option>
+                        <option value="residentialBuilding"
+                                data-i18n="insert.locationCategory.enum.residentialBuilding"></option>
 
-                        <option value="trainStation"
-                                data-i18n="insert.locationCategory.enum.trainStation">
-                            Train station
-                        </option>
+                        <option value="publicPlace" data-i18n="insert.locationCategory.enum.publicPlace"></option>
 
-                        <option value="busStation"
-                                data-i18n="insert.locationCategory.enum.busStation">
-                            Bus station
-                        </option>
+                        <option value="sportsCentre" data-i18n="insert.locationCategory.enum.sportsCentre"></option>
 
-                        <option value="other"
-                                data-i18n="insert.locationCategory.enum.other">
-                            Other
-                        </option>
+                        <option value="transportStation"
+                                data-i18n="insert.locationCategory.enum.transportStation"></option>
+
+                        <option value="educationalEstablishment"
+                                data-i18n="insert.locationCategory.enum.educationalEstablishment"></option>
+
+                        <option value="schoolGym" data-i18n="insert.locationCategory.enum.schoolGym"></option>
+
+                        <option value="drugstore" data-i18n="insert.locationCategory.enum.drugstore"></option>
+
+                        <option value="street" data-i18n="insert.locationCategory.enum.street"></option>
+
+                        <option value="medicalPracticeClinic"
+                                data-i18n="insert.locationCategory.enum.medicalPracticeClinic"></option>
+
+                        <option value="churchOratorio" data-i18n="insert.locationCategory.enum.churchOratorio"></option>
+
+                        <option value="shelter" data-i18n="insert.locationCategory.enum.shelter"></option>
+
+                        <option value="nursingHomeHospice"
+                                data-i18n="insert.locationCategory.enum.nursingHomeHospice"></option>
+
+                        <option value="other" data-i18n="insert.locationCategory.enum.other"></option>
 
                     </select>
 
@@ -407,17 +566,49 @@
 
             </div>
 
+            <div style="display: none" id="transport-type-wrapper">
+
+                <p><span data-i18n="insert.locationCategory.questionTransport"></span></p>
+
+                <div class="insert-selector-wrapper">
+
+                    <div class="custom-selector-box">
+
+                        <label for="transport-type-select">
+
+                            <span class="label-description"
+                                  data-i18n="insert.locationCategory.defaultLabelTransport"></span>
+
+                            <i class="material-icons">keyboard_arrow_down</i>
+
+                        </label>
+
+                        <select id="transport-type-select">
+
+                            <option value="none" style="display: none"></option>
+
+                            <option value="metro" data-i18n="insert.locationCategory.enum.metro"></option>
+
+                            <option value="airport" data-i18n="insert.locationCategory.enum.airport"></option>
+
+                            <option value="trainStation" data-i18n="insert.locationCategory.enum.trainStation"></option>
+
+                            <option value="busStation" data-i18n="insert.locationCategory.enum.busStation"></option>
+
+                            <option value="other" data-i18n="insert.locationCategory.enum.other"></option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
 
             <p>
-                <span data-i18n="insert.locationCategory.visualReference">
-                    Specify a visual reference
-                </span>
-
+                <span data-i18n="insert.locationCategory.visualReference"></span>
                 <br>
-
-                <span data-i18n="insert.locationCategory.visualReferenceSecond">
-                    (e.g. a church or a clearly visible building)
-                </span>
+                <span data-i18n="insert.locationCategory.visualReferenceSecond"></span>
             </p>
 
             <label for="location-reference"></label>
@@ -1107,6 +1298,7 @@
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/info.js"></script>

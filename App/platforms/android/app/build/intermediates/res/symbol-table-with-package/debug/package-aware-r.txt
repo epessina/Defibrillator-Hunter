@@ -623,9 +623,6 @@ id beginning
 id blocking
 id bottom
 id buttonPanel
-id camera_container
-id camera_loader
-id camera_loader_spinner
 id cancel_action
 id center
 id center_horizontal
@@ -651,9 +648,6 @@ id fill
 id fill_horizontal
 id fill_vertical
 id forever
-id frame_camera_cont
-id frame_container
-id frame_view
 id group_divider
 id home
 id homeAsUp
@@ -679,7 +673,6 @@ id notification_background
 id notification_main_column
 id notification_main_column_container
 id parentPanel
-id picture_view
 id progress_circular
 id progress_horizontal
 id radio
@@ -731,7 +724,6 @@ id topPanel
 id uniform
 id up
 id useLogo
-id video_view
 id withText
 id wrap_content
 integer abc_config_activityDefaultDur
@@ -767,7 +759,6 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
-layout camera_activity
 layout notification_action
 layout notification_action_tombstone
 layout notification_media_action
@@ -994,7 +985,6 @@ style Base_Widget_AppCompat_Spinner_Underlined
 style Base_Widget_AppCompat_TextView_SpinnerItem
 style Base_Widget_AppCompat_Toolbar
 style Base_Widget_AppCompat_Toolbar_Button_Navigation
-style CameraPreviewTheme
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_ThemeOverlay_AppCompat
@@ -1230,5 +1220,5 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
-xml camera_provider_paths
 xml config
+xml provider_paths

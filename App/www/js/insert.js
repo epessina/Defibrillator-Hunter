@@ -70,10 +70,11 @@ function openInsert(data = null) {
             .find("i")
             .hide();
 
+        closeInfo();
+
     }
 
     $("#insert-defibrillator").show();
-    closeInfo();
 
 }
 
@@ -171,7 +172,7 @@ function initMainPage() {
 
         $locationSelect.get(0).selectedIndex =
             $locationSelect.find("option[value=" + categoryToSelect + "]").index();
-        changeLocationSelectLabel();
+        changeSelectorLabel("location-select");
 
         if (transportType === "")
             transportTypeToSelect = "none";
@@ -180,7 +181,7 @@ function initMainPage() {
 
         $transportTypeSelect.get(0).selectedIndex =
             $transportTypeSelect.find("option[value=" + transportTypeToSelect + "]").index();
-        changeTransportTypeLabel();
+        changeSelectorLabel("transport-type-select");
 
         $("#location-reference").val(visualReference);
 
@@ -294,7 +295,7 @@ function postDefibrillator() {
     const formData = new FormData();
 
     formData.append("coordinates", JSON.stringify(currLatLong));
-    formData.append("accuracy", currLatLongAccuracy);
+    formData.append("accuracy", currLatLongAccuracy.toString());
     formData.append("presence", presence);
     formData.append("locationCategory", locationCategory);
     formData.append("transportType", transportType);
@@ -358,8 +359,11 @@ function postOrPut(formData) {
     }
 
     fetch(url, {
-        method: method,
-        body  : formData
+        method : method,
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        body   : formData
     })
         .then(res => {
             if (res.status !== 200 && res.status !== 201) {
@@ -379,9 +383,12 @@ function postOrPut(formData) {
             }
         })
         .catch(err => {
+            let msg = "dialogs.insert.errorPost";
+            if (method === "PUT")
+                msg = "dialogs.insert.errorPut";
+            createAlertDialog(i18n.t(msg), i18n.t("dialogs.btnOk"));
             console.error("Error posting or putting the landslide", err);
             closeLoader();
-            // ToDo alert
         });
 }
 
@@ -409,7 +416,7 @@ function initLocationCategoryDialog() {
 
     $locationSelect.change(() => {
 
-        changeLocationSelectLabel();
+        changeSelectorLabel("location-select");
 
         if ($locationSelect.val() === "transportStation")
             $("#transport-type-wrapper").show();
@@ -418,7 +425,7 @@ function initLocationCategoryDialog() {
 
     });
 
-    $transportTypeSelect.change(() => changeTransportTypeLabel());
+    $transportTypeSelect.change(() => changeSelectorLabel("transport-type-select"));
 
     $("#location-close").click(() => closeFullscreenDialog($("#dialog-location")));
 
@@ -604,7 +611,9 @@ function getPicture() {
     navigator.camera.getPicture(
         fileURI => {
 
-            photo = fileURI;
+            let res      = JSON.parse(fileURI);
+            photo        = res.filename;
+            let metadata = JSON.parse(res.json_metadata);
 
             $photoThm
                 .find("img")
@@ -671,29 +680,6 @@ function closeDialog(toClose) {
 }
 
 
-function changeLocationSelectLabel() {
-
-    let label = $("[for='location-select']").find(".label-description");
-
-    if ($locationSelect.val() === "none")
-        label.html(i18n.t("insert.locationCategory.defaultLabelCategory"));
-    else
-        label.html($locationSelect.find("option:selected").text());
-
-}
-
-function changeTransportTypeLabel() {
-
-    let label = $("[for='transport-type-select']").find(".label-description");
-
-    if ($transportTypeSelect.val() === "none")
-        label.html(i18n.t("insert.locationCategory.defaultLabelTransport"));
-    else
-        label.html($transportTypeSelect.find("option:selected").text());
-
-}
-
-
 // Append the photo to the formData object
 function appendFile(formData, fileUri) {
 
@@ -716,6 +702,7 @@ function appendFile(formData, fileUri) {
                     };
 
                     reader.onerror = fileReadResult => {
+                        createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
                         closeLoader();
                         console.error("Reader error", fileReadResult);
                     };
@@ -723,12 +710,14 @@ function appendFile(formData, fileUri) {
                     reader.readAsArrayBuffer(file);
                 },
                 err => {
+                    createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
                     closeLoader();
                     console.error("Error getting the fileEntry file", err)
                 }
             )
         },
         err => {
+            createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
             closeLoader();
             console.error("Error getting the file", err)
         }

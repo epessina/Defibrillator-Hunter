@@ -9,12 +9,11 @@
   bottom           : 0;
   left             : 0;
   right            : 0;
-  z-index          : 10000;
+  z-index          : $z-img-screen;
   background-color : #000000;
   color            : #FFFFFF;
 
-  .top-bar {
-    @include flex-display();
+  .icons-top-bar {
     background-color : transparent;
     box-shadow       : 0 0 0 0;
   }
@@ -23,19 +22,15 @@
     width            : 100%;
     height           : calc(100% - #{$top-bar-height});
     position         : fixed;
-    top              : $top-bar-height;
+    top              : 40px;
     left             : 0;
     background-color : transparent;
     @include flex-center;
-
-    #img-screen-img-container {
 
       img {
         max-width  : 100%;
         max-height : 100%;
       }
-
-    }
 
   }
 

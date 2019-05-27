@@ -4,13 +4,13 @@
   "description": "A RESTful API that serves as backend for the Cordova app Defibrillator Hunter",
   "main": "app.js",
   "engines": {
-	"node": "10.15.1"
+    "node": "10.15.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "start-dev": "nodemon app.js",
-	"publishheroku": "cd ../ && git subtree push --prefix Server heroku master || true"
+    "publishheroku": "cd ../ && git subtree push --prefix Server heroku master || true"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,15 @@
   },
   "homepage": "https://github.com/epessina/Defibrillator-Hunter#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.2",
     "multer": "^1.4.1",
+    "nodemailer": "^6.2.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
