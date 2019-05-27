@@ -14,8 +14,6 @@ const defibrillatorRoutes = require("./routes/defibrillator"),
 const MONGODB_URI =
           `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@defibrillators-nbck3.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true`;
 
-// epessina Drachen995
-
 const app = express();
 
 
