@@ -257,7 +257,7 @@ function initAppMapUI() {
     // Hide the default controls of leaflet
     $(".leaflet-control-container").hide();
 
-    $("#map-control-profile").click(() => console.log("Profile button"));
+    $("#map-control-profile").click(() => openProfilePage());
 
     $("#map-control-hint").click(() => console.log("Hint button"));
 
@@ -463,8 +463,8 @@ function freeMap() {
  */
 function onPositionSuccess(pos) {
 
-    currLatLong          = [pos.coords.latitude, pos.coords.longitude];
-    currLatLongAccuracy  = pos.coords.accuracy;
+    currLatLong         = [pos.coords.latitude, pos.coords.longitude];
+    currLatLongAccuracy = pos.coords.accuracy;
 
     console.log("Position found");
 
@@ -516,8 +516,8 @@ function initPositionMarker() {
             })
         .on("dragend",
             e => {
-                currLatLong          = [e.target.getLatLng().lat, e.target.getLatLng().lng];
-                currLatLongAccuracy  = 0;
+                currLatLong         = [e.target.getLatLng().lat, e.target.getLatLng().lng];
+                currLatLongAccuracy = 0;
 
                 console.log("Position marker dragged to: " + currLatLong);
             });

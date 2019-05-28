@@ -290,6 +290,139 @@
 </div>
 
 
+<!-- Profile -->
+<div style="display: none" id="profile">
+
+    <div style="display: none" id="profile-settings-overlay"></div>
+
+    <div style="display: none" id="profile-settings-menu">
+
+        <div id="settings-language" class="settings-item" data-i18n="profile.settings.language"></div>
+        <div id="settings-editProfile" class="settings-item" data-i18n="profile.settings.editProfile"></div>
+        <div id="settings-changePassword" class="settings-item" data-i18n="profile.settings.changePassword"></div>
+        <div id="settings-logout" class="settings-item" data-i18n="profile.settings.logout"></div>
+
+    </div>
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="profile-back" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="profile.topBarTitle"></div>
+
+        <div style="visibility: hidden" class="top-bar-right-icon">
+            <i id="profile-settings" class="material-icons">settings</i>
+        </div>
+
+    </div>
+
+    <div class="profile-top-wrapper">
+
+        <div class="profile-photo">
+
+            <div class="profile-photo-ph placeholder"></div>
+
+            <img id="profile-photo"
+                 class="ph-hidden-content"
+                 src="img/default-profile-img-120.png"
+                 alt="Profile image">
+
+        </div>
+
+        <div class="profile-name-ph placeholder"></div>
+        <div id="profile-name" class="ph-hidden-content"></div>
+
+    </div>
+
+    <div class="tabs-labels-wrapper">
+
+        <div id="tab-profile-dashboard" class="tab-label tab-active">
+            <div class="tab-label-text" data-i18n="profile.tabLabelDashboard"></div>
+        </div>
+
+        <div id="tab-profile-about" class="tab-label">
+            <div class="tab-label-text" data-i18n="profile.tabLabelAbout"></div>
+        </div>
+
+    </div>
+
+    <div id="profile-tabs-content" class="tabs-content-wrapper">
+
+        <div id="profile-dashboard" class="tab-content custom-container">
+
+            <div class="mapped-def-wrapper">
+
+                <div class="mapped-def-ph placeholder"></div>
+
+                <div id="mapped-def-number" class="mapped-def-number ph-hidden-content"></div>
+                <div id="mapped-def-text" class="mapped-def-text ph-hidden-content"></div>
+
+            </div>
+
+        </div>
+
+        <div style="display: none" id="profile-about" class="tab-content custom-container">
+
+            <div id="profile-mail" class="info-block">
+
+                <div class="info-title-ph placeholder"></div>
+                <div class="info-title ph-hidden-content" data-i18n="profile.email"></div>
+
+                <div class="info-content-ph placeholder"></div>
+                <div class="info-content ph-hidden-content"></div>
+
+            </div>
+
+            <div id="profile-age" class="info-block">
+
+                <div class="info-title-ph placeholder"></div>
+                <div class="info-title ph-hidden-content" data-i18n="profile.age"></div>
+
+                <div class="info-content-ph placeholder"></div>
+                <div class="info-content ph-hidden-content"></div>
+
+            </div>
+
+            <div id="profile-gender" class="info-block">
+
+                <div class="info-title-ph placeholder"></div>
+                <div class="info-title ph-hidden-content" data-i18n="profile.gender"></div>
+
+                <div class="info-content-ph placeholder"></div>
+                <div class="info-content ph-hidden-content"></div>
+
+            </div>
+
+            <div id="profile-occupation" class="info-block">
+
+                <div class="info-title-ph placeholder"></div>
+                <div class="info-title ph-hidden-content" data-i18n="profile.occupation"></div>
+
+                <div class="info-content-ph placeholder"></div>
+                <div class="info-content ph-hidden-content">Retired</div>
+
+            </div>
+
+            <div id="profile-rescuer" class="info-block">
+
+                <div class="info-title-ph placeholder"></div>
+                <div class="info-title ph-hidden-content" data-i18n="profile.rescuer"></div>
+
+                <div class="info-content-ph placeholder"></div>
+                <div class="info-content ph-hidden-content"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
 <!-- Map -->
 <div style="display: none" id="map">
 
@@ -1288,6 +1421,7 @@
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery.mobile.touch.min.js"></script>
 
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script>
@@ -1299,6 +1433,7 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/profile.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/info.js"></script>

@@ -1,6 +1,7 @@
 "use strict";
 
 const User                 = require("../models/user"),
+      Defibrillator        = require("../models/defibrillator"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       jwt                  = require("jsonwebtoken"),
@@ -13,6 +14,56 @@ const transporter = nodemailer.createTransport(
     })
 );
 
+
+exports.getUser = (req, res, next) => {
+
+    const id = req.params.userId;
+
+    if (id !== req.userId) {
+        const error      = new Error("Not authorized.");
+        error.statusCode = 403;
+        throw error;
+    }
+
+    let userInfo;
+
+    User.findById(id)
+        .then(user => {
+
+            if (!user) {
+                const error      = new Error("Could not find the user.");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            userInfo = user;
+
+            Defibrillator.countDocuments({ user: id, markedForDeletion: false })
+                .then(count => {
+                    res.status(200).json({
+                        message: "User found.",
+                        user   : {
+                            email     : user.email,
+                            name      : user.name,
+                            age       : user.age,
+                            gender    : user.gender,
+                            occupation: user.occupation,
+                            isRescuer : user.isRescuer,
+                            defNumber : count
+                        }
+                    })
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
+        });
+
+};
 
 exports.check = (req, res, next) => {
 
@@ -46,6 +97,7 @@ exports.signup = (req, res, next) => {
           password   = req.body.password,
           name       = req.body.name,
           age        = req.body.age,
+          gender     = req.body.gender,
           occupation = req.body.occupation,
           isRescuer  = req.body.isRescuer;
 
@@ -57,6 +109,7 @@ exports.signup = (req, res, next) => {
                 password  : hashPw,
                 name      : name,
                 age       : age,
+                gender    : gender,
                 occupation: occupation,
                 isRescuer : isRescuer
             });

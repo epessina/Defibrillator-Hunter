@@ -8,6 +8,8 @@
     "mandatoryPhoto" : "You must provide a photo of the defibrillator."
   },
   "dialogs" : {
+    "errorGetUser" : "An error occurred while retrieving your data.",
+    "logoutConfirmation": "Are you sure you want to logout?",
     "errorGetDefibrillators" : "An error occurred while retrieving the defibrillators.",
     "errorDeleteDefibrillator" : "An error occurred while deleting the defibrillator.",
     "deleteConfirmation" : "Are you sure you want to delete this defibrillator?",
@@ -51,39 +53,62 @@
       "passwordPh" : "Password",
       "confirmPasswordPh" : "Confirm password",
       "namePh" : "Name",
-      "ageEnum": {
-        "less15": "Less than 15",
-        "16-20": "From 16 to 20",
-        "21-25": "From 21 to 25",
-        "26-30": "From 26 to 30",
-        "31-35": "From 31 to 35",
-        "36-40": "From 36 to 40",
-        "41-45": "From 41 to 45",
-        "46-50": "From 46 to 50",
-        "51-55": "From 51 to 55",
-        "56-60": "From 56 to 60",
-        "61-65": "From 61 to 65",
-        "66-70": "From 66 to 70",
-        "more70": "More than 70"
+      "ageEnum" : {
+        "none" : "-",
+        "less15" : "Less than 15",
+        "16-20" : "From 16 to 20",
+        "21-25" : "From 21 to 25",
+        "26-30" : "From 26 to 30",
+        "31-35" : "From 31 to 35",
+        "36-40" : "From 36 to 40",
+        "41-45" : "From 41 to 45",
+        "46-50" : "From 46 to 50",
+        "51-55" : "From 51 to 55",
+        "56-60" : "From 56 to 60",
+        "61-65" : "From 61 to 65",
+        "66-70" : "From 66 to 70",
+        "more70" : "More than 70"
       },
-      "genderEnum": {
-        "male": "Male",
-        "female": "Female",
-        "other": "Other"
+      "genderEnum" : {
+        "none" : "-",
+        "male" : "Male",
+        "female" : "Female",
+        "other" : "Other"
       },
-      "occupationEnum": {
-        "student": "Student",
-        "employee": "Employee",
-        "freelancer": "Freelancer",
-        "unemployed": "Unemployed",
-        "retiree": "Retiree"
+      "occupationEnum" : {
+        "none" : "-",
+        "student" : "Student",
+        "employee" : "Employee",
+        "freelancer" : "Freelancer",
+        "unemployed" : "Unemployed",
+        "retiree" : "Retiree"
       },
-      "rescuer": "Are you a rescuer?",
+      "rescuer" : "Are you a rescuer?",
       "btnNext" : "Next",
       "btnRegister" : "Register",
-      "goBack": "Go back",
-      "haveAccount": "Already have an account? ",
-      "login": "Log in"
+      "goBack" : "Go back",
+      "haveAccount" : "Already have an account? ",
+      "login" : "Log in"
+    }
+  },
+  "profile" : {
+    "topBarTitle" : "Profile",
+    "tabLabelDashboard" : "Dashboard",
+    "tabLabelAbout" : "About",
+    "defMappedSingle" : "defibrillator mapped",
+    "defMappedPlural" : "defibrillators mapped",
+    "email" : "Email",
+    "age" : "Age",
+    "gender" : "Gender",
+    "occupation" : "Occupation",
+    "rescuer" : "Rescuer",
+    "yes" : "Yes",
+    "no" : "No",
+    "settings" : {
+      "language" : "Language",
+      "editProfile" : "Edit profile",
+      "changePassword" : "Change password",
+      "logout" : "Logout"
     }
   },
   "map" : {

@@ -27,7 +27,7 @@
 <body onresize="onResize()" onload="onLoad()">
 
 <!-- Splash screen -->
-<div id="splash">
+<div style="display: none" id="splash">
 
     <div class="logo-wrapper">
 
@@ -286,6 +286,130 @@
             <span class="link register-to-login" data-i18n="auth.register.login"></span>
         </p>
     </div>
+
+</div>
+
+
+<!-- Profile -->
+<div id="profile">
+
+    <div style="display: none" id="profile-settings-overlay"></div>
+
+    <div style="display: none" id="profile-settings-menu">
+
+        <div class="settings-item">Language</div>
+
+        <div class="settings-item">Edit profile</div>
+
+        <div class="settings-item">Change password</div>
+
+        <div class="settings-item">Logout</div>
+
+    </div>
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="profile-back" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title">Profile</div>
+
+        <div class="top-bar-right-icon">
+            <i id="profile-settings" class="material-icons">settings</i>
+        </div>
+
+    </div>
+
+    <div class="profile-top-wrapper">
+
+        <div class="profile-photo">
+
+            <img src="img/default-profile-img-120.png" alt="Profile image">
+
+        </div>
+
+        <div id="profile-name">Edoardo Pessina</div>
+
+    </div>
+
+    <div class="tabs-labels-wrapper">
+
+        <div id="tab-profile-dashboard" class="tab-label tab-active">
+
+            <div class="tab-label-text">Dashboard</div>
+
+        </div>
+
+        <div id="tab-profile-about"  class="tab-label">
+
+            <div class="tab-label-text">About</div>
+
+        </div>
+
+    </div>
+
+    <div id="profile-tabs-content" class="tabs-content-wrapper">
+
+        <div id="profile-dashboard" class="tab-content custom-container">
+
+            <div class="mapped-def-wrapper">
+
+                <div class="mapped-def-number">6</div>
+
+                <div class="mapped-def-text">defibrillators mapped</div>
+
+            </div>
+
+        </div>
+
+        <div style="display: none" id="profile-about" class="tab-content custom-container">
+
+            <div id="profile-mail" class="info-block">
+
+                <div class="info-title">Email</div>
+
+                <div class="info-content">test@test.it</div>
+
+            </div>
+
+            <div id="profile-age" class="info-block">
+
+                <div class="info-title">Age</div>
+
+                <div class="info-content">From 15 to 20</div>
+
+            </div>
+
+            <div id="profile-gender" class="info-block">
+
+                <div class="info-title">Gender</div>
+
+                <div class="info-content">Male</div>
+
+            </div>
+
+            <div id="profile-occupation" class="info-block">
+
+                <div class="info-title">Occupation</div>
+
+                <div class="info-content">Retired</div>
+
+            </div>
+
+            <div id="profile-rescuer" class="info-block">
+
+                <div class="info-title">Rescuer</div>
+
+                <div class="info-content">Yes</div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
 
 </div>
 
@@ -1288,6 +1412,7 @@
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery.mobile.touch.min.js"></script>
 
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script>
@@ -1299,6 +1424,7 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/profile.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/info.js"></script>

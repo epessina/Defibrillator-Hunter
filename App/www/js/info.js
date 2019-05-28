@@ -10,7 +10,7 @@ const dateOptions = {
 };
 
 let defibrillatorData = undefined,
-    $placeholders     = $("#defibrillator-info .placeholder");
+    $infoPlaceholders = $("#defibrillator-info .placeholder");
 
 
 function initInfo() {
@@ -26,7 +26,7 @@ function initInfo() {
 
 function openInfo(id) {
 
-    $placeholders.addClass("ph-animate");
+    $infoPlaceholders.addClass("ph-animate");
 
     $("#defibrillator-info").show();
 
@@ -82,7 +82,7 @@ function closeInfo() {
     $("#defibrillator-info").scrollTop(0).hide();
 
     $("#defibrillator-info .ph-hidden-content").hide();
-    $placeholders.removeClass("ph-animate").show();
+    $infoPlaceholders.removeClass("ph-animate").show();
 
     $("#info-delete").hide();
     $("#info-edit").hide();
@@ -154,7 +154,7 @@ function showInfo() {
     }
 
     $("#info-photo-thm").attr("src", serverUrl + defibrillatorData.imageUrl);
-    $placeholders.hide().removeClass("ph-animate");
+    $infoPlaceholders.hide().removeClass("ph-animate");
     $("#defibrillator-info .ph-hidden-content").show();
 
 }

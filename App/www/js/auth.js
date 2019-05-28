@@ -187,9 +187,9 @@ function logout() {
     token  = null;
     userId = null;
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiryDate');
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token");
+    localStorage.removeItem("expireDate");
+    localStorage.removeItem("userId");
 
 }
 

@@ -283,6 +283,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "CameraPopoverHandle"
       ]
+    },
+    {
+      "id": "cordova-plugin-ionic-keyboard.keyboard",
+      "file": "plugins/cordova-plugin-ionic-keyboard/www/android/keyboard.js",
+      "pluginId": "cordova-plugin-ionic-keyboard",
+      "clobbers": [
+        "window.Keyboard"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -294,6 +302,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-plugin-x-toast": "2.7.2",
     "cordova.plugins.diagnostic": "4.0.12",
-    "cordova-plugin-camera-with-exif": "1.2.5"
+    "cordova-plugin-camera-with-exif": "1.2.5",
+    "cordova-plugin-ionic-keyboard": "2.1.3"
   };
 });

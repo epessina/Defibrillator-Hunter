@@ -5,7 +5,8 @@ const express  = require("express"),
 
 const User = require("../models/user");
 
-const authController = require("../controllers/auth");
+const authController = require("../controllers/auth"),
+      isAuth         = require("../middleware/is-auth");
 
 const router = express.Router();
 
@@ -79,6 +80,9 @@ const signupValidation = [
         .isBoolean().withMessage("Invalid rescuer value.")
 ];
 
+
+// GET /auth/:userId
+router.get("/:userId", isAuth, authController.getUser);
 
 // PUT /auth/check
 router.put("/check", emailPwValidation, authController.check);

@@ -2,9 +2,6 @@
     - mandare mail
 
 
-- Cambio password
-
-
 - Aggiugnere lingue
 
 - Tradurre errori server side
@@ -27,6 +24,15 @@
 - Inserire metadati nella foto
 
 - Abbassare molto peso immagini
+
+
+- Aggiungere foto profilo
+
+- Modifica profilo
+
+- Modifica password
+
+- Sanizzare nome utente e impedire volgarità
 
 
 - Per il token:

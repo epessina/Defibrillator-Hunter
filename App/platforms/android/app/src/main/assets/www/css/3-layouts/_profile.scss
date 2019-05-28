@@ -1,0 +1,110 @@
+/* PROFILE */
+
+#profile {
+  @extend %full-page;
+
+  #profile-settings-overlay {
+    @extend %full-page;
+    overflow-y : hidden;
+    z-index    : 2;
+    background : transparent;
+  }
+
+  #profile-settings-menu {
+    width         : 50%;
+    position      : fixed;
+    top           : 4px;
+    right         : 4px;
+    z-index       : 3;
+    background    : #FFFFFF;
+    border-radius : 3px;
+    box-shadow    : -1px 2px 20px 0 rgba(0, 0, 0, 0.3);
+    padding       : 0 16px;
+
+    .settings-item {
+      padding : 15px 0;
+    }
+
+  }
+
+  .profile-top-wrapper {
+    width      : 100%;
+    @include vendor("display", "flex");
+    @include vendor("flex-direction", "column");
+    @include vendor("align-items", "center");
+    margin-top : $top-bar-height + 25;
+
+    .profile-photo {
+      width            : 120px;
+      height           : 120px;
+      background-color : transparent;
+      @include flex-center;
+      margin-bottom    : 20px;
+
+      img {
+        max-width     : 100%;
+        max-height    : 100%;
+        border-radius : 50%;
+      }
+
+    }
+
+    #profile-name {
+      @include font(500, $font-title)
+    }
+
+  }
+
+  .tabs-labels-wrapper {
+    width      : 100%;
+    margin-top : 30px;
+    @include flex-display();
+
+    .tab-label {
+      @include flex-static-size(50%);
+      padding       : 5px 0 15px 0;
+      @include flex-center;
+      border-bottom : 2px solid #D9D9D9;
+
+      .tab-label-text {
+        @include font(500, $font-body-small);
+        color          : #979797;
+        text-transform : uppercase;
+      }
+
+      &.tab-active {
+        border-bottom : 2px solid $color-main;
+
+        .tab-label-text {
+          color : $color-main-dark;
+        }
+
+      }
+
+    }
+
+  }
+
+  .tabs-content-wrapper {
+    min-height  : calc(100% - 167px - 81px - 41px - 30px);
+    padding-top : 20px;
+
+    .mapped-def-wrapper {
+      @include vendor("display", "flex");
+      @include vendor("flex-direction", "column");
+      @include vendor("align-items", "center");
+
+      .mapped-def-number {
+        @include font(500, 30px);
+        margin-bottom : 5px;
+      }
+
+    }
+
+    #profile-about {
+      padding : 10px 16px 0 16px;
+    }
+
+  }
+
+}

@@ -1,8 +1,8 @@
 "use strict";
 
-// let serverUrl = "http://localhost:8080/";
+let serverUrl = "http://localhost:8080/";
 // let serverUrl = "http://192.168.1.100:8080/";
-let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+// let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 let backPressedCount = 0;
 
@@ -89,6 +89,10 @@ function init() {
 
     }
 
+    let $authFooter = $(".auth-footer");
+    window.addEventListener("keyboardWillShow", () => $authFooter.hide());
+    window.addEventListener("keyboardWillHide", () => $authFooter.show());
+
     onResize();
     initAuth();
 
@@ -102,6 +106,7 @@ function init() {
         getDefibrillators();
     }
 
+    initProfilePage();
     initInsert();
     initInfo();
 

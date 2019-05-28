@@ -2,13 +2,8 @@
 
 
 #insert-defibrillator {
-  width      : 100%;
-  height     : 100%;
-  position   : absolute;
-  top        : 0;
+  @extend %full-page;
   z-index    : $z-insert-wrapper;
-  overflow-y : scroll;
-  background : #FFFFFF;
 
   /* MAIN PAGE */
   #insert-defibrillator-main {
