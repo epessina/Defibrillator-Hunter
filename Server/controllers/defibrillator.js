@@ -19,7 +19,12 @@ exports.getDefibrillators = (req, res, next) => {
                 })
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
         });
 
 };
@@ -39,7 +44,7 @@ exports.getDefibrillator = (req, res, next) => {
 
             if (defibrillator.user.toString() !== req.userId) {
                 const error      = new Error("Not authorized.");
-                error.statusCode = 403;
+                error.statusCode = 401;
                 throw error;
             }
 
@@ -49,7 +54,7 @@ exports.getDefibrillator = (req, res, next) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             if (!err.statusCode) {
                 err.statusCode = 500;
                 err.errors     = ["Something went wrong on the server."];
@@ -122,7 +127,7 @@ exports.postDefibrillator = (req, res, next) => {
 
     defibrillator
         .save()
-        .then(result => {
+        .then(() => {
             return User.findById(req.userId);
         })
         .then(user => {
@@ -130,7 +135,7 @@ exports.postDefibrillator = (req, res, next) => {
             user.defibrillators.push(defibrillator);
             return user.save();
         })
-        .then(result => {
+        .then(() => {
             res.status(201).json({
                 message      : "Defibrillator created",
                 defibrillator: defibrillator,
@@ -171,7 +176,7 @@ exports.updateDefibrillator = (req, res, next) => {
 
             if (defibrillator.user.toString() !== req.userId) {
                 const error      = new Error("Not authorized.");
-                error.statusCode = 403;
+                error.statusCode = 401;
                 throw error;
             }
 
@@ -187,11 +192,8 @@ exports.updateDefibrillator = (req, res, next) => {
             defibrillator.notes                 = req.body.notes;
 
             if (req.file) {
-                console.log("Got file");
                 clearImage(defibrillator.imageUrl);
                 defibrillator.imageUrl = req.file.path.replace("\\", "/");
-            } else {
-                console.log("No file");
             }
 
             return defibrillator.save();
@@ -229,17 +231,14 @@ exports.deleteDefibrillator = (req, res, next) => {
 
             if (defibrillator.user.toString() !== req.userId) {
                 const error      = new Error("Not authorized.");
-                error.statusCode = 403;
+                error.statusCode = 401;
                 throw error;
             }
 
             defibrillator.markedForDeletion = true;
             return defibrillator.save();
         })
-        .then(result => {
-            console.log(result);
-            res.status(200).json({ message: "Defibrillator successfully deleted." })
-        })
+        .then(() => res.status(200).json({ message: "Defibrillator successfully deleted." }))
         .catch(err => {
             console.log(err);
             if (!err.statusCode) {

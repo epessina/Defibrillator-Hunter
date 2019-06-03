@@ -4,33 +4,31 @@
 
 - Aggiugnere lingue
 
-- Tradurre errori server side
-
 
 - Inserire defibrillatore in open street map
 
 
 - Aggiungere tag edit-config (vedi camera-plugin)
 
-- Controllare states Android (https://cordova.apache.org/docs/en/latest/guide/platforms/android/#lifecycle-guide)
 
+- Se muovo il marker e poi zoommo e poi clicco GPS, fa freemap(), perchè autoZoom = false viene chiamato prima di zoomstart
 
-- Se muovo il marker e poi zoommo e poi clicck GPS, fa freemap(), perchè autoZoom = false viene chiamato prima di zoomstart
+- Problema coi permessi android. Di base è "always denied"
 
 
 - Aggiungere indirizzo con suggerimento (OSM)
 
 
-- Inserire metadati nella foto
+- Inserire metadati nella foto:
+    - i dati da gps sono in formati diversi e oscuri
 
-- Abbassare molto peso immagini
+- Abbassare peso immagini:
+    - 100% -> 4,20 mb
+    - 50%  -> 349 kb
+    - 10%  -> 95,7 kb
 
 
 - Aggiungere foto profilo
-
-- Modifica profilo
-
-- Modifica password
 
 - Sanizzare nome utente e impedire volgarità
 
@@ -43,3 +41,11 @@
 - Come valido che l'applicazione da cui sto mandando richieste sia la mia?
 
 - Per i link da mail, che faccio? Renderizzo una view o uso un deep link?
+
+
+- ENV
+- log
+- Mail
+- SSL
+
+- Logo

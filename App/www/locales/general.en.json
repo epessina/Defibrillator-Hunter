@@ -1,18 +1,63 @@
 {
   "messages" : {
+    "mandatoryEmail" : "You must provide a valid email address",
+    "weakPassword" : "Password should be of at least 8 characters long and must contain at least one number.",
+    "weakNewPassword" : "New password should be of at least 8 characters long and must contain at least one number.",
+    "passwordsNotMatch" : "The passwords don't match.",
+    "insertOldPassword" : "Please, insert your old password.",
+    "samePassword" : "New password must be different.",
+    "mandatoryName" : "You must provide a name.",
+    "validCredentials" : "Please provide valid credentials.",
     "mandatoryPresence" : "You must confirm the presence of the defibrillator.",
     "mandatoryLocationCategory" : "You must specify the location category.",
     "mandatoryTransportType" : "You must specify the type of transport station.",
     "mandatoryFloor" : "You must specify the floor.",
     "mandatoryTempAccessibility" : "You must specify the temporal accessibility.",
-    "mandatoryPhoto" : "You must provide a photo of the defibrillator."
+    "mandatoryPhoto" : "You must provide a photo of the defibrillator.",
+    "postDefibrillator422" : "Entered data is incorrect.",
+    "putDefibrillator422" : "Entered data is incorrect.",
+    "register409" : "This email is already in use.",
+    "register422" : "Entered data is incorrect.",
+    "login401" : "Wrong email or password.",
+    "changePw422": "Entered data are incorrect.",
+    "changePwWrongPw": "Wrong password!",
+    "editProfile422": "Entered data are incorrect."
   },
   "dialogs" : {
-    "errorGetUser" : "An error occurred while retrieving your data.",
-    "logoutConfirmation": "Are you sure you want to logout?",
-    "errorGetDefibrillators" : "An error occurred while retrieving the defibrillators.",
-    "errorDeleteDefibrillator" : "An error occurred while deleting the defibrillator.",
+    "pictureError":  "An error occurred while taking the photo.",
+    "errorAppendPicture" : "An error occurred while sending the photo to the server.",
+    "title401" : "Unauthorized!",
+    "title404" : "Not Found!",
+    "title500" : "Internal Error!",
+    "logoutConfirmation" : "Are you sure you want to logout?",
+    "getDefibrillators401" : "You are not authorized to retrieve the defibrillators.",
+    "getDefibrillators500" : "Something went wrong on the server while retrieving the defibrillators. Please, try again later.",
+    "getDefibrillator401" : "You are not authorized to see this defibrillator.",
+    "getDefibrillator404" : "The defibrillator could not be found.",
+    "getDefibrillator500" : "Something went wrong on the server while retrieving the defibrillator. Please, try again later.",
+    "postDefibrillator401" : "You are not authorized to insert a new defibrillator.",
+    "postDefibrillator500" : "Something went wrong on the server while inserting the defibrillator. Please, try again later.",
+    "putDefibrillator401" : "You are not authorized to edit this defibrillator.",
+    "putDefibrillator404" : "The defibrillator could not be found.",
+    "putDefibrillator500" : "Something went wrong on the server while updating the defibrillator. Please, try again later.",
     "deleteConfirmation" : "Are you sure you want to delete this defibrillator?",
+    "deleteDefibrillator401" : "You are not authorized to delete this defibrillator.",
+    "deleteDefibrillator404" : "The defibrillator could not be found.",
+    "deleteDefibrillator500" : "Something went wrong on the server while deleting the defibrillator. Please, try again later.",
+    "register500" : "Something went wrong on the server during the registration. Please, try again later.",
+    "login500" : "Something went wrong on the server during the login. Please, try again later.",
+    "getUser401" : "You are not authorized to see this user's information.",
+    "getUser404" : "The user could not be found.",
+    "getUser500" : "Something went wrong on the server while retrieving your information. Please, try again later.",
+    "changePw401" : "You provided a wrong password or you may not be authorized to change this user's password.",
+    "changePw404" : "The user could not be found.",
+    "changePw500" : "Something went wrong on the server while changing your password. Please, try again later.",
+    "editProfile401" : "You are not be authorized to edit the profile of this user.",
+    "editProfile404" : "The user could not be found.",
+    "editProfile500" : "Something went wrong on the server while updating your profile. Please, try again later.",
+    "putProfileImage401" : "You are not be authorized to edit the picture of this user.",
+    "putProfileImage404" : "The user could not be found.",
+    "putProfileImage500" : "Something went wrong on the server while updating your profile picture. Please, try again later.",
     "btnCancel" : "cancel",
     "btnOk" : "ok",
     "map" : {
@@ -25,13 +70,9 @@
     "insert" : {
       "errorPost" : "An error occurred while inserting the new defibrillator in the database.",
       "errorPut" : "An error occurred while updating the defibrillator.",
-      "errorAppendPicture" : "An error occurred while sending the photo to the server.",
       "confirmClose" : "Discard the changes you made?",
       "btnKeepEditing" : "Keep editing",
       "btnDiscard" : "Discard"
-    },
-    "info" : {
-      "errorGetDefibrillator" : "An error occurred while retrieving the defibrillator."
     },
     "photoScreen" : {
       "deletePictureConfirmation" : "Are you sure you want to delete the photo?"
@@ -104,11 +145,27 @@
     "rescuer" : "Rescuer",
     "yes" : "Yes",
     "no" : "No",
+    "photoDialog": {
+      "title": "Profile picture",
+      "camera": "Take a picture",
+      "gallery": "Choose from gallery",
+      "delete": "Delete",
+      "deleteConfirmation": "Are you sure you want to delete your profile picture?"
+    },
     "settings" : {
       "language" : "Language",
       "editProfile" : "Edit profile",
       "changePassword" : "Change password",
       "logout" : "Logout"
+    },
+    "changePw" : {
+      "topBarTitle" : "Change password",
+      "oldPasswordPh" : "Old password",
+      "newPasswordPh" : "New password",
+      "confirmPasswordPh" : "Confirm new password"
+    },
+    "editProfile": {
+      "topBarTitle" : "Edit profile"
     }
   },
   "map" : {
@@ -239,6 +296,9 @@
     "register-ageDefLabel" : "Age",
     "register-genderDefLabel" : "Gender",
     "register-occupationDefLabel" : "Occupation",
+    "edit-profile-ageDefLabel" : "Age",
+    "edit-profile-genderDefLabel" : "Gender",
+    "edit-profile-occupationDefLabel" : "Occupation",
     "location-selectDefLabel" : "Select a category",
     "transport-type-selectDefLabel" : "Select a type"
   }

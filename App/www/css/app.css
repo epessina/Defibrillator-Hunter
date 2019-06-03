@@ -261,7 +261,7 @@ p {
   margin: 0;
 }
 
-#profile #profile-settings-overlay, #profile, #splash, .auth-page, #img-screen, #defibrillator-info, #insert-defibrillator {
+#edit-profile, #change-pw, #profile #profile-photo-dialog-overlay, #profile #profile-settings-overlay, #profile, #splash, .auth-page, #img-screen, #defibrillator-info, #insert-defibrillator {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -596,41 +596,9 @@ p {
 #register-page-two .register-top-text {
   margin-bottom: 57px;
 }
-#register-page-two .register-checkbox {
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-flex-direction: row;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -moz-justify-content: -moz-flex-start;
-  -webkit-justify-content: -webkit-flex-start;
-  -ms-justify-content: -ms-flex-start;
-  justify-content: flex-start;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
+#register-page-two .checkbox {
   margin-top: 4px;
   padding-left: 16px;
-}
-#register-page-two .register-checkbox input {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  margin-left: 26px;
-  background: white;
-  border: 1px solid #555555;
-  border-radius: 2px;
-}
-#register-page-two .register-checkbox input:focus {
-  outline: none !important;
-}
-#register-page-two .register-checkbox input:checked {
-  background: #009688;
-  border: none;
 }
 #register-page-two #register-go-back {
   margin-top: 20px;
@@ -736,8 +704,8 @@ p {
   margin-top: 81px;
 }
 #profile .profile-top-wrapper .profile-photo {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   background-color: transparent;
   display: -moz-flex;
   display: -webkit-flex;
@@ -759,9 +727,10 @@ p {
   border-radius: 50%;
 }
 #profile .profile-top-wrapper .profile-photo img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  border: 0.5px solid #CFCFCF;
 }
 #profile .profile-top-wrapper .profile-name-ph {
   width: 75%;
@@ -851,6 +820,45 @@ p {
 }
 #profile .tabs-content-wrapper #profile-about {
   padding: 10px 16px 0 16px;
+}
+#profile #profile-photo-dialog-overlay {
+  overflow-y: hidden;
+  z-index: 2;
+  background: rgba(108, 108, 108, 0.1);
+}
+#profile #profile-photo-dialog-overlay .dialog-title {
+  margin-bottom: 10px;
+}
+#profile #profile-photo-dialog-overlay .dialog-content div {
+  padding: 10px 0;
+}
+#profile #profile-photo-dialog-overlay .dialog-footer {
+  margin-top: 18px;
+}
+
+#change-pw {
+  z-index: 1101;
+}
+#change-pw .form-container {
+  margin-top: 56px;
+  padding-top: 50px;
+}
+#change-pw .form-container .form-field {
+  margin-bottom: 26px;
+}
+
+#edit-profile {
+  z-index: 1101;
+}
+#edit-profile .form-container {
+  margin-top: 56px;
+  padding-top: 50px;
+}
+#edit-profile .form-container .form-field {
+  margin-bottom: 25px;
+}
+#edit-profile .form-container .checkbox {
+  padding-left: 16px;
 }
 
 /* FLOATING ACTION BUTTON */
@@ -1062,8 +1070,12 @@ p {
   text-align: left;
   color: #000000;
 }
+.dialog-wrapper .dialog .dialog-container .dialog-title {
+  font: 500 20px system-ui;
+  margin-bottom: 20px;
+}
 .dialog-wrapper .dialog .dialog-container .dialog-text {
-  margin: 0 0 26px 0;
+  margin-bottom: 26px;
 }
 .dialog-wrapper .dialog .dialog-footer {
   display: -moz-flex;
@@ -1560,6 +1572,42 @@ p {
 .info-block .info-content {
   font: 400 17px system-ui;
   color: #000000;
+}
+
+/* CHECKBOX */
+.checkbox {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -moz-justify-content: -moz-flex-start;
+  -webkit-justify-content: -webkit-flex-start;
+  -ms-justify-content: -ms-flex-start;
+  justify-content: flex-start;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.checkbox input {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-left: 26px;
+  background: white;
+  border: 1px solid #555555;
+  border-radius: 2px;
+}
+.checkbox input:focus {
+  outline: none !important;
+}
+.checkbox input:checked {
+  background: #009688;
+  border: none;
 }
 
 /*# sourceMappingURL=app.css.map */

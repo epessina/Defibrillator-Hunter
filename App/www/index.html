@@ -263,7 +263,7 @@
         </div>
 
         <!-- Rescuer -->
-        <div class="register-checkbox">
+        <div class="checkbox">
 
             <div data-i18n="auth.register.rescuer"></div>
 
@@ -314,6 +314,39 @@
 
         <div style="visibility: hidden" class="top-bar-right-icon">
             <i id="profile-settings" class="material-icons">settings</i>
+        </div>
+
+    </div>
+
+    <div style="display: none" id="profile-photo-dialog-overlay">
+
+        <div class="dialog-wrapper">
+
+            <div class="dialog">
+
+                <div class="dialog-container">
+
+                    <p class="dialog-title" data-i18n="profile.photoDialog.title"></p>
+
+                    <div class="dialog-content">
+
+                        <div id="profile-photo-camera" data-i18n="profile.photoDialog.camera"></div>
+                        <div id="profile-photo-gallery" data-i18n="profile.photoDialog.gallery"></div>
+                        <div style="display: none" id="profile-photo-delete"
+                             data-i18n="profile.photoDialog.delete"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dialog-footer">
+
+                    <div id="profile-photo-cancel" class="text-button" data-i18n="dialogs.btnCancel"></div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -419,6 +452,211 @@
 
     </div>
 
+    <input style="display: none; position: absolute; top: 0; left: 0;"
+           id="tmp-profile-photo-input"
+           type="file"
+           accept=".png, .jpg, .jpeg">
+
+</div>
+
+<!-- Change password -->
+<div style="display: none" id="change-pw">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="change-pw-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="profile.changePw.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="change-pw-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <!-- Old password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-old-password"></label>
+            <input id="change-pw-old-password"
+                   type="password"
+                   data-i18n="[placeholder]profile.changePw.oldPasswordPh">
+
+        </div>
+
+        <!-- New password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-new-password"></label>
+            <input id="change-pw-new-password"
+                   type="password"
+                   data-i18n="[placeholder]profile.changePw.newPasswordPh">
+
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-confirm-password"></label>
+            <input id="change-pw-confirm-password"
+                   type="password"
+                   data-i18n="[placeholder]profile.changePw.confirmPasswordPh">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- Edit profile -->
+<div style="display: none" id="edit-profile">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="edit-profile-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="profile.editProfile.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="edit-profile-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <!-- Name -->
+        <div class="form-field">
+
+            <i class="material-icons">face</i>
+
+            <label for="edit-profile-name"></label>
+            <input id="edit-profile-name"
+                   type="text"
+                   data-i18n="[placeholder]auth.register.namePh">
+
+        </div>
+
+        <!-- Age -->
+        <div class="form-field">
+
+            <i class="material-icons">cake</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-age">
+
+                    <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-age">
+
+                    <option value="none">--</option>
+                    <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
+                    <option value="16-20" data-i18n="auth.register.ageEnum.16-20"></option>
+                    <option value="21-25" data-i18n="auth.register.ageEnum.21-25"></option>
+                    <option value="26-30" data-i18n="auth.register.ageEnum.26-30"></option>
+                    <option value="31-35" data-i18n="auth.register.ageEnum.31-35"></option>
+                    <option value="36-40" data-i18n="auth.register.ageEnum.36-40"></option>
+                    <option value="41-45" data-i18n="auth.register.ageEnum.41-45"></option>
+                    <option value="46-50" data-i18n="auth.register.ageEnum.46-50"></option>
+                    <option value="51-55" data-i18n="auth.register.ageEnum.51-55"></option>
+                    <option value="56-60" data-i18n="auth.register.ageEnum.56-60"></option>
+                    <option value="61-65" data-i18n="auth.register.ageEnum.61-65"></option>
+                    <option value="66-70" data-i18n="auth.register.ageEnum.66-70"></option>
+                    <option value="more70" data-i18n="auth.register.ageEnum.more70"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Gender -->
+        <div class="form-field">
+
+            <i class="material-icons">perm_identity</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-gender">
+
+                    <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-gender">
+
+                    <option value="none">--</option>
+                    <option value="male" data-i18n="auth.register.genderEnum.male"></option>
+                    <option value="female" data-i18n="auth.register.genderEnum.female"></option>
+                    <option value="other" data-i18n="auth.register.genderEnum.other"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Occupation -->
+        <div class="form-field">
+
+            <i class="material-icons">domain</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-occupation">
+
+                    <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-occupation">
+
+                    <option value="none">--</option>
+                    <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
+                    <option value="employee" data-i18n="auth.register.occupationEnum.employee"></option>
+                    <option value="freelancer" data-i18n="auth.register.occupationEnum.freelancer"></option>
+                    <option value="unemployed" data-i18n="auth.register.occupationEnum.unemployed"></option>
+                    <option value="retiree" data-i18n="auth.register.occupationEnum.retiree"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Rescuer -->
+        <div class="checkbox">
+
+            <div data-i18n="auth.register.rescuer"></div>
+
+            <label for="edit-profile-rescuer"></label>
+            <input id="edit-profile-rescuer" type="checkbox">
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -1395,6 +1633,8 @@
         <div class="dialog">
 
             <div class="dialog-container">
+
+                <p class="dialog-title"></p>
 
                 <p class="dialog-text"></p>
 

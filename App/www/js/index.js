@@ -96,6 +96,7 @@ function init() {
     onResize();
     initAuth();
 
+//    getAuthStatus();
     if (!getAuthStatus()) {
         $("#log-in-page").show();
         $splashScreen.hide();
@@ -146,17 +147,29 @@ function getDefibrillators() {
         }
     })
         .then(res => {
+
             if (res.status !== 200) {
-                throw new Error("Failed to fetch defibrillators");
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
             }
+
             return res.json();
         })
-        .then(data => {
-            data.defibrillators.forEach(def => showDefibrillator(def._id, def.coordinates))
-        })
+        .then(data => data.defibrillators.forEach(def => showDefibrillator(def._id, def.coordinates)))
         .catch(err => {
-            createAlertDialog(i18n.t("dialogs.errorGetDefibrillators"), i18n.t("dialogs.btnOk"));
             console.error(err);
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.getDefibrillators401"),
+                    i18n.t("dialogs.btnOk"));
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.getDefibrillators500"),
+                    i18n.t("dialogs.btnOk"));
         });
 
 }
@@ -182,6 +195,8 @@ function showDefibrillator(id, coordinates) {
 
 function deleteDefibrillator(id) {
 
+    openLoader();
+
     fetch(serverUrl + "defibrillator/" + id, {
         method : "DELETE",
         headers: {
@@ -189,12 +204,17 @@ function deleteDefibrillator(id) {
         }
     })
         .then(res => {
+
             if (res.status !== 200) {
-                throw new Error("Failed to delete the defibrillator");
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
             }
+
             return res.json();
         })
-        .then(data => {
+        .then(() => {
+
             let new_markers = [];
             markers.forEach(marker => {
                 if (marker._id === id)
@@ -204,12 +224,68 @@ function deleteDefibrillator(id) {
             });
             markers = new_markers;
 
+            closeLoader();
             closeInfo();
         })
         .catch(err => {
-            createAlertDialog(i18n.t("dialogs.errorDeleteDefibrillator"), i18n.t("dialogs.btnOk"));
             console.error(err);
+
+            closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.deleteDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.deleteDefibrillator404"),
+                    i18n.t("dialogs.btnOk"));
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.deleteDefibrillator500"),
+                    i18n.t("dialogs.btnOk"));
         });
+}
+
+
+function appendFile(formData, fileUri, fileName, clbSuccess) {
+
+    window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+
+            fileEntry.file(file => {
+
+                let reader = new FileReader();
+
+                reader.onloadend = function () {
+                    let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+                    formData.append(fileName, blob);
+                    clbSuccess(formData);
+                };
+
+                reader.onerror = fileReadResult => {
+                    console.error("Reader error", fileReadResult);
+                    closeLoader();
+                    createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+                };
+
+                reader.readAsArrayBuffer(file);
+
+            }, err => {
+                console.error("Error getting the fileEntry file", err);
+                closeLoader();
+                createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+            })
+
+        }, err => {
+            console.error("Error getting the file", err);
+            closeLoader();
+            createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+        }
+    );
+
 }
 
 
@@ -235,6 +311,7 @@ function openImgScreen(scr, editable = false, clbEdit, clbCancel) {
             .click(() => {
 
                 createAlertDialog(
+                    "",
                     i18n.t("dialogs.photoScreen.deletePictureConfirmation"),
                     i18n.t("dialogs.btnCancel"),
                     null,
@@ -299,13 +376,19 @@ function resetSelector(selectorId) {
  * It must be passed the text of the buttons (a null value means that there is no button) and a callback function to be
  * executed when the buttons are clicked (a null value means no callback).
  *
+ * @param title: the title of the dialog.
  * @param msg: the message to display.
  * @param btn1: the text of the first button.
  * @param clbBtn1: the function to call when the first button is clicked.
  * @param btn2: the text of the second button.
  * @param clbBtn2: the function to call when the second button is clicked.
  */
-function createAlertDialog(msg, btn1, clbBtn1 = null, btn2 = null, clbBtn2 = null) {
+function createAlertDialog(title, msg, btn1, clbBtn1 = null, btn2 = null, clbBtn2 = null) {
+
+    if (title === "")
+        $alertOverlay.find(".dialog-title").hide();
+    else
+        $alertOverlay.find(".dialog-title").html(title);
 
     $alertOverlay.find(".dialog-text").html(msg);
 
@@ -342,6 +425,8 @@ function closeAlertDialog() {
     $alertOverlay
         .hide()
         .children(".dialog-text").html("");
+
+    $alertOverlay.find(".dialog-title").show();
 
     $("#alert-second-button").hide();
 

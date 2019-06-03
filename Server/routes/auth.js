@@ -80,6 +80,45 @@ const signupValidation = [
         .isBoolean().withMessage("Invalid rescuer value.")
 ];
 
+const changePwValidation = [
+    body("oldPassword")
+        .trim()
+        .custom((val, { req }) => {
+            if (val === req.body.newPassword)
+                throw new Error("Old password equal to new password.");
+            return true;
+        }),
+    body("newPassword")
+        .trim()
+        .isLength({ min: 8 })
+        .withMessage("Password must be at least 8 characters long and must contain at least one number")
+        .custom(val => {
+            if (!(/\d/.test(val)))
+                throw new Error("Password must be at least 8 characters long and must contain at least one number");
+            return true;
+        }),
+    body("confirmPassword")
+        .trim()
+        .custom((val, { req }) => {
+            if (val !== req.body.newPassword)
+                throw new Error("Passwords don't match.");
+            return true;
+        })
+];
+
+const updateProfileValidation = [
+    body("name")
+        .not().isEmpty().withMessage("You must provide a name."),
+    body("age")
+        .isIn(validAge).withMessage("Invalid age value."),
+    body("gender")
+        .isIn(validGender).withMessage("Invalid gender value."),
+    body("occupation")
+        .isIn(validOccupation).withMessage("Invalid occupation value."),
+    body("isRescuer")
+        .isBoolean().withMessage("Invalid rescuer value.")
+];
+
 
 // GET /auth/:userId
 router.get("/:userId", isAuth, authController.getUser);
@@ -92,6 +131,15 @@ router.put("/signup", signupValidation, authController.signup);
 
 // POST /auth/login
 router.post("/login", authController.login);
+
+// PUT /auth/:userId/change-password
+router.put("/:userId/change-password", isAuth, changePwValidation, authController.changePassword);
+
+// PUT /auth/:userId/update-profile
+router.put("/:userId/update-profile", isAuth, updateProfileValidation, authController.updateProfile);
+
+// PUT /auth/:userId/update-picture
+router.put("/:userId/update-picture", isAuth, authController.updatePicture);
 
 
 module.exports = router;

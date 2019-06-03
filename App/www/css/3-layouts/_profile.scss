@@ -36,8 +36,8 @@
     margin-top : $top-bar-height + 25;
 
     .profile-photo {
-      width            : 120px;
-      height           : 120px;
+      width            : 100px;
+      height           : 100px;
       background-color : transparent;
       @include flex-center;
       margin-bottom    : 20px;
@@ -49,9 +49,10 @@
       }
 
       img {
-        max-width     : 100%;
-        max-height    : 100%;
+        width         : 100%;
+        height        : 100%;
         border-radius : 50%;
+        border: .5px solid #CFCFCF;
       }
 
     }
@@ -128,6 +129,66 @@
 
     #profile-about {
       padding : 10px 16px 0 16px;
+    }
+
+  }
+
+  #profile-photo-dialog-overlay {
+    @extend %full-page;
+    overflow-y : hidden;
+    z-index    : 2;
+    background : rgba(108, 108, 108, 0.1);
+
+    .dialog-title {
+      margin-bottom : 10px;
+    }
+
+    .dialog-content {
+
+      div {
+        padding : 10px 0;
+      }
+
+    }
+
+    .dialog-footer {
+      margin-top : 18px;
+    }
+
+  }
+
+}
+
+#change-pw {
+  @extend %full-page;
+  z-index : $z-change-pw;
+
+  .form-container {
+    margin-top  : $top-bar-height;
+    padding-top : 50px;
+
+    .form-field {
+      margin-bottom : 26px;
+    }
+
+  }
+
+}
+
+#edit-profile {
+  @extend %full-page;
+  z-index : $z-change-pw;
+
+  .form-container {
+    margin-top  : $top-bar-height;
+    padding-top : 50px;
+
+    .form-field {
+      margin-bottom : 25px;
+    }
+
+    .checkbox {
+      padding-left : 16px;
     }
 
   }

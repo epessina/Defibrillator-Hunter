@@ -36,13 +36,16 @@ function openInfo(id) {
         }
     })
         .then(res => {
+
             if (res.status !== 200) {
-                throw new Error("Failed to fetch defibrillators");
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
             }
+
             return res.json();
         })
         .then(data => {
-
             defibrillatorData = data.defibrillator;
 
             $("#info-delete")
@@ -50,6 +53,7 @@ function openInfo(id) {
                 .unbind("click")
                 .click(() => {
                     createAlertDialog(
+                        "",
                         i18n.t("dialogs.deleteConfirmation"),
                         i18n.t("dialogs.btnCancel"),
                         null,
@@ -70,9 +74,24 @@ function openInfo(id) {
 
         })
         .catch(err => {
-            createAlertDialog(i18n.t("dialogs.info.errorGetDefibrillator"), i18n.t("dialogs.btnOk"));
+            console.error(err);
             closeInfo();
-            console.error("Retrieving defibrillator failed", err);
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.getDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.getDefibrillator404"),
+                    i18n.t("dialogs.btnOk"));
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.getDefibrillator500"),
+                    i18n.t("dialogs.btnOk"));
         });
 
 }

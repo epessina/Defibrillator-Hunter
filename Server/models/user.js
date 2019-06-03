@@ -33,7 +33,8 @@ const userSchema = new Schema({
     defibrillators: [{
         type: Schema.Types.ObjectId,
         ref : "Defibrillator"
-    }]
+    }],
+    imageUrl      : String
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

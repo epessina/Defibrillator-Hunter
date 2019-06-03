@@ -90,6 +90,7 @@ function initMainPage() {
     $("#new-defibrillator-close").click(() => {
 
         createAlertDialog(
+            "",
             i18n.t("dialogs.insert.confirmClose"),
             i18n.t("dialogs.insert.btnKeepEditing"),
             null,
@@ -105,30 +106,30 @@ function initMainPage() {
 
     $("#new-defibrillator-done").click(() => {
 
-        // if (presence === "") {
-        //     logOrToast(i18n.t("messages.mandatoryPresence"), "long");
-        //     return;
-        // }
-        //
-        // if (locationCategory === "") {
-        //     logOrToast(i18n.t("messages.mandatoryLocationCategory"), "long");
-        //     return;
-        // }
-        //
-        // if (floor === "") {
-        //     logOrToast(i18n.t("messages.mandatoryFloor"), "long");
-        //     return;
-        // }
-        //
-        // if (temporalAccessibility === "") {
-        //     logOrToast(i18n.t("messages.mandatoryTempAccessibility"), "long");
-        //     return;
-        // }
-        //
-        // if (photo === "") {
-        //     logOrToast(i18n.t("messages.mandatoryPhoto"), "long");
-        //     return;
-        // }
+        if (presence === "") {
+            logOrToast(i18n.t("messages.mandatoryPresence"), "long");
+            return;
+        }
+
+        if (locationCategory === "") {
+            logOrToast(i18n.t("messages.mandatoryLocationCategory"), "long");
+            return;
+        }
+
+        if (floor === "") {
+            logOrToast(i18n.t("messages.mandatoryFloor"), "long");
+            return;
+        }
+
+        if (temporalAccessibility === "") {
+            logOrToast(i18n.t("messages.mandatoryTempAccessibility"), "long");
+            return;
+        }
+
+        if (photo === "") {
+            logOrToast(i18n.t("messages.mandatoryPhoto"), "long");
+            return;
+        }
 
         if (locationCategory !== "transportStation")
             transportType = "";
@@ -310,13 +311,57 @@ function postDefibrillator() {
     // ToDo delete
     if (!isCordova) {
         formData.append("image", photo);
-        postOrPut(formData);
+        handlePostDefibrillator(formData);
         return;
     }
 
     appendFile(formData, photo);
 
 }
+
+function handlePostDefibrillator(formData) {
+
+    fetch(serverUrl + "defibrillator/post", {
+        method : "POST",
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        body   : formData
+    })
+        .then(res => {
+
+            if (res.status !== 201) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
+
+            return res.json();
+        })
+        .then(data => {
+            closeLoader();
+            showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
+            closeInsert();
+        })
+        .catch(err => {
+            console.error(err);
+            closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.postDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 422)
+                logOrToast(i18n("messages.postDefibrillator422"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.postDefibrillator500"),
+                    i18n.t("dialogs.btnOk"));
+        });
+}
+
 
 function putDefibrillator() {
 
@@ -336,42 +381,37 @@ function putDefibrillator() {
     formData.append("notes", notes);
 
     if (photo !== serverUrl + defibrillator.imageUrl) {
-
         if (!isCordova) {
             formData.append("image", photo);
-            postOrPut(formData);
+            handlePutDefibrillator(formData);
         } else
             appendFile(formData, photo);
-
     } else
-        postOrPut(formData);
+        handlePutDefibrillator(formData);
 
 }
 
-function postOrPut(formData) {
+function handlePutDefibrillator(formData) {
 
-    let url    = serverUrl + "defibrillator/post",
-        method = "POST";
-
-    if (defibrillator) {
-        url    = serverUrl + "defibrillator/" + defibrillator._id;
-        method = "PUT";
-    }
-
-    fetch(url, {
-        method : method,
+    fetch(serverUrl + "defibrillator/" + defibrillator._id, {
+        method : "PUT",
         headers: {
             Authorization: "Bearer " + token
         },
         body   : formData
     })
         .then(res => {
-            if (res.status !== 200 && res.status !== 201) {
-                throw new Error("Creating or updating a defibrillator failed!");
+
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
             }
+
             return res.json();
         })
         .then(data => {
+
             if (!defibrillator) {
                 closeLoader();
                 showDefibrillator(data.defibrillator._id, data.defibrillator.coordinates);
@@ -383,13 +423,28 @@ function postOrPut(formData) {
             }
         })
         .catch(err => {
-            let msg = "dialogs.insert.errorPost";
-            if (method === "PUT")
-                msg = "dialogs.insert.errorPut";
-            createAlertDialog(i18n.t(msg), i18n.t("dialogs.btnOk"));
-            console.error("Error posting or putting the landslide", err);
+            console.error(err);
             closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.putDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.putDefibrillator404"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 422)
+                logOrToast(i18n("messages.putDefibrillator422"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.putDefibrillator500"),
+                    i18n.t("dialogs.btnOk"));
         });
+
 }
 
 
@@ -599,7 +654,7 @@ $("#tmp-photo-input").change(() => {
 function getPicture() {
 
     let options = {
-        quality           : 50,
+        quality           : 10,
         destinationType   : Camera.DestinationType.FILE_URI,
         sourceType        : Camera.PictureSourceType.CAMERA,
         encodingType      : Camera.EncodingType.JPEG,
@@ -611,8 +666,9 @@ function getPicture() {
     navigator.camera.getPicture(
         fileURI => {
 
-            let res      = JSON.parse(fileURI);
-            photo        = res.filename;
+            let res = JSON.parse(fileURI);
+            photo   = res.filename;
+
             let metadata = JSON.parse(res.json_metadata);
 
             $photoThm
@@ -628,7 +684,7 @@ function getPicture() {
         err => {
 
             console.log("Error taking picture", err);
-            createAlertDialog(i18n.t("dialogs.insert.pictureError"), i18n.t("dialogs.btnOk"));
+            createAlertDialog("", i18n.t("dialogs.insert.pictureError"), i18n.t("dialogs.btnOk"));
 
         },
         options);
@@ -694,32 +750,34 @@ function appendFile(formData, fileUri) {
                     reader.onloadend = function () {
 
                         let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
-
                         formData.append("image", blob);
 
-                        postOrPut(formData);
+                        if (defibrillator)
+                            handlePutDefibrillator(formData);
+                        else
+                            handlePostDefibrillator(formData);
 
                     };
 
                     reader.onerror = fileReadResult => {
-                        createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
-                        closeLoader();
                         console.error("Reader error", fileReadResult);
+                        closeLoader();
+                        createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
                     };
 
                     reader.readAsArrayBuffer(file);
                 },
                 err => {
-                    createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+                    console.error("Error getting the fileEntry file", err);
                     closeLoader();
-                    console.error("Error getting the fileEntry file", err)
+                    createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
                 }
             )
         },
         err => {
-            createAlertDialog(i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+            console.error("Error getting the file", err);
             closeLoader();
-            console.error("Error getting the file", err)
+            createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
         }
     );
 }

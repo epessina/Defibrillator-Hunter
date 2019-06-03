@@ -83,17 +83,17 @@ function registrationNext() {
         confirmPassword = $("#register-confirm-password").val();
 
     // if (email === "") {
-    //     logOrToast("You must provide a valid email address.", "short");
+    //     logOrToast(i18n.t("messages.mandatoryEmail"), "long");
     //     return;
     // }
     //
     // if (password === "" || password.length < 8 || !(/\d/.test(password))) {
-    //     logOrToast("Password should be of at least 8 characters long and must contain at least a number.", "short");
+    //     logOrToast(i18n.t("messages.weakPassword"), "long");
     //     return;
     // }
     //
     // if (password !== confirmPassword) {
-    //     logOrToast("Passwords don't match.", "short");
+    //     logOrToast(i18n.t("messages.passwordsNotMatch"), "long");
     //     return;
     // }
 
@@ -107,18 +107,29 @@ function registrationNext() {
         })
     })
         .then(res => {
-            if (res.status === 422)
-                throw new Error("Invalid email and/or password.");
 
-            if (res.status !== 202)
-                throw new Error("Validating email and password failed failed.");
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
 
             $("#register-page-two").show();
             closeLoader();
         })
         .catch(err => {
-            closeLoader();
             console.error(err);
+            closeLoader();
+
+            if (err.code === 409)
+                logOrToast(i18n.t("messages.register409"), "long");
+            else if (err.code === 422)
+                logOrToast(i18n.t("messages.register422"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.register500"),
+                    i18n.t("dialogs.btnOk"));
         });
 
 }
@@ -132,7 +143,8 @@ function login() {
         password = $("#login-password").val();
 
     if (email === "" || password === "") {
-        logOrToast("Please provide valid credentials.", "short");
+        closeLoader();
+        logOrToast(i18n.t("messages.validCredentials"), "long");
         return;
     }
 
@@ -145,11 +157,12 @@ function login() {
         })
     })
         .then(res => {
-            if (res.status === 401)
-                throw new Error("Wrong email or password");
 
-            if (res.status !== 200 && res.status !== 201)
-                throw new Error("Authentication failed");
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
 
             return res.json();
         })
@@ -176,6 +189,14 @@ function login() {
             console.error(err);
             resetLoginFields();
             closeLoader();
+
+            if (err.code === 401)
+                logOrToast(i18n.t("messages.login401"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.login500"),
+                    i18n.t("dialogs.btnOk"));
         })
 
 }
@@ -202,14 +223,19 @@ function register() {
 
     openLoader();
 
-    let email           = $("#register-email").val(),
-        password        = $("#register-password").val(),
-        confirmPassword = $("#register-confirm-password").val(),
-        name            = $("#register-name").val(),
-        age             = $("#register-age").val(),
-        gender          = $("#register-gender").val(),
-        occupation      = $("#register-occupation").val(),
-        isRescuer       = $("#register-rescuer").prop("checked");
+    const email           = $("#register-email").val(),
+          password        = $("#register-password").val(),
+          confirmPassword = $("#register-confirm-password").val(),
+          name            = $("#register-name").val(),
+          age             = $("#register-age").val(),
+          gender          = $("#register-gender").val(),
+          occupation      = $("#register-occupation").val(),
+          isRescuer       = $("#register-rescuer").prop("checked");
+
+    if (name === "") {
+        logOrToast(i18n.t("messages.mandatoryName"), "long");
+        return;
+    }
 
     fetch(serverUrl + "auth/signup", {
         method : "PUT",
@@ -226,22 +252,32 @@ function register() {
         })
     })
         .then(res => {
-            if (res.status === 422)
-                throw new Error("Validation failed.");
 
-            if (res.status !== 200 && res.status !== 201)
-                throw new Error("Creating user failed.");
+            if (res.status !== 201) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
 
             return res.json();
         })
         .then(resData => {
-            console.log(resData);
             closeLoader();
             closeRegistrationPage();
         })
         .catch(err => {
             console.error(err);
             closeLoader();
+
+            if (err.code === 409)
+                logOrToast(i18n.t("messages.register409"), "long");
+            else if (err.code === 422)
+                logOrToast(i18n.t("messages.register422"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.register500"),
+                    i18n.t("dialogs.btnOk"));
         })
 
 }

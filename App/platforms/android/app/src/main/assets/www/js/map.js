@@ -132,16 +132,16 @@ function checkLocationPermissions() {
         status => {
 
             // Permission not requested
-            if (status === cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED) {
+            if (status === cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED ||
+                (device.platform === "Android" &&
+                    status === cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS)) {
 
                 console.log("Permission not requested");
                 requestLocationPermission();
 
             }
             // Permission denied
-            else if (status === cordova.plugins.diagnostic.permissionStatus.DENIED ||
-                (device.platform === "Android" &&
-                    status === cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS)) {
+            else if (status === cordova.plugins.diagnostic.permissionStatus.DENIED) {
 
                 console.log("Permission denied");
                 $gps.removeClass("gps-on").children("i").html("gps_off");

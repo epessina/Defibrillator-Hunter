@@ -80,8 +80,18 @@ $dialog-width : 280px;
       text-align : left;
       color      : $color-text;
 
+      .dialog-title {
+        @include font(500, $font-title);
+        margin-bottom : 20px;
+      }
+
       .dialog-text {
         margin : 0 0 26px 0;
+
+        .space {
+          margin-bottom : 10px;
+        }
+
       }
 
     }
