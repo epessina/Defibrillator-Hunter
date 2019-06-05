@@ -1,7 +1,7 @@
 "use strict";
 
-let serverUrl = "http://localhost:8080/";
-// let serverUrl = "http://192.168.1.100:8080/";
+// let serverUrl = "http://localhost:8080/";
+let serverUrl = "http://192.168.1.102:8080/";
 // let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 let backPressedCount = 0;
@@ -96,16 +96,16 @@ function init() {
     onResize();
     initAuth();
 
-    getAuthStatus();
-    // if (!getAuthStatus()) {
-    //     $("#log-in-page").show();
-    //     $splashScreen.hide();
-    // } else {
-    //     $("#map").show();
-    //     $splashScreen.hide();
-    //     initMap();
-    //     getDefibrillators();
-    // }
+//    getAuthStatus();
+    if (!getAuthStatus()) {
+        $("#log-in-page").show();
+        $splashScreen.hide();
+    } else {
+        $("#map").show();
+        $splashScreen.hide();
+        initMap();
+        getDefibrillators();
+    }
 
     initProfilePage();
     initInsert();
@@ -248,6 +248,44 @@ function deleteDefibrillator(id) {
                     i18n.t("dialogs.deleteDefibrillator500"),
                     i18n.t("dialogs.btnOk"));
         });
+}
+
+
+function appendFile(formData, fileUri, fileName, clbSuccess) {
+
+    window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+
+            fileEntry.file(file => {
+
+                let reader = new FileReader();
+
+                reader.onloadend = function () {
+                    let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+                    formData.append(fileName, blob);
+                    clbSuccess(formData);
+                };
+
+                reader.onerror = fileReadResult => {
+                    console.error("Reader error", fileReadResult);
+                    closeLoader();
+                    createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+                };
+
+                reader.readAsArrayBuffer(file);
+
+            }, err => {
+                console.error("Error getting the fileEntry file", err);
+                closeLoader();
+                createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+            })
+
+        }, err => {
+            console.error("Error getting the file", err);
+            closeLoader();
+            createAlertDialog("", i18n.t("dialogs.errorAppendPicture"), i18n.t("dialogs.btnOk"));
+        }
+    );
+
 }
 
 

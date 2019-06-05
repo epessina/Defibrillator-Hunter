@@ -13,7 +13,8 @@ let locationCategory      = "",
     brand                 = "",
     notes                 = "",
     presence              = "",
-    photo                 = "";
+    photo                 = "",
+    photoCoordinates      = "";
 
 let $locationSelect      = $("#location-select"),
     $transportTypeSelect = $("#transport-type-select");
@@ -315,6 +316,7 @@ function postDefibrillator() {
         return;
     }
 
+    formData.append("imageCoordinates", photoCoordinates);
     appendFile(formData, photo, "image", handlePostDefibrillator);
 
 }
@@ -384,8 +386,10 @@ function putDefibrillator() {
         if (!isCordova) {
             formData.append("image", photo);
             handlePutDefibrillator(formData);
-        } else
+        } else {
+            formData.append("imageCoordinates", photoCoordinates);
             appendFile(formData, photo, "image", handlePutDefibrillator);
+        }
     } else
         handlePutDefibrillator(formData);
 
@@ -654,7 +658,7 @@ $("#tmp-photo-input").change(() => {
 function getPicture() {
 
     let options = {
-        quality           : 10,
+        quality           : 30,
         destinationType   : Camera.DestinationType.FILE_URI,
         sourceType        : Camera.PictureSourceType.CAMERA,
         encodingType      : Camera.EncodingType.JPEG,
@@ -670,6 +674,12 @@ function getPicture() {
             photo   = res.filename;
 
             let metadata = JSON.parse(res.json_metadata);
+            if (metadata && metadata !== {}) {
+                if (device.platform === "iOS")
+                    photoCoordinates = [metadata.GPS.Latitude, metadata.GPS.Longitude];
+                else
+                    photoCoordinates = [metadata.gpsLatitude, metadata.gpsLatitude];
+            }
 
             $photoThm
                 .find("img")
@@ -732,53 +742,6 @@ function closeDialog(toClose) {
     $("#insert-defibrillator").css("overflow-y", "scroll");
 
 }
-
-
-// Append the photo to the formData object
-// function appendFile(formData, fileUri) {
-//
-//     window.resolveLocalFileSystemURL(
-//         fileUri,
-//         fileEntry => {
-//
-//             fileEntry.file(file => {
-//
-//                     let reader = new FileReader();
-//
-//                     reader.onloadend = function () {
-//
-//                         let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
-//                         formData.append("image", blob);
-//
-//                         if (defibrillator)
-//                             handlePutDefibrillator(formData);
-//                         else
-//                             handlePostDefibrillator(formData);
-//
-//                     };
-//
-//                     reader.onerror = fileReadResult => {
-//                         console.error("Reader error", fileReadResult);
-//                         closeLoader();
-//                         createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
-//                     };
-//
-//                     reader.readAsArrayBuffer(file);
-//                 },
-//                 err => {
-//                     console.error("Error getting the fileEntry file", err);
-//                     closeLoader();
-//                     createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
-//                 }
-//             )
-//         },
-//         err => {
-//             console.error("Error getting the file", err);
-//             closeLoader();
-//             createAlertDialog("", i18n.t("dialogs.insert.errorAppendPicture"), i18n.t("dialogs.btnOk"));
-//         }
-//     );
-// }
 
 
 function resetFields() {

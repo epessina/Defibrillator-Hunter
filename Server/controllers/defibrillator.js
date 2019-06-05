@@ -108,6 +108,8 @@ exports.postDefibrillator = (req, res, next) => {
 
     let creator;
 
+    console.log(req.body);
+
     const defibrillator = new Defibrillator({
         user                 : req.userId,
         coordinates          : coordinates,
@@ -122,7 +124,8 @@ exports.postDefibrillator = (req, res, next) => {
         signage              : req.body.signage,
         brand                : req.body.brand,
         notes                : req.body.notes,
-        imageUrl             : imageUrl
+        imageUrl             : imageUrl,
+        imageCoordinates     : req.body.imageCoordinates
     });
 
     defibrillator
@@ -193,7 +196,8 @@ exports.updateDefibrillator = (req, res, next) => {
 
             if (req.file) {
                 clearImage(defibrillator.imageUrl);
-                defibrillator.imageUrl = req.file.path.replace("\\", "/");
+                defibrillator.imageCoordinates = req.body.imageCoordinates;
+                defibrillator.imageUrl         = req.file.path.replace("\\", "/");
             }
 
             return defibrillator.save();

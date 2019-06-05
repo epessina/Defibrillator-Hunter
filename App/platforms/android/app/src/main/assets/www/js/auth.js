@@ -223,19 +223,19 @@ function register() {
 
     openLoader();
 
-    let email           = $("#register-email").val(),
-        password        = $("#register-password").val(),
-        confirmPassword = $("#register-confirm-password").val(),
-        name            = $("#register-name").val(),
-        age             = $("#register-age").val(),
-        gender          = $("#register-gender").val(),
-        occupation      = $("#register-occupation").val(),
-        isRescuer       = $("#register-rescuer").prop("checked");
+    const email           = $("#register-email").val(),
+          password        = $("#register-password").val(),
+          confirmPassword = $("#register-confirm-password").val(),
+          name            = $("#register-name").val(),
+          age             = $("#register-age").val(),
+          gender          = $("#register-gender").val(),
+          occupation      = $("#register-occupation").val(),
+          isRescuer       = $("#register-rescuer").prop("checked");
 
-    // if (name === "") {
-    //     logOrToast(i18n.t("messages.mandatoryName"), "long");
-    //     return;
-    // }
+    if (name === "") {
+        logOrToast(i18n.t("messages.mandatoryName"), "long");
+        return;
+    }
 
     fetch(serverUrl + "auth/signup", {
         method : "PUT",

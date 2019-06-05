@@ -1,5 +1,7 @@
 "use strict";
 
+let userData = undefined;
+
 let activeTab = "profile-dashboard";
 
 let $profilePlaceholders = $("#profile .placeholder");
@@ -20,9 +22,17 @@ function initProfilePage() {
     // Initialize settings;
     initSettings();
 
+    // Initialize photo menu
+    initProfilePhoto();
+
     // Initialize change password page
     $("#change-pw-close").click(() => closeChangePassword());
     $("#change-pw-done").click(() => changePassword());
+
+    // Initialize edit profile page
+    initEditProfile();
+
+    // openProfilePage(); //ToDo remove
 
 }
 
@@ -34,11 +44,11 @@ function initSettings() {
 
     $("#settings-language").click(() => logOrToast("Function not yet implemented", "short"));
 
-    $("#settings-editProfile").click(() => logOrToast("Function not yet implemented", "short"));
+    $("#settings-editProfile").click(() => openEditProfile());
 
     $("#settings-changePassword").click(() => {
-        closeSettings();
         $("#change-pw").show();
+        closeSettings();
     });
 
     $("#settings-logout").click(() => {
@@ -58,6 +68,57 @@ function initSettings() {
         );
 
     });
+
+}
+
+function initEditProfile() {
+
+    $("#edit-profile-close").click(() => closeEditProfile());
+    $("#edit-profile-done").click(() => editProfile());
+
+    $("#edit-profile-age").change(() => changeSelectorLabel("edit-profile-age", true));
+
+    $("#edit-profile-gender").change(() => changeSelectorLabel("edit-profile-gender", true));
+
+    $("#edit-profile-occupation").change(() => changeSelectorLabel("edit-profile-occupation", true));
+
+}
+
+function initProfilePhoto() {
+
+    $("#profile-photo").click(() => {
+
+        if ($("#profile-photo").attr("src") !== "img/default-profile-img-120.png")
+            $("#profile-photo-delete").show();
+
+        $("#profile-photo-dialog-overlay").show();
+
+    });
+
+    $("#profile-photo-camera").click(() => {
+        closeProfilePhotoMenu();
+        getProfilePhoto(true);
+    });
+
+    $("#profile-photo-gallery").click(() => {
+        closeProfilePhotoMenu();
+        getProfilePhoto(false);
+    });
+
+    $("#profile-photo-delete").click(() => {
+        closeProfilePhotoMenu();
+
+        createAlertDialog(
+            "",
+            i18n.t("profile.photoDialog.deleteConfirmation"),
+            i18n.t("dialogs.btnCancel"),
+            null,
+            i18n.t("dialogs.btnOk"),
+            () => putProfileImage(new FormData())
+        );
+    });
+
+    $("#profile-photo-cancel").click(() => closeProfilePhotoMenu());
 
 }
 
@@ -83,7 +144,10 @@ function openProfilePage() {
 
             return res.json();
         })
-        .then(data => populateProfile(data.user))
+        .then(data => {
+            userData = data.user;
+            populateProfile();
+        })
         .catch(err => {
             console.error(err);
             closeProfilePage();
@@ -111,6 +175,8 @@ function closeProfilePage() {
 
     $("#profile").scrollTop(0).hide();
 
+    userData = undefined;
+
     $("#profile-settings").css("visibility", "hidden");
 
     activeTab = "profile-dashboard";
@@ -123,6 +189,8 @@ function closeProfilePage() {
     $("#profile-gender .info-content").html("");
     $("#profile-occupation .info-content").html("");
     $("#profile-rescuer .info-content").html("");
+
+    $("#profile-photo").attr("src", "img/default-profile-img-120.png");
 
     $("#profile .ph-hidden-content").hide();
     $profilePlaceholders.removeClass("ph-animate").show();
@@ -141,27 +209,30 @@ function closeSettings() {
 }
 
 
-function populateProfile(data) {
+function populateProfile() {
 
-    $("#profile-name").html(data.name);
+    $("#profile-name").html(userData.name);
 
-    $("#mapped-def-number").html(data.defNumber);
-    if (data.defNumber === 1)
+    $("#mapped-def-number").html(userData.defNumber);
+    if (userData.defNumber === 1)
         $("#mapped-def-text").html(i18n.t("profile.defMappedSingle"));
     else
         $("#mapped-def-text").html(i18n.t("profile.defMappedPlural"));
 
-    $("#profile-mail .info-content").html(data.email);
-    $("#profile-age .info-content").html(i18n.t("auth.register.ageEnum." + data.age));
-    $("#profile-gender .info-content").html(i18n.t("auth.register.genderEnum." + data.gender));
-    $("#profile-occupation .info-content").html(i18n.t("auth.register.occupationEnum." + data.occupation));
+    $("#profile-mail .info-content").html(userData.email);
+    $("#profile-age .info-content").html(i18n.t("auth.register.ageEnum." + userData.age));
+    $("#profile-gender .info-content").html(i18n.t("auth.register.genderEnum." + userData.gender));
+    $("#profile-occupation .info-content").html(i18n.t("auth.register.occupationEnum." + userData.occupation));
 
     let rescuer = "no";
-    if (data.isRescuer)
+    if (userData.isRescuer)
         rescuer = "yes";
     $("#profile-rescuer .info-content").html(i18n.t("profile." + rescuer));
 
     $("#profile-settings").css("visibility", "visible");
+
+    if (userData.imageUrl !== "")
+        $("#profile-photo").attr("src", serverUrl + userData.imageUrl);
 
     $profilePlaceholders.hide().removeClass("ph-animate");
     $("#profile .ph-hidden-content").show();
@@ -200,30 +271,30 @@ function changePassword() {
         newPassword     = $("#change-pw-new-password").val(),
         confirmPassword = $("#change-pw-confirm-password").val();
 
-    // if (oldPassword === "") {
-    //     logOrToast(i18n.t("messages.insertOldPassword"), "long");
-    //     return;
-    // }
-    //
-    // if (newPassword === "" || newPassword.length < 8 || !(/\d/.test(newPassword))) {
-    //     logOrToast(i18n.t("messages.weakNewPassword"), "long");
-    //     return;
-    // }
-    //
-    // if (oldPassword === newPassword) {
-    //     logOrToast(i18n.t("messages.samePassword"), "long");
-    //     return;
-    // }
-    //
-    // if (newPassword !== confirmPassword) {
-    //     logOrToast(i18n.t("messages.passwordsNotMatch"), "long");
-    //     return;
-    // }
+    if (oldPassword === "") {
+        logOrToast(i18n.t("messages.insertOldPassword"), "long");
+        return;
+    }
+
+    if (newPassword === "" || newPassword.length < 8 || !(/\d/.test(newPassword))) {
+        logOrToast(i18n.t("messages.weakNewPassword"), "long");
+        return;
+    }
+
+    if (oldPassword === newPassword) {
+        logOrToast(i18n.t("messages.samePassword"), "long");
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        logOrToast(i18n.t("messages.passwordsNotMatch"), "long");
+        return;
+    }
 
     fetch(serverUrl + "auth/" + userId + "/change-password", {
-        method : "POST",
+        method : "PUT",
         headers: {
-            Authorization: "Bearer " + token,
+            Authorization : "Bearer " + token,
             "Content-Type": "application/json"
         },
         body   : JSON.stringify({
@@ -279,4 +350,237 @@ function resetChangePassword() {
     $("#change-pw-old-password").val("");
     $("#change-pw-new-password").val("");
     $("#change-pw-confirm-password").val("");
+}
+
+
+function editProfile() {
+
+    openLoader();
+
+    const name       = $("#edit-profile-name").val(),
+          age        = $("#edit-profile-age").val(),
+          gender     = $("#edit-profile-gender").val(),
+          occupation = $("#edit-profile-occupation").val(),
+          isRescuer  = $("#edit-profile-rescuer").prop("checked");
+
+    if (name === "") {
+        logOrToast(i18n.t("messages.mandatoryName"), "long");
+        return;
+    }
+
+    fetch(serverUrl + "auth/" + userId + "/update-profile", {
+        method : "PUT",
+        headers: {
+            Authorization : "Bearer " + token,
+            "Content-Type": "application/json"
+        },
+        body   : JSON.stringify({
+            name      : name,
+            age       : age,
+            gender    : gender,
+            occupation: occupation,
+            isRescuer : isRescuer
+        })
+    })
+        .then(res => {
+
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
+
+            return res.json();
+        })
+        .then(data => {
+
+            userData = data.user;
+            populateProfile();
+
+            closeLoader();
+            closeEditProfile();
+        })
+        .catch(err => {
+            console.error(err);
+            closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.editProfile401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.editProfile404"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 422) {
+                logOrToast(i18n.t("messages.editProfile422"), "long");
+            } else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.editProfile500"),
+                    i18n.t("dialogs.btnOk"));
+        });
+
+}
+
+function openEditProfile() {
+
+    $("#edit-profile-name").val(userData.name);
+
+    if (userData.age !== "none") {
+        $("#edit-profile-age").val(userData.age);
+        changeSelectorLabel("edit-profile-age", true);
+    }
+
+    if (userData.gender !== "none") {
+        $("#edit-profile-gender").val(userData.gender);
+        changeSelectorLabel("edit-profile-gender", true);
+    }
+
+    if (userData.occupation !== "none") {
+        $("#edit-profile-occupation").val(userData.occupation);
+        changeSelectorLabel("edit-profile-occupation", true);
+    }
+
+    if (userData.isRescuer)
+        $("#edit-profile-rescuer").prop("checked", true);
+
+    $("#edit-profile").show();
+    closeSettings();
+
+}
+
+function closeEditProfile() {
+
+    $("#edit-profile").scrollTop(0).hide();
+
+    $("#edit-profile-name").val("");
+
+    $("#edit-profile-age").val("");
+    changeSelectorLabel("edit-profile-age", true);
+
+    $("#edit-profile-gender").val("");
+    changeSelectorLabel("edit-profile-gender", true);
+
+    $("#edit-profile-occupation").val("");
+    changeSelectorLabel("edit-profile-occupation", true);
+
+    $("#edit-profile-rescuer").prop("checked", false);
+
+}
+
+
+function closeProfilePhotoMenu() {
+    $("#profile-photo-dialog-overlay").hide();
+    $("#profile-photo-delete").hide();
+}
+
+function getProfilePhoto(fromCamera) {
+
+    // ToDo delete
+    if (!isCordova) {
+        $("#tmp-profile-photo-input").click();
+        return;
+    }
+
+    let options = {
+        quality           : 50,
+        destinationType   : Camera.DestinationType.FILE_URI,
+        sourceType        : Camera.PictureSourceType.CAMERA,
+        encodingType      : Camera.EncodingType.JPEG,
+        mediaType         : Camera.MediaType.PICTURE,
+        allowEdit         : false,
+        correctOrientation: true
+    };
+
+    if (!fromCamera)
+        options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+
+    navigator.camera.getPicture(
+        fileURI => {
+            openLoader();
+
+            let res = JSON.parse(fileURI);
+            photo   = res.filename;
+
+            const formData = new FormData();
+            appendFile(formData, photo, "profileImage", putProfileImage);
+        },
+        err => {
+            console.log("Error taking picture", err);
+            createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
+        },
+        options);
+
+}
+
+// ToDO delete
+$("#tmp-profile-photo-input").change(() => {
+
+    let photo = $("#tmp-profile-photo-input")[0].files[0];
+
+    let reader = new FileReader();
+
+    reader.onloadend = e => {
+        openLoader();
+        const formData = new FormData();
+        formData.append("image", photo);
+        putProfileImage(formData);
+    };
+
+    reader.readAsDataURL(photo);
+
+});
+
+function putProfileImage(formData) {
+
+    fetch(serverUrl + "auth/" + userId + "/update-picture?if=prof", {
+        method : "PUT",
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        body   : formData
+    })
+        .then(res => {
+
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
+
+            return res.json();
+        })
+        .then(data => {
+
+            if (data.imageUrl !== "")
+                $("#profile-photo").attr("src", serverUrl + data.imageUrl);
+            else
+                $("#profile-photo").attr("src", "img/default-profile-img-120.png");
+
+            closeLoader();
+        })
+        .catch(err => {
+            console.error(err);
+            closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.putProfileImage401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.putProfileImage404"),
+                    i18n.t("dialogs.btnOk"));
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.putProfileImage500"),
+                    i18n.t("dialogs.btnOk"));
+        });
+
 }

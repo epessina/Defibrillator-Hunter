@@ -108,32 +108,9 @@
     margin-bottom : 57px;
   }
 
-  .register-checkbox {
-    @include flex-display(row);
-    @include vendor("align-items", "center");
+  .checkbox {
     margin-top   : 4px;
     padding-left : 16px;
-
-    input {
-      -webkit-appearance : none;
-      width              : 16px;
-      height             : 16px;
-      margin-left        : 26px;
-      background         : white;
-      border             : 1px solid #555555;
-      border-radius      : 2px;
-
-      &:focus {
-        outline : none !important;
-      }
-
-      &:checked {
-        background : $color-main;
-        border     : none;
-      }
-
-    }
-
   }
 
   #register-go-back {
