@@ -316,6 +316,7 @@ function postDefibrillator() {
         return;
     }
 
+    console.log(photoCoordinates);
     formData.append("imageCoordinates", photoCoordinates);
     appendFile(formData, photo, "image", handlePostDefibrillator);
 
@@ -326,6 +327,7 @@ function handlePostDefibrillator(formData) {
     fetch(serverUrl + "defibrillator/post?if=def", {
         method : "POST",
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         },
         body   : formData
@@ -353,6 +355,11 @@ function handlePostDefibrillator(formData) {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.postDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 422)
                 logOrToast(i18n("messages.postDefibrillator422"), "long");
@@ -400,6 +407,7 @@ function handlePutDefibrillator(formData) {
     fetch(serverUrl + "defibrillator/" + defibrillator._id + "?if=def", {
         method : "PUT",
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         },
         body   : formData
@@ -434,6 +442,11 @@ function handlePutDefibrillator(formData) {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.putDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(
@@ -759,6 +772,7 @@ function resetFields() {
     notes                 = "";
     presence              = "";
     photo                 = "";
+    photoCoordinates      = "";
 
     $("#presence-text").html(i18n.t("insert.presence.defaultText"));
     $("#location-text").html(i18n.t("insert.locationCategory.defaultText"));

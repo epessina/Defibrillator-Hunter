@@ -1,8 +1,8 @@
 "use strict";
 
 // let serverUrl = "http://localhost:8080/";
-let serverUrl = "http://192.168.1.102:8080/";
-// let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+// let serverUrl = "http://192.168.1.102:8080/";.
+let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 let backPressedCount = 0;
 

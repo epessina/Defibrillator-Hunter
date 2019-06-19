@@ -316,6 +316,7 @@ function postDefibrillator() {
         return;
     }
 
+    console.log(photoCoordinates);
     formData.append("imageCoordinates", photoCoordinates);
     appendFile(formData, photo, "image", handlePostDefibrillator);
 

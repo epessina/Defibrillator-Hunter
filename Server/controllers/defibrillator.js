@@ -203,12 +203,10 @@ exports.updateDefibrillator = (req, res, next) => {
             return defibrillator.save();
         })
         .then(result => {
-            console.log(result);
-            res.status(200)
-                .json({
-                    message      : "Defibrillator updated.",
-                    defibrillator: result
-                })
+            res.status(200).json({
+                message      : "Defibrillator updated.",
+                defibrillator: result
+            })
         })
         .catch(err => {
             console.log(err);
@@ -227,6 +225,7 @@ exports.deleteDefibrillator = (req, res, next) => {
 
     Defibrillator.findById(id)
         .then(defibrillator => {
+
             if (!defibrillator) {
                 const error      = new Error("Could not find defibrillator.");
                 error.statusCode = 404;

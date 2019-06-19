@@ -19,39 +19,16 @@
 - Aggiungere indirizzo con suggerimento (OSM)
 
 
-- Inserire metadati nella foto:
-    - i dati da gps sono in formati diversi e oscuri
-    - salvare come stringa
+- Resize foto profilo
+
+- PROBLEMA :: Flooding attack se uno continua a richiedere token di conferma mail
 
 
-
-- Aggiungere foto profilo
-
-- Sanizzare nome utente e impedire volgarità
-
-- Aggiungere disclaimer prima di registrazione
-    accetable user policy
-
-
-- autenticazione OUTH2
-
-- Per il token:
-    - le sessioni devono essere indefinitamente valide o scadere? Nel caso, dopo quanto?
-    - se non scadono mai, va bene anche se c'è la possibilità che qualcuno usi il token se è stato copiato?
-    - devo implementare una blacklist di token non più validi nel db?
-    1 giorno
-
-- Come valido che l'applicazione da cui sto mandando richieste sia la mia?
-    bilanciatore
-    criptare un application id nelle richieste
-
-- Per i link da mail, che faccio? Renderizzo una view o uso un deep link?
-    Renderizzo
-
-
-- ENV
-- log
 - Mail
-- SSL
 
 - Logo
+
+
+- Creare sistema punteggi
+
+- Creare hints (ecosistema E015)

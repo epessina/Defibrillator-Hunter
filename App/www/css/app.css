@@ -261,7 +261,7 @@ p {
   margin: 0;
 }
 
-#edit-profile, #change-pw, #profile #profile-photo-dialog-overlay, #profile #profile-settings-overlay, #profile, #splash, .auth-page, #img-screen, #defibrillator-info, #insert-defibrillator {
+.form-page, #profile #profile-photo-dialog-overlay, #profile #profile-settings-overlay, #profile, #splash, #register-disclaimer, .auth-page, #img-screen, #defibrillator-info, #insert-defibrillator {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -523,6 +523,13 @@ p {
   font: 500 16px system-ui;
 }
 
+.auth-go-back {
+  margin-top: 20px;
+  text-align: center;
+  color: #858585;
+  cursor: pointer;
+}
+
 #log-in-page {
   padding-top: 50px;
 }
@@ -577,6 +584,44 @@ p {
   margin-top: 36px;
 }
 
+#register-disclaimer {
+  z-index: 1101;
+}
+#register-disclaimer .custom-container {
+  padding: 50px 16px 40px 16px;
+}
+#register-disclaimer .disclaimer-top-text {
+  width: 100%;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  font: 700 20px system-ui;
+  color: #00796B;
+  text-transform: uppercase;
+}
+#register-disclaimer .disclaimer-text {
+  text-align: justify;
+}
+#register-disclaimer .disclaimer-text p {
+  margin-bottom: 15px;
+}
+#register-disclaimer .disclaimer-text p:last-child {
+  margin-bottom: 0;
+}
+#register-disclaimer .fab-extended {
+  margin-top: 40px;
+}
+
 .register-page {
   padding-top: 65px;
 }
@@ -593,18 +638,22 @@ p {
   margin-bottom: 80px;
 }
 
+#register-page-two {
+  padding-top: 35px;
+}
 #register-page-two .register-top-text {
-  margin-bottom: 57px;
+  margin-bottom: 30px;
 }
 #register-page-two .checkbox {
   margin-top: 4px;
   padding-left: 16px;
 }
-#register-page-two #register-go-back {
-  margin-top: 20px;
-  text-align: center;
-  color: #858585;
-  cursor: pointer;
+#register-page-two #rescuer-info {
+  margin-left: 16px;
+  margin-bottom: 0;
+}
+#register-page-two #register-btn-done {
+  margin-top: 30px;
 }
 
 /* SPLASH SCREEN */
@@ -836,28 +885,7 @@ p {
   margin-top: 18px;
 }
 
-#change-pw {
-  z-index: 1101;
-}
-#change-pw .form-container {
-  margin-top: 56px;
-  padding-top: 50px;
-}
-#change-pw .form-container .form-field {
-  margin-bottom: 26px;
-}
-
-#edit-profile {
-  z-index: 1101;
-}
-#edit-profile .form-container {
-  margin-top: 56px;
-  padding-top: 50px;
-}
-#edit-profile .form-container .form-field {
-  margin-bottom: 25px;
-}
-#edit-profile .form-container .checkbox {
+#edit-profile .checkbox {
   padding-left: 16px;
 }
 
@@ -1076,6 +1104,15 @@ p {
 }
 .dialog-wrapper .dialog .dialog-container .dialog-text {
   margin-bottom: 26px;
+}
+.dialog-wrapper .dialog .dialog-container .dialog-link {
+  margin-top: 26px;
+  text-align: center;
+  text-decoration: underline;
+  text-transform: uppercase;
+  color: #00796B;
+  font: 500 16px system-ui;
+  cursor: pointer;
 }
 .dialog-wrapper .dialog .dialog-footer {
   display: -moz-flex;
@@ -1498,6 +1535,17 @@ p {
 }
 
 /* FORM */
+.form-page {
+  z-index: 1101;
+}
+.form-page .form-container {
+  margin-top: 56px;
+  padding-top: 50px;
+}
+.form-page .form-container .form-field {
+  margin-bottom: 26px;
+}
+
 .form-container {
   width: 100%;
   padding: 0 40px;
@@ -1530,6 +1578,9 @@ p {
   border-radius: 10px;
   margin-bottom: 16px;
 }
+.form-field.no-margin {
+  margin-bottom: 0;
+}
 .form-field i {
   color: #757575;
   margin: 0 18px 0 13px;
@@ -1546,6 +1597,12 @@ p {
 .form-field .custom-selector-box .label-description {
   color: #757575;
   padding: 0;
+}
+
+.form-bottom-info {
+  margin: 5px 4px 16px 4px;
+  font: 400 14px system-ui;
+  color: #B9B9B9;
 }
 
 /* INFO BLOCK */

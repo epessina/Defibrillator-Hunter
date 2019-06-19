@@ -52,7 +52,7 @@ const defibrillatorSchema = new Schema({
     brand                : String,
     notes                : String,
     imageUrl             : String,
-    imageCoordinates     : [String]
+    imageCoordinates     : String
 }, { timestamps: true });
 
 module.exports = mongoose.model("Defibrillator", defibrillatorSchema);

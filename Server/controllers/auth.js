@@ -1,10 +1,9 @@
 "use strict";
 
-const fs   = require("fs"),
-      path = require("path");
+const crypto = require("crypto");
 
 const User                 = require("../models/user"),
-      Defibrillator        = require("../models/defibrillator"),
+      Token                = require("../models/token"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       jwt                  = require("jsonwebtoken"),
@@ -12,58 +11,10 @@ const User                 = require("../models/user"),
       sendgridTransport    = require("nodemailer-sendgrid-transport");
 
 const transporter = nodemailer.createTransport(
-    sendgridTransport({
-        auth: { api_key: process.env.NODEMAILER_KEY }
-    })
-);
+    sendgridTransport({ auth: { api_key: process.env.NODEMAILER_KEY } }));
 
+transporter.verify(err => { if (err) console.error(`Error setting up the transporter: ${err}`) });
 
-exports.getUser = (req, res, next) => {
-
-    const id = req.params.userId;
-
-    if (id !== req.userId) {
-        const error      = new Error("Not authorized.");
-        error.statusCode = 401;
-        throw error;
-    }
-
-    User.findById(id)
-        .then(user => {
-
-            if (!user) {
-                const error      = new Error("Could not find the user.");
-                error.statusCode = 404;
-                throw error;
-            }
-
-            Defibrillator.countDocuments({ user: id, markedForDeletion: false })
-                .then(count => {
-                    res.status(200).json({
-                        message: "User found.",
-                        user   : {
-                            email     : user.email,
-                            name      : user.name,
-                            age       : user.age,
-                            gender    : user.gender,
-                            occupation: user.occupation,
-                            isRescuer : user.isRescuer,
-                            defNumber : count,
-                            imageUrl  : user.imageUrl
-                        }
-                    })
-                })
-        })
-        .catch(err => {
-            console.error(err);
-            if (!err.statusCode) {
-                err.statusCode = 500;
-                err.errors     = ["Something went wrong on the server."];
-            }
-            next(err);
-        });
-
-};
 
 exports.check = (req, res, next) => {
 
@@ -111,6 +62,8 @@ exports.signup = (req, res, next) => {
           occupation = req.body.occupation,
           isRescuer  = req.body.isRescuer;
 
+    let newUser = null;
+
     bcrypt.hash(password, 12)
         .then(hashPw => {
 
@@ -127,19 +80,163 @@ exports.signup = (req, res, next) => {
 
             return user.save();
         })
-        .then(result => {
-            res.status(201).json({
-                message: "User created.",
-                userId : result._id
+        .then(user => {
+            newUser = user;
+
+            const token = new Token({
+                userId: newUser._id,
+                token : crypto.randomBytes(32).toString("hex")
             });
 
-            // return transporter.sendMail({
-            //     to     : email,
-            //     from   : "support@defibrillator-hunter.com",
-            //     subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-            //     html   : "<a href=''></a>"
-            // });
+            return token.save();
         })
+        .then(token => {
+            return transporter.sendMail({
+                to     : email,
+                from   : "support@defibrillator-hunter.com",
+                subject: "Welcome to DefibrillatorHunter! Confirm your email.",
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
+            });
+        })
+        .then(() => {
+            res.status(201).json({
+                message: "User created.",
+                userId : newUser._id
+            });
+        })
+        .catch(err => {
+
+            console.error(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+
+            if (!newUser) {
+                next(err);
+                return;
+            }
+
+            console.log("User already created. Rolling back...");
+
+            User.findById(newUser._id)
+                .then(user => {
+
+                    if (!user)
+                        throw new Error("Could not find user.");
+
+                    return User.findByIdAndRemove(newUser._id);
+                })
+                .then(() => {
+                    res.status(500).json({
+                        message: "Something went wrong on the server. Rolling back..."
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    if (!err.statusCode) {
+                        err.statusCode = 500;
+                        err.errors     = ["Something went wrong on the server."];
+                    }
+                    next(err);
+                });
+
+        })
+
+};
+
+exports.confirmMail = (req, res, next) => {
+
+    const token = req.params.token;
+
+    Token.findOne({ token: token })
+        .then(token => {
+
+            if (!token) {
+                const error      = new Error("Token expired");
+                error.statusCode = 400;
+                throw error;
+            }
+
+            return User.findById(token.userId);
+        })
+        .then(user => {
+
+            if (!user) {
+                const error      = new Error("User not found");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            if (user.isConfirmed) {
+                const error      = new Error("User already verified");
+                error.statusCode = 409;
+                throw error;
+            }
+
+            user.isConfirmed = true;
+            return user.save();
+        })
+        .then(() => res.render("confirm-mail", { errorMessage: null }))
+        .catch(err => {
+
+            console.error(err);
+
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server"];
+            }
+
+            const errorMessage = `Error! ${err.message}`;
+            res.render("confirm-mail", { errorMessage: errorMessage });
+        });
+
+};
+
+exports.resendConfirmationEmail = (req, res, next) => {
+
+    const email = req.body.email;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error      = new Error("Data validation failed. Entered data is incorrect.");
+        error.errors     = errors.array();
+        error.statusCode = 422;
+        throw error;
+    }
+
+    User.findOne({ email: email })
+        .then(user => {
+
+            if (!user) {
+                const error      = new Error("User not found.");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            if (user.isConfirmed) {
+                const error      = new Error("User already verified.");
+                error.statusCode = 409;
+                throw error;
+            }
+
+            const token = new Token({
+                userId: user._id,
+                token : crypto.randomBytes(16).toString("hex")
+            });
+
+            return token.save();
+        })
+        .then(token => {
+            return transporter.sendMail({
+                to     : email,
+                from   : "support@defibrillator-hunter.com",
+                subject: "Welcome to DefibrillatorHunter! Confirm your email.",
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
+            });
+        })
+        .then(() => res.status(201).json({ message: "Email sent." }))
         .catch(err => {
             console.error(err);
             if (!err.statusCode) {
@@ -178,6 +275,12 @@ exports.login = (req, res, next) => {
                 throw error;
             }
 
+            if (!loadedUser.isConfirmed) {
+                const error      = new Error("Mail not verified.");
+                error.statusCode = 460;
+                throw error
+            }
+
             const token = jwt.sign({
                     userId: loadedUser._id.toString(),
                     email : loadedUser.email
@@ -200,60 +303,41 @@ exports.login = (req, res, next) => {
 
 };
 
-exports.changePassword = (req, res, next) => {
+exports.resetPw = (req, res, next) => {
 
-    const id = req.params.userId;
-
-    if (id !== req.userId) {
-        const error      = new Error("Not authorized.");
-        error.statusCode = 401;
-        throw error;
-    }
+    const email = req.body.email;
 
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        const error      = new Error("Password validation failed. Entered data is incorrect.");
+        const error      = new Error("Data validation failed. Entered data is incorrect.");
         error.errors     = errors.array();
         error.statusCode = 422;
         throw error;
     }
 
-    const oldPassword = req.body.oldPassword,
-          newPassword = req.body.newPassword;
+    const token = crypto.randomBytes(32).toString("hex");
 
-    let loadedUser;
-
-    User.findById(id)
+    User.findOne({ email: email })
         .then(user => {
 
             if (!user) {
-                const error      = new Error("Could not find the user.");
+                const error      = new Error("User not found.");
                 error.statusCode = 404;
                 throw error;
             }
 
-            loadedUser = user;
-            return bcrypt.compare(oldPassword, user.password);
-        })
-        .then(isEqual => {
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now() + 3600000;
 
-            if (!isEqual) {
-                const error      = new Error("Wrong password.");
-                error.statusCode = 401;
-                throw error;
-            }
-
-            return bcrypt.hash(newPassword, 12);
-        })
-        .then(hashPw => {
-
-            loadedUser.password = hashPw;
-            return loadedUser.save();
+            return user.save();
         })
         .then(() => {
-            res.status(200).json({
-                message: "Password changed successfully."
+            return transporter.sendMail({
+                to     : email,
+                from   : "support@defibrillator-hunter.com",
+                subject: "Password reset.",
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
             });
         })
         .catch(err => {
@@ -265,129 +349,4 @@ exports.changePassword = (req, res, next) => {
             next(err);
         })
 
-};
-
-exports.updateProfile = (req, res, next) => {
-
-    const id = req.params.userId;
-
-    if (id !== req.userId) {
-        const error      = new Error("Not authorized.");
-        error.statusCode = 401;
-        throw error;
-    }
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        const error      = new Error("Data validation failed. Entered data is incorrect.");
-        error.errors     = errors.array();
-        error.statusCode = 422;
-        throw error;
-    }
-
-    const name       = req.body.name,
-          age        = req.body.age,
-          gender     = req.body.gender,
-          occupation = req.body.occupation,
-          isRescuer  = req.body.isRescuer;
-
-    User.findById(id)
-        .then(user => {
-
-            if (!user) {
-                const error      = new Error("Could not find the user.");
-                error.statusCode = 404;
-                throw error;
-            }
-
-            user.name       = name;
-            user.age        = age;
-            user.gender     = gender;
-            user.occupation = occupation;
-            user.isRescuer  = isRescuer;
-
-            return user.save();
-        })
-        .then(result => {
-
-            Defibrillator.countDocuments({ user: id, markedForDeletion: false })
-                .then(count => {
-
-                    res.status(200).json({
-                        message: "User updated.",
-                        user   : {
-                            email     : result.email,
-                            name      : result.name,
-                            age       : result.age,
-                            gender    : result.gender,
-                            occupation: result.occupation,
-                            isRescuer : result.isRescuer,
-                            defNumber : count
-                        }
-                    })
-                })
-        })
-        .catch(err => {
-            console.error(err);
-            if (!err.statusCode) {
-                err.statusCode = 500;
-                err.errors     = ["Something went wrong on the server."];
-            }
-            next(err);
-        })
-
-};
-
-exports.updatePicture = (req, res, next) => {
-
-    const id = req.params.userId;
-
-    if (id !== req.userId) {
-        const error      = new Error("Not authorized.");
-        error.statusCode = 401;
-        throw error;
-    }
-
-    User.findById(id)
-        .then(user => {
-
-            if (!user) {
-                const error      = new Error("Could not find the user.");
-                error.statusCode = 404;
-                throw error;
-            }
-
-            if (user.imageUrl !== "")
-                clearImage(user.imageUrl);
-
-            if (req.file)
-                user.imageUrl = req.file.path.replace("\\", "/");
-            else
-                user.imageUrl = "";
-
-            return user.save();
-        })
-        .then(result => {
-            res.status(200).json({
-                message : "Profile picture updated.",
-                imageUrl: result.imageUrl
-            })
-        })
-        .catch(err => {
-            console.error(err);
-            if (!err.statusCode) {
-                err.statusCode = 500;
-                err.errors     = ["Something went wrong on the server."];
-            }
-            next(err);
-        })
-
-};
-
-const clearImage = filePath => {
-    filePath = path.join(__dirname, "..", filePath);
-    fs.unlink(filePath, err => {
-        console.error(err)
-    });
 };

@@ -87,8 +87,18 @@ $dialog-width : 280px;
 
       .dialog-text {
         margin-bottom : 26px;
-
       }
+
+      .dialog-link {
+        margin-top      : 26px;
+        text-align      : center;
+        text-decoration : underline;
+        text-transform  : uppercase;
+        color           : $color-main-dark;
+        @include font(500, $font-body);
+        cursor          : pointer;
+      }
+
 
     }
 

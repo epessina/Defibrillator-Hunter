@@ -4,6 +4,7 @@ const express  = require("express"),
       { body } = require("express-validator/check");
 
 const defibrillatorController = require("../controllers/defibrillator"),
+      checkCaller             = require("../middleware/check-caller"),
       isAuth                  = require("../middleware/is-auth");
 
 const router = express.Router();
@@ -81,19 +82,19 @@ const putValidation = [
 
 
 // GET /defibrillator/get-all
-router.get("/get-all", isAuth, defibrillatorController.getDefibrillators);
+router.get("/get-all", checkCaller, isAuth, defibrillatorController.getDefibrillators);
 
 // GET /defibrillator/:defibrillatorId
-router.get("/:defibrillatorId", isAuth, defibrillatorController.getDefibrillator);
+router.get("/:defibrillatorId", checkCaller, isAuth, defibrillatorController.getDefibrillator);
 
 // POST /defibrillator/post
-router.post("/post", isAuth, postValidation, defibrillatorController.postDefibrillator);
+router.post("/post", checkCaller, isAuth, postValidation, defibrillatorController.postDefibrillator);
 
 // PUT /defibrillator/:defibrillatorId
-router.put("/:defibrillatorId", isAuth, putValidation, defibrillatorController.updateDefibrillator);
+router.put("/:defibrillatorId", checkCaller, isAuth, putValidation, defibrillatorController.updateDefibrillator);
 
 // DELETE /defibrillator/:defibrillatorId
-router.delete("/:defibrillatorId", isAuth, defibrillatorController.deleteDefibrillator);
+router.delete("/:defibrillatorId", checkCaller, isAuth, defibrillatorController.deleteDefibrillator);
 
 
 module.exports = router;

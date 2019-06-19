@@ -27,7 +27,7 @@
 <body onresize="onResize()" onload="onLoad()">
 
 <!-- Splash screen -->
-<div id="splash">
+<div style="display: none" id="splash">
 
     <div class="logo-wrapper">
 
@@ -90,7 +90,110 @@
 
 </div>
 
+<!-- Reset password -->
+<div style="display: none" id="reset-pw" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="reset-pw-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="auth.login.resetPassword.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="reset-pw-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="reset-pw-email"></label>
+            <input id="reset-pw-email"
+                   type="email"
+                   data-i18n="[placeholder]auth.login.resetPassword.emailPh">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- Resend email -->
+<div style="display: none" id="resend-email-page" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="resend-email-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="auth.login.resendEmail.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="resend-email-done" class="material-icons">send</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="resend-email"></label>
+            <input id="resend-email"
+                   type="email"
+                   data-i18n="[placeholder]auth.login.resendEmail.emailPh">
+
+        </div>
+
+    </div>
+
+
+</div>
+
 <!-- Register page -->
+<div style="display: none" id="register-disclaimer">
+
+    <div class="custom-container">
+
+        <div class="disclaimer-top-text" data-i18n="auth.register.disclaimerTopText"></div>
+
+        <div class="disclaimer-text">
+
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit nisl, suscipit quis ligula mattis,
+                dictum mattis sapien. Integer egestas vel nunc quis ullamcorper. Pellentesque sagittis lectus in justo
+                maximus, ac dapibus libero condimentum. Orci varius natoque penatibus et magnis dis parturient montes,
+                nascetur ridiculus mus.
+            </p>
+
+            <p>
+                Nullam dui leo, cursus vel rutrum vitae, suscipit eu nibh. Suspendisse eu erat lectus. Lorem ipsum dolor
+                sit amet, consectetur adipiscing elit. Vivamus at dapibus lacus. Nulla nulla diam, posuere a elementum
+                non, luctus in sem. Donec congue mi sit amet velit vulputate lacinia. Suspendisse nec purus elit.
+            </p>
+
+        </div>
+
+        <div id="register-disclaimer-btn-accept" class="fab-extended fab-extended-flex">
+            <p class="fab-extended-text" data-i18n="auth.register.btnDisclaimer"></p>
+        </div>
+
+        <p id="register-disclaimer-go-back" class="auth-go-back" data-i18n="auth.register.goBack"></p>
+
+    </div>
+
+</div>
+
 <div style="display: none" id="register-page-one" class="auth-page register-page">
 
     <div class="form-container">
@@ -155,7 +258,7 @@
         <p class="register-top-text" data-i18n="auth.register.topText2"></p>
 
         <!-- Name -->
-        <div class="form-field">
+        <div class="form-field no-margin">
 
             <i class="material-icons">face</i>
 
@@ -165,6 +268,8 @@
                    data-i18n="[placeholder]auth.register.namePh">
 
         </div>
+
+        <p class="form-bottom-info" data-i18n="auth.register.nameInfo"></p>
 
         <!-- Age -->
         <div class="form-field">
@@ -272,11 +377,13 @@
 
         </div>
 
+        <p id="rescuer-info" class="form-bottom-info" data-i18n="auth.register.rescuerExplanation"></p>
+
         <div id="register-btn-done" class="fab-extended fab-extended-flex">
             <p class="fab-extended-text" data-i18n="auth.register.btnRegister"></p>
         </div>
 
-        <p id="register-go-back" data-i18n="auth.register.goBack"></p>
+        <p id="register-go-back" class="auth-go-back" data-i18n="auth.register.goBack"></p>
 
     </div>
 
@@ -299,6 +406,7 @@
 
         <div id="settings-language" class="settings-item" data-i18n="profile.settings.language"></div>
         <div id="settings-editProfile" class="settings-item" data-i18n="profile.settings.editProfile"></div>
+        <div id="settings-changeEmail" class="settings-item" data-i18n="profile.settings.changeEmail"></div>
         <div id="settings-changePassword" class="settings-item" data-i18n="profile.settings.changePassword"></div>
         <div id="settings-logout" class="settings-item" data-i18n="profile.settings.logout"></div>
 
@@ -459,8 +567,43 @@
 
 </div>
 
+<!-- Change email -->
+<div style="display: none" id="change-email" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="change-email-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="profile.changeEmail.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="change-email-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="new-email"></label>
+            <input id="new-email"
+                   type="email"
+                   data-i18n="[placeholder]profile.changeEmail.emailPh">
+
+        </div>
+
+    </div>
+
+
+</div>
+
 <!-- Change password -->
-<div style="display: none" id="change-pw">
+<div style="display: none" id="change-pw" class="form-page">
 
     <div class="top-bar">
 
@@ -520,7 +663,7 @@
 </div>
 
 <!-- Edit profile -->
-<div style="display: none" id="edit-profile">
+<div style="display: none" id="edit-profile" class="form-page">
 
     <div class="top-bar">
 
@@ -1636,7 +1779,7 @@
 
                 <p class="dialog-title"></p>
 
-                <p class="dialog-text"></p>
+                <div class="dialog-text"></div>
 
             </div>
 
