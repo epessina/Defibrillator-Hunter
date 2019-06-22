@@ -42,7 +42,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Set the file on which save the logs
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
+// const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
 
 // Set ejs as template engine (for email confirmation and reset password pages)
 app.set("view engine", "ejs");
