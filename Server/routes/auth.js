@@ -95,6 +95,25 @@ const resendConfirmationEmailValidation = [
         .normalizeEmail()
 ];
 
+const resetPwValidation = [
+    body("password")
+        .trim()
+        .isLength({ min: 8 })
+        .withMessage("Password must be at least 8 characters long and must contain at least one number")
+        .custom(val => {
+            if (!(/\d/.test(val)))
+                throw new Error("Password must be at least 8 characters long and must contain at least one number");
+            return true;
+        }),
+    body("confirmPassword")
+        .trim()
+        .custom((val, { req }) => {
+            if (val !== req.body.password)
+                throw new Error("Passwords don't match.");
+            return true;
+        })
+];
+
 
 // PUT /auth/check
 router.put("/check", checkCaller, emailPwValidation, authController.check);
@@ -114,11 +133,11 @@ router.post("/login", checkCaller, authController.login);
 // POST /auth/reset-password
 router.post("/reset-password", checkCaller, emailValidation, authController.resetPw);
 
-// GET /auth/new-password
-router.get("/new-password");
+// GET /auth/new-password:token
+router.get("/new-password/:token", authController.getNewPassword);
 
 // POST /auth/new-password
-router.post("/new-password");
+router.post("/new-password", resetPwValidation, authController.postNewPassword);
 
 
 module.exports = router;

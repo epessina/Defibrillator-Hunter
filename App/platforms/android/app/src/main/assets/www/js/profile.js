@@ -25,6 +25,10 @@ function initProfilePage() {
     // Initialize photo menu
     initProfilePhoto();
 
+    // Initialize change email
+    $("#change-email-close").click(() => closeChangeEmail());
+    $("#change-email-done").click(() => changeEmail());
+
     // Initialize change password page
     $("#change-pw-close").click(() => closeChangePassword());
     $("#change-pw-done").click(() => changePassword());
@@ -46,6 +50,11 @@ function initSettings() {
 
     $("#settings-editProfile").click(() => openEditProfile());
 
+    $("#settings-changeEmail").click(() => {
+        $("#change-email").show();
+        closeSettings();
+    });
+
     $("#settings-changePassword").click(() => {
         $("#change-pw").show();
         closeSettings();
@@ -61,6 +70,7 @@ function initSettings() {
             null,
             i18n.t("dialogs.btnOk"),
             () => {
+                closeProfilePage();
                 $("body").children("div").hide();
                 $("#log-in-page").show();
                 logout();
@@ -129,8 +139,9 @@ function openProfilePage() {
 
     $("#profile").show();
 
-    fetch(serverUrl + "auth/" + userId, {
+    fetch(serverUrl + "profile/" + userId, {
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         }
     })
@@ -156,6 +167,11 @@ function openProfilePage() {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.getUser401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(
@@ -263,6 +279,86 @@ function changeProfileTab($tab) {
 }
 
 
+function changeEmail() {
+
+    openLoader();
+
+    let email = $("#new-email").val();
+
+    if (email === "") {
+        closeLoader();
+        logOrToast(i18n.t("messages.mandatoryEmail"), "long");
+        return;
+    }
+
+    fetch(serverUrl + "profile/" + userId + "/change-email", {
+        method : "PUT",
+        headers: {
+            "App-Key"     : APIKey,
+            Authorization : "Bearer " + token,
+            "Content-Type": "application/json"
+        },
+        body   : JSON.stringify({
+            email    : email
+        })
+    })
+        .then(res => {
+
+            if (res.status !== 200) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
+
+            closeLoader();
+            closeChangeEmail();
+            closeProfilePage();
+            $("body").children("div").hide();
+            $("#log-in-page").show();
+            logout();
+            createAlertDialog(
+                i18n.t("profile.changeEmail.successTitle"),
+                i18n.t("profile.changeEmail.successMessage"),
+                i18n.t("dialogs.btnOk"));
+        })
+        .catch(err => {
+            console.error(err);
+            closeLoader();
+
+            if (err.code === 401)
+                createAlertDialog(
+                    i18n.t("dialogs.title401"),
+                    i18n.t("dialogs.changeEmail401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.changeEmail404"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 409)
+                logOrToast(i18n.t("messages.changeEmail409"), "long");
+            else if (err.code === 422) {
+                logOrToast(i18n.t("messages.mandatoryEmail"), "long");
+            } else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.changeEmail500"),
+                    i18n.t("dialogs.btnOk"));
+        });
+
+}
+
+function closeChangeEmail() {
+    $("#change-email").scrollTop(0).hide();
+    $("#new-email").val("");
+}
+
+
 function changePassword() {
 
     openLoader();
@@ -291,9 +387,10 @@ function changePassword() {
         return;
     }
 
-    fetch(serverUrl + "auth/" + userId + "/change-password", {
+    fetch(serverUrl + "profile/" + userId + "/change-password", {
         method : "PUT",
         headers: {
+            "App-Key"     : APIKey,
             Authorization : "Bearer " + token,
             "Content-Type": "application/json"
         },
@@ -324,6 +421,11 @@ function changePassword() {
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.changePw401"),
                     i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
+                    i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(
                     i18n.t("dialogs.title404"),
@@ -337,8 +439,6 @@ function changePassword() {
                     i18n.t("dialogs.changePw500"),
                     i18n.t("dialogs.btnOk"));
         });
-
-
 }
 
 function closeChangePassword() {
@@ -368,9 +468,10 @@ function editProfile() {
         return;
     }
 
-    fetch(serverUrl + "auth/" + userId + "/update-profile", {
+    fetch(serverUrl + "profile/" + userId + "/update-profile", {
         method : "PUT",
         headers: {
+            "App-Key"     : APIKey,
             Authorization : "Bearer " + token,
             "Content-Type": "application/json"
         },
@@ -408,6 +509,11 @@ function editProfile() {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.editProfile401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(
@@ -498,8 +604,24 @@ function getProfilePhoto(fromCamera) {
     if (!fromCamera)
         options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
 
-    navigator.camera.getPicture(
-        fileURI => {
+    // navigator.camera.getPicture(
+    //     fileURI => {
+    //         openLoader();
+    //
+    //         let res = JSON.parse(fileURI);
+    //         photo   = res.filename;
+    //
+    //         const formData = new FormData();
+    //         appendFile(formData, photo, "profileImage", putProfileImage);
+    //     },
+    //     err => {
+    //         console.log("Error taking picture", err);
+    //         createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
+    //     },
+    //     options);
+
+    navigator.camera.getPicture(options)
+        .then(fileURI => {
             openLoader();
 
             let res = JSON.parse(fileURI);
@@ -507,13 +629,11 @@ function getProfilePhoto(fromCamera) {
 
             const formData = new FormData();
             appendFile(formData, photo, "profileImage", putProfileImage);
-        },
-        err => {
+        })
+        .catch(err => {
             console.log("Error taking picture", err);
             createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
-        },
-        options);
-
+        });
 }
 
 // ToDO delete
@@ -536,9 +656,10 @@ $("#tmp-profile-photo-input").change(() => {
 
 function putProfileImage(formData) {
 
-    fetch(serverUrl + "auth/" + userId + "/update-picture?if=prof", {
+    fetch(serverUrl + "profile/" + userId + "/update-picture?if=prof", {
         method : "PUT",
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         },
         body   : formData
@@ -570,6 +691,11 @@ function putProfileImage(formData) {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.putProfileImage401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(

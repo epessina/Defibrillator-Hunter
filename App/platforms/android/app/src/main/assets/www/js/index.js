@@ -1,16 +1,19 @@
 "use strict";
 
-// let serverUrl = "http://localhost:8080/";
-// let serverUrl = "http://192.168.1.102:8080/";.
-let serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+const serverUrl = "http://localhost:8080/";
+// const serverUrl = "http://192.168.1.102:8080/";.
+// const serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+
+const APIKey = "8BB4E82FDD2B84D375677DD14792A";
 
 let backPressedCount = 0;
 
 let isCordova = false;
 
-let isAuth = false,
-    token  = null,
-    userId = null;
+let hasLoggedOut = false,
+    isAuth       = false,
+    token        = null,
+    userId       = null;
 
 let markers = [];
 
@@ -143,6 +146,7 @@ function getDefibrillators() {
 
     fetch(serverUrl + "defibrillator/get-all", {
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         }
     })
@@ -164,6 +168,11 @@ function getDefibrillators() {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.getDefibrillators401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else
                 createAlertDialog(
@@ -200,6 +209,7 @@ function deleteDefibrillator(id) {
     fetch(serverUrl + "defibrillator/" + id, {
         method : "DELETE",
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         }
     })
@@ -236,6 +246,11 @@ function deleteDefibrillator(id) {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.deleteDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(

@@ -6,7 +6,6 @@ const fs     = require("fs"),
 
 const User                 = require("../models/user"),
       Defibrillator        = require("../models/defibrillator"),
-      Token                = require("../models/token"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       nodemailer           = require("nodemailer"),
@@ -92,7 +91,8 @@ exports.changeEmail = (req, res, next) => {
     const newEmail = req.body.email;
 
     let oldEmail = null,
-        newUser  = null;
+        newUser  = null,
+        token;
 
     User.findById(id)
         .then(user => {
@@ -108,25 +108,22 @@ exports.changeEmail = (req, res, next) => {
             user.email       = newEmail;
             user.isConfirmed = false;
 
+            token = crypto.randomBytes(32).toString("hex");
+
+            user.confirmEmailToken           = token;
+            user.confirmEmailTokenExpiration = Date.now() + 86400000;
+
             return user.save();
         })
-        .then(updatedUser => {
+        .then(user => {
 
-            newUser = updatedUser;
+            newUser = user;
 
-            const token = new Token({
-                userId: newUser._id,
-                token : crypto.randomBytes(32).toString("hex")
-            });
-
-            return token.save();
-        })
-        .then(token => {
             return transporter.sendMail({
                 to     : newEmail,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : "http:\/\/" + req.headers.host + "\/auth\/confirmation\/" + token.token
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token}`
             });
         })
         .then(() => {
@@ -153,8 +150,7 @@ exports.changeEmail = (req, res, next) => {
             User.findById(newUser._id)
                 .then(user => {
 
-                    if (!user)
-                        throw new Error("Could not find user.");
+                    if (!user) throw new Error("Could not find user.");
 
                     user.email       = oldEmail;
                     user.isConfirmed = true;

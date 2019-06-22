@@ -3,7 +3,6 @@
 const crypto = require("crypto");
 
 const User                 = require("../models/user"),
-      Token                = require("../models/token"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       jwt                  = require("jsonwebtoken"),
@@ -67,35 +66,32 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(password, 12)
         .then(hashPw => {
 
+            const token = crypto.randomBytes(32).toString("hex");
+
             const user = new User({
-                email     : email,
-                password  : hashPw,
-                name      : name,
-                age       : age,
-                gender    : gender,
-                occupation: occupation,
-                isRescuer : isRescuer,
-                imageUrl  : ""
+                email                      : email,
+                password                   : hashPw,
+                name                       : name,
+                age                        : age,
+                gender                     : gender,
+                occupation                 : occupation,
+                isRescuer                  : isRescuer,
+                imageUrl                   : "",
+                confirmEmailToken          : token,
+                confirmEmailTokenExpiration: Date.now() + 86400000      // 1 day
             });
 
             return user.save();
         })
         .then(user => {
+
             newUser = user;
 
-            const token = new Token({
-                userId: newUser._id,
-                token : crypto.randomBytes(32).toString("hex")
-            });
-
-            return token.save();
-        })
-        .then(token => {
             return transporter.sendMail({
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`
             });
         })
         .then(() => {
@@ -105,7 +101,6 @@ exports.signup = (req, res, next) => {
             });
         })
         .catch(err => {
-
             console.error(err);
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -119,14 +114,7 @@ exports.signup = (req, res, next) => {
 
             console.log("User already created. Rolling back...");
 
-            User.findById(newUser._id)
-                .then(user => {
-
-                    if (!user)
-                        throw new Error("Could not find user.");
-
-                    return User.findByIdAndRemove(newUser._id);
-                })
+            User.findByIdAndRemove(newUser._id)
                 .then(() => {
                     res.status(500).json({
                         message: "Something went wrong on the server. Rolling back..."
@@ -140,31 +128,25 @@ exports.signup = (req, res, next) => {
                     }
                     next(err);
                 });
-
         })
-
 };
 
 exports.confirmMail = (req, res, next) => {
 
     const token = req.params.token;
 
-    Token.findOne({ token: token })
-        .then(token => {
-
-            if (!token) {
-                const error      = new Error("Token expired");
-                error.statusCode = 400;
-                throw error;
-            }
-
-            return User.findById(token.userId);
-        })
+    User.findOne({ confirmEmailToken: token })
         .then(user => {
 
             if (!user) {
                 const error      = new Error("User not found");
                 error.statusCode = 404;
+                throw error;
+            }
+
+            if (!(new Date(user.confirmEmailTokenExpiration).getTime() > Date.now())) {
+                const error      = new Error("Token expired");
+                error.statusCode = 400;
                 throw error;
             }
 
@@ -174,14 +156,14 @@ exports.confirmMail = (req, res, next) => {
                 throw error;
             }
 
-            user.isConfirmed = true;
+            user.isConfirmed                 = true;
+            user.confirmEmailToken           = undefined;
+            user.confirmEmailTokenExpiration = undefined;
+
             return user.save();
         })
         .then(() => res.render("confirm-mail", { errorMessage: null }))
         .catch(err => {
-
-            console.error(err);
-
             if (!err.statusCode) {
                 err.statusCode = 500;
                 err.errors     = ["Something went wrong on the server"];
@@ -206,6 +188,8 @@ exports.resendConfirmationEmail = (req, res, next) => {
         throw error;
     }
 
+    let token;
+
     User.findOne({ email: email })
         .then(user => {
 
@@ -221,19 +205,19 @@ exports.resendConfirmationEmail = (req, res, next) => {
                 throw error;
             }
 
-            const token = new Token({
-                userId: user._id,
-                token : crypto.randomBytes(16).toString("hex")
-            });
+            token = crypto.randomBytes(32).toString("hex");
 
-            return token.save();
+            user.confirmEmailToken           = token;
+            user.confirmEmailTokenExpiration = Date.now() + 86400000;
+
+            return user.save();
         })
-        .then(token => {
+        .then(() => {
             return transporter.sendMail({
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
+                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token}`
             });
         })
         .then(() => res.status(201).json({ message: "Email sent." }))
@@ -316,7 +300,7 @@ exports.resetPw = (req, res, next) => {
         throw error;
     }
 
-    const token = crypto.randomBytes(32).toString("hex");
+    let token;
 
     User.findOne({ email: email })
         .then(user => {
@@ -327,8 +311,10 @@ exports.resetPw = (req, res, next) => {
                 throw error;
             }
 
-            user.resetToken = token;
-            user.resetTokenExpiration = Date.now() + 3600000;
+            token = crypto.randomBytes(32).toString("hex");
+
+            user.resetPwToken           = token;
+            user.resetPwTokenExpiration = Date.now() + 3600000;     // 1h
 
             return user.save();
         })
@@ -336,9 +322,106 @@ exports.resetPw = (req, res, next) => {
             return transporter.sendMail({
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
-                subject: "Password reset.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token.token}`
+                subject: "Password reset",
+                text   : `http:\/\/${req.headers.host}\/auth\/new-password\/${token}`
             });
+        })
+        .then(() => res.status(201).json({ message: "Email sent." }))
+        .catch(err => {
+            console.error(err);
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+            next(err);
+        })
+
+};
+
+exports.getNewPassword = (req, res, next) => {
+
+    const token = req.params.token;
+
+    User.findOne({ resetPwToken: token })
+        .then(user => {
+
+            if (!user) {
+                const error      = new Error("User not found");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            if (!(new Date(user.resetPwTokenExpiration).getTime() > Date.now())) {
+                const error      = new Error("Token expired");
+                error.statusCode = 400;
+                throw error;
+            }
+
+            res.render("new-password", {
+                token       : token,
+                email       : user.email,
+                errorMessage: null
+            });
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server"];
+            }
+
+            const errorMessage = `Error! ${err.message}`;
+            res.render("new-password", { errorMessage: errorMessage });
+        });
+
+};
+
+exports.postNewPassword = (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error      = new Error("Password validation failed. Entered data is incorrect.");
+        error.errors     = errors.array();
+        error.statusCode = 422;
+        throw error;
+    }
+
+    const password = req.body.password,
+          email    = req.body.email,
+          token    = req.body.token;
+
+    let loadedUser;
+
+    User.findOne({
+        resetPwToken: token,
+        email       : email
+    })
+        .then(user => {
+
+            if (!user) {
+                const error      = new Error("Could not find the user.");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            if (!(new Date(user.resetPwTokenExpiration).getTime() > Date.now())) {
+                const error      = new Error("Token expired");
+                error.statusCode = 400;
+                throw error;
+            }
+
+            loadedUser = user;
+            return bcrypt.hash(password, 12);
+        })
+        .then(hashPw => {
+            loadedUser.password               = hashPw;
+            loadedUser.resetPwToken           = undefined;
+            loadedUser.resetPwTokenExpiration = undefined;
+
+            return loadedUser.save();
+        })
+        .then(() => {
+            res.status(201).json({ message: "Password reset successful." });
         })
         .catch(err => {
             console.error(err);

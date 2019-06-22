@@ -159,38 +159,10 @@
 
 }
 
-#change-pw {
-  @extend %full-page;
-  z-index : $z-change-pw;
-
-  .form-container {
-    margin-top  : $top-bar-height;
-    padding-top : 50px;
-
-    .form-field {
-      margin-bottom : 26px;
-    }
-
-  }
-
-}
-
 #edit-profile {
-  @extend %full-page;
-  z-index : $z-change-pw;
-
-  .form-container {
-    margin-top  : $top-bar-height;
-    padding-top : 50px;
-
-    .form-field {
-      margin-bottom : 25px;
-    }
 
     .checkbox {
       padding-left : 16px;
     }
-
-  }
 
 }

@@ -32,6 +32,7 @@ function openInfo(id) {
 
     fetch(serverUrl + "defibrillator/" + id, {
         headers: {
+            "App-Key"    : APIKey,
             Authorization: "Bearer " + token
         }
     })
@@ -81,6 +82,11 @@ function openInfo(id) {
                 createAlertDialog(
                     i18n.t("dialogs.title401"),
                     i18n.t("dialogs.getDefibrillator401"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 403)
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
                     i18n.t("dialogs.btnOk"));
             else if (err.code === 404)
                 createAlertDialog(

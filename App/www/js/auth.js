@@ -450,8 +450,54 @@ function resetPassword() {
         return;
     }
 
-    console.log(email);
-    closeResetPwPage();
-    closeLoader();
+    fetch(serverUrl + "auth/reset-password", {
+        method : "POST",
+        headers: {
+            "App-Key"     : APIKey,
+            "Content-Type": "application/json",
+        },
+        body   : JSON.stringify({
+            email: email
+        })
+    })
+        .then(res => {
+
+            if (res.status !== 201) {
+                const err = new Error();
+                err.code  = res.status;
+                throw err;
+            }
+
+            closeResetPwPage();
+            closeLoader();
+
+            createAlertDialog(
+                i18n.t("auth.login.resetPassword.successTitle"),
+                i18n.t("auth.login.resetPassword.successMessage"),
+                i18n.t("dialogs.btnOk"));
+        })
+        .catch(err => {
+            console.error(err);
+            closeLoader();
+
+            if (err.code === 403) {
+                closeResetPwPage();
+                createAlertDialog(
+                    i18n.t("dialogs.title403"),
+                    i18n.t("dialogs.message403"),
+                    i18n.t("dialogs.btnOk"));
+            } else if (err.code === 404)
+                createAlertDialog(
+                    i18n.t("dialogs.title404"),
+                    i18n.t("dialogs.resetPw404"),
+                    i18n.t("dialogs.btnOk"));
+            else if (err.code === 422)
+                logOrToast(i18n.t("messages.mandatoryEmail"), "long");
+            else
+                createAlertDialog(
+                    i18n.t("dialogs.title500"),
+                    i18n.t("dialogs.resetPw500"),
+                    i18n.t("dialogs.btnOk"));
+        });
 
 }

@@ -21,8 +21,6 @@
 
 - Resize foto profilo
 
-- PROBLEMA :: Flooding attack se uno continua a richiedere token di conferma mail
-
 
 - Mail
 

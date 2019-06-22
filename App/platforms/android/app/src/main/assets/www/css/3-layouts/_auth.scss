@@ -32,6 +32,13 @@
 
 }
 
+.auth-go-back {
+  margin-top : 20px;
+  text-align : center;
+  color      : #858585;
+  cursor     : pointer;
+}
+
 
 #log-in-page {
   padding-top : 50px;
@@ -76,6 +83,44 @@
 }
 
 
+#register-disclaimer {
+  @extend %full-page;
+  z-index : $z-auth;
+
+  .custom-container {
+    padding : 50px 16px 40px 16px;
+  }
+
+  .disclaimer-top-text {
+    width          : 100%;
+    @include flex-center;
+    margin-bottom  : 30px;
+    @include font(700, $font-title);
+    color          : $color-main-dark;
+    text-transform : uppercase;
+  }
+
+  .disclaimer-text {
+    text-align : justify;
+
+    p {
+      margin-bottom : 15px;
+
+      &:last-child {
+        margin-bottom : 0;
+      }
+
+    }
+
+  }
+
+  .fab-extended {
+    margin-top : 40px;
+  }
+
+}
+
+
 .register-page {
   padding-top : 65px;
 
@@ -103,9 +148,10 @@
 }
 
 #register-page-two {
+  padding-top : 35px;
 
   .register-top-text {
-    margin-bottom : 57px;
+    margin-bottom : 30px;
   }
 
   .checkbox {
@@ -113,11 +159,13 @@
     padding-left : 16px;
   }
 
-  #register-go-back {
-    margin-top : 20px;
-    text-align : center;
-    color      : #858585;
-    cursor     : pointer;
+  #rescuer-info {
+    margin-left   : 16px;
+    margin-bottom : 0;
+  }
+
+  #register-btn-done {
+    margin-top : 30px;
   }
 
 }

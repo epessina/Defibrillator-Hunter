@@ -439,8 +439,6 @@ function changePassword() {
                     i18n.t("dialogs.changePw500"),
                     i18n.t("dialogs.btnOk"));
         });
-
-
 }
 
 function closeChangePassword() {
@@ -606,8 +604,24 @@ function getProfilePhoto(fromCamera) {
     if (!fromCamera)
         options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
 
-    navigator.camera.getPicture(
-        fileURI => {
+    // navigator.camera.getPicture(
+    //     fileURI => {
+    //         openLoader();
+    //
+    //         let res = JSON.parse(fileURI);
+    //         photo   = res.filename;
+    //
+    //         const formData = new FormData();
+    //         appendFile(formData, photo, "profileImage", putProfileImage);
+    //     },
+    //     err => {
+    //         console.log("Error taking picture", err);
+    //         createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
+    //     },
+    //     options);
+
+    navigator.camera.getPicture(options)
+        .then(fileURI => {
             openLoader();
 
             let res = JSON.parse(fileURI);
@@ -615,13 +629,11 @@ function getProfilePhoto(fromCamera) {
 
             const formData = new FormData();
             appendFile(formData, photo, "profileImage", putProfileImage);
-        },
-        err => {
+        })
+        .catch(err => {
             console.log("Error taking picture", err);
             createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
-        },
-        options);
-
+        });
 }
 
 // ToDO delete
