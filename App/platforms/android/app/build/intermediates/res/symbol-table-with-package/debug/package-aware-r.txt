@@ -106,6 +106,7 @@ attr contentInsetStart
 attr contentInsetStartWithNavigation
 attr controlBackground
 attr coordinatorLayoutStyle
+attr cropImageStyle
 attr customNavigationLayout
 attr defaultQueryHint
 attr dialogCornerRadius
@@ -141,6 +142,7 @@ attr gapBetweenBars
 attr goIcon
 attr height
 attr hideOnContentScroll
+attr highlightColor
 attr homeAsUpIndicator
 attr homeLayout
 attr icon
@@ -209,8 +211,11 @@ attr seekBarStyle
 attr selectableItemBackground
 attr selectableItemBackgroundBorderless
 attr showAsAction
+attr showCircle
 attr showDividers
+attr showHandles
 attr showText
+attr showThirds
 attr showTitle
 attr singleChoiceItemLayout
 attr spinBars
@@ -324,6 +329,10 @@ color bright_foreground_material_dark
 color bright_foreground_material_light
 color button_material_dark
 color button_material_light
+color crop__button_bar
+color crop__button_text
+color crop__selector_focused
+color crop__selector_pressed
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
@@ -453,6 +462,7 @@ dimen compat_button_padding_vertical_material
 dimen compat_control_corner_material
 dimen compat_notification_large_icon_max_height
 dimen compat_notification_large_icon_max_width
+dimen crop__bar_height
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
 dimen highlight_alpha_material_colored
@@ -573,6 +583,12 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable crop__divider
+drawable crop__ic_cancel
+drawable crop__ic_done
+drawable crop__selectable_background
+drawable crop__texture
+drawable crop__tile
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -622,11 +638,14 @@ id async
 id beginning
 id blocking
 id bottom
+id btn_cancel
+id btn_done
 id buttonPanel
 id cancel_action
 id center
 id center_horizontal
 id center_vertical
+id changing
 id checkbox
 id chronometer
 id clip_horizontal
@@ -634,11 +653,13 @@ id clip_vertical
 id collapseActionView
 id content
 id contentPanel
+id crop_image
 id custom
 id customPanel
 id decor_content_parent
 id default_activity_button
 id disableHome
+id done_cancel_bar
 id edit_query
 id end
 id end_padder
@@ -759,6 +780,8 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout crop__activity_crop
+layout crop__layout_done_cancel
 layout notification_action
 layout notification_action_tombstone
 layout notification_media_action
@@ -822,6 +845,11 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string activity_name
 string app_name
+string crop__cancel
+string crop__done
+string crop__pick_error
+string crop__saving
+string crop__wait
 string launcher_name
 string search_menu_title
 string status_bar_notification_info_overflow
@@ -985,6 +1013,12 @@ style Base_Widget_AppCompat_Spinner_Underlined
 style Base_Widget_AppCompat_TextView_SpinnerItem
 style Base_Widget_AppCompat_Toolbar
 style Base_Widget_AppCompat_Toolbar_Button_Navigation
+style Crop
+style Crop_ActionButton
+style Crop_ActionButtonText
+style Crop_ActionButtonText_Cancel
+style Crop_ActionButtonText_Done
+style Crop_DoneCancelBar
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_ThemeOverlay_AppCompat
@@ -1196,6 +1230,7 @@ styleable ColorStateListItem android_color android_alpha alpha
 styleable CompoundButton android_button buttonTint buttonTintMode
 styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
+styleable CropImageView highlightColor showCircle showHandles showThirds
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable FontFamily fontProviderAuthority fontProviderCerts fontProviderFetchStrategy fontProviderFetchTimeout fontProviderPackage fontProviderQuery
 styleable FontFamilyFont android_font android_fontWeight android_fontStyle android_ttcIndex android_fontVariationSettings font fontStyle fontVariationSettings fontWeight ttcIndex

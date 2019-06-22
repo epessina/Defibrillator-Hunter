@@ -1,8 +1,8 @@
 "use strict";
 
-const serverUrl = "http://localhost:8080/";
+// const serverUrl = "http://localhost:8080/";
 // const serverUrl = "http://192.168.1.102:8080/";.
-// const serverUrl = "https://defibrillator-hunter.herokuapp.com/";
+const serverUrl = "https://defibrillator-hunter.herokuapp.com/";
 
 const APIKey = "8BB4E82FDD2B84D375677DD14792A";
 

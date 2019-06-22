@@ -52,7 +52,7 @@ app.set("views", "views");
 app.use(helmet());
 
 // Use morgan for request logging
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 // Parse for application/json
 app.use(bodyParser.json());

@@ -291,6 +291,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.Keyboard"
       ]
+    },
+    {
+      "id": "cordova-plugin-crop.CropPlugin",
+      "file": "plugins/cordova-plugin-crop/www/crop.js",
+      "pluginId": "cordova-plugin-crop",
+      "clobbers": [
+        "plugins.crop"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -303,6 +311,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-x-toast": "2.7.2",
     "cordova.plugins.diagnostic": "4.0.12",
     "cordova-plugin-camera-with-exif": "1.2.5",
-    "cordova-plugin-ionic-keyboard": "2.1.3"
+    "cordova-plugin-ionic-keyboard": "2.1.3",
+    "cordova-plugin-crop": "0.3.1"
   };
 });

@@ -38,6 +38,9 @@
     },
     "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
+    },
+    "cordova-plugin-crop": {
+      "PACKAGE_NAME": "polimi.epessina.defibrillatorhunter"
     }
   },
   "dependent_plugins": {}
