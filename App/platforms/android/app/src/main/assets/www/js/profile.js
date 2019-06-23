@@ -299,7 +299,7 @@ function changeEmail() {
             "Content-Type": "application/json"
         },
         body   : JSON.stringify({
-            email    : email
+            email: email
         })
     })
         .then(res => {
@@ -604,36 +604,36 @@ function getProfilePhoto(fromCamera) {
     if (!fromCamera)
         options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
 
-    // navigator.camera.getPicture(
-    //     fileURI => {
-    //         openLoader();
-    //
-    //         let res = JSON.parse(fileURI);
-    //         photo   = res.filename;
-    //
-    //         const formData = new FormData();
-    //         appendFile(formData, photo, "profileImage", putProfileImage);
-    //     },
-    //     err => {
-    //         console.log("Error taking picture", err);
-    //         createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
-    //     },
-    //     options);
-
-    navigator.camera.getPicture(options)
-        .then(fileURI => {
-            openLoader();
-
+    navigator.camera.getPicture(
+        fileURI => {
             let res = JSON.parse(fileURI);
             photo   = res.filename;
 
-            const formData = new FormData();
-            appendFile(formData, photo, "profileImage", putProfileImage);
-        })
-        .catch(err => {
-            console.log("Error taking picture", err);
+            if (device.platform === "Android" && !fromCamera)
+                photo = `file://${photo}`;
+
+            return plugins.crop.promise(photo)
+                .then(path => {
+                    openLoader();
+                    photo = path;
+
+                    const formData = new FormData();
+                    appendFile(formData, photo, "image", putProfileImage);
+                })
+                .catch(err => {
+                    console.error("Error cropping picture", err);
+                    createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
+                });
+
+            // const formData = new FormData();
+            // appendFile(formData, photo, "image", putProfileImage);
+        },
+        err => {
+            console.error("Error taking picture", err);
             createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
-        });
+        },
+        options);
+
 }
 
 // ToDO delete

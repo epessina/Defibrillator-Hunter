@@ -19,9 +19,6 @@
 - Aggiungere indirizzo con suggerimento (OSM)
 
 
-- Resize foto profilo
-
-
 - Mail
 
 - Logo
