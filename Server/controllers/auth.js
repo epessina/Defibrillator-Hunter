@@ -3,6 +3,7 @@
 const crypto = require("crypto");
 
 const User                 = require("../models/user"),
+      mailsBody            = require("../utils/mails"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
       jwt                  = require("jsonwebtoken"),
@@ -91,7 +92,8 @@ exports.signup = (req, res, next) => {
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`
+                text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`,
+                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${user.confirmEmailToken}`)
             });
         })
         .then(() => {
@@ -217,7 +219,8 @@ exports.resendConfirmationEmail = (req, res, next) => {
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token}`
+                text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${token}`,
+                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${token}`)
             });
         })
         .then(() => res.status(201).json({ message: "Email sent." }))
@@ -323,7 +326,8 @@ exports.resetPw = (req, res, next) => {
                 to     : email,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Password reset",
-                text   : `http:\/\/${req.headers.host}\/auth\/new-password\/${token}`
+                text   : `Click here to reset your password:\nhttp:\/\/${req.headers.host}\/auth\/new-password\/${token}`,
+                html   : mailsBody.generateConfirmEmailContent(`http:\/\/${req.headers.host}\/auth\/new-password\/${token}`)
             });
         })
         .then(() => res.status(201).json({ message: "Email sent." }))

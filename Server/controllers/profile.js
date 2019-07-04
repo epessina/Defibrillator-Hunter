@@ -123,7 +123,8 @@ exports.changeEmail = (req, res, next) => {
                 to     : newEmail,
                 from   : "support@defibrillator-hunter.com",
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `http:\/\/${req.headers.host}\/auth\/confirmation\/${token}`
+                text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${token}`,
+                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${token}`)
             });
         })
         .then(() => {

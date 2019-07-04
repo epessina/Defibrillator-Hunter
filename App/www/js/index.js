@@ -99,7 +99,6 @@ function init() {
     onResize();
     initAuth();
 
-//    getAuthStatus();
     if (!getAuthStatus()) {
         $("#log-in-page").show();
         $splashScreen.hide();
