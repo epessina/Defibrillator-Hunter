@@ -161,7 +161,7 @@
       "haveAccount" : "Already have an account? ",
       "login" : "Log in",
       "successTitle" : "Registration success!",
-      "successMessage" : "An email has been send to your address. Please, click on the link in the message to activate your account."
+      "successMessage" : "An email has been send to your address (it may be in the spam folder). Please, click on the link in the message to activate your account."
     }
   },
   "profile" : {

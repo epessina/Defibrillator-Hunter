@@ -3,17 +3,12 @@
 const crypto = require("crypto");
 
 const User                 = require("../models/user"),
-      mailsBody            = require("../utils/mails"),
+      mails                = require("../utils/mails"),
       { validationResult } = require("express-validator/check"),
       bcrypt               = require("bcryptjs"),
-      jwt                  = require("jsonwebtoken"),
-      nodemailer           = require("nodemailer"),
-      sendgridTransport    = require("nodemailer-sendgrid-transport");
+      jwt                  = require("jsonwebtoken");
 
-const transporter = nodemailer.createTransport(
-    sendgridTransport({ auth: { api_key: process.env.NODEMAILER_KEY } }));
-
-transporter.verify(err => { if (err) console.error(`Error setting up the transporter: ${err}`) });
+const transporter = mails.transporter();
 
 
 exports.check = (req, res, next) => {
@@ -21,20 +16,15 @@ exports.check = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+
         if (errors.array()[0].msg === "This email address is already registered.")
-            res.status(409).json({
-                message: "This email address is already registered."
-            });
+            res.status(409).json({ message: "This email address is already registered." });
+
         else
-            res.status(422).json({
-                message: "Invalid email and/or password.",
-                errors : errors.array()
-            });
-    } else {
-        res.status(200).json({
-            message: "Valid email and password."
-        });
-    }
+            res.status(422).json({ message: "Invalid email and/or password.", errors: errors.array() });
+
+    } else
+        res.status(200).json({ message: "Valid email and password." });
 
 };
 
@@ -43,15 +33,16 @@ exports.signup = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+
         if (errors.array()[0].msg === "This email address is already registered.")
-            res.status(409).json({
-                message: "This email address is already registered."
-            });
+            res.status(409).json({ message: "This email address is already registered." });
+
         else
             res.status(422).json({
                 message: "Registration validation failed. Entered data is incorrect.",
                 errors : errors.array()
             });
+
     }
 
     const email      = req.body.email,
@@ -90,18 +81,14 @@ exports.signup = (req, res, next) => {
 
             return transporter.sendMail({
                 to     : email,
-                from   : "support@defibrillator-hunter.com",
+                from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`,
-                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${user.confirmEmailToken}`)
+                html   : mails.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${user.confirmEmailToken}`)
             });
+
         })
-        .then(() => {
-            res.status(201).json({
-                message: "User created.",
-                userId : newUser._id
-            });
-        })
+        .then(() => res.status(201).json({ message: "User created.", userId: newUser._id }))
         .catch(err => {
             console.error(err);
             if (!err.statusCode) {
@@ -141,7 +128,7 @@ exports.confirmMail = (req, res, next) => {
         .then(user => {
 
             if (!user) {
-                const error      = new Error("User not found");
+                const error      = new Error("User not found or already verified");
                 error.statusCode = 404;
                 throw error;
             }
@@ -149,12 +136,6 @@ exports.confirmMail = (req, res, next) => {
             if (!(new Date(user.confirmEmailTokenExpiration).getTime() > Date.now())) {
                 const error      = new Error("Token expired");
                 error.statusCode = 400;
-                throw error;
-            }
-
-            if (user.isConfirmed) {
-                const error      = new Error("User already verified");
-                error.statusCode = 409;
                 throw error;
             }
 
@@ -217,10 +198,10 @@ exports.resendConfirmationEmail = (req, res, next) => {
         .then(() => {
             return transporter.sendMail({
                 to     : email,
-                from   : "support@defibrillator-hunter.com",
+                from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${token}`,
-                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${token}`)
+                html   : mails.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${token}`)
             });
         })
         .then(() => res.status(201).json({ message: "Email sent." }))
@@ -322,13 +303,15 @@ exports.resetPw = (req, res, next) => {
             return user.save();
         })
         .then(() => {
+
             return transporter.sendMail({
                 to     : email,
-                from   : "support@defibrillator-hunter.com",
+                from   : mails.senderAddress,
                 subject: "Password reset",
                 text   : `Click here to reset your password:\nhttp:\/\/${req.headers.host}\/auth\/new-password\/${token}`,
-                html   : mailsBody.generateConfirmEmailContent(`http:\/\/${req.headers.host}\/auth\/new-password\/${token}`)
+                html   : mails.generateResetPwContent(`http:\/\/${req.headers.host}\/auth\/new-password\/${token}`)
             });
+
         })
         .then(() => res.status(201).json({ message: "Email sent." }))
         .catch(err => {
@@ -396,10 +379,7 @@ exports.postNewPassword = (req, res, next) => {
 
     let loadedUser;
 
-    User.findOne({
-        resetPwToken: token,
-        email       : email
-    })
+    User.findOne({ resetPwToken: token, email: email })
         .then(user => {
 
             if (!user) {
@@ -424,9 +404,7 @@ exports.postNewPassword = (req, res, next) => {
 
             return loadedUser.save();
         })
-        .then(() => {
-            res.status(201).json({ message: "Password reset successful." });
-        })
+        .then(() => res.status(201).json({ message: "Password reset successful." }))
         .catch(err => {
             console.error(err);
             if (!err.statusCode) {

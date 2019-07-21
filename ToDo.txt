@@ -1,14 +1,14 @@
-- iOS:
-    - mandare mail
+- Sviluppare per iOS:
+    - chiedere account
+    - aggiungere tag edit-config (vedi camera-plugin)
 
 
 - Aggiugnere lingue
 
 
-- Inserire defibrillatore in open street map
+- Scrivere GDPR
 
-
-- Aggiungere tag edit-config (vedi camera-plugin)
+- Scrivere spiegazione "rescuer"
 
 
 - Se muovo il marker e poi zoommo e poi clicco GPS, fa freemap(), perchè autoZoom = false viene chiamato prima di zoomstart
@@ -16,12 +16,7 @@
 - Problema coi permessi android. Di base è "always denied"
 
 
-- Aggiungere indirizzo con suggerimento (OSM)
-
-
-- Mail
-
-- Logo
+- Creare logo
 
 
 - Creare sistema punteggi

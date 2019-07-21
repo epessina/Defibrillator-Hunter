@@ -179,10 +179,7 @@ function register() {
 
     fetch(serverUrl + "auth/signup", {
         method : "PUT",
-        headers: {
-            "App-Key"     : APIKey,
-            "Content-Type": "application/json"
-        },
+        headers: { "App-Key": APIKey, "Content-Type": "application/json" },
         body   : JSON.stringify({
             email          : email,
             password       : password,
@@ -282,13 +279,8 @@ function resendConfirmationEmail() {
 
     fetch(serverUrl + "auth/confirmation/resend", {
         method : "POST",
-        headers: {
-            "App-Key"     : APIKey,
-            "Content-Type": "application/json",
-        },
-        body   : JSON.stringify({
-            email: email
-        })
+        headers: { "App-Key": APIKey, "Content-Type": "application/json", },
+        body   : JSON.stringify({ email: email })
     })
         .then(res => {
 
@@ -300,7 +292,12 @@ function resendConfirmationEmail() {
 
             closeResendEmailPage();
             closeLoader();
-            logOrToast(i18n.t("messages.confirmEmailResendSuccess"), "long");
+
+            createAlertDialog(
+                i18n.t("auth.register.successTitle"),
+                i18n.t("auth.register.successMessage"),
+                i18n.t("dialogs.btnOk"));
+
         })
         .catch(err => {
             console.error(err);

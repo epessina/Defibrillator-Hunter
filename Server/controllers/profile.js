@@ -5,17 +5,13 @@ const fs     = require("fs"),
       crypto = require("crypto");
 
 const User                 = require("../models/user"),
+      mails                = require("../utils/mails"),
       Defibrillator        = require("../models/defibrillator"),
       { validationResult } = require("express-validator/check"),
-      bcrypt               = require("bcryptjs"),
-      nodemailer           = require("nodemailer"),
-      sendgridTransport    = require("nodemailer-sendgrid-transport");
+      bcrypt               = require("bcryptjs");
 
-const transporter = nodemailer.createTransport(
-    sendgridTransport({ auth: { api_key: process.env.NODEMAILER_KEY } })
-);
+const transporter = mails.transporter();
 
-transporter.verify(err => { if (err) console.error(`Error setting up the transporter: ${err}`) });
 
 exports.getUser = (req, res, next) => {
 
@@ -120,19 +116,15 @@ exports.changeEmail = (req, res, next) => {
             newUser = user;
 
             return transporter.sendMail({
-                to     : newEmail,
-                from   : "support@defibrillator-hunter.com",
+                to     : email,
+                from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${token}`,
-                html   : mailsBody.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${token}`)
+                text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`,
+                html   : mails.generateConfirmEmailContent(`http:\\/\\/${req.headers.host}\\/auth\\/confirmation\\/${user.confirmEmailToken}`)
             });
+
         })
-        .then(() => {
-            res.status(200).json({
-                message: "Email updated.",
-                userId : newUser._id
-            });
-        })
+        .then(() => {res.status(200).json({ message: "Email updated.", userId: newUser._id })})
         .catch(err => {
 
             console.error(err);
