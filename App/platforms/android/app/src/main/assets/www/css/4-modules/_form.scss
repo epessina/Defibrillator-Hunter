@@ -6,18 +6,16 @@ $form-field-padding-icon-right : 13px;
 
 
 .form-page {
-    @extend %full-page;
-    z-index : $z-change-pw;
+  @extend %full-page;
+  z-index : $z-change-pw;
 
-    .form-container {
-      margin-top  : $top-bar-height;
-      padding-top : 50px;
+  .form-container {
+    margin-top  : $top-bar-height;
+    padding-top : 50px;
 
-      .form-field {
-        margin-bottom : 26px;
-      }
+    .form-field { margin-bottom : 26px }
 
-    }
+  }
 
 }
 
@@ -37,9 +35,7 @@ $form-field-padding-icon-right : 13px;
   border-radius : 10px;
   margin-bottom : 16px;
 
-  &.no-margin {
-    margin-bottom : 0;
-  }
+  &.no-margin { margin-bottom : 0 }
 
   i {
     color  : $color-text-ph;
@@ -52,9 +48,8 @@ $form-field-padding-icon-right : 13px;
     border      : 0;
     line-height : normal;
 
-    &:focus {
-      outline : none !important;
-    }
+    &:focus { outline : none !important }
+
   }
 
   .custom-selector-box {

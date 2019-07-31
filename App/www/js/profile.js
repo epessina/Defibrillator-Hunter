@@ -72,7 +72,7 @@ function initSettings() {
             () => {
                 closeProfilePage();
                 $("body").children("div").hide();
-                $("#log-in-page").show();
+                $("#page--log-in").show();
                 logout();
             }
         );
@@ -314,7 +314,7 @@ function changeEmail() {
             closeChangeEmail();
             closeProfilePage();
             $("body").children("div").hide();
-            $("#log-in-page").show();
+            $("#page--log-in").show();
             logout();
             createAlertDialog(
                 i18n.t("profile.changeEmail.successTitle"),

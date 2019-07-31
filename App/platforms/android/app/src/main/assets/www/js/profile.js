@@ -72,7 +72,7 @@ function initSettings() {
             () => {
                 closeProfilePage();
                 $("body").children("div").hide();
-                $("#log-in-page").show();
+                $("#page--log-in").show();
                 logout();
             }
         );
@@ -314,7 +314,7 @@ function changeEmail() {
             closeChangeEmail();
             closeProfilePage();
             $("body").children("div").hide();
-            $("#log-in-page").show();
+            $("#page--log-in").show();
             logout();
             createAlertDialog(
                 i18n.t("profile.changeEmail.successTitle"),
@@ -624,9 +624,6 @@ function getProfilePhoto(fromCamera) {
                     console.error("Error cropping picture", err);
                     createAlertDialog("", i18n.t("dialogs.pictureError"), i18n.t("dialogs.btnOk"));
                 });
-
-            // const formData = new FormData();
-            // appendFile(formData, photo, "image", putProfileImage);
         },
         err => {
             console.error("Error taking picture", err);

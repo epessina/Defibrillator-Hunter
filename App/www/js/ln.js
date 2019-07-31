@@ -10,7 +10,7 @@ let ln = {
     language: "en",
 
     init: function () {
-        i18n.init({
+        i18next.init({
             ns           : "general",
             lng          : "en",
             resGetPath   : "locales/__ns__.__lng__.json",
@@ -27,13 +27,13 @@ let ln = {
             navigator.globalization.getLocaleName(
                 lang => {
                     ln.language = lang.value.substring(0, 2);
-                    i18n.setLng(ln.language, () => $("body").i18n());
+                    i18next.setLng(ln.language, () => $("body").i18n());
                     init();
                 },
                 error => console.log(error)
             );
         } else {
-            i18n.setLng("en", () => $("body").i18n());
+            i18next.setLng("en", () => $("body").i18n());
             init();
         }
 

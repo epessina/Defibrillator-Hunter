@@ -11,23 +11,6 @@ const User                 = require("../models/user"),
 const transporter = mails.transporter();
 
 
-exports.check = (req, res, next) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        if (errors.array()[0].msg === "This email address is already registered.")
-            res.status(409).json({ message: "This email address is already registered." });
-
-        else
-            res.status(422).json({ message: "Invalid email and/or password.", errors: errors.array() });
-
-    } else
-        res.status(200).json({ message: "Valid email and password." });
-
-};
-
 exports.signup = (req, res, next) => {
 
     const errors = validationResult(req);

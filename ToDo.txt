@@ -21,4 +21,25 @@
 
 - Creare sistema punteggi
 
-- Creare hints (ecosistema E015)
+
+// NO
+- Creare hints (ecosistema E015) -> 20m
+100m -> "ci sono dei defibrillatori"
+//
+
+
+Notifiche push
+
+
+Segnare spostamento del marker
+
+Se non trovo un defibrillatore nel punto mappato lo dico all'utente appena apre la schermata -> da excel in locale
+
+
+Aggiungere indirizzo
+
+
+Posizione dell'utente in classifica
+
+
+Regolamento, classifica, gdpr tutto su sito

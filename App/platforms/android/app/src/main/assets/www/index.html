@@ -24,7 +24,8 @@
 
 </head>
 
-<body onresize="onResize()" onload="onLoad()">
+<body onload="onLoad()">
+
 
 <!-- Splash screen -->
 <div style="display: none" id="splash">
@@ -39,12 +40,10 @@
 
 
 <!-- Log in page -->
-<div style="display: none" id="log-in-page" class="auth-page">
+<div style="display: none" id="page--log-in" class="auth-page">
 
     <div class="logo-wrapper">
-
         <div class="logo"><span>Logo</span></div>
-
     </div>
 
     <div class="form-container">
@@ -54,8 +53,8 @@
 
             <i class="material-icons">email</i>
 
-            <label for="login-email"></label>
-            <input id="login-email"
+            <label for="field--login-email"></label>
+            <input id="field--login-email"
                    type="email"
                    data-i18n="[placeholder]auth.login.emailPh">
 
@@ -66,44 +65,46 @@
 
             <i class="material-icons">lock</i>
 
-            <label for="login-password"></label>
-            <input id="login-password"
+            <label for="field--login-password"></label>
+            <input id="field--login-password"
                    type="password"
                    data-i18n="[placeholder]auth.login.passwordPh">
 
         </div>
 
-        <p id="forgot-password" class="forgot-password" data-i18n="auth.login.forgotPassword"></p>
+        <!-- Reset password link -->
+        <p id="link--reset-password" class="forgot-password" data-i18n="auth.login.forgotPassword"></p>
 
-        <div id="login-btn" class="fab-extended fab-extended-flex">
+        <!-- Login button -->
+        <div id="btn--login" class="fab-extended fab-extended-flex">
             <p class="fab-extended-text" data-i18n="auth.login.btnLogin"></p>
         </div>
 
     </div>
 
+    <!-- Register link -->
     <div class="auth-footer">
+
         <p>
             <span data-i18n="auth.login.noAccount"></span>
-            <span id="login-to-register" class="link" data-i18n="auth.login.signUp"></span>
+            <span id="link--register" class="link" data-i18n="auth.login.signUp"></span>
         </p>
+
     </div>
 
 </div>
 
+
 <!-- Reset password -->
-<div style="display: none" id="reset-pw" class="form-page">
+<div style="display: none" id="page--reset-pw" class="form-page">
 
     <div class="top-bar">
 
-        <div class="top-bar-left-icon">
-            <i id="reset-pw-close" class="material-icons">close</i>
-        </div>
+        <div class="top-bar-left-icon"><i id="btn--reset-pw-close" class="material-icons">close</i></div>
 
         <div class="top-bar-title" data-i18n="auth.login.resetPassword.topBarTitle"></div>
 
-        <div class="top-bar-right-icon">
-            <i id="reset-pw-done" class="material-icons">done</i>
-        </div>
+        <div class="top-bar-right-icon"><i id="btn--reset-pw-done" class="material-icons">done</i></div>
 
     </div>
 
@@ -113,8 +114,8 @@
 
             <i class="material-icons">email</i>
 
-            <label for="reset-pw-email"></label>
-            <input id="reset-pw-email"
+            <label for="field--reset-pw-email"></label>
+            <input id="field--reset-pw-email"
                    type="email"
                    data-i18n="[placeholder]auth.login.resetPassword.emailPh">
 
@@ -125,43 +126,9 @@
 
 </div>
 
-<!-- Resend email -->
-<div style="display: none" id="resend-email-page" class="form-page">
-
-    <div class="top-bar">
-
-        <div class="top-bar-left-icon">
-            <i id="resend-email-close" class="material-icons">close</i>
-        </div>
-
-        <div class="top-bar-title" data-i18n="auth.login.resendEmail.topBarTitle"></div>
-
-        <div class="top-bar-right-icon">
-            <i id="resend-email-done" class="material-icons">send</i>
-        </div>
-
-    </div>
-
-    <div class="form-container">
-
-        <div class="form-field">
-
-            <i class="material-icons">email</i>
-
-            <label for="resend-email"></label>
-            <input id="resend-email"
-                   type="email"
-                   data-i18n="[placeholder]auth.login.resendEmail.emailPh">
-
-        </div>
-
-    </div>
-
-
-</div>
 
 <!-- Register page -->
-<div style="display: none" id="register-disclaimer">
+<div style="display: none" id="page--register-disclaimer">
 
     <div class="custom-container">
 
@@ -184,60 +151,188 @@
 
         </div>
 
-        <div id="register-disclaimer-btn-accept" class="fab-extended fab-extended-flex">
+        <div id="btn--register-disclaimer-accept" class="fab-extended fab-extended-flex">
             <p class="fab-extended-text" data-i18n="auth.register.btnDisclaimer"></p>
         </div>
 
-        <p id="register-disclaimer-go-back" class="auth-go-back" data-i18n="auth.register.goBack"></p>
+        <p id="link--register-disclaimer-back" class="auth-go-back" data-i18n="auth.register.goBack"></p>
 
     </div>
 
 </div>
 
-<div style="display: none" id="register-page-one" class="auth-page register-page">
+<div style="display: none" id="page--register" class="auth-page">
 
-    <div class="form-container">
+    <p class="register-top-text" data-i18n="auth.register.topText"></p>
 
-        <p class="register-top-text" data-i18n="auth.register.topText1"></p>
+    <div class="form-wrapper">
 
-        <!-- Email -->
-        <div class="form-field">
+        <div class="form-container">
 
-            <i class="material-icons">email</i>
+            <p class="required-fields" data-i18n="auth.register.requiredFields"></p>
 
-            <label for="register-email"></label>
-            <input id="register-email"
-                   type="email"
-                   data-i18n="[placeholder]auth.register.emailPh">
+            <!-- Email -->
+            <div class="form-field">
 
-        </div>
+                <i class="material-icons">email</i>
 
-        <!-- Password -->
-        <div class="form-field">
+                <label for="field--register-email"></label>
+                <input id="field--register-email"
+                       type="email"
+                       data-i18n="[placeholder]auth.register.emailPh">
 
-            <i class="material-icons">lock</i>
+            </div>
 
-            <label for="register-password"></label>
-            <input id="register-password"
-                   type="password"
-                   data-i18n="[placeholder]auth.register.passwordPh">
+            <!-- Password -->
+            <div class="form-field">
 
-        </div>
+                <i class="material-icons">lock</i>
 
-        <!-- Confirm password -->
-        <div class="form-field">
+                <label for="field--register-password"></label>
+                <input id="field--register-password"
+                       type="password"
+                       data-i18n="[placeholder]auth.register.passwordPh">
 
-            <i class="material-icons">lock</i>
+            </div>
 
-            <label for="register-confirm-password"></label>
-            <input id="register-confirm-password"
-                   type="password"
-                   data-i18n="[placeholder]auth.register.confirmPasswordPh">
+            <!-- Confirm password -->
+            <div class="form-field">
 
-        </div>
+                <i class="material-icons">lock</i>
 
-        <div id="register-btn-next" class="fab-extended fab-extended-flex">
-            <p class="fab-extended-text" data-i18n="auth.register.btnNext"></p>
+                <label for="field--register-confirm-password"></label>
+                <input id="field--register-confirm-password"
+                       type="password"
+                       data-i18n="[placeholder]auth.register.confirmPasswordPh">
+
+            </div>
+
+            <!-- Name -->
+            <div class="form-field no-margin">
+
+                <i class="material-icons">face</i>
+
+                <label for="field--register-name"></label>
+                <input id="field--register-name"
+                       type="text"
+                       data-i18n="[placeholder]auth.register.namePh">
+
+            </div>
+
+            <p class="form-bottom-info" data-i18n="auth.register.nameInfo"></p>
+
+            <!-- Age -->
+            <div class="form-field">
+
+                <i class="material-icons">cake</i>
+
+                <div class="custom-selector-box">
+
+                    <label for="selector--register-age">
+
+                        <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
+
+                        <i class="material-icons">keyboard_arrow_down</i>
+
+                    </label>
+
+                    <select id="selector--register-age">
+
+                        <option value="none">--</option>
+                        <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
+                        <option value="16-20" data-i18n="auth.register.ageEnum.16-20"></option>
+                        <option value="21-25" data-i18n="auth.register.ageEnum.21-25"></option>
+                        <option value="26-30" data-i18n="auth.register.ageEnum.26-30"></option>
+                        <option value="31-35" data-i18n="auth.register.ageEnum.31-35"></option>
+                        <option value="36-40" data-i18n="auth.register.ageEnum.36-40"></option>
+                        <option value="41-45" data-i18n="auth.register.ageEnum.41-45"></option>
+                        <option value="46-50" data-i18n="auth.register.ageEnum.46-50"></option>
+                        <option value="51-55" data-i18n="auth.register.ageEnum.51-55"></option>
+                        <option value="56-60" data-i18n="auth.register.ageEnum.56-60"></option>
+                        <option value="61-65" data-i18n="auth.register.ageEnum.61-65"></option>
+                        <option value="66-70" data-i18n="auth.register.ageEnum.66-70"></option>
+                        <option value="more70" data-i18n="auth.register.ageEnum.more70"></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Gender -->
+            <div class="form-field">
+
+                <i class="material-icons">perm_identity</i>
+
+                <div class="custom-selector-box">
+
+                    <label for="selector--register-gender">
+
+                        <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
+
+                        <i class="material-icons">keyboard_arrow_down</i>
+
+                    </label>
+
+                    <select id="selector--register-gender">
+
+                        <option value="none">--</option>
+                        <option value="male" data-i18n="auth.register.genderEnum.male"></option>
+                        <option value="female" data-i18n="auth.register.genderEnum.female"></option>
+                        <option value="other" data-i18n="auth.register.genderEnum.other"></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Occupation -->
+            <div class="form-field">
+
+                <i class="material-icons">domain</i>
+
+                <div class="custom-selector-box">
+
+                    <label for="selector--register-occupation">
+
+                        <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
+
+                        <i class="material-icons">keyboard_arrow_down</i>
+
+                    </label>
+
+                    <select id="selector--register-occupation">
+
+                        <option value="none">--</option>
+                        <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
+                        <option value="employee" data-i18n="auth.register.occupationEnum.employee"></option>
+                        <option value="freelancer" data-i18n="auth.register.occupationEnum.freelancer"></option>
+                        <option value="unemployed" data-i18n="auth.register.occupationEnum.unemployed"></option>
+                        <option value="retiree" data-i18n="auth.register.occupationEnum.retiree"></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Rescuer -->
+            <div class="checkbox">
+
+                <div data-i18n="auth.register.rescuer"></div>
+
+                <label for="cbx--register-rescuer"></label>
+                <input id="cbx--register-rescuer" type="checkbox">
+
+            </div>
+
+            <p id="rescuer-info" class="form-bottom-info" data-i18n="auth.register.rescuerExplanation"></p>
+
+            <div id="btn--register-done" class="fab-extended fab-extended-flex">
+                <p class="fab-extended-text" data-i18n="auth.register.btnRegister"></p>
+            </div>
+
         </div>
 
     </div>
@@ -245,152 +340,7 @@
     <div class="auth-footer">
         <p>
             <span data-i18n="auth.register.haveAccount"></span>
-            <span class="link register-to-login" data-i18n="auth.register.login"></span>
-        </p>
-    </div>
-
-</div>
-
-<div style="display: none" id="register-page-two" class="auth-page register-page">
-
-    <div class="form-container">
-
-        <p class="register-top-text" data-i18n="auth.register.topText2"></p>
-
-        <!-- Name -->
-        <div class="form-field no-margin">
-
-            <i class="material-icons">face</i>
-
-            <label for="register-name"></label>
-            <input id="register-name"
-                   type="text"
-                   data-i18n="[placeholder]auth.register.namePh">
-
-        </div>
-
-        <p class="form-bottom-info" data-i18n="auth.register.nameInfo"></p>
-
-        <!-- Age -->
-        <div class="form-field">
-
-            <i class="material-icons">cake</i>
-
-            <div class="custom-selector-box">
-
-                <label for="register-age">
-
-                    <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
-
-                    <i class="material-icons">keyboard_arrow_down</i>
-
-                </label>
-
-                <select id="register-age">
-
-                    <option value="none">--</option>
-                    <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
-                    <option value="16-20" data-i18n="auth.register.ageEnum.16-20"></option>
-                    <option value="21-25" data-i18n="auth.register.ageEnum.21-25"></option>
-                    <option value="26-30" data-i18n="auth.register.ageEnum.26-30"></option>
-                    <option value="31-35" data-i18n="auth.register.ageEnum.31-35"></option>
-                    <option value="36-40" data-i18n="auth.register.ageEnum.36-40"></option>
-                    <option value="41-45" data-i18n="auth.register.ageEnum.41-45"></option>
-                    <option value="46-50" data-i18n="auth.register.ageEnum.46-50"></option>
-                    <option value="51-55" data-i18n="auth.register.ageEnum.51-55"></option>
-                    <option value="56-60" data-i18n="auth.register.ageEnum.56-60"></option>
-                    <option value="61-65" data-i18n="auth.register.ageEnum.61-65"></option>
-                    <option value="66-70" data-i18n="auth.register.ageEnum.66-70"></option>
-                    <option value="more70" data-i18n="auth.register.ageEnum.more70"></option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-        <!-- Gender -->
-        <div class="form-field">
-
-            <i class="material-icons">perm_identity</i>
-
-            <div class="custom-selector-box">
-
-                <label for="register-gender">
-
-                    <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
-
-                    <i class="material-icons">keyboard_arrow_down</i>
-
-                </label>
-
-                <select id="register-gender">
-
-                    <option value="none">--</option>
-                    <option value="male" data-i18n="auth.register.genderEnum.male"></option>
-                    <option value="female" data-i18n="auth.register.genderEnum.female"></option>
-                    <option value="other" data-i18n="auth.register.genderEnum.other"></option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-        <!-- Occupation -->
-        <div class="form-field">
-
-            <i class="material-icons">domain</i>
-
-            <div class="custom-selector-box">
-
-                <label for="register-occupation">
-
-                    <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
-
-                    <i class="material-icons">keyboard_arrow_down</i>
-
-                </label>
-
-                <select id="register-occupation">
-
-                    <option value="none">--</option>
-                    <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
-                    <option value="employee" data-i18n="auth.register.occupationEnum.employee"></option>
-                    <option value="freelancer" data-i18n="auth.register.occupationEnum.freelancer"></option>
-                    <option value="unemployed" data-i18n="auth.register.occupationEnum.unemployed"></option>
-                    <option value="retiree" data-i18n="auth.register.occupationEnum.retiree"></option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-        <!-- Rescuer -->
-        <div class="checkbox">
-
-            <div data-i18n="auth.register.rescuer"></div>
-
-            <label for="register-rescuer"></label>
-            <input id="register-rescuer" type="checkbox">
-
-        </div>
-
-        <p id="rescuer-info" class="form-bottom-info" data-i18n="auth.register.rescuerExplanation"></p>
-
-        <div id="register-btn-done" class="fab-extended fab-extended-flex">
-            <p class="fab-extended-text" data-i18n="auth.register.btnRegister"></p>
-        </div>
-
-        <p id="register-go-back" class="auth-go-back" data-i18n="auth.register.goBack"></p>
-
-    </div>
-
-    <div class="auth-footer">
-        <p>
-            <span data-i18n="auth.register.haveAccount"></span>
-            <span class="link register-to-login" data-i18n="auth.register.login"></span>
+            <span id="link--login" class="link" data-i18n="auth.register.login"></span>
         </p>
     </div>
 
@@ -805,7 +755,7 @@
 
 
 <!-- Map -->
-<div style="display: none" id="map">
+<div style="display: none" id="page--map">
 
     <div style="display: none" id="finding-position-msg">
         <p data-i18n="map.positionFinding"></p>
@@ -1803,21 +1753,30 @@
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 <!-- jQuery -->
-<script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="js/lib/jquery.mobile.touch.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery.min.js"></script> <!-- v. 2.2.4 -->
+<script type="text/javascript" src="js/lib/jquery.mobile.touch.min.js"></script> <!-- v. 1.4.5 -->
 
 <!-- Leaflet -->
-<script type="text/javascript" src="js/lib/leaflet.js"></script>
-<script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.js"></script> <!-- v. 1.5.1 -->
+<script type="text/javascript" src="js/lib/leaflet.markercluster.js"></script> <!-- v. 1.4.1 -->
 
 <!-- i18next -->
-<script type="text/javascript" src="js/lib/i18next.min.js"></script>
+<script type="text/javascript" src="js/lib/i18nextXHRBackend.min.js"></script> <!-- v. 3.0.0 -->
+<script type="text/javascript" src="js/lib/jquery-i18next.min.js"></script> <!-- v. 1.2.1 -->
+<script type="text/javascript" src="js/lib/i18next.min.js"></script> <!-- v. 17.0.6 -->
 
 <!-- Main JS -->
-<script type="text/javascript" src="js/ln.js"></script>
-<script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+
+<script type="text/javascript" src="js/auth/loginActivity.js"></script>
+<script type="text/javascript" src="js/auth/registerActivity.js"></script>
+<script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
+
+<script type="text/javascript" src="js/mapActivity.js"></script>
+
 <script type="text/javascript" src="js/profile.js"></script>
-<script type="text/javascript" src="js/map.js"></script>
+<!--<script type="text/javascript" src="js/map.js"></script>-->
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/info.js"></script>
 <script type="text/javascript" src="js/index.js"></script>

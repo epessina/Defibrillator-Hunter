@@ -1,6 +1,6 @@
 {
   "messages" : {
-    "confirmEmailResendSuccess": "A new confirmation email has been sent to your account.",
+    "confirmEmailResendSuccess" : "A new confirmation email has been sent to your account.",
     "mandatoryEmail" : "You must provide a valid email address",
     "weakPassword" : "Password must be at least 8 characters long and must contain at least one number.",
     "weakNewPassword" : "New password must be at least 8 characters long and must contain at least one number.",
@@ -22,7 +22,7 @@
     "login401" : "Wrong email or password.",
     "changePw422" : "Entered data are incorrect.",
     "changePwWrongPw" : "Wrong password!",
-    "changeEmail409": "This email is already in use.",
+    "changeEmail409" : "This email is already in use.",
     "editProfile422" : "Entered data are incorrect."
   },
   "dialogs" : {
@@ -49,12 +49,12 @@
     "deleteDefibrillator404" : "The defibrillator could not be found.",
     "deleteDefibrillator500" : "Something went wrong on the server while deleting the defibrillator. Please, try again later.",
     "register500" : "Something went wrong on the server during the registration. Please, try again later.",
-    "resendConfEmail404": "This email is not registered.",
-    "titleResendConfEmail409": "Already verified!.",
-    "resendConfEmail409": "This user has been already verified.",
-    "resendConfEmail500": "Something went wrong on the server while sending the email. Please, try again later",
-    "resetPw404": "This email is not registered.",
-    "resetPw500": "Something went wrong on the server while resetting your password. Please, try again later",
+    "resendConfEmail404" : "This email is not registered.",
+    "titleResendConfEmail409" : "Already verified!.",
+    "resendConfEmail409" : "This user has been already verified.",
+    "resendConfEmail500" : "Something went wrong on the server while sending the email. Please, try again later",
+    "resetPw404" : "This email is not registered.",
+    "resetPw500" : "Something went wrong on the server while resetting your password. Please, try again later",
     "login500" : "Something went wrong on the server during the login. Please, try again later.",
     "getUser401" : "You are not authorized to see this user's information.",
     "getUser404" : "The user could not be found.",
@@ -102,26 +102,23 @@
       "notVerifiedTitle" : "Email not verified!",
       "notVerifiedMessage" : "Please, verify your email address.",
       "resendEmailLink" : "Resend the email",
-      "resendEmail" : {
-        "topBarTitle" : "Insert your email",
-        "emailPh" : "Email"
-      },
-      "resetPassword": {
-        "topBarTitle": "Reset your password",
-        "emailPh": "Email",
-        "successTitle": "Email sent!",
-        "successMessage": "An email has been sent to your account. Please, follow the instructions in it to reset your password."
+      "resendEmailSuccessTitle" : "Email successfully sent!",
+      "resetPassword" : {
+        "topBarTitle" : "Reset your password",
+        "emailPh" : "Email",
+        "successTitle" : "Email sent!",
+        "successMessage" : "An email has been sent to your account. Please, follow the instructions in it to reset your password."
       }
     },
     "register" : {
       "disclaimerTopText" : "Disclaimer",
       "btnDisclaimer" : "Accept",
-      "topText1" : "- Sign up -",
-      "topText2" : "- Tell us about yourself -",
-      "emailPh" : "Email address",
-      "passwordPh" : "Password",
-      "confirmPasswordPh" : "Confirm password",
-      "namePh" : "Name and surname",
+      "topText" : "- Sign up -",
+      "requiredFields" : "* Indicates a required field",
+      "emailPh" : "Email address *",
+      "passwordPh" : "Password *",
+      "confirmPasswordPh" : "Confirm password *",
+      "namePh" : "Name and surname *",
       "nameInfo" : "Provide your real name and surname or you will not receive any point.",
       "ageEnum" : {
         "none" : "-",
@@ -153,15 +150,15 @@
         "unemployed" : "Unemployed",
         "retiree" : "Retiree"
       },
-      "rescuer" : "Are you a rescuer?*",
-      "rescuerExplanation" : "Some explanation of what we mean by rescuer...",
+      "rescuer" : "Are you a rescuer?",
+      "rescuerExplanation" : "Some explanation...",
       "btnNext" : "Next",
       "btnRegister" : "Register",
       "goBack" : "Go back",
       "haveAccount" : "Already have an account? ",
       "login" : "Log in",
       "successTitle" : "Registration success!",
-      "successMessage" : "An email has been send to your address. Please, click on the link in the message to activate your account."
+      "successMessage" : "An email has been send to your address (it may be in the spam folder). Please, click on the link in the message to activate your account."
     }
   },
   "profile" : {
@@ -187,15 +184,15 @@
     "settings" : {
       "language" : "Language",
       "editProfile" : "Edit profile",
-      "changeEmail": "Change email",
+      "changeEmail" : "Change email",
       "changePassword" : "Change password",
       "logout" : "Logout"
     },
-    "changeEmail": {
-      "topBarTitle": "New email",
-      "emailPh": "New email",
-      "successTitle": "Success!",
-      "successMessage": "Your email has been successfully updated. An email has been send to your address. Please, click on the link in the message to confirm the new address."
+    "changeEmail" : {
+      "topBarTitle" : "New email",
+      "emailPh" : "New email",
+      "successTitle" : "Success!",
+      "successMessage" : "Your email has been successfully updated. An email has been send to your address. Please, click on the link in the message to confirm the new address."
     },
     "changePw" : {
       "topBarTitle" : "Change password",

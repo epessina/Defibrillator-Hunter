@@ -1,5 +1,6 @@
-### Ignore file with db urls ###
+### Ignore settings/env variables files ###
 nodemon.json
+settings.js
 
 ### Cordova ###
 # gitignore template for the Cordova framework
