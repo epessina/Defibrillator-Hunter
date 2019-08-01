@@ -10,103 +10,17 @@ const dateOptions = {
 };
 
 let defibrillatorData = undefined,
-    $infoPlaceholders = $("#defibrillator-info .placeholder");
+    $infoPlaceholders = $("#page--info .placeholder");
 
 
-function initInfo() {
-
-    $("#info-close").click(() => closeInfo());
-
-    $("#info-photo-thm").click(function () {
-        openImgScreen($(this).attr("src"));
-    });
-
-}
 
 
-function openInfo(id) {
-
-    $infoPlaceholders.addClass("ph-animate");
-
-    $("#defibrillator-info").show();
-
-    fetch(serverUrl + "defibrillator/" + id, {
-        headers: {
-            "App-Key"    : APIKey,
-            Authorization: "Bearer " + token
-        }
-    })
-        .then(res => {
-
-            if (res.status !== 200) {
-                const err = new Error();
-                err.code  = res.status;
-                throw err;
-            }
-
-            return res.json();
-        })
-        .then(data => {
-            defibrillatorData = data.defibrillator;
-
-            $("#info-delete")
-                .show()
-                .unbind("click")
-                .click(() => {
-                    createAlertDialog(
-                        "",
-                        i18n.t("dialogs.deleteConfirmation"),
-                        i18n.t("dialogs.btnCancel"),
-                        null,
-                        i18n.t("dialogs.btnOk"),
-                        () => deleteDefibrillator(defibrillatorData._id)
-                    );
-
-                });
-
-            $("#info-edit")
-                .show()
-                .unbind("click")
-                .click(() => {
-                    openInsert(defibrillatorData);
-                });
-
-            showInfo();
-
-        })
-        .catch(err => {
-            console.error(err);
-            closeInfo();
-
-            if (err.code === 401)
-                createAlertDialog(
-                    i18n.t("dialogs.title401"),
-                    i18n.t("dialogs.getDefibrillator401"),
-                    i18n.t("dialogs.btnOk"));
-            else if (err.code === 403)
-                createAlertDialog(
-                    i18n.t("dialogs.title403"),
-                    i18n.t("dialogs.message403"),
-                    i18n.t("dialogs.btnOk"));
-            else if (err.code === 404)
-                createAlertDialog(
-                    i18n.t("dialogs.title404"),
-                    i18n.t("dialogs.getDefibrillator404"),
-                    i18n.t("dialogs.btnOk"));
-            else
-                createAlertDialog(
-                    i18n.t("dialogs.title500"),
-                    i18n.t("dialogs.getDefibrillator500"),
-                    i18n.t("dialogs.btnOk"));
-        });
-
-}
 
 function closeInfo() {
 
-    $("#defibrillator-info").scrollTop(0).hide();
+    $("#page--info").scrollTop(0).hide();
 
-    $("#defibrillator-info .ph-hidden-content").hide();
+    $("#page--info .ph-hidden-content").hide();
     $infoPlaceholders.removeClass("ph-animate").show();
 
     $("#info-delete").hide();
@@ -180,6 +94,6 @@ function showInfo() {
 
     $("#info-photo-thm").attr("src", serverUrl + defibrillatorData.imageUrl);
     $infoPlaceholders.hide().removeClass("ph-animate");
-    $("#defibrillator-info .ph-hidden-content").show();
+    $("#page--info .ph-hidden-content").show();
 
 }

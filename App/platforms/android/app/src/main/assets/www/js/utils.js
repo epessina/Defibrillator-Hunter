@@ -14,6 +14,64 @@ const utils = {
         if (close) toClose.close();
     },
 
+
+    appendFile(formData, fileUri) {
+
+        return new Promise((resolve, reject) => {
+
+            window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+
+                    fileEntry.file(file => {
+
+                        let reader = new FileReader();
+
+                        reader.onloadend = () => {
+
+                            let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+                            formData.append("image", blob);
+
+                            resolve(formData);
+
+                        };
+
+                        reader.onerror = fileReadResult => {
+
+                            console.error(`Reader error ${fileReadResult}`);
+
+                            utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                            reject();
+
+                        };
+
+                        reader.readAsArrayBuffer(file);
+
+                    }, err => {
+
+                        console.error(`Error getting the fileEntry file ${err}`);
+
+                        utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                        reject();
+
+                    })
+
+                }, err => {
+
+                    console.error(`Error getting the file ${err}`);
+
+                    utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                    reject();
+
+                }
+            );
+
+        });
+
+    },
+
+
     /**
      * Creates and display a new alert dialog with a message and up to two buttons.
      * It must be passed the text of the buttons (a null value means that there is no button) and a callback function to be
@@ -108,11 +166,11 @@ const utils = {
     changeSelectorLabel: (selectorId, changeColor = false) => {
 
         const $selector = $("#" + selectorId),
-            $label    = $("[for='" + selectorId + "'").find(".label-description");
+              $label    = $("[for='" + selectorId + "'").find(".label-description");
 
         if ($selector.val() === "none") {
 
-            $label.html(i18next.t("selectors." + selectorId.slice(10) + "DefLabel"));
+            $label.html(i18next.t("selectors." + selectorId + "DefLabel"));
             if (changeColor) $label.css("color", "#757575");
 
         } else {
@@ -127,6 +185,61 @@ const utils = {
     resetSelector: selectorId => {
         $("#" + selectorId).get(0).selectedIndex = 0;
         utils.changeSelectorLabel(selectorId);
+    },
+
+
+    openImgScreen: (scr, editable = false, clbEdit, clbCancel) => {
+
+        $("#img-screen-container img").attr("src", scr);
+
+        $("#img-screen-close").click(() => utils.closeImgScreen());
+
+        if (editable) {
+
+            $("#img-screen-edit")
+                .unbind("click")
+                .click(() => {
+                    utils.closeImgScreen();
+                    clbEdit();
+                })
+                .parent().show();
+
+            $("#img-screen-delete")
+                .show()
+                .unbind("click")
+                .click(() => {
+
+                    utils.createAlert(
+                        "",
+                        i18next.t("dialogs.photoScreen.deletePictureConfirmation"),
+                        i18next.t("dialogs.btnCancel"),
+                        null,
+                        i18next.t("dialogs.btnOk"),
+                        () => {
+                            clbCancel();
+                            utils.closeImgScreen();
+                        }
+                    );
+
+                })
+                .parent().show();
+
+        }
+
+        $("#img-screen").show();
+
+    },
+
+    closeImgScreen: () => {
+
+        $("#img-screen").hide();
+
+        $("#img-screen-container img").attr("src", "");
+
+        $("#img-screen-edit").parent().hide();
+
+        $("#img-screen-delete").parent().hide();
+
     },
 
 };

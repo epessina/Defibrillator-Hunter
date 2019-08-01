@@ -228,7 +228,7 @@
 
                 <div class="custom-selector-box">
 
-                    <label for="selector--register-age">
+                    <label for="register-age">
 
                         <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
 
@@ -236,7 +236,7 @@
 
                     </label>
 
-                    <select id="selector--register-age">
+                    <select id="register-age">
 
                         <option value="none">--</option>
                         <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
@@ -266,7 +266,7 @@
 
                 <div class="custom-selector-box">
 
-                    <label for="selector--register-gender">
+                    <label for="register-gender">
 
                         <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
 
@@ -274,7 +274,7 @@
 
                     </label>
 
-                    <select id="selector--register-gender">
+                    <select id="register-gender">
 
                         <option value="none">--</option>
                         <option value="male" data-i18n="auth.register.genderEnum.male"></option>
@@ -294,7 +294,7 @@
 
                 <div class="custom-selector-box">
 
-                    <label for="selector--register-occupation">
+                    <label for="register-occupation">
 
                         <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
 
@@ -302,7 +302,7 @@
 
                     </label>
 
-                    <select id="selector--register-occupation">
+                    <select id="register-occupation">
 
                         <option value="none">--</option>
                         <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
@@ -765,10 +765,6 @@
         <i class="material-icons fab-icon">perm_identity</i>
     </div>
 
-    <div id="map-control-hint" class="map-control map-control-left map-control-top-2 fab">
-        <i class="material-icons fab-icon">help_outline</i>
-    </div>
-
     <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
         <i class="material-icons fab-icon">gps_fixed</i>
     </div>
@@ -781,7 +777,7 @@
 
 
 <!-- Insert defibrillator -->
-<div style="display: none" id="insert-defibrillator">
+<div style="display: none" id="page--insert">
 
 
     <!-- Opaque overlay -->
@@ -944,6 +940,66 @@
 
                     </div>
 
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Presence -->
+    <div style="display: none" id="dialog-presence" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.presence.questionPresence">
+                    Is the defibrillator in the display?
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="presence"
+                               value="yes"
+                               checked>
+
+                        <span data-i18n="insert.presence.enum.yes">Yes</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="presence"
+                               value="no">
+
+                        <span data-i18n="insert.presence.enum.no">No</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="presence-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="presence-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
                 </div>
 
             </div>
@@ -1427,66 +1483,6 @@
     </div>
 
 
-    <!-- Presence -->
-    <div style="display: none" id="dialog-presence" class="dialog-wrapper">
-
-        <div class="dialog">
-
-            <div class="dialog-container">
-
-                <p class="dialog-text"
-                   data-i18n="insert.presence.questionPresence">
-                    Is the defibrillator in the display?
-                </p>
-
-                <div>
-
-                    <label class="radio">
-
-                        <input type="radio"
-                               name="presence"
-                               value="yes"
-                               checked>
-
-                        <span data-i18n="insert.presence.enum.yes">Yes</span>
-
-                    </label>
-
-                    <label class="radio">
-
-                        <input type="radio"
-                               name="presence"
-                               value="no">
-
-                        <span data-i18n="insert.presence.enum.no">No</span>
-
-                    </label>
-
-                </div>
-
-            </div>
-
-            <div class="dialog-footer">
-
-                <div id="presence-cancel"
-                     class="text-button"
-                     data-i18n="dialogs.btnCancel">
-                    CANCEL
-                </div>
-
-                <div id="presence-ok"
-                     class="text-button"
-                     data-i18n="dialogs.btnOk">
-                    OK
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
 </div>
 
 
@@ -1768,17 +1764,20 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/settings.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/defibrillator.js"></script>
 
 <script type="text/javascript" src="js/auth/loginActivity.js"></script>
 <script type="text/javascript" src="js/auth/registerActivity.js"></script>
 <script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
 
 <script type="text/javascript" src="js/mapActivity.js"></script>
+<script type="text/javascript" src="js/insertActivity.js"></script>
 
 <script type="text/javascript" src="js/profile.js"></script>
 <!--<script type="text/javascript" src="js/map.js"></script>-->
-<script type="text/javascript" src="js/insert.js"></script>
+<!--<script type="text/javascript" src="js/insert.js"></script>-->
 <script type="text/javascript" src="js/info.js"></script>
+
 <script type="text/javascript" src="js/index.js"></script>
 
 </body>

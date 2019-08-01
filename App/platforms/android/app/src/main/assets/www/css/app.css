@@ -261,7 +261,7 @@ p {
   margin: 0;
 }
 
-.form-page, #profile #profile-photo-dialog-overlay, #profile #profile-settings-overlay, #profile, #splash, #page--register-disclaimer, .auth-page, #img-screen, #defibrillator-info, #insert-defibrillator {
+.form-page, #profile #profile-photo-dialog-overlay, #profile #profile-settings-overlay, #profile, #splash, #page--register-disclaimer, .auth-page, #img-screen, #defibrillator-info, #page--insert {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -348,16 +348,16 @@ p {
 }
 
 /* INSERT DEFIBRILLATOR LAYOUT */
-#insert-defibrillator {
+#page--insert {
   z-index: 1100;
   /* MAIN PAGE */
 }
-#insert-defibrillator #insert-defibrillator-main {
+#page--insert #insert-defibrillator-main {
   width: 100%;
   height: 100%;
   z-index: 0;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container {
+#page--insert #insert-defibrillator-main .requests-container {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -371,12 +371,12 @@ p {
   -ms-justify-content: -ms-flex-start;
   justify-content: flex-start;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .required-fields {
+#page--insert #insert-defibrillator-main .requests-container .required-fields {
   margin-top: 20px;
   font: 400 14px system-ui;
   color: #949494;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .request {
+#page--insert #insert-defibrillator-main .requests-container .request {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -393,13 +393,13 @@ p {
   margin-top: 27px;
   color: #000000;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .request .request-icon-left {
+#page--insert #insert-defibrillator-main .requests-container .request .request-icon-left {
   -moz-flex: 0 0 24px;
   -webkit-flex: 0 0 24px;
   -ms-flex: 0 0 24px;
   flex: 0 0 24px;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .request .request-content {
+#page--insert #insert-defibrillator-main .requests-container .request .request-content {
   font: 500 16px system-ui;
   -moz-flex: 1;
   -webkit-flex: 1;
@@ -409,24 +409,24 @@ p {
   cursor: pointer;
   border-bottom: 1px solid #C5C5C5;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .request .request-content .request-name {
+#page--insert #insert-defibrillator-main .requests-container .request .request-content .request-name {
   margin-bottom: 12px;
 }
-#insert-defibrillator #insert-defibrillator-main .requests-container .request .request-content .request-text {
+#page--insert #insert-defibrillator-main .requests-container .request .request-content .request-text {
   font-size: 14px;
   margin-bottom: 3px;
   color: #009688;
 }
-#insert-defibrillator #insert-defibrillator-main #photo-request {
+#page--insert #insert-defibrillator-main #photo-request {
   margin-bottom: 40px;
 }
-#insert-defibrillator #insert-defibrillator-main #photo-request .request-content {
+#page--insert #insert-defibrillator-main #photo-request .request-content {
   border: 0;
 }
-#insert-defibrillator #insert-defibrillator-main #photo-request .request-name {
+#page--insert #insert-defibrillator-main #photo-request .request-name {
   margin-bottom: 20px;
 }
-#insert-defibrillator .insert-selector-wrapper {
+#page--insert .insert-selector-wrapper {
   width: 100%;
   height: 40px;
   border: 1px solid #009688;

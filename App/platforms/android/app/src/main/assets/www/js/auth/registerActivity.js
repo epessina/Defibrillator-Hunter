@@ -43,12 +43,12 @@ class RegisterActivity {
 
 
         // Listen for the changes of the selectors and update their label accordingly
-        $("#selector--register-age").change(() => utils.changeSelectorLabel(
-            "selector--register-age", true));
-        $("#selector--register-gender").change(() => utils.changeSelectorLabel(
-            "selector--register-gender", true));
-        $("#selector--register-occupation").change(() => utils.changeSelectorLabel(
-            "selector--register-occupation", true));
+        $("#register-age").change(() => utils.changeSelectorLabel(
+            "register-age", true));
+        $("#register-gender").change(() => utils.changeSelectorLabel(
+            "register-gender", true));
+        $("#register-occupation").change(() => utils.changeSelectorLabel(
+            "register-occupation", true));
 
     }
 
@@ -80,9 +80,9 @@ class RegisterActivity {
         $("#field--register-confirm-password").val("");
         $("#field--register-name").val("");
 
-        utils.resetSelector("selector--register-age");
-        utils.resetSelector("selector--register-gender");
-        utils.resetSelector("selector--register-occupation");
+        utils.resetSelector("register-age");
+        utils.resetSelector("register-gender");
+        utils.resetSelector("register-occupation");
 
         $("#cbx--register-rescuer").prop("checked", false);
 
@@ -100,9 +100,9 @@ class RegisterActivity {
               password        = $("#field--register-password").val(),
               confirmPassword = $("#field--register-confirm-password").val(),
               name            = $("#field--register-name").val(),
-              age             = $("#selector--register-age").val(),
-              gender          = $("#selector--register-gender").val(),
-              occupation      = $("#selector--register-occupation").val(),
+              age             = $("#register-age").val(),
+              gender          = $("#register-gender").val(),
+              occupation      = $("#register-occupation").val(),
               isRescuer       = $("#cbx--register-rescuer").prop("checked");
 
         // If no email has been provided, flash an error message

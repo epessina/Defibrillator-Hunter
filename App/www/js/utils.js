@@ -14,6 +14,88 @@ const utils = {
         if (close) toClose.close();
     },
 
+
+    /**
+     * Appends a file as a blob to the given formData.
+     *
+     * @param {FormData} formData - The form data to which the file has to be appended
+     * @param {string} fileUri - The uri of the file to append.
+     * @returns {Promise<FormData>} - A promise containing the formData with the file append to it.
+     */
+    appendFile(formData, fileUri) {
+
+        // Return a promise
+        return new Promise((resolve, reject) => {
+
+            // Find the file in the file system
+            window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+
+                    // Get the file
+                    fileEntry.file(file => {
+
+                        // Create a file reader
+                        let reader = new FileReader();
+
+                        // When the reader has finished loading the file
+                        reader.onloadend = () => {
+
+                            // Create a blob to store the file
+                            let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+
+                            // Append the blob to the form data
+                            formData.append("image", blob);
+
+                            // Resolve the promise
+                            resolve(formData);
+
+                        };
+
+                        // If an error occurs
+                        reader.onerror = fileReadResult => {
+
+                            console.error(`Reader error ${fileReadResult}`);
+
+                            // Alert the user
+                            utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                            // Reject the promise
+                            reject();
+
+                        };
+
+                        // Read the file
+                        reader.readAsArrayBuffer(file);
+
+                    }, err => {
+
+                        console.error(`Error getting the fileEntry file ${err}`);
+
+                        // Alert the user
+                        utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                        // Reject the promise
+                        reject();
+
+                    })
+
+                }, err => {
+
+                    console.error(`Error getting the file ${err}`);
+
+                    // Alert the user
+                    utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
+
+                    // Reject the promise
+                    reject();
+
+                }
+            );
+
+        });
+
+    },
+
+
     /**
      * Creates and display a new alert dialog with a message and up to two buttons.
      * It must be passed the text of the buttons (a null value means that there is no button) and a callback function to be
@@ -108,11 +190,11 @@ const utils = {
     changeSelectorLabel: (selectorId, changeColor = false) => {
 
         const $selector = $("#" + selectorId),
-            $label    = $("[for='" + selectorId + "'").find(".label-description");
+              $label    = $("[for='" + selectorId + "'").find(".label-description");
 
         if ($selector.val() === "none") {
 
-            $label.html(i18next.t("selectors." + selectorId.slice(10) + "DefLabel"));
+            $label.html(i18next.t("selectors." + selectorId + "DefLabel"));
             if (changeColor) $label.css("color", "#757575");
 
         } else {
@@ -127,6 +209,61 @@ const utils = {
     resetSelector: selectorId => {
         $("#" + selectorId).get(0).selectedIndex = 0;
         utils.changeSelectorLabel(selectorId);
+    },
+
+
+    openImgScreen: (scr, editable = false, clbEdit, clbCancel) => {
+
+        $("#img-screen-container img").attr("src", scr);
+
+        $("#img-screen-close").click(() => utils.closeImgScreen());
+
+        if (editable) {
+
+            $("#img-screen-edit")
+                .unbind("click")
+                .click(() => {
+                    utils.closeImgScreen();
+                    clbEdit();
+                })
+                .parent().show();
+
+            $("#img-screen-delete")
+                .show()
+                .unbind("click")
+                .click(() => {
+
+                    utils.createAlert(
+                        "",
+                        i18next.t("dialogs.photoScreen.deletePictureConfirmation"),
+                        i18next.t("dialogs.btnCancel"),
+                        null,
+                        i18next.t("dialogs.btnOk"),
+                        () => {
+                            clbCancel();
+                            utils.closeImgScreen();
+                        }
+                    );
+
+                })
+                .parent().show();
+
+        }
+
+        $("#img-screen").show();
+
+    },
+
+    closeImgScreen: () => {
+
+        $("#img-screen").hide();
+
+        $("#img-screen-container img").attr("src", "");
+
+        $("#img-screen-edit").parent().hide();
+
+        $("#img-screen-delete").parent().hide();
+
     },
 
 };

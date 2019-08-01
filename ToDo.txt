@@ -13,7 +13,7 @@
 
 - Se muovo il marker e poi zoommo e poi clicco GPS, fa freemap(), perchè autoZoom = false viene chiamato prima di zoomstart
 
-- Problema coi permessi android. Di base è "always denied"
+- Gestire apertura mappa dopo login
 
 
 - Creare logo

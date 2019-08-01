@@ -212,10 +212,10 @@
     "mainScreen" : {
       "topBarTitle" : "New defibrillator",
       "requiredFields" : "* Indicates a required field",
-      "photoName" : "Photo*"
+      "photoName" : "Photo *"
     },
     "presence" : {
-      "name" : "Presence of the defibrillator*",
+      "name" : "Presence of the defibrillator *",
       "defaultText" : "Confirm the presence",
       "questionPresence" : "Is the defibrillator in the display?",
       "enum" : {
@@ -225,7 +225,7 @@
     },
     "locationCategory" : {
       "topBarTitle" : "Location category",
-      "name" : "Location category*",
+      "name" : "Location category *",
       "defaultText" : "Add a category",
       "questionCategory" : "Where is the defibrillator located?*",
       "questionTransport" : "Specify the type of transport station*",
@@ -254,12 +254,12 @@
       "visualReferencePlaceholder" : "The defibrillator is near a..."
     },
     "floor" : {
-      "name" : "Height*",
+      "name" : "Height *",
       "defaultText" : "Specify the floor",
       "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
     "temporalAccessibility" : {
-      "name" : "Temporal accessibility*",
+      "name" : "Temporal accessibility *",
       "defaultText" : "Specify the temporal accessibility",
       "questionTempAccessibility" : "When is it possible to access the defibrillator?",
       "enum" : {

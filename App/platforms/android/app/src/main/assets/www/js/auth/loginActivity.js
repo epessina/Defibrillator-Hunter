@@ -41,7 +41,7 @@ class LoginActivity {
     }
 
     /**
-     * Returns the current ResetPasswordActivity instance if any, otherwise creates it.
+     * Returns the current LoginActivity instance if any, otherwise creates it.
      *
      * @returns {LoginActivity} The activity instance.
      */
@@ -116,7 +116,7 @@ class LoginActivity {
             return;
         }
 
-        // Send a request to the server
+        // Send a request to the server to login the user
         fetch(
             settings.serverUrl + "auth/login",
             {
@@ -157,7 +157,6 @@ class LoginActivity {
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
 
-                // ToDo
                 // if (!hasLoggedOut)
                 //     initMap();
                 // getDefibrillators();
