@@ -69,7 +69,7 @@ class ResetPasswordActivity {
 
         // Send a request to the server
         fetch(
-            settings.serverUrl + "auth/reset-password",
+            `${settings.serverUrl}/auth/reset-password"`,
             {
                 method : "POST",
                 headers: { "App-Key": settings.APIKey, "Content-Type": "application/json" },

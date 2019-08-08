@@ -18,7 +18,14 @@ class InsertActivity {
         // Cache the photo thumbnail
         this._$photoThm = $("#photo-thm");
 
+        // The id of the defibrillator to modify. It has a value only if the activity is open in "put" mode
+        this._defId = null;
+
+        // The name of the original photo of the defibrillator passed in "put" mode. Used to check if the photo has been modified
+        this._oldPhoto = null;
+
         this._vals = {
+            presence             : "",
             locationCategory     : "",
             transportType        : "",
             visualReference      : "",
@@ -28,13 +35,9 @@ class InsertActivity {
             signage              : "",
             brand                : "",
             notes                : "",
-            presence             : "",
             photo                : "",
             photoCoordinates     : "",
         };
-
-        // Flag that states if the activity is opened as "put" (modify) or not (post - inset)
-        this._isPut = false;
 
         this.initUI();
 
@@ -65,6 +68,40 @@ class InsertActivity {
      */
     openPut(def) {
 
+        // Save the defibrillator id
+        this._defId = def._id;
+
+        // Save the defibrillator data
+        this._vals.presence              = def.presence;
+        this._vals.locationCategory      = def.locationCategory;
+        this._vals.transportType         = def.transportType;
+        this._vals.visualReference       = def.visualReference;
+        this._vals.floor                 = def.floor;
+        this._vals.temporalAccessibility = def.temporalAccessibility;
+        this._vals.recovery              = def.recovery;
+        this._vals.signage               = def.signage;
+        this._vals.brand                 = def.brand;
+        this._vals.notes                 = def.notes;
+        this._vals.photo                 = `${settings.serverUrl}/${def.imageUrl}`;
+
+        // Set the main screen texts of the mandatory properties
+        $("#presence-text").html(i18next.t("insert.presence.enum." + this._vals.presence));
+        $("#location-text").html(i18next.t("insert.locationCategory.enum." + this._vals.locationCategory));
+        $("#floor-text").html(this._vals.floor);
+        $("#temporal-text").html(i18next.t("insert.temporalAccessibility.enum." + this._vals.temporalAccessibility));
+
+        // Set the main screen texts of the optional properties
+        if (this._vals.recovery !== "") $("#recovery-text").html(i18next.t("insert.recovery.enum." + this._vals.recovery));
+        if (this._vals.signage !== "") $("#signage-text").html(i18next.t("insert.signage.enum." + this._vals.signage));
+        if (this._vals.notes !== "") $("#notes-text").html(i18next.t("insert.notes.editText"));
+
+        // Show the photo
+        this._$photoThm.find("img").attr("src", this._vals.photo).show();
+
+        // Hide the icon
+        this._$photoThm.find("i").hide();
+
+        // Open the activity
         this.open();
 
     }
@@ -72,15 +109,35 @@ class InsertActivity {
     /** Closes the activity and resets the fields. */
     close() {
 
+        // Set the id and the old photo to null
+        this._defId    = null;
+        this._oldPhoto = null;
+
         // Hide the screen
         this._screen.scrollTop(0).hide();
 
         // Set all values to ""
-        Object.keys(this._vals).forEach(v => this._vals[v] = "")
+        Object.keys(this._vals).forEach(v => this._vals[v] = "");
+
+        // Reset all the main screen texts
+        $("#presence-text").html(i18next.t("insert.presence.defaultText"));
+        $("#location-text").html(i18next.t("insert.locationCategory.defaultText"));
+        $("#floor-text").html("insert.floor.defaultText");
+        $("#temporal-text").html(i18next.t("insert.temporalAccessibility.defaultText"));
+        $("#recovery-text").html(i18next.t("insert.recovery.defaultText"));
+        $("#signage-text").html(i18next.t("insert.signage.defaultText"));
+        $("#notes-text").html(i18next.t("insert.notes.defaultText"));
+
+        // Hide the photo
+        this._$photoThm.find("img").attr("src", "img/img-placeholder-200.png").hide();
+
+        // Show the icon
+        this._$photoThm.find("i").show();
 
     }
 
 
+    /** Initialize the user interface. */
     initUI() {
 
         // If the user clicks the "close" button, ask for confirmation and then close tha activity
@@ -92,10 +149,7 @@ class InsertActivity {
                 i18next.t("dialogs.insert.btnKeepEditing"),
                 null,
                 i18next.t("dialogs.insert.btnDiscard"),
-                () => {
-                    // if (defibrillator) openInfo(defibrillator._id); // ToDO
-                    this.close();
-                }
+                () => { this.close() }
             );
 
         });
@@ -136,13 +190,11 @@ class InsertActivity {
             // If the location category is not "transportStation", put the transport type to ""
             if (this._vals.locationCategory !== "transportStation") this._vals.transportType = "";
 
-            this.post();
+            // If the activity is in "post" mode, post
+            if (!this._defId) this.post();
 
-            // ToDo
-            // if (defibrillator)
-            //     putDefibrillator();
-            // else
-            //     postDefibrillator();
+            // Else, put
+            else this.put();
 
         });
 
@@ -556,7 +608,7 @@ class InsertActivity {
     getPicture() {
 
         // ToDo delete
-        if (!isCordova) {
+        if (!App.isCordova) {
             $("#tmp-photo-input").click();
             return;
         }
@@ -611,6 +663,7 @@ class InsertActivity {
     }
 
 
+    /** Insert a new defibrillator in the database */
     post() {
 
         // Open the loader
@@ -634,7 +687,7 @@ class InsertActivity {
         formData.append("notes", this._vals.notes);
 
         // ToDo delete
-        if (!isCordova) {
+        if (!App.isCordova) {
             formData.append("image", this._vals.photo);
 
             // Post the defibrillator
@@ -663,6 +716,7 @@ class InsertActivity {
 
         formData.append("imageCoordinates", this._vals.photoCoordinates);
 
+        // Append the image
         utils.appendFile(formData, this._vals.photo)
             .then(formData => {
 
@@ -677,6 +731,99 @@ class InsertActivity {
 
                 // Show the new defibrillator
                 defibrillator.show(data.id, data.coords);
+
+                // Close the activity
+                InsertActivity.getInstance().close();
+
+            })
+            .catch(() => {
+
+                // Close the loader
+                utils.closeLoader();
+
+            });
+
+    }
+
+
+    /** Modifies a defibrillator already in the database */
+    put() {
+
+        // Open the loader
+        utils.openLoader();
+
+        // Create the formData object
+        const formData = new FormData();
+
+        // Append to the formData all the data
+        formData.append("presence", this._vals.presence);
+        formData.append("locationCategory", this._vals.locationCategory);
+        formData.append("transportType", this._vals.transportType);
+        formData.append("visualReference", this._vals.visualReference);
+        formData.append("floor", this._vals.floor);
+        formData.append("temporalAccessibility", this._vals.temporalAccessibility);
+        formData.append("recovery", this._vals.recovery);
+        formData.append("signage", this._vals.signage);
+        formData.append("brand", this._vals.brand);
+        formData.append("notes", this._vals.notes);
+
+        // ToDo delete
+        if (!App.isCordova) {
+
+            if (this._vals.photo !== this._oldPhoto)
+                formData.append("image", this._vals.photo);
+
+            defibrillator.put(this._defId, formData)
+                .then((data) => {
+
+                    // Close the loader
+                    utils.closeLoader();
+
+                    InfoActivity.getInstance().getDefibrillator(data.id);
+
+                    // Close the activity
+                    InsertActivity.getInstance().close();
+
+                })
+                .catch(() => {
+
+                    // Close the loader
+                    utils.closeLoader();
+
+                });
+
+            return;
+        }
+
+        // Create a temporary variable
+        let file = null;
+
+        // If the photo has been changed
+        if (this._vals.photo !== this._oldPhoto) {
+
+            // Append the new image coordinates
+            formData.append("imageCoordinates", this._vals.photoCoordinates);
+
+            // Save the photo in the temporary variable
+            file = this._vals.photo;
+
+        }
+
+        // Append the image
+        utils.appendFile(formData, file)
+            .then(formData => {
+
+                // Put the defibrillator
+                return defibrillator.put(InsertActivity.getInstance()._defId, formData);
+
+            })
+            .then((data) => {
+
+                // Show the info about the defibrillator
+                InfoActivity.getInstance().getDefibrillator(data.id);
+
+                // Close the loader
+                utils.closeLoader();
 
                 // Close the activity
                 InsertActivity.getInstance().close();

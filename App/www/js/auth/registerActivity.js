@@ -134,7 +134,7 @@ class RegisterActivity {
         }
 
         fetch(
-            settings.serverUrl + "auth/signup",
+            `${settings.serverUrl}/auth/signup`,
             {
                 method : "PUT",
                 headers: { "App-Key": settings.APIKey, "Content-Type": "application/json" },

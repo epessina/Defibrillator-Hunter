@@ -22,6 +22,7 @@
     "login401" : "Wrong email or password.",
     "changePw422" : "Entered data are incorrect.",
     "changePwWrongPw" : "Wrong password!",
+    "changePwSuccess": "Password changed successfully.",
     "changeEmail409" : "This email is already in use.",
     "editProfile422" : "Entered data are incorrect."
   },

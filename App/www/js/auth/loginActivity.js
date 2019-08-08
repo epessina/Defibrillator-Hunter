@@ -88,7 +88,7 @@ class LoginActivity {
         }
 
         // Save the token and the user id
-        this.token = token;
+        this.token  = token;
         this.userId = localStorage.getItem("userId");
 
         // Set the auto logout
@@ -118,7 +118,7 @@ class LoginActivity {
 
         // Send a request to the server to login the user
         fetch(
-            settings.serverUrl + "auth/login",
+            `${settings.serverUrl}/auth/login`,
             {
                 method : "POST",
                 headers: { "App-Key": settings.APIKey, "Content-Type": "application/json" },
@@ -256,7 +256,7 @@ class LoginActivity {
 
         // Send a request to the server
         fetch(
-            settings.serverUrl + "auth/confirmation/resend",
+            `${settings.serverUrl}/auth/confirmation/resend`,
             {
                 method : "POST",
                 headers: { "App-Key": settings.APIKey, "Content-Type": "application/json", },
@@ -341,8 +341,18 @@ class LoginActivity {
     /**
      * Sets a timer to automatically logout the user.
      *
-     * @param {Number} milliseconds - The time after which the function is called.
+     * @param {number} milliseconds - The time after which the function is called.
      */
-    setAutoLogout(milliseconds) { setTimeout(() => this.logout(), milliseconds) }
+    setAutoLogout(milliseconds) {
+
+        setTimeout(() => {
+
+            // ToDO handle
+
+            this.logout();
+
+        }, milliseconds);
+
+    }
 
 }
