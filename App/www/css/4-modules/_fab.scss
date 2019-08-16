@@ -15,11 +15,10 @@
     width  : $icon-size;
     height : $icon-size;
   }
+
 }
 
-.fab {
-  @extend %fab-base;
-}
+.fab { @extend %fab-base }
 
 .fab-extended {
   @extend %fab-base;
@@ -33,7 +32,6 @@
     box-shadow : 0 0 0 0;
   }
 
-  .fab-extended-text {
-    @include font(700, $font-body);
-  }
+  .fab-extended-text { @include font(700, $font-body) }
+
 }

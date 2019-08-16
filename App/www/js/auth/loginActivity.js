@@ -306,6 +306,7 @@ class LoginActivity {
                     // Email already confirmed
                     case 409:
                         utils.createAlert(i18next.t("dialogs.titleResendConfEmail409"), i18next.t("dialogs.resendConfEmail409"), i18next.t("dialogs.btnOk"));
+                        break;
 
                     // Wrong input data
                     case 422:

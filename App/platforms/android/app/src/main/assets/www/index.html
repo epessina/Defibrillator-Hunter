@@ -24,11 +24,11 @@
 
 </head>
 
-<body onload="onLoad()">
+<body>
 
 
 <!-- Splash screen -->
-<div style="display: none" id="splash">
+<div id="splash">
 
     <div class="logo-wrapper">
 
@@ -348,7 +348,8 @@
 
 
 <!-- Profile -->
-<div style="display: none" id="profile">
+<div style="display: none" id="page--profile">
+
 
     <div style="display: none" id="profile-settings-overlay"></div>
 
@@ -361,6 +362,7 @@
         <div id="settings-logout" class="settings-item" data-i18n="profile.settings.logout"></div>
 
     </div>
+
 
     <div class="top-bar">
 
@@ -375,6 +377,7 @@
         </div>
 
     </div>
+
 
     <div style="display: none" id="profile-photo-dialog-overlay">
 
@@ -409,6 +412,7 @@
 
     </div>
 
+
     <div class="profile-top-wrapper">
 
         <div class="profile-photo">
@@ -427,88 +431,20 @@
 
     </div>
 
-    <div class="tabs-labels-wrapper">
 
-        <div id="tab-profile-dashboard" class="tab-label tab-active">
-            <div class="tab-label-text" data-i18n="profile.tabLabelDashboard"></div>
-        </div>
+    <div class="profile-content-wrapper custom-container">
 
-        <div id="tab-profile-about" class="tab-label">
-            <div class="tab-label-text" data-i18n="profile.tabLabelAbout"></div>
-        </div>
+        <div class="mapped-def-wrapper">
 
-    </div>
+            <div class="mapped-def-ph placeholder"></div>
 
-    <div id="profile-tabs-content" class="tabs-content-wrapper">
-
-        <div id="profile-dashboard" class="tab-content custom-container">
-
-            <div class="mapped-def-wrapper">
-
-                <div class="mapped-def-ph placeholder"></div>
-
-                <div id="mapped-def-number" class="mapped-def-number ph-hidden-content"></div>
-                <div id="mapped-def-text" class="mapped-def-text ph-hidden-content"></div>
-
-            </div>
-
-        </div>
-
-        <div style="display: none" id="profile-about" class="tab-content custom-container">
-
-            <div id="profile-mail" class="info-block">
-
-                <div class="info-title-ph placeholder"></div>
-                <div class="info-title ph-hidden-content" data-i18n="profile.email"></div>
-
-                <div class="info-content-ph placeholder"></div>
-                <div class="info-content ph-hidden-content"></div>
-
-            </div>
-
-            <div id="profile-age" class="info-block">
-
-                <div class="info-title-ph placeholder"></div>
-                <div class="info-title ph-hidden-content" data-i18n="profile.age"></div>
-
-                <div class="info-content-ph placeholder"></div>
-                <div class="info-content ph-hidden-content"></div>
-
-            </div>
-
-            <div id="profile-gender" class="info-block">
-
-                <div class="info-title-ph placeholder"></div>
-                <div class="info-title ph-hidden-content" data-i18n="profile.gender"></div>
-
-                <div class="info-content-ph placeholder"></div>
-                <div class="info-content ph-hidden-content"></div>
-
-            </div>
-
-            <div id="profile-occupation" class="info-block">
-
-                <div class="info-title-ph placeholder"></div>
-                <div class="info-title ph-hidden-content" data-i18n="profile.occupation"></div>
-
-                <div class="info-content-ph placeholder"></div>
-                <div class="info-content ph-hidden-content">Retired</div>
-
-            </div>
-
-            <div id="profile-rescuer" class="info-block">
-
-                <div class="info-title-ph placeholder"></div>
-                <div class="info-title ph-hidden-content" data-i18n="profile.rescuer"></div>
-
-                <div class="info-content-ph placeholder"></div>
-                <div class="info-content ph-hidden-content"></div>
-
-            </div>
+            <div id="mapped-def-number" class="mapped-def-number ph-hidden-content"></div>
+            <div id="mapped-def-text" class="mapped-def-text ph-hidden-content"></div>
 
         </div>
 
     </div>
+
 
     <input style="display: none; position: absolute; top: 0; left: 0;"
            id="tmp-profile-photo-input"
@@ -516,6 +452,7 @@
            accept=".png, .jpg, .jpeg">
 
 </div>
+
 
 <!-- Change email -->
 <div style="display: none" id="change-email" class="form-page">
@@ -612,8 +549,9 @@
 
 </div>
 
+
 <!-- Edit profile -->
-<div style="display: none" id="edit-profile" class="form-page">
+<div style="display: none" id="page--edit-profile" class="form-page">
 
     <div class="top-bar">
 
@@ -1487,7 +1425,7 @@
 
 
 <!-- Defibrillator information -->
-<div style="display: none" id="defibrillator-info">
+<div style="display: none" id="page--info">
 
     <div class="icons-top-bar">
 
@@ -1750,7 +1688,6 @@
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery.min.js"></script> <!-- v. 2.2.4 -->
-<script type="text/javascript" src="js/lib/jquery.mobile.touch.min.js"></script> <!-- v. 1.4.5 -->
 
 <!-- Leaflet -->
 <script type="text/javascript" src="js/lib/leaflet.js"></script> <!-- v. 1.5.1 -->
@@ -1762,23 +1699,20 @@
 <script type="text/javascript" src="js/lib/i18next.min.js"></script> <!-- v. 17.0.6 -->
 
 <!-- Main JS -->
-<script type="text/javascript" src="js/settings.js"></script>
-<script type="text/javascript" src="js/utils.js"></script>
-<script type="text/javascript" src="js/defibrillator.js"></script>
+<script type="text/javascript" src="js/namespace/settings.js"></script>
+<script type="text/javascript" src="js/namespace/utils.js"></script>
+<script type="text/javascript" src="js/namespace/defibrillator.js"></script>
+<script type="text/javascript" src="js/namespace/user.js"></script>
 
 <script type="text/javascript" src="js/auth/loginActivity.js"></script>
 <script type="text/javascript" src="js/auth/registerActivity.js"></script>
 <script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
-
 <script type="text/javascript" src="js/mapActivity.js"></script>
 <script type="text/javascript" src="js/insertActivity.js"></script>
-
-<script type="text/javascript" src="js/profile.js"></script>
-<!--<script type="text/javascript" src="js/map.js"></script>-->
-<!--<script type="text/javascript" src="js/insert.js"></script>-->
-<script type="text/javascript" src="js/info.js"></script>
-
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/infoActivity.js"></script>
+<script type="text/javascript" src="js/profileActivity.js"></script>
+<script type="text/javascript" src="js/editProfileActivity.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
 
 </body>
 

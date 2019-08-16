@@ -108,8 +108,6 @@ exports.postDefibrillator = (req, res, next) => {
 
     let creator;
 
-    console.log(req.body);
-
     const defibrillator = new Defibrillator({
         user                 : req.userId,
         coordinates          : coordinates,

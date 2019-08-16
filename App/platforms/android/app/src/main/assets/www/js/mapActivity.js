@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ *  Activity to show on a map the position of the user as well as the position of all the defibrillators he has already
+ *  mapped.
+ *
+ * @author Edoardo Pessina
+ */
 class MapActivity {
 
     /** @private */ static _instance;
@@ -83,7 +89,7 @@ class MapActivity {
 
 
         // ToDo deleted
-        if (!isCordova) return;
+        if (!App.isCordova) return;
 
 
         // Save the diagnostic plugin with an alias for later use
@@ -91,9 +97,6 @@ class MapActivity {
 
         // Register the position watcher
         this.registerGPSWatcher();
-
-        // Check the location permissions
-        this.checkLocationPermissions();
 
     }
 
@@ -119,7 +122,7 @@ class MapActivity {
     }
 
 
-    /** Opens the activity. */
+    /** Opens the activity and shows the user's defibrillators. */
     open() {
 
         // Show the screen
@@ -128,6 +131,24 @@ class MapActivity {
         // Set the initial view
         this._map.setView(MapActivity.defaultLatLng, MapActivity.defaultZoom);
 
+        // Set the initial position of the the marker
+        this.positionMarker.setLatLng(MapActivity.defaultLatLng);
+
+        // ToDo delete
+        if (App.isCordova)
+            // Check the location permissions
+            this.checkLocationPermissions();
+
+        defibrillator.showAll();
+
+    }
+
+    /** Closes the activity and detaches the position watcher */
+    close() {
+
+        this._screen.hide();
+
+        this.detachPositionWatcher();
 
     }
 
@@ -139,7 +160,7 @@ class MapActivity {
         $(".leaflet-control-container").hide();
 
         // Set the button for the profile
-        $("#map-control-profile").click(() => console.log("Profile"));
+        $("#map-control-profile").click(() => ProfileActivity.getInstance().open());
 
         // Cache the gps button
         this._$gps = $("#map-control-gps");
@@ -148,7 +169,7 @@ class MapActivity {
         this._$gps.click(() => this.handleGPSButton());
 
         // Set the button for the data inserting
-        $("#map-new-defibrillator").click(() => console.log("Insert"));
+        $("#map-new-defibrillator").click(() => InsertActivity.getInstance().open());
 
 
         // If the map is dragged, free it
@@ -351,7 +372,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
 
             }
         );
@@ -450,7 +471,7 @@ class MapActivity {
     handleGPSButton() {
 
         // ToDo delete
-        if (!isCordova) return;
+        if (!App.isCordova) return;
 
         // If the position watcher is already active, return
         if (this._$gps.hasClass("gps-on")) {

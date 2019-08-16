@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ *  Activity to insert a new defibrillator into the database. It also allows the user to modify an already mapped
+ *  defibrillator.
+ *
+ * @author Edoardo Pessina
+ */
 class InsertActivity {
 
     /** @private */ static _instance;
@@ -663,7 +669,7 @@ class InsertActivity {
     }
 
 
-    /** Insert a new defibrillator in the database */
+    /** Insert a new defibrillator in the database. */
     post() {
 
         // Open the loader
@@ -703,12 +709,6 @@ class InsertActivity {
                     // Close the activity
                     InsertActivity.getInstance().close();
 
-                })
-                .catch(() => {
-
-                    // Close the loader
-                    utils.closeLoader();
-
                 });
 
             return;
@@ -735,18 +735,12 @@ class InsertActivity {
                 // Close the activity
                 InsertActivity.getInstance().close();
 
-            })
-            .catch(() => {
-
-                // Close the loader
-                utils.closeLoader();
-
             });
 
     }
 
 
-    /** Modifies a defibrillator already in the database */
+    /** Modifies a defibrillator already in the database. */
     put() {
 
         // Open the loader
@@ -827,12 +821,6 @@ class InsertActivity {
 
                 // Close the activity
                 InsertActivity.getInstance().close();
-
-            })
-            .catch(() => {
-
-                // Close the loader
-                utils.closeLoader();
 
             });
 

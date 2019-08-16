@@ -1,44 +1,12 @@
 "use strict";
 
-/**
- * _id: String,
- * creationDate: String,
- * lastModified: String,
- * user: {Object},
- * markedForDeletion: Boolean,
- * checked: Boolean
- * position: [Float, Float],
- * accuracy: Float,
- * locationCategory: (commercialActivity | residentialBuilding | ...),
- * transportType: String
- * visualReference: String,
- * floor: Int,
- * temporalAccessibility: (h24 | partTime | notSpecified),
- * recovery: (immediate | fast | average | slow | verySlow),
- * signage: (great | visible | hardToSee | absent),
- * brand: String,
- * notes: String,
- * presence: Boolean,
- * imageUrl: String
- *
- */
-
 const mongoose = require("mongoose"),
       Schema   = mongoose.Schema;
 
 const defibrillatorSchema = new Schema({
-    user                 : {
-        type: Schema.Types.ObjectId,
-        ref : "User"
-    },
-    markedForDeletion    : {
-        type   : Boolean,
-        default: false
-    },
-    checked              : {
-        type   : Boolean,
-        default: false
-    },
+    user                 : { type: Schema.Types.ObjectId, ref : "User" },
+    markedForDeletion    : { type   : Boolean, default: false },
+    checked              : { type   : Boolean, default: false },
     coordinates          : [Number],
     accuracy             : Number,
     presence             : String,

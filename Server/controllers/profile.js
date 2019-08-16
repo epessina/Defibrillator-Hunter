@@ -116,7 +116,7 @@ exports.changeEmail = (req, res, next) => {
             newUser = user;
 
             return transporter.sendMail({
-                to     : email,
+                to     : newEmail,
                 from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp:\/\/${req.headers.host}\/auth\/confirmation\/${user.confirmEmailToken}`,

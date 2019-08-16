@@ -61,12 +61,6 @@ const signupValidation = [
         .isBoolean().withMessage("Invalid rescuer value.")
 ];
 
-const resendConfirmationEmailValidation = [
-    body("email")
-        .isEmail().withMessage("Please enter a valid email.")
-        .normalizeEmail()
-];
-
 const resetPwValidation = [
     body("password")
         .trim()
@@ -94,7 +88,7 @@ router.put("/signup", checkCaller, signupValidation, authController.signup);
 router.get("/confirmation/:token", authController.confirmMail);
 
 // POST /auth/confirmation/resend
-router.post("/confirmation/resend", checkCaller, resendConfirmationEmailValidation, authController.resendConfirmationEmail);
+router.post("/confirmation/resend", checkCaller, emailValidation, authController.resendConfirmationEmail);
 
 // POST /auth/login
 router.post("/login", checkCaller, authController.login);

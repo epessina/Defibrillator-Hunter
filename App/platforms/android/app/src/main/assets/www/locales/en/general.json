@@ -22,6 +22,7 @@
     "login401" : "Wrong email or password.",
     "changePw422" : "Entered data are incorrect.",
     "changePwWrongPw" : "Wrong password!",
+    "changePwSuccess": "Password changed successfully.",
     "changeEmail409" : "This email is already in use.",
     "editProfile422" : "Entered data are incorrect."
   },
@@ -254,7 +255,7 @@
       "visualReferencePlaceholder" : "The defibrillator is near a..."
     },
     "floor" : {
-      "name" : "Height*",
+      "name" : "Height *",
       "defaultText" : "Specify the floor",
       "questionFloor" : "At which floor is the defibrillator located with respect to the street?"
     },
