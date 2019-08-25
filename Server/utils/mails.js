@@ -28,7 +28,7 @@ exports.generateConfirmEmailContent = link => {
         </p>
         
         <p style="font-size: 18px; color: #5E5E5E">
-            To confirm your DefibrillatorHunter account, please click the link below:
+            To confirm your Mapad account, please click the link below:
         </p>
         
         <a href="${link}"
@@ -57,7 +57,7 @@ exports.generateResetPwContent = link => {
     <p style="margin-bottom: 50px; font-weight: 700; font-size: 40px; color: #171A2B">Reset Your Password</p>
     
     <p style="font-size: 18px; color: #5E5E5E; line-height: 1.4">
-        You requested to rest your password for your DefibrillatorHunter account.
+        You requested to rest your password for your Mapad account.
         <br>
         Use the button below to reset it. The link is only valid for the next hour.
     </p>

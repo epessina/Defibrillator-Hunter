@@ -1,12 +1,9 @@
 "use strict";
 
-// Built in modules for path manipulation
-const fs   = require("fs"),
-      path = require("path");
-
 const Defibrillator        = require("../models/defibrillator"), // Model of the defibrillator
       User                 = require("../models/user"),          // Model of the user
-      { validationResult } = require("express-validator/check"); // Module for retrieving the validation results
+      { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
+      utils                = require("../utils/utils");          // Utility module
 
 
 /* Retrieves all the defibrillators. */
@@ -119,7 +116,6 @@ exports.getDefibrillator = (req, res, next) => {
 
         });
 
-
 };
 
 
@@ -153,6 +149,7 @@ exports.postDefibrillator = (req, res, next) => {
         throw error;
     }
 
+
     // If no image has been passed with the request, throw a 422 error
     if (!req.file) {
         const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
@@ -160,6 +157,16 @@ exports.postDefibrillator = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+
+
+    // Set the initial points
+    let points = utils.newDefibrillatorPoints;
+
+    // Set any additional point
+    if (req.body.visualReference !== "") points += utils.optionalRequestPoints;
+    if (req.body.recovery !== "") points += utils.optionalRequestPoints;
+    if (req.body.signage !== "") points += utils.optionalRequestPoints;
+    if (req.body.brand !== "") points += utils.optionalRequestPoints;
 
     // Create a new defibrillator
     const defibrillator = new Defibrillator({
@@ -177,14 +184,16 @@ exports.postDefibrillator = (req, res, next) => {
         brand                : req.body.brand,
         notes                : req.body.notes,
         imageUrl             : req.file.path.replace("\\", "/"),
-        imageCoordinates     : req.body.imageCoordinates
+        imageCoordinates     : req.body.imageCoordinates,
+        value                : points
     });
+
 
     // Save the new defibrillator
     defibrillator.save()
         .then(() => {
 
-            // Find the user that has mapped the landslide
+            // Find the user that has mapped the defibrillator
             return User.findById(req.userId);
 
         })
@@ -192,6 +201,9 @@ exports.postDefibrillator = (req, res, next) => {
 
             // Save the defibrillator among the user's ones
             user.defibrillators.push(defibrillator);
+
+            // Add the points to the user
+            user.points += points;
 
             // Update the user
             return user.save();
@@ -238,6 +250,12 @@ exports.updateDefibrillator = (req, res, next) => {
         throw error;
     }
 
+    // Temporary variable to store the id of the user who has mapped the defibrillator
+    let userId;
+
+    // Temporary variable to store the points increment
+    let pointsIncrement = 0;
+
     // Find the defibrillator by id
     Defibrillator.findById(id)
         .then(defibrillator => {
@@ -256,6 +274,23 @@ exports.updateDefibrillator = (req, res, next) => {
                 throw error;
             }
 
+            // Save the id of the user
+            userId = defibrillator.user;
+
+            // Adjust the points
+            if (req.body.visualReference !== "" && defibrillator.visualReference === "") pointsIncrement += utils.optionalRequestPoints;
+            if (req.body.visualReference === "" && defibrillator.visualReference !== "") pointsIncrement -= utils.optionalRequestPoints;
+
+            if (req.body.recovery !== "" && defibrillator.recovery === "") pointsIncrement += utils.optionalRequestPoints;
+            if (req.body.recovery === "" && defibrillator.recovery !== "") pointsIncrement -= utils.optionalRequestPoints;
+
+            if (req.body.signage !== "" && defibrillator.signage === "") pointsIncrement += utils.optionalRequestPoints;
+            if (req.body.signage === "" && defibrillator.signage !== "") pointsIncrement -= utils.optionalRequestPoints;
+
+            if (req.body.brand !== "" && defibrillator.brand === "") pointsIncrement += utils.optionalRequestPoints;
+            if (req.body.brand === "" && defibrillator.brand !== "") pointsIncrement -= utils.optionalRequestPoints;
+
+
             // Save the new values
             defibrillator.presence              = req.body.presence;
             defibrillator.locationCategory      = req.body.locationCategory;
@@ -267,12 +302,13 @@ exports.updateDefibrillator = (req, res, next) => {
             defibrillator.signage               = req.body.signage;
             defibrillator.brand                 = req.body.brand;
             defibrillator.notes                 = req.body.notes;
+            defibrillator.value                 = defibrillator.value + pointsIncrement;
 
             // If a new photo is provided
             if (req.file) {
 
                 // Delete the old one
-                clearImage(defibrillator.imageUrl);
+                utils.clearImage(defibrillator.imageUrl);
 
                 // Set the coordinates of the new one
                 defibrillator.imageCoordinates = req.body.imageCoordinates;
@@ -286,10 +322,38 @@ exports.updateDefibrillator = (req, res, next) => {
             return defibrillator.save();
 
         })
-        .then(result => {
+        .then(() => {
 
-            // Send a successful response
-            res.status(200).json({ message: "Defibrillator updated.", defibrillator: result })
+            // If there is no point increment
+            if (pointsIncrement === 0) {
+
+                // Send a successful response
+                res.status(200).json({ message: "Defibrillator updated.", defibrillatorId: id });
+
+            }
+
+            // Else
+            else {
+
+                // Find the user that has mapped the defibrillator
+                User.findById(userId)
+                    .then(user => {
+
+                        // Update the points of the user
+                        user.points += pointsIncrement;
+
+                        // Update the user
+                        return user.save();
+
+                    })
+                    .then(result => {
+
+                        // Send a successful response
+                        res.status(200).json({ message: "Defibrillator updated.", defibrillatorId: id })
+
+                    });
+
+            }
 
         })
         .catch(err => {
@@ -316,6 +380,12 @@ exports.deleteDefibrillator = (req, res, next) => {
     // Extract the id form the request
     const id = req.params.defibrillatorId;
 
+    // Temporary variable to store the id of the user who has mapped the defibrillator
+    let userId;
+
+    // Temporary variable to store the points of the defibrillator
+    let points;
+
     // Find the defibrillator by id
     Defibrillator.findById(id)
         .then(defibrillator => {
@@ -334,11 +404,32 @@ exports.deleteDefibrillator = (req, res, next) => {
                 throw error;
             }
 
+            // Save the id of the user
+            userId = defibrillator.user;
+
+            // Save the value of the defibrillator
+            points = defibrillator.value;
+
             // Mark the entry for deletion
             defibrillator.markedForDeletion = true;
 
             // Update the defibrillator
             return defibrillator.save();
+
+        })
+        .then(() => {
+
+            // Find the user that has mapped the defibrillator
+            return User.findById(userId);
+
+        })
+        .then(user => {
+
+            // Remove the points to the user
+            user.points -= points;
+
+            // Update the user
+            return user.save();
 
         })
         .then(() => {
@@ -361,17 +452,5 @@ exports.deleteDefibrillator = (req, res, next) => {
             next(err);
 
         });
-
-};
-
-
-/* Utility function for deleting an image from the local storage */
-const clearImage = filePath => {
-
-    // Compute the complete path
-    filePath = path.join(__dirname, "..", filePath);
-
-    // Remove the image
-    fs.unlink(filePath, err => {console.error(err)});
 
 };

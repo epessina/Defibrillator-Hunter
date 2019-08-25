@@ -2,12 +2,8 @@
 
 
 @keyframes placeholderAnimate {
-  0% {
-    background-position : -650px 0;
-  }
-  100% {
-    background-position : 650px 0;
-  }
+  0% { background-position : -650px 0 }
+  100% { background-position : 650px 0 }
 }
 
 .placeholder {
@@ -25,6 +21,4 @@
 
 }
 
-.ph-hidden-content {
-  display : none;
-}
+.ph-hidden-content { display : none }

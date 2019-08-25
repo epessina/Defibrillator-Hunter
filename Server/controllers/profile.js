@@ -1,9 +1,5 @@
 "use strict";
 
-// Built in modules for path manipulation
-const fs   = require("fs"),
-      path = require("path");
-
 // Module for encrypting the token
 const crypto = require("crypto");
 
@@ -11,7 +7,8 @@ const User                 = require("../models/user"),          // Model of the
       mails                = require("../utils/mails"),          // Utility for sending the mail
       Defibrillator        = require("../models/defibrillator"), // Model of the defibrillator
       { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
-      bcrypt               = require("bcryptjs");                // Module for encrypting/decrypting the password
+      bcrypt               = require("bcryptjs"),                // Module for encrypting/decrypting the password
+      utils                = require("../utils/utils");          // Utility module
 
 // Save the mail transporter
 const transporter = mails.transporter();
@@ -56,6 +53,7 @@ exports.getUser = (req, res, next) => {
                             occupation: user.occupation,
                             isRescuer : user.isRescuer,
                             defNumber : count,
+                            points    : user.points,
                             imageUrl  : user.imageUrl
                         }
                     })
@@ -395,9 +393,11 @@ exports.updateProfile = (req, res, next) => {
                             gender    : result.gender,
                             occupation: result.occupation,
                             isRescuer : result.isRescuer,
-                            defNumber : count
+                            defNumber : count,
+                            points    : result.points
                         }
                     })
+
                 })
         })
         .catch(err => {
@@ -443,7 +443,7 @@ exports.updatePicture = (req, res, next) => {
             }
 
             // If the user already had an image, delete it
-            if (user.imageUrl !== "") clearImage(user.imageUrl);
+            if (user.imageUrl !== "") utils.clearImage(user.imageUrl);
 
             // If an image has been provided, update the user with the new image path
             if (req.file) user.imageUrl = req.file.path.replace("\\", "/");
@@ -477,17 +477,5 @@ exports.updatePicture = (req, res, next) => {
             next(err);
 
         })
-
-};
-
-
-/* Utility function for deleting an image from the local storage */
-const clearImage = filePath => {
-
-    // Compute the complete path
-    filePath = path.join(__dirname, "..", filePath);
-
-    // Remove the image
-    fs.unlink(filePath, err => {console.error(err)});
 
 };

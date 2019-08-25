@@ -5,9 +5,9 @@ const mongoose = require("mongoose"),  // Import the module for the db handling
 
 // Create the object that models a single defibrillator
 const defibrillatorSchema = new Schema({
-    user                 : { type: Schema.Types.ObjectId, ref : "User" },
-    markedForDeletion    : { type   : Boolean, default: false },
-    checked              : { type   : Boolean, default: false },
+    user                 : { type: Schema.Types.ObjectId, ref: "User" },
+    markedForDeletion    : { type: Boolean, default: false },
+    checked              : { type: Boolean, default: false },
     coordinates          : [Number],
     accuracy             : Number,
     presence             : String,
@@ -21,7 +21,8 @@ const defibrillatorSchema = new Schema({
     brand                : String,
     notes                : String,
     imageUrl             : String,
-    imageCoordinates     : String
+    imageCoordinates     : String,
+    value                : { type: Number, default: 0 },
 }, { timestamps: true });
 
 // Export the model

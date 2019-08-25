@@ -153,7 +153,7 @@ class InsertActivity {
         // Reset all the main screen texts
         $("#presence-text").html(i18next.t("insert.presence.defaultText"));
         $("#location-text").html(i18next.t("insert.locationCategory.defaultText"));
-        $("#floor-text").html("insert.floor.defaultText");
+        $("#floor-text").html(i18next.t("insert.floor.defaultText"));
         $("#temporal-text").html(i18next.t("insert.temporalAccessibility.defaultText"));
         $("#recovery-text").html(i18next.t("insert.recovery.defaultText"));
         $("#signage-text").html(i18next.t("insert.signage.defaultText"));

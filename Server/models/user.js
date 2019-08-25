@@ -14,12 +14,13 @@ const userSchema = new Schema({
     isRescuer                  : Boolean,
     isConfirmed                : { type: Boolean, default: false },
     defibrillators             : [{ type: Schema.Types.ObjectId, ref: "Defibrillator" }],
+    points                     : { type: Number, default: 0, index: true },
     imageUrl                   : String,
     confirmEmailToken          : String,
     confirmEmailTokenExpiration: Date,
     resetPwToken               : String,
     resetPwTokenExpiration     : Date
-}, { timestamps: true });
+}, { timestamps: true, autoIndex: false });
 
 // Export the model
 module.exports = mongoose.model("User", userSchema);

@@ -213,11 +213,13 @@ class InfoActivity {
      */
     show(data) {
 
+        $("#info-point-value").html(`${i18next.t("info.points")}: <span>${data.value}</span>`);
+
         // For each key in the object
         for (let key in data) {
 
             // If the object has a property associated with the key and the key is not "transportType"
-            if (data.hasOwnProperty(key) && key !== "transportType")
+            if (data.hasOwnProperty(key) && key !== "transportType" && key !== "value")
 
             // Set the content of the field associated with the key
                 $("#info-" + key + " .info-content").html(() => {

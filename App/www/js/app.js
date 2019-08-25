@@ -120,11 +120,14 @@ class App {
     /** Opens the first activity based on the authentication status. */
     open() {
 
-        // If there is not a valid session stored, open the login page
-        if (!LoginActivity.getInstance().getAuthStatus()) LoginActivity.getInstance().open();
+        // // If there is not a valid session stored, open the login page
+        // if (!LoginActivity.getInstance().getAuthStatus()) LoginActivity.getInstance().open();
+        //
+        // // If there is a valid session in storage, open the map
+        // else MapActivity.getInstance().open();
 
-        // If there is a valid session in storage, open the map
-        else MapActivity.getInstance().open();
+        LoginActivity.getInstance().getAuthStatus();
+        ProfileActivity.getInstance().open();
 
         // Hide the splash screen
         $("#splash").hide();

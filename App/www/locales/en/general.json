@@ -25,6 +25,7 @@
     "changePwSuccess" : "Password changed successfully.",
     "changeEmail409" : "This email is already in use.",
     "editProfile422" : "Entered data are incorrect.",
+    "editProfileSuccess" : "Profile edited successfully.",
     "backButton" : "Press again to leave."
   },
   "dialogs" : {
@@ -47,7 +48,7 @@
     "putDefibrillator401" : "You are not authorized to edit this defibrillator.",
     "putDefibrillator404" : "The defibrillator could not be found.",
     "putDefibrillator500" : "Something went wrong on the server while updating the defibrillator. Please, try again later.",
-    "deleteConfirmation" : "Are you sure you want to delete this defibrillator?",
+    "deleteConfirmation" : "Are you sure you want to delete this defibrillator? You will lose its points.",
     "deleteDefibrillator401" : "You are not authorized to delete this defibrillator.",
     "deleteDefibrillator404" : "The defibrillator could not be found.",
     "deleteDefibrillator500" : "Something went wrong on the server while deleting the defibrillator. Please, try again later.",
@@ -166,17 +167,9 @@
   },
   "profile" : {
     "topBarTitle" : "Profile",
-    "tabLabelDashboard" : "Dashboard",
-    "tabLabelAbout" : "About",
-    "defMappedSingle" : "defibrillator mapped",
-    "defMappedPlural" : "defibrillators mapped",
-    "email" : "Email",
-    "age" : "Age",
-    "gender" : "Gender",
-    "occupation" : "Occupation",
-    "rescuer" : "Rescuer",
-    "yes" : "Yes",
-    "no" : "No",
+    "defibrillators" : "Defibrillators",
+    "points" : "Points",
+    "leaderboard" : "Leaderboard",
     "photoDialog" : {
       "title" : "Profile picture",
       "camera" : "Take a picture",
@@ -185,26 +178,34 @@
       "deleteConfirmation" : "Are you sure you want to delete your profile picture?"
     },
     "settings" : {
+      "notImplemented" : "Currently not available.",
+      "leaderboard" : "Leaderboard",
       "language" : "Language",
-      "editProfile" : "Edit profile",
-      "changeEmail" : "Change email",
-      "changePassword" : "Change password",
-      "logout" : "Logout"
-    },
-    "changeEmail" : {
-      "topBarTitle" : "New email",
-      "emailPh" : "New email",
-      "successTitle" : "Success!",
-      "successMessage" : "Your email has been successfully updated. An email has been send to your address. Please, click on the link in the message to confirm the new address."
-    },
-    "changePw" : {
-      "topBarTitle" : "Change password",
-      "oldPasswordPh" : "Old password",
-      "newPasswordPh" : "New password",
-      "confirmPasswordPh" : "Confirm new password"
-    },
-    "editProfile" : {
-      "topBarTitle" : "Edit profile"
+      "help" : "Help",
+      "account" : {
+        "name" : "Account",
+        "topBarTitle" : "Account",
+        "editProfile" : {
+          "name" : "Edit profile",
+          "topBarTitle" : "Edit Profile"
+        },
+        "changeEmail" : {
+          "name" : "Change email",
+          "topBarTitle" : "Change email",
+          "emailPh" : "New email",
+          "successTitle" : "Success!",
+          "successMessage" : "Your email has been successfully updated. An email has been send to your address. Please, click on the link in the message to confirm the new address."
+        },
+        "changePw" : {
+          "name" : "Change password",
+          "topBarTitle" : "Change password",
+          "oldPasswordPh" : "Old password",
+          "newPasswordPh" : "New password",
+          "confirmPasswordPh" : "Confirm new password"
+        },
+        "logout" : "Logout",
+        "logoutConfirmation" : "Are you sure you want to logout?"
+      }
     }
   },
   "map" : {
@@ -304,9 +305,10 @@
       "brandPlaceholder" : "Specify the brand...",
       "questionNotes" : "Additional notes",
       "notesPlaceholder" : "Max 500 characters..."
-    },
+    }
   },
   "info" : {
+    "points" : "points",
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
     "coordinates" : "Coordinates (WGS 84)",

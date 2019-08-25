@@ -53,7 +53,7 @@ class MapActivity {
 
         // Add the translated text to the "finding position" message and the "new landslides" button
         $("#finding-position-msg p").localize();
-        $("#map-new-ls p").localize();
+        $("#map-new-defibrillator").localize();
 
         // Cache the screen
         this._screen = $("#page--map");

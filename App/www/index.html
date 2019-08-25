@@ -29,7 +29,7 @@
 
     <div class="logo-wrapper">
 
-        <div class="logo"><span>Logo</span></div>
+        <img src="img/icon/96x96.png" alt="Logo">
 
     </div>
 
@@ -39,9 +39,7 @@
 <!-- Log in page -->
 <div style="display: none" id="page--log-in" class="auth-page">
 
-    <div class="logo-wrapper">
-        <div class="logo"><span>Logo</span></div>
-    </div>
+    <div class="logo-wrapper"><img src="img/icon/96x96.png" alt="Logo"></div>
 
     <div class="form-container">
 
@@ -347,20 +345,6 @@
 <!-- Profile -->
 <div style="display: none" id="page--profile">
 
-
-    <div style="display: none" id="profile-settings-overlay"></div>
-
-    <div style="display: none" id="profile-settings-menu">
-
-        <div id="settings-language" class="settings-item" data-i18n="profile.settings.language"></div>
-        <div id="settings-editProfile" class="settings-item" data-i18n="profile.settings.editProfile"></div>
-        <div id="settings-changeEmail" class="settings-item" data-i18n="profile.settings.changeEmail"></div>
-        <div id="settings-changePassword" class="settings-item" data-i18n="profile.settings.changePassword"></div>
-        <div id="settings-logout" class="settings-item" data-i18n="profile.settings.logout"></div>
-
-    </div>
-
-
     <div class="top-bar">
 
         <div class="top-bar-left-icon">
@@ -370,7 +354,7 @@
         <div class="top-bar-title" data-i18n="profile.topBarTitle"></div>
 
         <div style="visibility: hidden" class="top-bar-right-icon">
-            <i id="profile-settings" class="material-icons">settings</i>
+            <i id="profile-update" class="material-icons">update</i>
         </div>
 
     </div>
@@ -410,43 +394,207 @@
     </div>
 
 
-    <div class="profile-top-wrapper">
+    <div class="profile-wrapper">
 
-        <div class="profile-photo">
+        <div class="personal-info-wrapper">
 
-            <div class="profile-photo-ph placeholder"></div>
+            <div class="profile-photo">
 
-            <img id="profile-photo"
-                 class="ph-hidden-content"
-                 src="img/default-profile-img-120.png"
-                 alt="Profile image">
+                <div class="profile-photo-ph placeholder"></div>
+
+                <img id="profile-photo"
+                     class="ph-hidden-content"
+                     src="img/default-profile-img-120.png"
+                     alt="Profile image">
+
+            </div>
+
+            <div class="personal-info">
+
+                <div class="personal-info-ph placeholder"></div>
+
+                <div id="profile-name" class="ph-hidden-content">Edoardo Pessina</div>
+                <div id="profile-email" class="ph-hidden-content">edoardopessina@yahoo.it</div>
+
+            </div>
 
         </div>
 
-        <div class="profile-name-ph placeholder"></div>
-        <div id="profile-name" class="ph-hidden-content"></div>
+        <div class="points-info-wrapper">
+
+            <div class="points-ph placeholder"></div>
+
+            <!-- Defibrillators -->
+            <div class="point-info">
+
+                <div id="mapped-def-number" class="number ph-hidden-content"></div>
+                <div id="mapped-def-text" class="text ph-hidden-content" data-i18n="profile.defibrillators"></div>
+
+            </div>
+
+            <!-- Points -->
+            <div class="point-info">
+
+                <div id="points-number" class="number ph-hidden-content"></div>
+                <div id="points-text" class="text ph-hidden-content" data-i18n="profile.points"></div>
+
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="point-info">
+
+                <div id="position-number" class="number ph-hidden-content"></div>
+                <div id="position-text" class="text ph-hidden-content" data-i18n="profile.leaderboard"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="settings-container">
+
+        <!-- Account -->
+        <div id="settings-account-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">person</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.account.name"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="settings-leaderboard-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">equalizer</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.leaderboard"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+        <!-- Language -->
+        <div id="settings-language-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">language</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.language"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+        <!-- Help -->
+        <div id="settings-help-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">help</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.help"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
 
     </div>
 
 
-    <div class="profile-content-wrapper custom-container">
-
-        <div class="mapped-def-wrapper">
-
-            <div class="mapped-def-ph placeholder"></div>
-
-            <div id="mapped-def-number" class="mapped-def-number ph-hidden-content"></div>
-            <div id="mapped-def-text" class="mapped-def-text ph-hidden-content"></div>
-
-        </div>
-
-    </div>
-
-
+    <!-- ToDo remove -->
     <input style="display: none; position: absolute; top: 0; left: 0;"
            id="tmp-profile-photo-input"
            type="file"
            accept=".png, .jpg, .jpeg">
+
+</div>
+
+<!-- Account -->
+<div style="display: none" id="page--account-settings">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="account-close" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="profile.settings.account.topBarTitle"></div>
+
+        <div style="visibility: hidden" class="top-bar-right-icon"></div>
+
+    </div>
+
+    <div class="settings-container">
+
+        <!-- Edit profile -->
+        <div id="account-edit-profile" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">edit</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.account.editProfile.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Change mail -->
+        <div id="account-change-mail" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">mail</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.account.changeEmail.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Change password -->
+        <div id="account-change-pw" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">lock</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.account.changePw.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Logout -->
+        <div id="account-logout" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">exit_to_app</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="profile.settings.account.logout"></p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -460,7 +608,7 @@
             <i id="change-email-close" class="material-icons">close</i>
         </div>
 
-        <div class="top-bar-title" data-i18n="profile.changeEmail.topBarTitle"></div>
+        <div class="top-bar-title" data-i18n="profile.settings.account.changeEmail.topBarTitle"></div>
 
         <div class="top-bar-right-icon">
             <i id="change-email-done" class="material-icons">done</i>
@@ -477,12 +625,11 @@
             <label for="new-email"></label>
             <input id="new-email"
                    type="email"
-                   data-i18n="[placeholder]profile.changeEmail.emailPh">
+                   data-i18n="[placeholder]profile.settings.account.changeEmail.emailPh">
 
         </div>
 
     </div>
-
 
 </div>
 
@@ -495,7 +642,7 @@
             <i id="change-pw-close" class="material-icons">close</i>
         </div>
 
-        <div class="top-bar-title" data-i18n="profile.changePw.topBarTitle"></div>
+        <div class="top-bar-title" data-i18n="profile.settings.account.changePw.topBarTitle"></div>
 
         <div class="top-bar-right-icon">
             <i id="change-pw-done" class="material-icons">done</i>
@@ -513,7 +660,7 @@
             <label for="change-pw-old-password"></label>
             <input id="change-pw-old-password"
                    type="password"
-                   data-i18n="[placeholder]profile.changePw.oldPasswordPh">
+                   data-i18n="[placeholder]profile.settings.account.changePw.oldPasswordPh">
 
         </div>
 
@@ -525,7 +672,7 @@
             <label for="change-pw-new-password"></label>
             <input id="change-pw-new-password"
                    type="password"
-                   data-i18n="[placeholder]profile.changePw.newPasswordPh">
+                   data-i18n="[placeholder]profile.settings.account.changePw.newPasswordPh">
 
         </div>
 
@@ -537,7 +684,7 @@
             <label for="change-pw-confirm-password"></label>
             <input id="change-pw-confirm-password"
                    type="password"
-                   data-i18n="[placeholder]profile.changePw.confirmPasswordPh">
+                   data-i18n="[placeholder]profile.settings.account.changePw.confirmPasswordPh">
 
         </div>
 
@@ -545,7 +692,6 @@
 
 
 </div>
-
 
 <!-- Edit profile -->
 <div style="display: none" id="page--edit-profile" class="form-page">
@@ -556,7 +702,7 @@
             <i id="edit-profile-close" class="material-icons">close</i>
         </div>
 
-        <div class="top-bar-title" data-i18n="profile.editProfile.topBarTitle"></div>
+        <div class="top-bar-title" data-i18n="profile.settings.account.editProfile.topBarTitle"></div>
 
         <div class="top-bar-right-icon">
             <i id="edit-profile-done" class="material-icons">done</i>
@@ -1424,6 +1570,16 @@
 
     <div class="custom-container">
 
+        <!-- Points -->
+        <div id="info-points">
+
+            <div class="info-points-ph placeholder"></div>
+            <div id="info-point-value" class="ph-hidden-content"></div>
+
+        </div>
+
+        <hr>
+
         <!-- Creation date -->
         <div id="info-createdAt" class="info-block">
 
@@ -1693,7 +1849,6 @@
 <script type="text/javascript" src="js/insertActivity.js"></script>
 <script type="text/javascript" src="js/infoActivity.js"></script>
 <script type="text/javascript" src="js/profileActivity.js"></script>
-<script type="text/javascript" src="js/editProfileActivity.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 
 </body>

@@ -367,7 +367,7 @@ const defibrillator = {
                 .then(data => {
 
                     // Resolve the promise
-                    resolve({ id: data.defibrillator._id });
+                    resolve({ id: data.defibrillatorId });
 
                 })
                 .catch(err => {
