@@ -1,14 +1,13 @@
 "use strict";
 
-const express  = require("express"),
-      { body } = require("express-validator/check");
+const express  = require("express"),                 // Express module
+      { body } = require("express-validator/check"); // Module for validating the data
 
-const defibrillatorController = require("../controllers/defibrillator"),
-      checkCaller             = require("../middleware/check-caller"),
-      isAuth                  = require("../middleware/is-auth");
+const defibrillatorController = require("../controllers/defibrillator"), // Controller module
+      checkCaller             = require("../middleware/check-caller"),   // Caller checking middleware
+      isAuth                  = require("../middleware/is-auth");        // Authorization checking middleware
 
-const router = express.Router();
-
+// Save all the valid values for the fields
 const validLocationCategories = ["commercialActivity", "residentialBuilding", "publicPlace", "sportsCentre",
     "transportStation", "educationalEstablishment", "schoolGym", "drugstore", "street", "medicalPracticeClinic",
     "churchOratorio", "shelter", "nursingHomeHospice", "other"];
@@ -18,6 +17,7 @@ const validTempAccessibility  = ["h24", "partTime", "notSpecified"];
 const validRecovery           = ["", "immediate", "fast", "average", "slow", "verySlow"];
 const validSignage            = ["", "great", "visible", "hardToSee", "absent"];
 
+// Validation for the data sent with a post request
 const postValidation = [
     body("coordinates")
         .not().isEmpty().withMessage("You must specify the coordinates of the defibrillator"),
@@ -50,6 +50,7 @@ const postValidation = [
         .escape()
 ];
 
+// Validation for the data sent with a put request
 const putValidation = [
     body("presence")
         .not().isEmpty().withMessage("You must specify if the defibrillator is present.")
@@ -81,8 +82,15 @@ const putValidation = [
 ];
 
 
+// Create a router
+const router = express.Router();
+
+
 // GET /defibrillator/get-all
 router.get("/get-all", checkCaller, isAuth, defibrillatorController.getDefibrillators);
+
+// GET /defibrillator/user/:userId
+router.get("/user/:userId", checkCaller, isAuth, defibrillatorController.getUserDefibrillators);
 
 // GET /defibrillator/:defibrillatorId
 router.get("/:defibrillatorId", checkCaller, isAuth, defibrillatorController.getDefibrillator);
@@ -97,4 +105,5 @@ router.put("/:defibrillatorId", checkCaller, isAuth, putValidation, defibrillato
 router.delete("/:defibrillatorId", checkCaller, isAuth, defibrillatorController.deleteDefibrillator);
 
 
+// Export the routes
 module.exports = router;

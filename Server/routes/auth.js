@@ -1,26 +1,31 @@
 "use strict";
 
-const express  = require("express"),
-      { body } = require("express-validator/check");
+const express  = require("express"),                 // Express module
+      { body } = require("express-validator/check"); // Module for validating the data
 
+// Model of the user
 const User = require("../models/user");
 
-const authController = require("../controllers/auth"),
-      checkCaller    = require("../middleware/check-caller");
+const authController = require("../controllers/auth"),        // Controller module
+      checkCaller    = require("../middleware/check-caller"); // Caller checking middleware
 
+// Create a router
 const router = express.Router();
 
+// Save all the valid values for the fields
 const validAge        = ["none", "less15", "16-20", "21-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55", "56-60",
     "61-65", "66-70", "more70"];
 const validGender     = ["none", "male", "female", "other"];
 const validOccupation = ["none", "student", "employee", "freelancer", "unemployed", "retiree"];
 
+// Validation for the email
 const emailValidation = [
     body("email")
         .isEmail().withMessage("Please enter a valid email.")
         .normalizeEmail()
 ];
 
+// Validation for the registration data
 const signupValidation = [
     body("email")
         .isEmail().withMessage("Please enter a valid email.")
@@ -61,6 +66,7 @@ const signupValidation = [
         .isBoolean().withMessage("Invalid rescuer value.")
 ];
 
+// Validation for the password reset
 const resetPwValidation = [
     body("password")
         .trim()
@@ -103,4 +109,5 @@ router.get("/new-password/:token", authController.getNewPassword);
 router.post("/new-password", resetPwValidation, authController.postNewPassword);
 
 
+// Export the routes
 module.exports = router;

@@ -22,11 +22,13 @@
     "login401" : "Wrong email or password.",
     "changePw422" : "Entered data are incorrect.",
     "changePwWrongPw" : "Wrong password!",
-    "changePwSuccess": "Password changed successfully.",
+    "changePwSuccess" : "Password changed successfully.",
     "changeEmail409" : "This email is already in use.",
-    "editProfile422" : "Entered data are incorrect."
+    "editProfile422" : "Entered data are incorrect.",
+    "backButton" : "Press again to leave."
   },
   "dialogs" : {
+    "tokenExpired" : "Your session is expired. Please, login again.",
     "pictureError" : "An error occurred while taking the photo.",
     "errorAppendPicture" : "An error occurred while sending the photo to the server.",
     "title401" : "Unauthorized!",
@@ -303,14 +305,6 @@
       "questionNotes" : "Additional notes",
       "notesPlaceholder" : "Max 500 characters..."
     },
-    "photo" : {
-      "name" : "Add a photo",
-      "editText" : "Edit your photo",
-      "topBarTitle" : "Add a photo",
-      "cameraBtn" : "Take a picture",
-      "or" : "- or -",
-      "galleryBtn" : "Choose from the gallery"
-    }
   },
   "info" : {
     "creationDate" : "Creation date",

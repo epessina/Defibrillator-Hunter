@@ -19,10 +19,16 @@ class InsertActivity {
      */
     constructor() {
 
+        // Cache the screen
         this._screen = $("#page--insert");
 
         // Cache the photo thumbnail
         this._$photoThm = $("#photo-thm");
+
+        // Save the the currently opened dialog and full dialog
+        this._currOpenedDialog     = null;
+        this._currOpenedFullDialog = null;
+
 
         // The id of the defibrillator to modify. It has a value only if the activity is open in "put" mode
         this._defId = null;
@@ -45,6 +51,7 @@ class InsertActivity {
             photoCoordinates     : "",
         };
 
+        // Initialize the user interface
         this.initUI();
 
     }
@@ -65,7 +72,15 @@ class InsertActivity {
 
 
     /** Opens the activity. */
-    open() { this._screen.show() }
+    open() {
+
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
+        // Show the screen
+        this._screen.show();
+
+    }
 
     /**
      * Opens the activity in "put" mode (modify a defibrillator)
@@ -89,6 +104,9 @@ class InsertActivity {
         this._vals.brand                 = def.brand;
         this._vals.notes                 = def.notes;
         this._vals.photo                 = `${settings.serverUrl}/${def.imageUrl}`;
+
+        // Save the old photo
+        this._oldPhoto = this._vals.photo;
 
         // Set the main screen texts of the mandatory properties
         $("#presence-text").html(i18next.t("insert.presence.enum." + this._vals.presence));
@@ -115,12 +133,19 @@ class InsertActivity {
     /** Closes the activity and resets the fields. */
     close() {
 
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
         // Set the id and the old photo to null
         this._defId    = null;
         this._oldPhoto = null;
 
         // Hide the screen
         this._screen.scrollTop(0).hide();
+
+        // Rest the currently opened dialogs
+        this._currOpenedDialog     = null;
+        this._currOpenedFullDialog = null;
 
         // Set all values to ""
         Object.keys(this._vals).forEach(v => this._vals[v] = "");
@@ -139,6 +164,44 @@ class InsertActivity {
 
         // Show the icon
         this._$photoThm.find("i").show();
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If a dialog is currently opened
+        if (this._currOpenedDialog) {
+
+            // Close the dialog
+            this.closeDialog(this._currOpenedDialog);
+
+            // Return
+            return;
+
+        }
+
+        // If a full dialog is currently opened
+        if (this._currOpenedFullDialog) {
+
+            // Close the full dialog
+            this.closeFullscreenDialog(this._currOpenedFullDialog);
+
+            // Return
+            return;
+
+        }
+
+
+        // Ask for confirmation and then close the activity
+        utils.createAlert(
+            "",
+            i18next.t("dialogs.insert.confirmClose"),
+            i18next.t("dialogs.insert.btnKeepEditing"),
+            null,
+            i18next.t("dialogs.insert.btnDiscard"),
+            () => { this.close() }
+        );
 
     }
 
@@ -632,6 +695,7 @@ class InsertActivity {
 
         // Get the picture
         navigator.camera.getPicture(
+            // Fired if the picture is taken successfully
             fileURI => {
 
                 // Parse the file uri
@@ -658,12 +722,16 @@ class InsertActivity {
                 this._$photoThm.find("i").hide();
 
             },
+
+            // Fired if there is an error
             err => {
                 console.log(`Error taking picture ${err}`);
 
                 // Alert the user
                 utils.createAlert("", i18next.t("dialogs.pictureError"), i18next.t("dialogs.btnOk"));
             },
+
+            // Camera options
             opt);
 
     }
@@ -733,7 +801,7 @@ class InsertActivity {
                 defibrillator.show(data.id, data.coords);
 
                 // Close the activity
-                InsertActivity.getInstance().close();
+                this.close();
 
             });
 
@@ -836,14 +904,30 @@ class InsertActivity {
      *
      * @param {object} dialog - The dialog to open
      */
-    openFullscreenDialog(dialog) { dialog.show() }
+    openFullscreenDialog(dialog) {
+
+        // Show the dialog
+        dialog.show();
+
+        // Set the currently opened full dialog to the dialog
+        this._currOpenedFullDialog = dialog;
+
+    }
 
     /**
      * Closes a full-screen dialog.
      *
      * @param {object} dialog - the dialog to close.
      */
-    closeFullscreenDialog(dialog) { dialog.scrollTop(0).hide() }
+    closeFullscreenDialog(dialog) {
+
+        // Hide the dialog
+        dialog.scrollTop(0).hide();
+
+        // Set the currently opened full dialog to null
+        this._currOpenedFullDialog = null;
+
+    }
 
 
     /**
@@ -862,6 +946,9 @@ class InsertActivity {
         // Show the dialog
         toOpen.show();
 
+        // Set the currently opened dialog to the dialog
+        this._currOpenedDialog = toOpen;
+
     }
 
     /**
@@ -879,6 +966,9 @@ class InsertActivity {
 
         // Set the y-overflow of the main page to "scroll"
         $("#page--insert").css("overflow-y", "scroll");
+
+        // Set the currently opened dialog to null
+        this._currOpenedDialog = null;
 
     }
 

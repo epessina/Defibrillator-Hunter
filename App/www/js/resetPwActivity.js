@@ -19,9 +19,13 @@ class ResetPasswordActivity {
      */
     constructor() {
 
+        // Cache the screen
         this.screen = $("#page--reset-pw");
 
+        // When the user clicks on the "close" button, close the page
         $("#btn--reset-pw-close").click(() => this.close());
+
+        // When the user clicks on the "done" button, reset the password
         $("#btn--reset-pw-done").click(() => this.resetPassword());
 
     }
@@ -42,13 +46,32 @@ class ResetPasswordActivity {
 
 
     /** Opens the activity. */
-    open() { this.screen.show() }
+    open() {
+
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
+        // Show the screen
+        this.screen.show();
+
+    }
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
         this.screen.scrollTop(0).hide();
+
+        // Reset the field
         $("#field--reset-pw-email").val("");
+
     }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() { this.close() }
 
 
     /** Sends an email to the user with the instructions to reset his password. */

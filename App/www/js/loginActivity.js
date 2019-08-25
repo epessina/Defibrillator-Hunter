@@ -56,14 +56,50 @@ class LoginActivity {
 
 
     /** Opens the activity. */
-    open() { this.screen.show() }
+    open() {
+
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
+        // Show the screen
+        this.screen.show();
+
+    }
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
         this.screen.scrollTop(0).hide();
 
+        // Reset the fields
         $("#field--login-email").val("");
         $("#field--login-password").val("");
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If it's the first time the user clicks on the button
+        if (app._backPressedCount === 0) {
+
+            // Alert the user
+            utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+            // Increment the count
+            app._backPressedCount++;
+
+            // Set an interval after which the count is reset to 0
+            setInterval(() => app._backPressedCount = 0, 2000);
+
+        }
+
+        // Else, close the app
+        else navigator.app.exitApp();
+
     }
 
 
@@ -75,25 +111,28 @@ class LoginActivity {
     getAuthStatus() {
 
         // Extract the token and the expire date from localStorage
-        const token      = localStorage.getItem("token"),
-              expireDate = localStorage.getItem("expireDate");
+        const token      = localStorage.getItem("mapad-token"),
+              expireDate = localStorage.getItem("mapad-expireDate");
 
         // If there is no token or expire date, return false
         if (!token || !expireDate) return false;
 
-        // If the token is expired, logout and return false
+        // If the token is expired
         if (new Date(expireDate) <= new Date()) {
+
+            // Logout
             this.logout();
+
+            // Return false
             return false;
+
         }
 
         // Save the token and the user id
         this.token  = token;
-        this.userId = localStorage.getItem("userId");
+        this.userId = localStorage.getItem("mapad-userId");
 
-        // Set the auto logout
-        this.setAutoLogout(new Date(expireDate).getTime() - new Date().getTime());
-
+        // Return true
         return true;
 
     }
@@ -143,26 +182,23 @@ class LoginActivity {
                 // Save the token and the id of the user
                 this.token  = resData.token;
                 this.userId = resData.userId;
-                localStorage.setItem("token", resData.token);
-                localStorage.setItem("userId", resData.userId);
+                localStorage.setItem("mapad-token", resData.token);
+                localStorage.setItem("mapad-userId", resData.userId);
 
                 // Calculate the session expiration date (1 day)
                 const remainingMilliseconds = 24 * 60 * 60 * 1000,
                       expireDate            = new Date(new Date().getTime() + remainingMilliseconds);
 
-                // Save the expiration date and set the auto-logout
-                localStorage.setItem("expireDate", expireDate.toISOString());
-                this.setAutoLogout(remainingMilliseconds);
+                // Save the expiration date
+                localStorage.setItem("mapad-expireDate", expireDate.toISOString());
+
+                // If an instance of the map activity already exists, delete it
+                if (MapActivity.hasInstance()) MapActivity.deleteInstance();
 
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
 
-                // if (!hasLoggedOut)
-                //     initMap();
-                // getDefibrillators();
-
                 // Close the page and the loader
-                // closeLoginPage();
                 utils.closeLoader();
 
             })
@@ -333,26 +369,9 @@ class LoginActivity {
         this.userId = null;
 
         // Remove token, user id and token expiration date from the localstorage
-        localStorage.removeItem("token");
-        localStorage.removeItem("expireDate");
-        localStorage.removeItem("userId");
-
-    }
-
-    /**
-     * Sets a timer to automatically logout the user.
-     *
-     * @param {number} milliseconds - The time after which the function is called.
-     */
-    setAutoLogout(milliseconds) {
-
-        setTimeout(() => {
-
-            // ToDO handle
-
-            this.logout();
-
-        }, milliseconds);
+        localStorage.removeItem("mapad-token");
+        localStorage.removeItem("mapad-expireDate");
+        localStorage.removeItem("mapad-userId");
 
     }
 

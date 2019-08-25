@@ -1,21 +1,22 @@
 "use strict";
 
-const express  = require("express"),
-      { body } = require("express-validator/check");
+const express  = require("express"),                 // Express module
+      { body } = require("express-validator/check"); // Module for validating the data
 
+// Model of the user
 const User = require("../models/user");
 
-const profileController = require("../controllers/profile"),
-      checkCaller    = require("../middleware/check-caller"),
-      isAuth         = require("../middleware/is-auth");
+const profileController = require("../controllers/profile"),     // Controller module
+      checkCaller       = require("../middleware/check-caller"), // Caller checking middleware
+      isAuth            = require("../middleware/is-auth");      // Authorization checking middleware
 
-const router = express.Router();
-
+// Save all the valid values for the fields
 const validAge        = ["none", "less15", "16-20", "21-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55", "56-60",
     "61-65", "66-70", "more70"];
 const validGender     = ["none", "male", "female", "other"];
 const validOccupation = ["none", "student", "employee", "freelancer", "unemployed", "retiree"];
 
+// Validation for the data sent with a change email request
 const changeEmailValidation = [
     body("email")
         .isEmail().withMessage("Please enter a valid email.")
@@ -28,6 +29,7 @@ const changeEmailValidation = [
         })
 ];
 
+// Validation for the data sent with a change password request
 const changePwValidation = [
     body("oldPassword")
         .trim()
@@ -54,6 +56,7 @@ const changePwValidation = [
         })
 ];
 
+// Validation for the data sent with an update profile request
 const updateProfileValidation = [
     body("name")
         .not().isEmpty().withMessage("You must provide a name.")
@@ -68,6 +71,10 @@ const updateProfileValidation = [
     body("isRescuer")
         .isBoolean().withMessage("Invalid rescuer value.")
 ];
+
+
+// Create a router
+const router = express.Router();
 
 
 // GET /profile/:userId
@@ -86,4 +93,5 @@ router.put("/:userId/update-profile", checkCaller, isAuth, updateProfileValidati
 router.put("/:userId/update-picture", checkCaller, isAuth, profileController.updatePicture);
 
 
+// Export the routes
 module.exports = router;

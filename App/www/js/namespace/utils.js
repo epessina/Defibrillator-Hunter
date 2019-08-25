@@ -10,6 +10,15 @@ const utils = {
 
     /** @private */ _$alertOverlay: $("#alert-dialog-overlay"),
 
+    /** Flag the states if the loader is currently opened. */
+    isLoaderOpen: false,
+
+    /** Flag the states if the alert dialog is currently opened. */
+    isAlertOpen: false,
+
+    /** Flag the states if the image screen is currently opened. */
+    isImgScreenOpen: false,
+
 
     /**
      * Switches between two activities.
@@ -20,11 +29,69 @@ const utils = {
      */
     switchActivity: (toOpen, close = false, toClose = null) => {
 
+        // If the other activity should be closed, close it
+        if (close) toClose.close();
+
         // Open the activity to open
         toOpen.open();
 
-        // If the other activity should be closed, close it
-        if (close) toClose.close();
+    },
+
+
+    /**
+     * Insert a new activity at the bottom of the activity stack.
+     *
+     * @param {object} activity - The activity to push.
+     * @return {number} The current quantity of activities in the stack.
+     */
+    pushStackActivity: activity => app.activityStack.push(activity),
+
+    /**
+     * Removes the last activity from the activity stack.
+     *
+     * @return {object} The removed activity.
+     */
+    popStackActivity: () => app.activityStack.pop(),
+
+
+    /**
+     * Checks if the authentication token is expired and in case logs out from the application.
+     *
+     * @return {boolean} True if the token is expired.
+     */
+    isTokenExpired: () => {
+
+        // Retrieve the expiration date from the storage
+        const expireDate = localStorage.getItem("mapad-expireDate");
+
+        // If the token is not expired or if the user is a guest, return true
+        if ((expireDate && new Date(expireDate) > new Date()) || app.isGuest) return false;
+
+        // For each activity in the stack
+        for (let i = (app.activityStack.length - 1); i >= 0; i--) {
+
+            // Close the activity
+            app.activityStack[i].close();
+
+        }
+
+        // Logout
+        LoginActivity.getInstance().logout();
+
+        // Open the login activity
+        LoginActivity.getInstance().open();
+
+        // Close any open loader
+        utils.closeLoader();
+
+        // Close any open alert
+        utils.closeAlert();
+
+        // Alert the user
+        utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
+
+        // Return true
+        return true;
 
     },
 
@@ -41,11 +108,24 @@ const utils = {
         // Return a promise
         return new Promise((resolve, reject) => {
 
-            // If no file is provided, just return the form data
-            if (!fileUri) resolve(formData);
+            // If no file is provided
+            if (!fileUri) {
+
+                // Resolve
+                resolve(formData);
+
+                // Return
+                return;
+
+            }
 
             // Find the file in the file system
-            window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+            window.resolveLocalFileSystemURL(
+                // Url of the file
+                fileUri,
+
+                // If the file is found
+                fileEntry => {
 
                     // Get the file
                     fileEntry.file(file => {
@@ -54,10 +134,10 @@ const utils = {
                         let reader = new FileReader();
 
                         // When the reader has finished loading the file
-                        reader.onloadend = () => {
+                        reader.onloadend = e => {
 
                             // Create a blob to store the file
-                            let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+                            let blob = new Blob([new Uint8Array(e.target.result)], { type: "image/jpeg" });
 
                             // Append the blob to the form data
                             formData.append("image", blob);
@@ -95,7 +175,10 @@ const utils = {
 
                     })
 
-                }, err => {
+                },
+
+                // If an error occurs
+                err => {
 
                     console.error(`Error getting the file ${err}`);
 
@@ -167,6 +250,9 @@ const utils = {
         // Show the overlay
         utils._$alertOverlay.show();
 
+        // Set the flag to true
+        utils.isAlertOpen = true;
+
     },
 
     /** Closes the alert dialog. */
@@ -184,6 +270,9 @@ const utils = {
         // Hide the dialog
         utils._$alertOverlay.find(".dialog-wrapper").hide();
 
+        // Set the flag to false
+        utils.isAlertOpen = false;
+
     },
 
 
@@ -196,6 +285,9 @@ const utils = {
         // Show the opaque overlay
         utils._$alertOverlay.show();
 
+        // Set the flag to true
+        utils.isLoaderOpen = true;
+
     },
 
     /** Opens the spinner loader. */
@@ -206,6 +298,9 @@ const utils = {
 
         // Hide the spinner
         utils._$alertOverlay.find(".spinner-wrapper").hide();
+
+        // Set the flag to false
+        utils.isLoaderOpen = false;
 
     },
 
@@ -238,14 +333,14 @@ const utils = {
     changeSelectorLabel: (selectorId, changeColor = false) => {
 
         // Save the selector and its label
-        const $selector = $("#" + selectorId),
-              $label    = $("[for='" + selectorId + "'").find(".label-description");
+        const $selector = $(`#${selectorId}`),
+              $label    = $(`[for='${selectorId}'`).find(".label-description");
 
         // If there is nothing selected
         if ($selector.val() === "none") {
 
             // Set the label to the default one
-            $label.html(i18next.t("selectors." + selectorId + "DefLabel"));
+            $label.html(i18next.t(`selectors.${selectorId}DefLabel`));
 
             // If changeColor is true, change the color of the label
             if (changeColor) $label.css("color", "#757575");
@@ -347,6 +442,9 @@ const utils = {
         // Show the screen
         $("#img-screen").show();
 
+        // Set the flag to true
+        utils.isImgScreenOpen = true;
+
     },
 
     /** Closes the image screen. */
@@ -363,6 +461,9 @@ const utils = {
 
         // HIde the delete button
         $("#img-screen-delete").parent().hide();
+
+        // Set the flag to false
+        utils.isImgScreenOpen = false;
 
     },
 

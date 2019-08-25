@@ -1,8 +1,10 @@
 "use strict";
 
+// Import the built in modules
 const path = require("path"),
       fs   = require("fs");
 
+// Import the third-party modules
 const express    = require("express"),
       bodyParser = require("body-parser"),
       mongoose   = require("mongoose"),
@@ -11,16 +13,34 @@ const express    = require("express"),
       helmet     = require("helmet"),
       morgan     = require("morgan");
 
+// Import the routes
 const defibrillatorRoutes = require("./routes/defibrillator"),
       authRoutes          = require("./routes/auth"),
       profileRoutes       = require("./routes/profile");
 
+// Initialize express
 const app = express();
 
 
-// Multer config
+// Use helmet to set secure response headers
+app.use(helmet());
+
+
+// Configure the logs location
+// const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
+
+// Use morgan for request logging
+// app.use(morgan("combined", { stream: accessLogStream }));
+
+
+// Use BodyParser to parse for application/json
+app.use(bodyParser.json());
+
+
+// Define the static file storage
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
+
         let ifParam   = req.query.if,
             imgFolder = "images";
 
@@ -34,6 +54,7 @@ const fileStorage = multer.diskStorage({
     filename   : (req, file, cb) => cb(null, uuidv4())
 });
 
+// Define a file filter to only save images (.png, .jpg or .jpeg)
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg")
         cb(null, true);
@@ -41,28 +62,22 @@ const fileFilter = (req, file, cb) => {
         cb(null, false);
 };
 
-// Set the file on which save the logs
-// const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
-
-// Set ejs as template engine (for email confirmation and reset password pages)
-app.set("view engine", "ejs");
-app.set("views", "views");
-
-// Use helmet to set secure response headers
-app.use(helmet());
-
-// Use morgan for request logging
-// app.use(morgan("combined", { stream: accessLogStream }));
-
-// Parse for application/json
-app.use(bodyParser.json());
-
-// Use multer to upload images
+// Configure multer to save images
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"));
 
 // Serve statically the images form the "images" folder
 app.use("/images", express.static(path.join(__dirname, "images")));
+
+
+// Set ejs as template engine
+app.set("view engine", "ejs");
+
+// Set the location of the views
+app.set("views", "views");
+
+// Serve statically the files form the "public" folder
 app.use(express.static(path.join(__dirname, "public")));
+
 
 // Set headers for CORS
 app.use((req, res, next) => {
@@ -73,11 +88,14 @@ app.use((req, res, next) => {
     next();
 });
 
+
+// Use the routes
 app.use("/defibrillator", defibrillatorRoutes);
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
-// Error handling middleware
+
+// Define a middleware to handle errors
 app.use((error, req, res, next) => {
     const status  = error.statusCode || 500,
           message = error.message,
@@ -87,6 +105,7 @@ app.use((error, req, res, next) => {
 });
 
 
+// Connect to the database and start the server
 mongoose
     .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true })
     .then(() => app.listen(process.env.PORT || 8080))

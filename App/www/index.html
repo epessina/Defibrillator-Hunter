@@ -17,10 +17,7 @@
     <!-- Material icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Modernizer -->
-    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
-
-    <title>Defibrillator Hunter</title>
+    <title>Mapad</title>
 
 </head>
 
@@ -693,25 +690,7 @@
 
 
 <!-- Map -->
-<div style="display: none" id="page--map">
-
-    <div style="display: none" id="finding-position-msg">
-        <p data-i18n="map.positionFinding"></p>
-    </div>
-
-    <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
-        <i class="material-icons fab-icon">perm_identity</i>
-    </div>
-
-    <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
-        <i class="material-icons fab-icon">gps_fixed</i>
-    </div>
-
-    <div id="map-new-defibrillator" class="map-control map-control-center map-control-bottom fab-extended">
-        <p class="fab-extended-text" data-i18n="map.fabText"></p>
-    </div>
-
-</div>
+<div id="map-wrapper"></div>
 
 
 <!-- Insert defibrillator -->
@@ -1684,7 +1663,10 @@
 
 <!-- Cordova -->
 <!--suppress HtmlUnknownTarget -->
-<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script> <!-- v. 9.0.0 -->
+
+<!-- Babel polyfill -->
+<!--<script type="text/javascript" src="js/lib/polyfill.min.js"></script> &lt;!&ndash; v. 7.4.4 &ndash;&gt;-->
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery.min.js"></script> <!-- v. 2.2.4 -->
@@ -1699,14 +1681,14 @@
 <script type="text/javascript" src="js/lib/i18next.min.js"></script> <!-- v. 17.0.6 -->
 
 <!-- Main JS -->
-<script type="text/javascript" src="js/namespace/settings.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
+
 <script type="text/javascript" src="js/namespace/utils.js"></script>
 <script type="text/javascript" src="js/namespace/defibrillator.js"></script>
 <script type="text/javascript" src="js/namespace/user.js"></script>
-
-<script type="text/javascript" src="js/auth/loginActivity.js"></script>
-<script type="text/javascript" src="js/auth/registerActivity.js"></script>
-<script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
+<script type="text/javascript" src="js/loginActivity.js"></script>
+<script type="text/javascript" src="js/registerActivity.js"></script>
+<script type="text/javascript" src="js/resetPwActivity.js"></script>
 <script type="text/javascript" src="js/mapActivity.js"></script>
 <script type="text/javascript" src="js/insertActivity.js"></script>
 <script type="text/javascript" src="js/infoActivity.js"></script>

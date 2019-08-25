@@ -1,15 +1,16 @@
 "use strict";
 
-const nodemailer        = require("nodemailer"),
-      sendgridTransport = require("nodemailer-sendgrid-transport");
+const nodemailer        = require("nodemailer"),                    // Module for sending mails
+      sendgridTransport = require("nodemailer-sendgrid-transport"); // Module for using SendGrid
 
 
 exports.senderAddress = "mapad@areu.lombardia.it";
 
+/* Creates a transporter. */
 exports.transporter = () => {
 
     const transporter = nodemailer.createTransport(sendgridTransport({ auth: { api_key: process.env.NODEMAILER_KEY } }));
-// const transporter = nodemailer.createTransport({ host: "smtp.areu.lombardia.it", port: 25, secure: false });
+    // const transporter = nodemailer.createTransport({ host: "smtp.areu.lombardia.it", port: 25, secure: false });
 
     transporter.verify(err => { if (err) console.error(`Error setting up the transporter: ${err}`) });
 
@@ -17,7 +18,7 @@ exports.transporter = () => {
 
 };
 
-
+/* Return the html content of the confirmation email */
 exports.generateConfirmEmailContent = link => {
 
     return `
@@ -46,7 +47,7 @@ exports.generateConfirmEmailContent = link => {
     `
 };
 
-
+/* Return the html content of the rest password email */
 exports.generateResetPwContent = link => {
 
     return `
