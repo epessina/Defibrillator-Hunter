@@ -27,9 +27,32 @@ exports.getUser = (req, res, next) => {
         throw error;
     }
 
-    // Find the user by id
-    User.findById(id)
-        .then(user => {
+    // Find all the users sorted by points descending
+    User.find({}).sort({ points: -1 })
+        .then(users => {
+
+            // Initialize the variables for the users and for the count
+            let user,
+                count = 1;
+
+            // For each user
+            for (let i = 0; i < users.length; i++) {
+
+                // If the user is the searched one
+                if (users[i]._id.toString() === id) {
+
+                    // Save the user
+                    user = users[i];
+
+                    // Break the loop
+                    break;
+
+                }
+
+                // Increment the count
+                count++;
+
+            }
 
             // If no user is found, throw a 404 error
             if (!user) {
@@ -38,27 +61,22 @@ exports.getUser = (req, res, next) => {
                 throw error;
             }
 
-            // Count the defibrillators mapped by the user
-            Defibrillator.countDocuments({ user: id, markedForDeletion: false })
-                .then(count => {
-
-                    // Send a successful response
-                    res.status(200).json({
-                        message: "User found.",
-                        user   : {
-                            email     : user.email,
-                            name      : user.name,
-                            age       : user.age,
-                            gender    : user.gender,
-                            occupation: user.occupation,
-                            isRescuer : user.isRescuer,
-                            defNumber : count,
-                            points    : user.points,
-                            imageUrl  : user.imageUrl
-                        }
-                    })
-
-                })
+            // Send a successful response
+            res.status(200).json({
+                message: "User found.",
+                user   : {
+                    email     : user.email,
+                    name      : user.name,
+                    age       : user.age,
+                    gender    : user.gender,
+                    occupation: user.occupation,
+                    isRescuer : user.isRescuer,
+                    defNumber : user.defibrillators.length,
+                    points    : user.points,
+                    position  : `${count}/${users.length}`,
+                    imageUrl  : user.imageUrl
+                }
+            })
 
         })
         .catch(err => {
@@ -74,7 +92,7 @@ exports.getUser = (req, res, next) => {
             // Call the next middleware
             next(err);
 
-        })
+        });
 
 };
 

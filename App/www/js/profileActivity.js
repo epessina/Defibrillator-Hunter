@@ -217,7 +217,7 @@ class ProfileActivity {
                 // Show the points
                 $("#mapped-def-number").html(this.userData.defNumber);
                 $("#points-number").html(this.userData.points);
-                $("#position-number").html("3/260");
+                $("#position-number").html(this.userData.position);
 
                 // Hide the placeholders
                 this._placeholders.hide().removeClass("ph-animate");

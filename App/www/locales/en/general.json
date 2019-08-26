@@ -231,7 +231,7 @@
       "topBarTitle" : "Location category",
       "name" : "Location category *",
       "defaultText" : "Add a category",
-      "questionCategory" : "Where is the defibrillator located?*",
+      "questionCategory" : "Where is the defibrillator located? *",
       "questionTransport" : "Specify the type of transport station*",
       "enum" : {
         "commercialActivity" : "Commercial activity",
