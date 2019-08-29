@@ -81,7 +81,7 @@ exports.signup = (req, res, next) => {
             return transporter.sendMail({
                 to     : email,
                 from   : mails.senderAddress,
-                subject: "Welcome to DefibrillatorHunter! Confirm your email.",
+                subject: "Welcome to Mapad! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`,
                 html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`)
             });
@@ -251,7 +251,7 @@ exports.resendConfirmationEmail = (req, res, next) => {
             return transporter.sendMail({
                 to     : email,
                 from   : mails.senderAddress,
-                subject: "Welcome to DefibrillatorHunter! Confirm your email.",
+                subject: "Welcome to Mapad! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${token}`,
                 html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${token}`)
             });
