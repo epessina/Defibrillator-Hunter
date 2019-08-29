@@ -1,7 +1,7 @@
 /* FORM */
 
 
-$form-field-padding-icon-left : 18px;
+$form-field-padding-icon-left  : 18px;
 $form-field-padding-icon-right : 13px;
 
 
@@ -47,6 +47,7 @@ $form-field-padding-icon-right : 13px;
     padding     : 0 $form-field-padding-icon-right 0 0;
     border      : 0;
     line-height : normal;
+    background  : transparent;
 
     &:focus { outline : none !important }
 
