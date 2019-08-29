@@ -1,6 +1,46 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
+      "id": "cordova-plugin-camera-with-exif.Camera",
+      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraConstants.js",
+      "pluginId": "cordova-plugin-camera-with-exif",
+      "clobbers": [
+        "Camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera-with-exif.CameraPopoverOptions",
+      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraPopoverOptions.js",
+      "pluginId": "cordova-plugin-camera-with-exif",
+      "clobbers": [
+        "CameraPopoverOptions"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera-with-exif.camera",
+      "file": "plugins/cordova-plugin-camera-with-exif/www/Camera.js",
+      "pluginId": "cordova-plugin-camera-with-exif",
+      "clobbers": [
+        "navigator.camera"
+      ]
+    },
+    {
+      "id": "cordova-plugin-camera-with-exif.CameraPopoverHandle",
+      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraPopoverHandle.js",
+      "pluginId": "cordova-plugin-camera-with-exif",
+      "clobbers": [
+        "CameraPopoverHandle"
+      ]
+    },
+    {
+      "id": "cordova-plugin-crop.CropPlugin",
+      "file": "plugins/cordova-plugin-crop/www/crop.js",
+      "pluginId": "cordova-plugin-crop",
+      "clobbers": [
+        "plugins.crop"
+      ]
+    },
+    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
@@ -212,6 +252,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-ionic-keyboard.keyboard",
+      "file": "plugins/cordova-plugin-ionic-keyboard/www/android/keyboard.js",
+      "pluginId": "cordova-plugin-ionic-keyboard",
+      "clobbers": [
+        "window.Keyboard"
+      ]
+    },
+    {
       "id": "cordova-plugin-network-information.network",
       "file": "plugins/cordova-plugin-network-information/www/network.js",
       "pluginId": "cordova-plugin-network-information",
@@ -251,67 +299,19 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "merges": [
         "cordova.plugins.diagnostic.location"
       ]
-    },
-    {
-      "id": "cordova-plugin-camera-with-exif.Camera",
-      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraConstants.js",
-      "pluginId": "cordova-plugin-camera-with-exif",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera-with-exif.CameraPopoverOptions",
-      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraPopoverOptions.js",
-      "pluginId": "cordova-plugin-camera-with-exif",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera-with-exif.camera",
-      "file": "plugins/cordova-plugin-camera-with-exif/www/Camera.js",
-      "pluginId": "cordova-plugin-camera-with-exif",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "cordova-plugin-camera-with-exif.CameraPopoverHandle",
-      "file": "plugins/cordova-plugin-camera-with-exif/www/CameraPopoverHandle.js",
-      "pluginId": "cordova-plugin-camera-with-exif",
-      "clobbers": [
-        "CameraPopoverHandle"
-      ]
-    },
-    {
-      "id": "cordova-plugin-ionic-keyboard.keyboard",
-      "file": "plugins/cordova-plugin-ionic-keyboard/www/android/keyboard.js",
-      "pluginId": "cordova-plugin-ionic-keyboard",
-      "clobbers": [
-        "window.Keyboard"
-      ]
-    },
-    {
-      "id": "cordova-plugin-crop.CropPlugin",
-      "file": "plugins/cordova-plugin-crop/www/crop.js",
-      "pluginId": "cordova-plugin-crop",
-      "clobbers": [
-        "plugins.crop"
-      ]
     }
   ];
   module.exports.metadata = {
+    "cordova-plugin-camera-with-exif": "1.2.5",
+    "cordova-plugin-crop": "0.3.1",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-file": "6.0.1",
     "cordova-plugin-geolocation": "4.0.1",
     "cordova-plugin-globalization": "1.11.0",
+    "cordova-plugin-ionic-keyboard": "2.1.3",
     "cordova-plugin-network-information": "2.0.1",
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-plugin-x-toast": "2.7.2",
-    "cordova.plugins.diagnostic": "4.0.12",
-    "cordova-plugin-camera-with-exif": "1.2.5",
-    "cordova-plugin-ionic-keyboard": "2.1.3",
-    "cordova-plugin-crop": "0.3.1"
+    "cordova.plugins.diagnostic": "4.0.12"
   };
 });

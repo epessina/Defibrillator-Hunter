@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="polimi.epessina.defibrillatorhunter" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DefibrillatorHunter</name>
+    <name>Mapad</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A cross-platform mobile application that allows users to map defibrillators on the field.
     </description>
-    <author email="edoardo2.pessina@mail.polimi.it" href="http://cordova.io">
+    <author email="edoardo2.pessina@mail.polimi.it" href="https://github.com/epessina/Mapad">
         Edoardo Pessina
     </author>
     <content src="index.html" />

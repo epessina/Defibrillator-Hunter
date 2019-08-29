@@ -467,4 +467,46 @@ const utils = {
 
     },
 
+
+    /**
+     * Converts an angle form degrees to radiant.
+     *
+     * @param {number} deg - The angle in degrees.
+     * @return {number} - The angle in radiant.
+     */
+    deg2rad: deg => { return deg * Math.PI / 180 },
+
+    /**
+     * Calculate the great-circle distance in meters between two points on the Earth using the Haversine formula.
+     *
+     * @param {number} lat1 - Latitude of the first point.
+     * @param {number} lon1 - Longitude of the first point.
+     * @param {number} lat2 - Latitude of the second point.
+     * @param {number} lon2 - Longitude of the second point.
+     * @return {number} Distance in meters between the two points.
+     */
+    haversineDistance: (lat1, lon1, lat2, lon2) => {
+
+        // Save the radius of the Earth in meters
+        const R = 6371000;
+
+        // Calculate the delta between the latitude and the longitude of the two points
+        const dLat = utils.deg2rad(lat2 - lat1),
+              dLon = utils.deg2rad(lon2 - lon1);
+
+        // Calculate the sin of the latitude deltas
+        const sinDLat = Math.sin(dLat / 2),
+              sinDLon = Math.sin(dLon / 2);
+
+        // Calculate the haversine of the central angle of the sphere
+        const a = Math.pow(sinDLat, 2) + Math.pow(sinDLon, 2) * Math.cos(utils.deg2rad(lat1)) * Math.cos(utils.deg2rad(lat2));
+
+        // Calculate the central angle of the sphere
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        // Return the distance
+        return R * c;
+
+    },
+
 };

@@ -19,8 +19,8 @@ $(() => {
  */
 class App {
 
-    /** @returns {boolean} True if the system is using cordova. */ // ToDo delete
-    static get isCordova() { return window.cordova };
+    /** Flag that states if the system is using Cordova. */
+    static get isCordova() { return window.cordova }; // ToDo delete
 
 
     /**
@@ -30,37 +30,26 @@ class App {
      */
     constructor() {
 
-
         // Flag that states if the position watcher has to be reattached after a "pause" event
         this._toReattachPositionWatcher = false;
 
         // The number of time the back button has been sequentially pressed
         this._backPressedCount = 0;
 
+        // Array with the stack of activities currently open
+        this.activityStack = [];
+
+
         // Attach the function to be fired when a "pause" or a "resume" event occurs
         document.addEventListener("pause", this.onPause, false);
         document.addEventListener("resume", this.onResume, false);
 
 
-        // ToDo handle properly
+        // Handle the "back button" click
         if (App.isCordova) {
 
-            document.addEventListener("backbutton", () => {
-
-                console.log(this);
-
-                if (this._backPressedCount === 0) {
-
-                    utils.logOrToast("Press again to leave", "short");
-                    this._backPressedCount++;
-                    setInterval(() => this._backPressedCount = 0, 2000);
-
-                }
-
-                //
-                else navigator.app.exitApp();
-
-            }, false);
+            // Add a listener for the click of the black button
+            document.addEventListener("backbutton", () => this.onBackPressed(), false);
 
         }
 
@@ -105,6 +94,29 @@ class App {
     }
 
 
+    /** Defines the behaviour of the back button for the whole application. */
+    onBackPressed() {
+
+        // If any loader or alert dialog is open, return
+        if (utils.isLoaderOpen || utils.isAlertOpen) return;
+
+        // If the image screen is open
+        if (utils.isImgScreenOpen) {
+
+            // Close the image screen
+            utils.closeImgScreen();
+
+            // Return
+            return;
+
+        }
+
+        // Perform the "onBackPressed" method of the last activity in the stack
+        app.activityStack[app.activityStack.length - 1].onBackPressed();
+
+    }
+
+
     /** Opens the first activity based on the authentication status. */
     open() {
 
@@ -115,7 +127,7 @@ class App {
         else MapActivity.getInstance().open();
 
         // Hide the splash screen
-        $("#splash").hide(); // ToDo
+        $("#splash").hide();
 
     }
 

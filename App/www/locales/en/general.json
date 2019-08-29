@@ -87,6 +87,7 @@
     "insert" : {
       "errorPost" : "An error occurred while inserting the new defibrillator in the database.",
       "errorPut" : "An error occurred while updating the defibrillator.",
+      "defNotInOfficialDb": "Wow, it seems like you have found a defibrillator not present our database! Please, make sure your position is correct before proceeding with the insertion.",
       "confirmClose" : "Discard the changes you made?",
       "btnKeepEditing" : "Keep editing",
       "btnDiscard" : "Discard"

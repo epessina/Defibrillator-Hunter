@@ -9,7 +9,7 @@ class InfoActivity {
 
     /** @private */ static _instance;
 
-    /** @returns {object} The option to format the date */
+    /** Options to format the date */
     static get dateOpts() {
         return {
             year  : "numeric",
@@ -68,6 +68,9 @@ class InfoActivity {
      */
     open(id) {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // Animate the placeholders
         this._placeholders.addClass("ph-animate");
 
@@ -81,6 +84,9 @@ class InfoActivity {
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
 
         // Hide the screen
         this._screen.scrollTop(0).hide();
@@ -114,6 +120,14 @@ class InfoActivity {
 
         // Show the image placeholder
         $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // Close the activity
+        this.close();
 
     }
 
@@ -199,11 +213,13 @@ class InfoActivity {
      */
     show(data) {
 
+        $("#info-point-value").html(`${i18next.t("info.points")}: <span>${data.value}</span>`);
+
         // For each key in the object
         for (let key in data) {
 
             // If the object has a property associated with the key and the key is not "transportType"
-            if (data.hasOwnProperty(key) && key !== "transportType")
+            if (data.hasOwnProperty(key) && key !== "transportType" && key !== "value")
 
             // Set the content of the field associated with the key
                 $("#info-" + key + " .info-content").html(() => {

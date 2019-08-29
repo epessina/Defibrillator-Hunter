@@ -22,28 +22,26 @@ class ProfileActivity {
         // Cache the screen
         this._screen = $("#page--profile");
 
-        // Cache the placeholders
-        this._placeholders = $("#page--profile .placeholder");
+        // Cache the placeholders adn the content they hide
+        this._placeholders  = $("#page--profile .placeholder");
+        this._hiddenContent = $("#page--profile .ph-hidden-content");
 
         // Variable to save the data of the current user
         this.userData = null;
 
-        // When the user clicks on the "close" button, close the activity
-        $("#profile-back").click(() => this.close());
+        // Flags that states what is open
+        this._isPhotoMenuOpen = false;
+        this._openedSetting   = null;
 
+
+        // Initialize the ui
+        this.initUi();
 
         // Initialize the photo menu
         this.initPhotoMenu();
 
-        // Initialize the settings menu
-        this.initSettingsMenu();
-
-        // Initialize the change email menu
-        this.initChangeEmail();
-
-        // Initialize the change password menu
-        this.initChangePw();
-
+        // Initialize the "account" setting user interface
+        this.initAccountUi();
 
     }
 
@@ -65,28 +63,22 @@ class ProfileActivity {
     /** Opens the activity. */
     open() {
 
-        // Animate the placeholders
-        this._placeholders.addClass("ph-animate");
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
 
         // Show the screen
         this._screen.show();
 
-        // Get the user's data
-        user.get(LoginActivity.getInstance().userId)
-            .then(data => {
-
-                // Save the data
-                this.userData = data;
-
-                // Display the data
-                this.populateProfile();
-
-            })
+        // Populate the profile
+        this.populateProfile();
 
     }
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
 
         // Hide the screen
         this._screen.scrollTop(0).hide();
@@ -95,14 +87,21 @@ class ProfileActivity {
         this.userData = null;
 
         // Hide the settings icon
-        $("#profile-settings").css("visibility", "hidden");
+        $("#profile-update").css("visibility", "hidden");
 
         // Reset the fields
         $("#profile-name").html("");
+        $("#profile-email").html("");
         $("#mapped-def-number").html("");
+        $("#points-number").html("");
+        $("#position-number").html("");
 
         // Reset the profile photo
         $("#profile-photo").attr("src", "img/default-profile-img-120.png");
+
+        // Reset the flags
+        this._isPhotoMenuOpen = false;
+        this._openedSetting   = null;
 
         // Hide the content
         $("#page--profile .ph-hidden-content").hide();
@@ -112,49 +111,133 @@ class ProfileActivity {
 
     }
 
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If the photo menu is open
+        if (this._isPhotoMenuOpen) {
+
+            // Close the menu
+            this.closePhotoMenu();
+
+            // Return
+            return;
+
+        }
+
+        // If a setting is open
+        if (this._openedSetting) {
+
+            // Close the setting
+            this.closeSetting(this._openedSetting);
+
+            // Return
+            return;
+
+        }
+
+        // Close the activity
+        this.close();
+
+    }
+
+
+    /** Initializes the user interface of the activity. */
+    initUi() {
+
+        // When the user clicks on the "close" button, close the activity
+        $("#profile-back").click(() => this.close());
+
+        // Fired when the user clicks on the update icon, repopulate the profile
+        $("#profile-update").click(() => this.populateProfile());
+
+        // Fired when the user clicks on the account setting
+        $("#settings-account-wrapper").click(() => {
+
+            // Show the page
+            $("#page--account-settings").show();
+
+            // Set the opened setting name
+            this._openedSetting = "account";
+
+        });
+
+        // Fired when the user clicks on the leaderboard setting
+        $("#settings-leaderboard-wrapper").click(() => {
+
+            utils.logOrToast(i18next.t("profile.settings.notImplemented"), "long");
+
+        });
+
+        // Fired when the user clicks on the language setting
+        $("#settings-language-wrapper").click(() => {
+
+            utils.logOrToast(i18next.t("profile.settings.notImplemented"), "long");
+
+        });
+
+        // Fired when the user clicks on the help setting
+        $("#settings-help-wrapper").click(() => {
+
+            utils.logOrToast(i18next.t("profile.settings.notImplemented"), "long");
+
+        });
+
+    }
 
     /** Display the data. */
     populateProfile() {
 
-        // Show the name of the user
-        $("#profile-name").html(this.userData.name);
+        // Hide the content
+        this._hiddenContent.hide();
 
-        // Show the number of mapped defibrillators
-        $("#mapped-def-number").html(this.userData.defNumber);
-        if (this.userData.defNumber === 1) $("#mapped-def-text").html(i18next.t("profile.defMappedSingle"));
-        else $("#mapped-def-text").html(i18next.t("profile.defMappedPlural"));
+        // Animate the placeholders
+        this._placeholders.addClass("ph-animate");
 
+        // Get the user's data
+        user.get(LoginActivity.getInstance().userId)
+            .then(data => {
 
-        // Show the settings icon
-        $("#profile-settings").css("visibility", "visible");
+                // Save the data
+                this.userData = data;
 
+                // Show the settings icon
+                $("#profile-update").css("visibility", "visible");
 
-        // Show the profile image
-        if (this.userData.imageUrl !== "") $("#profile-photo").attr("src", `${settings.serverUrl}/${this.userData.imageUrl}`);
+                // Show the profile image
+                if (this.userData.imageUrl !== "")
+                    $("#profile-photo").attr("src", `${settings.serverUrl}/${this.userData.imageUrl}`);
 
+                // Show the name of the user
+                $("#profile-name").html(this.userData.name);
 
-        // Hide the placeholders
-        this._placeholders.hide().removeClass("ph-animate");
+                // Show the mail of the user
+                $("#profile-email").html(this.userData.email);
 
-        // Show the content
-        $("#page--profile .ph-hidden-content").show();
+                // Show the points
+                $("#mapped-def-number").html(this.userData.defNumber);
+                $("#points-number").html(this.userData.points);
+                $("#position-number").html(this.userData.position);
+
+                // Hide the placeholders
+                this._placeholders.hide().removeClass("ph-animate");
+
+                // Show the content
+                $("#page--profile .ph-hidden-content").show();
+
+            })
+            .catch(() => {
+
+                // Close the activity
+                this.close();
+
+            });
 
     }
 
 
     /** Initializes the photo menu. */
     initPhotoMenu() {
-
-        // Utility function to close the menu
-        const close = () => {
-
-            // Hide the menu
-            $("#profile-photo-dialog-overlay").hide();
-
-            // Hide the delete option
-            $("#profile-photo-delete").hide();
-
-        };
 
         // Triggered when the user clicks on the photo preview
         $("#profile-photo").click(() => {
@@ -166,13 +249,15 @@ class ProfileActivity {
             // Show the menu
             $("#profile-photo-dialog-overlay").show();
 
+            this._isPhotoMenuOpen = true;
+
         });
 
         // Triggered when the user clicks on the "camera" option
         $("#profile-photo-camera").click(() => {
 
             // Close the menu
-            close();
+            this.closePhotoMenu();
 
             // Get a new photo from the camera
             this.changePhoto(true);
@@ -183,7 +268,7 @@ class ProfileActivity {
         $("#profile-photo-gallery").click(() => {
 
             // Close the menu
-            close();
+            this.closePhotoMenu();
 
             // Get a new photo from the gallery
             this.changePhoto(false);
@@ -197,7 +282,7 @@ class ProfileActivity {
             utils.openLoader();
 
             // Close the menu
-            close();
+            this.closePhotoMenu();
 
             // Create a dialog to aks for user confirmation
             utils.createAlert(
@@ -231,7 +316,7 @@ class ProfileActivity {
         });
 
         // When the user click on the "cancel" button, close the menu
-        $("#profile-photo-cancel").click(() => close());
+        $("#profile-photo-cancel").click(() => this.closePhotoMenu());
 
         // ToDO delete
         $("#tmp-profile-photo-input").change(() => {
@@ -264,6 +349,17 @@ class ProfileActivity {
 
         });
 
+    }
+
+    closePhotoMenu() {
+
+        this._isPhotoMenuOpen = false;
+
+        // Hide the menu
+        $("#profile-photo-dialog-overlay").hide();
+
+        // Hide the delete option
+        $("#profile-photo-delete").hide();
 
     }
 
@@ -352,130 +448,103 @@ class ProfileActivity {
             },
             opts);
 
-
     }
 
 
-    /** Initializes the settings menu. */
-    initSettingsMenu() {
+    /** Initializes the user interface of the screen of the account setting. */
+    initAccountUi() {
 
-        // Utility function to open the menu
-        const open = () => {
+        // When the user clicks on the "close" button, close the setting
+        $("#account-close").click(() => this.closeSetting("account"));
 
-            // Show a transparent overlay
-            $("#profile-settings-overlay").show();
+        // When the user clicks on the edit profile setting
+        $("#account-edit-profile").click(() => {
 
-            // Show the menu
-            $("#profile-settings-menu").show();
+            // Set the values of the fields
+            $("#edit-profile-name").val(this.userData.name);
 
-        };
+            $("#edit-profile-age").val(this.userData.age);
+            utils.changeSelectorLabel("edit-profile-age", true);
 
-        // Utility function to close the menu
-        const close = () => {
+            $("#edit-profile-gender").val(this.userData.gender);
+            utils.changeSelectorLabel("edit-profile-gender", true);
 
-            // Hide the menu
-            $("#profile-settings-menu").hide();
+            $("#edit-profile-occupation").val(this.userData.occupation);
+            utils.changeSelectorLabel("edit-profile-occupation", true);
 
-            // Hide the transparent overlay
-            $("#profile-settings-overlay").hide();
+            if (this.userData.isRescuer) $("#edit-profile-rescuer").prop("checked", true);
 
-        };
+            // Show the page
+            $("#page--edit-profile").show();
 
-
-        // When the user clicks on the "settings" icon, open the menu
-        $("#profile-settings").click(() => open());
-
-        // When the user clicks on the the transparent overlay, close the menu
-        $("#profile-settings-overlay").click(() => close());
-
-
-        // Option "change language" // ToDo
-        $("#settings-language").click(() => utils.logOrToast("Function not yet implemented", "short"));
-
-        // Option "edit profile"
-        $("#settings-editProfile").click(() => {
-
-            // Close the menu
-            close();
-
-            // Open the edit profile activity
-            utils.switchActivity(EditProfileActivity.getInstance());
+            // Set the opened setting name
+            this._openedSetting = "editProfile";
 
         });
 
-        // Option "change email"
-        $("#settings-changeEmail").click(() => {
+        // When the user clicks on the change mail setting, show the page
+        $("#account-change-mail").click(() => {
 
-            // Open the change email page
+            // Show the screen
             $("#change-email").show();
 
-            // Close the menu
-            close();
+            // Set the opened setting name
+            this._openedSetting = "changeEmail";
 
         });
 
-        // Option change password
-        $("#settings-changePassword").click(() => {
+        // When the user clicks on the change password setting, show the page
+        $("#account-change-pw").click(() => {
 
             // Show the screen
             $("#change-pw").show();
 
-            // Close the menu
-            close();
+            // Set the opened setting name
+            this._openedSetting = "changePassword";
 
         });
 
-        // Option logout
-        $("#settings-logout").click(() => {
-
-            // Close the menu
-            close();
+        // Fired when the user clicks on the logout setting
+        $("#account-logout").click(() => {
 
             // Create a dialog to ask for user confirmation
             utils.createAlert(
                 "",
-                i18next.t("dialogs.logoutConfirmation"),
+                i18next.t("profile.settings.account.logoutConfirmation"),
                 i18next.t("dialogs.btnCancel"),
                 null,
                 i18next.t("dialogs.btnOk"),
                 () => {
 
-                    // Close the profile page
-                    this.close();
-
-                    // Close the map activity
-                    MapActivity.getInstance().close();
+                    // Close the screen
+                    $("#page--account-settings").scrollTop(0).hide();
 
                     // Logout
-                    LoginActivity.getInstance().logout();
-
-                    // Open the login activity
-                    LoginActivity.getInstance().open();
+                    this.logout();
 
                 }
             );
 
         });
 
+
+        // Initialize the change email page
+        this.initChangeEmail();
+
+        // Initialize the change password page
+        this.initChangePw();
+
+        // Initialize the change edit profile page
+        this.initEditProfile();
+
     }
 
 
-    /** Initializes the change email menu. */
+    /** Initializes the change email page. */
     initChangeEmail() {
 
-        // Utility function to close the menu
-        const close = () => {
-
-            // Hide the screen
-            $("#change-email").scrollTop(0).hide();
-
-            // Reset the field
-            $("#new-email").val("");
-
-        };
-
         // When the user click on the "close" button, close the page
-        $("#change-email-close").click(() => close());
+        $("#change-email-close").click(() => this.closeSetting("changeEmail"));
 
         // When the user clicks on the "done" button, change the mail
         $("#change-email-done").click(() => {
@@ -508,56 +577,33 @@ class ProfileActivity {
                     utils.closeLoader();
 
                     // Close the menu
-                    close();
+                    this.closeSetting("changeEmail");
 
-                    // Close the profile page
-                    this.close();
+                    // Close the account settings page
+                    $("#page--account-settings").scrollTop(0).hide();
 
-                    // Close the map activity
-                    MapActivity.getInstance().close();
-
-                    // Log the user out
-                    LoginActivity.getInstance().logout();
-
-                    // Open the login activity
-                    LoginActivity.getInstance().open();
+                    // Logout
+                    this.logout();
 
                     // Create a confirmation email dialog
-                    utils.createAlert(i18next.t("profile.changeEmail.successTitle"), i18next.t("profile.changeEmail.successMessage"), i18next.t("dialogs.btnOk"));
+                    utils.createAlert(
+                        i18next.t("profile.settings.account.changeEmail.successTitle"),
+                        i18next.t("profile.settings.account.changeEmail.successMessage"),
+                        i18next.t("dialogs.btnOk")
+                    );
 
                 })
 
         });
 
-
     }
 
 
-    /** Initializes the change password menu. */
+    /** Initializes the change password page. */
     initChangePw() {
 
-        // Utility function to close the page
-        const close = () => {
-
-            // Hide the screen
-            $("#change-pw").scrollTop(0).hide();
-
-            // Reset the fields
-            resetFields();
-
-        };
-
-        // Utility function to reset the fields
-        const resetFields = () => {
-
-            $("#change-pw-old-password").val("");
-            $("#change-pw-new-password").val("");
-            $("#change-pw-confirm-password").val("");
-
-        };
-
         // When the user click on the "close" button, close the page
-        $("#change-pw-close").click(() => close());
+        $("#change-pw-close").click(() => this.closeSetting("changePassword"));
 
         // When the user clicks on the "done" button, change the password
         $("#change-pw-done").click(() => {
@@ -606,7 +652,7 @@ class ProfileActivity {
                     utils.closeLoader();
 
                     // Close the page
-                    close();
+                    this.closeSetting("changePassword");
 
                     // Alert the user
                     utils.logOrToast(i18next.t("messages.changePwSuccess"), "long");
@@ -614,6 +660,168 @@ class ProfileActivity {
                 })
 
         });
+
+    }
+
+
+    /** Initializes the edit profile page. */
+    initEditProfile() {
+
+        // When the user clicks on th "close" button, switch to the profile activity
+        $("#edit-profile-close").click(() => this.closeSetting("editProfile"));
+
+        // When the user clicks on the "done" button, edit the profile
+        $("#edit-profile-done").click(() => {
+
+            // Open the loader
+            utils.openLoader();
+
+            // Save the values of the fields
+            const name       = $("#edit-profile-name").val(),
+                  age        = $("#edit-profile-age").val(),
+                  gender     = $("#edit-profile-gender").val(),
+                  occupation = $("#edit-profile-occupation").val(),
+                  isRescuer  = $("#edit-profile-rescuer").prop("checked");
+
+            // If no name has been provided, return
+            if (name === "") {
+                utils.logOrToast(i18next.t("messages.mandatoryName"), "long");
+                utils.closeLoader();
+                return;
+            }
+
+            // Send a request to edit the profile
+            user.putProfile(
+                LoginActivity.getInstance().userId,
+                JSON.stringify({
+                    name      : name,
+                    age       : age,
+                    gender    : gender,
+                    occupation: occupation,
+                    isRescuer : isRescuer
+                })
+            )
+                .then(data => {
+
+                    // Updated the data saved in the profile activity
+                    ProfileActivity.getInstance().userData = data;
+
+                    // Update the profile name in the profile activity
+                    $("#profile-name").html(data.name);
+
+                    // Close the loader
+                    utils.closeLoader();
+
+                    // Close the page
+                    this.closeSetting("editProfile");
+
+                    // Alert the user
+                    utils.logOrToast(i18next.t("messages.editProfileSuccess"), "long");
+
+                });
+
+        });
+
+        // Change the label of the selectors when their value changes
+        $("#edit-profile-age").change(() => utils.changeSelectorLabel("edit-profile-age", true));
+        $("#edit-profile-gender").change(() => utils.changeSelectorLabel("edit-profile-gender", true));
+        $("#edit-profile-occupation").change(() => utils.changeSelectorLabel("edit-profile-occupation", true));
+
+    }
+
+
+    /**
+     * Closes a setting.
+     *
+     * @param {string} name - The name of the setting to close.
+     */
+    closeSetting(name) {
+
+        // Switch on the name
+        switch (name) {
+
+            case "account":
+
+                // Hide the screen
+                $("#page--account-settings").scrollTop(0).hide();
+
+                // Set the opened setting to null
+                this._openedSetting = null;
+
+                break;
+
+            case "editProfile":
+
+                // Hide the screen
+                $("#page--edit-profile").scrollTop(0).hide();
+
+                // Reset the fields
+                $("#edit-profile-name").val("");
+
+                $("#edit-profile-age").val("");
+                utils.changeSelectorLabel("edit-profile-age", true);
+
+                $("#edit-profile-gender").val("");
+                utils.changeSelectorLabel("edit-profile-gender", true);
+
+                $("#edit-profile-occupation").val("");
+                utils.changeSelectorLabel("edit-profile-occupation", true);
+
+                $("#edit-profile-rescuer").prop("checked", false);
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+            case "changeEmail":
+
+                // Hide the screen
+                $("#change-email").scrollTop(0).hide();
+
+                // Reset the field
+                $("#new-email").val("");
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+            case "changePassword":
+
+                // Hide the screen
+                $("#change-pw").scrollTop(0).hide();
+
+                // Reset the fields
+                $("#change-pw-old-password").val("");
+                $("#change-pw-new-password").val("");
+                $("#change-pw-confirm-password").val("");
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+        }
+
+
+    }
+
+
+    /** Closes the activities and logs out form the application. */
+    logout() {
+
+        // Close the activity
+        this.close();
+
+        // Close the map activity
+        MapActivity.getInstance().close();
+
+        // Logout
+        LoginActivity.getInstance().logout();
+
+        // Open the login activity
+        LoginActivity.getInstance().open();
 
     }
 

@@ -8,8 +8,8 @@
  */
 const defibrillator = {
 
-    /** The icon of a defibrillator marker. */
-    icon: L.icon({
+    /** Icon of a defibrillator marker. */
+    _icon: L.icon({
         iconUrl        : "img/def-marker.png",            // The url of the icon
         iconRetinaUrl  : "img/def-marker-2x.png",         // The url of the icon for retina displays
         shadowUrl      : "img/def-marker-shadow.png",     // The url of the shadow
@@ -20,7 +20,7 @@ const defibrillator = {
         shadowAnchor   : [18, 18]                        // The position of the shadow anchor
     }),
 
-    /** The array containing all the markers currently on the map. */
+    /** Array containing all the markers currently on the map. */
     markers: [],
 
 
@@ -34,7 +34,7 @@ const defibrillator = {
 
         // Create a new marker
         const marker = L.marker(coordinates, {
-            icon     : defibrillator.icon, // The icon of the marker
+            icon     : defibrillator._icon, // The icon of the marker
             draggable: false               // The marker cannot be moved
         });
 
@@ -56,14 +56,20 @@ const defibrillator = {
     showAll: () => {
 
         // Remove all the markers from the map
-        defibrillator.markers.forEach(m => MapActivity.getInstance().markersLayer.removeLayer(m));
+        MapActivity.getInstance().markersLayer.clearLayers();
 
         // Empty the markers array
         defibrillator.markers = [];
 
+        // If the session is expired, return
+        if (utils.isTokenExpired()) return;
+
+        // Get the id of the currently logged user
+        const id = LoginActivity.getInstance().userId;
+
         // Fetch from the server all the defibrillators of the logged user
         fetch(
-            `${settings.serverUrl}/defibrillator/get-all`,
+            `${settings.serverUrl}/defibrillator/user/${id}`,
             {
                 headers: {
                     "App-Key"    : settings.APIKey,
@@ -132,6 +138,17 @@ const defibrillator = {
 
         // Return a promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to retrieve the data
             fetch(
@@ -214,6 +231,17 @@ const defibrillator = {
 
         // Return a new promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to insert a new defibrillator
             fetch(
@@ -300,6 +328,17 @@ const defibrillator = {
         // Return a new promise
         return new Promise((resolve, reject) => {
 
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
+
             // Send a request to the server to insert a new defibrillator
             fetch(
                 `${settings.serverUrl}/defibrillator/${id}?if=def`,
@@ -328,7 +367,7 @@ const defibrillator = {
                 .then(data => {
 
                     // Resolve the promise
-                    resolve({ id: data.defibrillator._id });
+                    resolve({ id: data.defibrillatorId });
 
                 })
                 .catch(err => {
@@ -388,6 +427,17 @@ const defibrillator = {
 
         // Return a promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to delete the defibrillator
             fetch(

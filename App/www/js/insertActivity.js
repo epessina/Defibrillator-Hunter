@@ -37,6 +37,8 @@ class InsertActivity {
         this._oldPhoto = null;
 
         this._vals = {
+            coordinates          : "",
+            coordinatesAccuracy  : "",
             presence             : "",
             locationCategory     : "",
             transportType        : "",
@@ -79,6 +81,19 @@ class InsertActivity {
 
         // Show the screen
         this._screen.show();
+
+        // If in "post" mode
+        if (!this._defId) {
+
+            // Save the geolocation data
+            this._vals.coordinates         = MapActivity.getInstance().currLatLng;
+            this._vals.coordinatesAccuracy = MapActivity.getInstance().currLatLngAccuracy;
+
+            // If there isn't in the official db a defibrillator is already mapped in the area, alert the user
+            if (!defibrillatorDB.some(d => utils.haversineDistance(d.lat, d.lon, this._vals.coordinates[0], this._vals.coordinates[1]) <= 50))
+                utils.createAlert("", i18next.t("dialogs.insert.defNotInOfficialDb"), i18next.t("dialogs.btnOk"));
+
+        }
 
     }
 
@@ -747,8 +762,8 @@ class InsertActivity {
         const formData = new FormData();
 
         // Append to the formData all the data
-        formData.append("coordinates", JSON.stringify(MapActivity.getInstance().currLatLng));
-        formData.append("accuracy", MapActivity.getInstance().currLatLngAccuracy.toString());
+        formData.append("coordinates", JSON.stringify(this._vals.coordinates));
+        formData.append("coordinatesAccuracy", this._vals.coordinatesAccuracy);
         formData.append("presence", this._vals.presence);
         formData.append("locationCategory", this._vals.locationCategory);
         formData.append("transportType", this._vals.transportType);

@@ -10,13 +10,13 @@ class MapActivity {
 
     /** @private */ static _instance;
 
-    /** @returns {number[]} Default position. */
+    /** Default coordinates of the center of the map (Milan coordinates). */
     static get defaultLatLng() { return [45.464161, 9.190336] }
 
-    /** @returns {number} Default zoom. */
+    /** Default zoom of the map. */
     static get defaultZoom() { return 11 }
 
-    /** @returns {number} Default zoom when watching the position. */
+    /** Default zoom of the map when it is watching the position. */
     static get watcherZoom() { return 17 }
 
 
@@ -28,6 +28,32 @@ class MapActivity {
      * @constructor
      */
     constructor() {
+
+        $("#map-wrapper").html(`
+        
+            <div style="display: none" id="page--map">
+
+                <div style="display: none" id="finding-position-msg"><p data-i18n="map.positionFinding"></p></div>
+            
+                <div id="map-control-profile" class="map-control map-control-left map-control-top-1 fab">
+                    <i class="material-icons fab-icon">perm_identity</i>
+                </div>
+            
+                <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
+                    <i class="material-icons fab-icon">gps_fixed</i>
+                </div>
+            
+                <div id="map-new-defibrillator" class="map-control map-control-center map-control-bottom fab-extended">
+                    <p class="fab-extended-text" data-i18n="map.fabText"></p>
+                </div>
+            
+            </div>
+        
+        `);
+
+        // Add the translated text to the "finding position" message and the "new landslides" button
+        $("#finding-position-msg p").localize();
+        $("#map-new-defibrillator").localize();
 
         // Cache the screen
         this._screen = $("#page--map");
@@ -107,6 +133,9 @@ class MapActivity {
      */
     static hasInstance() { return !!MapActivity._instance }
 
+    /** Deletes the current instance of the activity. */
+    static deleteInstance() { MapActivity._instance = null }
+
     /**
      * Returns the current MapActivity instance if any, otherwise creates it.
      *
@@ -125,6 +154,9 @@ class MapActivity {
     /** Opens the activity and shows the user's defibrillators. */
     open() {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // Show the screen
         this._screen.show();
 
@@ -139,6 +171,7 @@ class MapActivity {
             // Check the location permissions
             this.checkLocationPermissions();
 
+        // Show all the defibrillators mapped by the user
         defibrillator.showAll();
 
     }
@@ -146,9 +179,42 @@ class MapActivity {
     /** Closes the activity and detaches the position watcher */
     close() {
 
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
         this._screen.hide();
 
+        // Remove all the markers from the map
+        this.markersLayer.clearLayers();
+
+        // Empty the markers array
+        defibrillator.markers = [];
+
+        // Detach the position watcher
         this.detachPositionWatcher();
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If it's the first time the user clicks on the button
+        if (app._backPressedCount === 0) {
+
+            // Alert the user
+            utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+            // Increment the count
+            app._backPressedCount++;
+
+            // Set an interval after which the count is reset to 0
+            setInterval(() => app._backPressedCount = 0, 2000);
+
+        }
+
+        // Else, close the app
+        else navigator.app.exitApp();
 
     }
 
@@ -322,7 +388,7 @@ class MapActivity {
                 this.detachPositionWatcher();
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
 
             }
 
@@ -411,7 +477,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
 
             },
             // For iOS the authorization mode is set to ALWAYS
@@ -449,7 +515,7 @@ class MapActivity {
                     this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                     // Alert the user
-                    utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+                    utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
                 }
             },
             err => {
@@ -460,7 +526,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
             }
         );
 
@@ -501,7 +567,7 @@ class MapActivity {
                     this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                     // Alert the user
-                    utils.createAlert(i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
+                    utils.createAlert("", i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
 
                 }
                 // Permissions granted
@@ -549,7 +615,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
 
             }
         );

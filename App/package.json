@@ -1,18 +1,18 @@
 {
-  "name": "polimi.epessina.defibrillatorhunter",
-  "displayName": "DefibrillatorHunter",
+  "name": "polimi.epessina.mapad",
+  "displayName": "Mapad",
   "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "A cross-platform mobile application that allows users to map defibrillators on the field.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": ".\\node_modules\\.bin\\babel .\\www\\js --out-file .\\www\\js\\dist\\app.js --ignore \".\\www\\js\\lib\\*.js\",\".\\www\\js\\settings.js\",\".\\www\\js\\defibrillatorDB.js\" --no-comments"
   },
-  "author": "Apache Cordova Team",
-  "license": "Apache-2.0",
+  "author": "Edoardo Pessina",
+  "license": "MIT",
   "dependencies": {
+    "@babel/preset-env": "^7.5.5",
     "cordova-android": "^8.0.0",
-    "cordova-jquery": "^0.1.6",
-    "cordova-plugin-browsersync": "^1.1.0",
     "cordova-plugin-camera-with-exif": "^1.2.5",
     "cordova-plugin-crop": "0.4.0",
     "cordova-plugin-device": "^2.0.2",
@@ -44,5 +44,11 @@
     "platforms": [
       "android"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/polyfill": "^7.4.4"
   }
 }
