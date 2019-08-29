@@ -2,7 +2,7 @@
 <img src="https://github.com/epessina/Mapad/blob/master/App/screens/logo.png" width="144" alt="Logo">
 </h4>
 
-# LandslidesSurvey
+# Mapad
 
 ### Table of Contents
 
@@ -77,7 +77,7 @@ Coming soon...
 
 #### Login screen
 
-<img src="https://github.com/epessina/Mapad/blob/master/App/screens/01-login.png" width="250" alt="Login screen">
+<kbd><img src="https://github.com/epessina/Mapad/blob/master/App/screens/01-login.png" width="250" alt="Login screen"></kbd>
 
 The login screen allows to:
 - login into the system;
@@ -88,7 +88,7 @@ The login screen allows to:
 
 #### Map screen
 
-<img src="https://github.com/epessina/Mapad/blob/master/App/screens/03-map.png" width="250" alt="Map screen">
+<kbd><img src="https://github.com/epessina/Mapad/blob/master/App/screens/03-map.png" width="250" alt="Map screen"></kbd>
 
 1. **Map**. Centered on the user's position, it can be moved and zoomed freely.
 2. **User marker**. Shows the current position of the user. It can be moved if the location is not accurate.
@@ -104,8 +104,8 @@ delete or modify it.
 #### Insert screen
 
 <p float="left">
-  <img src="https://github.com/epessina/Mapad/blob/master/App/screens/04-insert-1.png" width="250" alt="Insert screen part 1">
-  <img src="https://github.com/epessina/Mapad/blob/master/App/screens/05-insert-2.png" width="250" alt="Insert screen part 2">
+<kbd><img src="https://github.com/epessina/Mapad/blob/master/App/screens/04-insert-1.png" width="250" alt="Insert screen part 1"></kbd>
+<kbd><img src="https://github.com/epessina/Mapad/blob/master/App/screens/05-insert-2.png" width="250" alt="Insert screen part 2"></kbd>
 </p>
 
 The insert screen. From here the user can insert all the details about a new defibrillator and save it in the database.
@@ -114,9 +114,9 @@ The insert screen. From here the user can insert all the details about a new def
 
 #### Profile screen
 
-<img src="https://github.com/epessina/Mapad/blob/master/App/screens/06-profile.png" width="250" alt="Profile screen">
+<kbd><img src="https://github.com/epessina/Mapad/blob/master/App/screens/06-profile.png" width="250" alt="Profile screen"></kbd>
 
-Screen that shows some information about the user and his points status. Furthermore, the settings of the application
+This screen shows some information about the user and his points status. Furthermore, the settings of the application
 can be accessed from here.
 
 
@@ -125,7 +125,12 @@ can be accessed from here.
 
 A special thanks to:
 
+<p float="left">
+<img src="https://github.com/epessina/Mapad/blob/master/App/screens/logo-polimi.jpg" height="200" alt="Logo Polimi">
+<img src="https://github.com/epessina/Mapad/blob/master/App/screens/logo-areu.jpg" height="200" alt="Logo AREU">
+</p>
+
 
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/) © [Edoardo Pessina](edoardo2.pessina@mail.polimi.it)
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0) © [Edoardo Pessina](edoardo2.pessina@mail.polimi.it)
