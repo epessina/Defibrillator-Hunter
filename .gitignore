@@ -12,7 +12,7 @@ settings.js
 App/platforms
 
 # Optional to ignore plugin Git clones
-#/plugins
+App/plugins
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:

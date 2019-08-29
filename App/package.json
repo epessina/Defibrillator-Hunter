@@ -16,6 +16,7 @@
   "homepage": "https://github.com/epessina/Mapad",
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
+    "cordova-android": "^8.0.0",
     "cordova-plugin-camera-with-exif": "^1.2.5",
     "cordova-plugin-crop": "0.4.0",
     "cordova-plugin-device": "^2.0.2",
@@ -44,7 +45,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-crop": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
